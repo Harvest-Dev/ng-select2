@@ -1,20 +1,69 @@
-<!--The content below is only a placeholder and can be replaced.-->
-<div style="text-align:center">
-  <h1>
-    Welcome to {{ title }}!
-  </h1>
-  <img width="300" alt="Angular Logo" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNTAgMjUwIj4KICAgIDxwYXRoIGZpbGw9IiNERDAwMzEiIGQ9Ik0xMjUgMzBMMzEuOSA2My4ybDE0LjIgMTIzLjFMMTI1IDIzMGw3OC45LTQzLjcgMTQuMi0xMjMuMXoiIC8+CiAgICA8cGF0aCBmaWxsPSIjQzMwMDJGIiBkPSJNMTI1IDMwdjIyLjItLjFWMjMwbDc4LjktNDMuNyAxNC4yLTEyMy4xTDEyNSAzMHoiIC8+CiAgICA8cGF0aCAgZmlsbD0iI0ZGRkZGRiIgZD0iTTEyNSA1Mi4xTDY2LjggMTgyLjZoMjEuN2wxMS43LTI5LjJoNDkuNGwxMS43IDI5LjJIMTgzTDEyNSA1Mi4xem0xNyA4My4zaC0zNGwxNy00MC45IDE3IDQwLjl6IiAvPgogIDwvc3ZnPg==">
+<div style="width: 500px;">
+  <a href="https://github.com/plantain-00/select2-component/tree/master/packages/angular/demo"
+     target="_blank">the source code of the demo</a>
+  <h3>options in group ({{value1}})</h3>
+  <select2 [data]="data1"
+           [value]="value1"
+           (update)="update1($event)">
+  </select2>
+  <h3>options ({{value2}})</h3>
+  <select2 [data]="data2"
+           [value]="value2"
+           (update)="update2($event)">
+  </select2>
+  <h3>less options ({{value3}})</h3>
+  <select2 [data]="data3"
+           [value]="value3"
+           (update)="update3($event)">
+  </select2>
+  <h3>disabled ({{value4}})</h3>
+  <select2 [data]="data4"
+           [value]="value4"
+           [disabled]="true">
+  </select2>
+  <h3>hide search box ({{value5}})</h3>
+  <select2 [data]="data5"
+           [value]="value5"
+           [minCountForSearch]="minCountForSearch"
+           (update)="update5($event)">
+  </select2>
+  <h3>placeholder ({{value6}})</h3>
+  <select2 [data]="data6"
+           placeholder="select an item"
+           (update)="update6($event)">
+  </select2>
+  <h3>open and search event ({{value7}})</h3>
+  <select2 [data]="data7"
+           customSearchEnabled="true"
+           (open)="open7()"
+           (search)="search7($event)"
+           (update)="update7($event)">
+  </select2>
+  <h3>multiple ({{value9}})</h3>
+  <select2 [data]="data9"
+           [value]="value9"
+           multiple="true"
+           (update)="update9($event)">
+  </select2>
+  <h3>form binding ({{value10}})</h3>
+  <form [formGroup]="ctrlForm">
+    <select2 [(ngModel)]="value10"
+             [data]="data10"
+             formControlName="test10"
+             placeholder="Select a state"
+             material></select2>
+    <button (click)="reset10()">reset</button>
+    <button (click)="change10()">Utah</button>
+  </form>
+  <h3>material style ({{value11}})</h3>
+  <select2 [data]="data11"
+           [value]="value11"
+           (update)="update11($event)"
+           material>
+  </select2>
+  <h3>boolean value ({{value12}})</h3>
+  <select2 [data]="data12"
+           [value]="value12"
+           (update)="update12($event)">
+  </select2>
 </div>
-<h2>Here are some links to help you start: </h2>
-<ul>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://angular.io/tutorial">Tour of Heroes</a></h2>
-  </li>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://github.com/angular/angular-cli/wiki">CLI Documentation</a></h2>
-  </li>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://blog.angular.io/">Angular blog</a></h2>
-  </li>
-</ul>
-
