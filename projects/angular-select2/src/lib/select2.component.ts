@@ -90,7 +90,7 @@ export class Select2 implements ControlValueAccessor, OnInit, OnDestroy, DoCheck
     return Select2Utils.getDropdownStyle(this.isOpen);
   }
 
-  get filteredData() {
+  get filteredData(): Select2Data {
     const result = this.customSearchEnabled
       ? this.data
       : Select2Utils.getFilteredData(this.data, this.searchText, this.editPattern);

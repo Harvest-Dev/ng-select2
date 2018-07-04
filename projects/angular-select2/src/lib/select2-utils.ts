@@ -287,7 +287,7 @@ export class Select2Utils {
     }
 
     private static protectPattern(str: string): string {
-        return str.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, '\\$&');
+        return str.replace(new RegExp('[\\-\\[\\]\\/\\{\\}\\(\\)\\*\\+\\?\\.\\\\\\^\\$\\|]', 'g'), '\\$&');
     }
 
     private static formatSansUnicode(str: string): string {
@@ -306,7 +306,7 @@ export class Select2Utils {
         return str;
     }
 
-    static getFilteredData(data: Select2Data, searchText: string | null, editPattern?: (str: string) => string) {
+    static getFilteredData(data: Select2Data, searchText: string | null, editPattern?: (str: string) => string): Select2Data {
         if (searchText) {
             const result: Select2Data = [];
             for (const groupOrOption of data) {
