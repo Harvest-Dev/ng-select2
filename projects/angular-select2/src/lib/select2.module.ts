@@ -4,7 +4,6 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Select2 } from './select2.component';
 import { Select2Hint } from './select2-hint.component';
 
-
 @NgModule({
   imports: [
     CommonModule,

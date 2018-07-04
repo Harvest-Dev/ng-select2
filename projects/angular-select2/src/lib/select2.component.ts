@@ -1,6 +1,6 @@
 import {
-  Component, Directive, Input, Output, EventEmitter, ElementRef, ViewChild, Optional, Self, ChangeDetectorRef,
-  ViewEncapsulation, Attribute, OnInit, OnChanges, OnDestroy, DoCheck, AfterContentInit, AfterViewInit, HostBinding
+  Component, Input, Output, EventEmitter, ElementRef, ViewChild, Optional, Self, ChangeDetectorRef,
+  Attribute, OnInit, OnDestroy, DoCheck, AfterViewInit, HostBinding
 } from '@angular/core';
 import {
   FormGroupDirective, NgControl, NgForm, ControlValueAccessor
