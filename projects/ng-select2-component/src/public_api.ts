@@ -1,5 +1,5 @@
 /*
- * Public API Surface of angular-select2
+ * Public API Surface of ng-select2-component
  */
 
 export * from './lib/select2.component';

@@ -122,38 +122,38 @@
         }
       }
     },
-    "angular-select2": {
-      "root": "projects/angular-select2",
-      "sourceRoot": "projects/angular-select2/src",
+    "ng-select2-component": {
+      "root": "projects/ng-select2-component",
+      "sourceRoot": "projects/ng-select2-component/src",
       "projectType": "library",
       "prefix": "lib",
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-ng-packagr:build",
           "options": {
-            "tsConfig": "projects/angular-select2/tsconfig.lib.json",
-            "project": "projects/angular-select2/ng-package.json"
+            "tsConfig": "projects/ng-select2-component/tsconfig.lib.json",
+            "project": "projects/ng-select2-component/ng-package.json"
           },
           "configurations": {
             "production": {
-              "project": "projects/angular-select2/ng-package.prod.json"
+              "project": "projects/ng-select2-component/ng-package.prod.json"
             }
           }
         },
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
-            "main": "projects/angular-select2/src/test.ts",
-            "tsConfig": "projects/angular-select2/tsconfig.spec.json",
-            "karmaConfig": "projects/angular-select2/karma.conf.js"
+            "main": "projects/ng-select2-component/src/test.ts",
+            "tsConfig": "projects/ng-select2-component/tsconfig.spec.json",
+            "karmaConfig": "projects/ng-select2-component/karma.conf.js"
           }
         },
         "lint": {
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
             "tsConfig": [
-              "projects/angular-select2/tsconfig.lib.json",
-              "projects/angular-select2/tsconfig.spec.json"
+              "projects/ng-select2-component/tsconfig.lib.json",
+              "projects/ng-select2-component/tsconfig.spec.json"
             ],
             "exclude": [
               "**/node_modules/**"

@@ -1,4 +1,4 @@
-[![npm version](https://badge.fury.io/js/angular-select2.svg)](https://badge.fury.io/js/angular-select2) [![Downloads](https://img.shields.io/npm/dm/angular-select2.svg)](https://www.npmjs.com/package/angular-select2) [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/Zefling/ng-select2/master/LICENSE.md)
+[![npm version](https://badge.fury.io/js/ng-select2-component.svg)](https://badge.fury.io/js/ng-select2-component) [![Downloads](https://img.shields.io/npm/dm/ng-select2-component.svg)](https://www.npmjs.com/package/ng-select2-component) [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/Zefling/ng-select2/master/LICENSE.md)
 
 # Select2
 
@@ -7,7 +7,7 @@ This Angular CLI module it's a fork of [select2-component](https://github.com/pl
 ## Installation
 
 ```
-npm i angular-select2 --save
+npm i ng-select2-component --save
 ```
 
 ## Requirements
@@ -25,8 +25,8 @@ npm i angular-select2 --save
 ## Publishing the library
 
 ```
-ng build angular-select2 --prod
-cd dist/angular-select2
+ng build ng-select2-component --prod
+cd dist/ng-select2-component
 npm publish
 ```
 

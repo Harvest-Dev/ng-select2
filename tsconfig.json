@@ -17,11 +17,11 @@
       "dom"
     ],
     "paths": {
-      "angular-select2": [
-        "dist/angular-select2"
+      "ng-select2-component": [
+        "dist/ng-select2-component"
       ],
-      "angular-select2/*": [
-        "dist/angular-select2/*"
+      "ng-select2-component/*": [
+        "dist/ang-select2-component/*"
       ]
     }
   }

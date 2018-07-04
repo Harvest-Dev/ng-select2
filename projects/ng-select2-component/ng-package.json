@@ -1,6 +1,7 @@
 {
   "$schema": "../../node_modules/ng-packagr/ng-package.schema.json",
-  "dest": "../../dist/angular-select2",
+  "dest": "../../dist/ng-select2-component",
+  "deleteDestPath": false,
   "lib": {
     "entryFile": "src/public_api.ts"
   }

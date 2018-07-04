@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
 import { AppComponent } from './app.component';
-import { Select2Module } from 'projects/angular-select2/src/public_api';
+import { Select2Module } from 'projects/ng-select2-component/src/public_api';
 
 @NgModule({
   declarations: [

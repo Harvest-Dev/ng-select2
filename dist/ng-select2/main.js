@@ -1,9 +1,9 @@
 (window["webpackJsonp"] = window["webpackJsonp"] || []).push([["main"],{
 
-/***/ "./projects/angular-select2/src/lib/select2-hint.component.ts":
-/*!********************************************************************!*\
-  !*** ./projects/angular-select2/src/lib/select2-hint.component.ts ***!
-  \********************************************************************/
+/***/ "./projects/ng-select2-component/src/lib/select2-hint.component.ts":
+/*!*************************************************************************!*\
+  !*** ./projects/ng-select2-component/src/lib/select2-hint.component.ts ***!
+  \*************************************************************************/
 /*! exports provided: Select2Hint */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -31,10 +31,10 @@ var Select2Hint = /** @class */ (function () {
 
 /***/ }),
 
-/***/ "./projects/angular-select2/src/lib/select2-utils.ts":
-/*!***********************************************************!*\
-  !*** ./projects/angular-select2/src/lib/select2-utils.ts ***!
-  \***********************************************************/
+/***/ "./projects/ng-select2-component/src/lib/select2-utils.ts":
+/*!****************************************************************!*\
+  !*** ./projects/ng-select2-component/src/lib/select2-utils.ts ***!
+  \****************************************************************/
 /*! exports provided: timeout, Select2Utils */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -402,10 +402,10 @@ var Select2Utils = /** @class */ (function () {
 
 /***/ }),
 
-/***/ "./projects/angular-select2/src/lib/select2.component.html":
-/*!*****************************************************************!*\
-  !*** ./projects/angular-select2/src/lib/select2.component.html ***!
-  \*****************************************************************/
+/***/ "./projects/ng-select2-component/src/lib/select2.component.html":
+/*!**********************************************************************!*\
+  !*** ./projects/ng-select2-component/src/lib/select2.component.html ***!
+  \**********************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
@@ -413,10 +413,10 @@ module.exports = "<div [class]=\"containerStyle\">\r\n    <div class=\"selection
 
 /***/ }),
 
-/***/ "./projects/angular-select2/src/lib/select2.component.scss":
-/*!*****************************************************************!*\
-  !*** ./projects/angular-select2/src/lib/select2.component.scss ***!
-  \*****************************************************************/
+/***/ "./projects/ng-select2-component/src/lib/select2.component.scss":
+/*!**********************************************************************!*\
+  !*** ./projects/ng-select2-component/src/lib/select2.component.scss ***!
+  \**********************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
@@ -424,10 +424,10 @@ module.exports = ".select2-container {\n  box-sizing: border-box;\n  display: in
 
 /***/ }),
 
-/***/ "./projects/angular-select2/src/lib/select2.component.ts":
-/*!***************************************************************!*\
-  !*** ./projects/angular-select2/src/lib/select2.component.ts ***!
-  \***************************************************************/
+/***/ "./projects/ng-select2-component/src/lib/select2.component.ts":
+/*!********************************************************************!*\
+  !*** ./projects/ng-select2-component/src/lib/select2.component.ts ***!
+  \********************************************************************/
 /*! exports provided: Select2 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -437,7 +437,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
 /* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/forms */ "./node_modules/@angular/forms/fesm5/forms.js");
 /* harmony import */ var rxjs__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! rxjs */ "./node_modules/rxjs/_esm5/index.js");
-/* harmony import */ var _select2_utils__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./select2-utils */ "./projects/angular-select2/src/lib/select2-utils.ts");
+/* harmony import */ var _select2_utils__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./select2-utils */ "./projects/ng-select2-component/src/lib/select2-utils.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -1037,8 +1037,8 @@ var Select2 = /** @class */ (function () {
     Select2 = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
             selector: 'select2',
-            template: __webpack_require__(/*! ./select2.component.html */ "./projects/angular-select2/src/lib/select2.component.html"),
-            styles: [__webpack_require__(/*! ./select2.component.scss */ "./projects/angular-select2/src/lib/select2.component.scss")]
+            template: __webpack_require__(/*! ./select2.component.html */ "./projects/ng-select2-component/src/lib/select2.component.html"),
+            styles: [__webpack_require__(/*! ./select2.component.scss */ "./projects/ng-select2-component/src/lib/select2.component.scss")]
         }),
         __param(1, Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Optional"])()),
         __param(2, Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Optional"])()),
@@ -1056,10 +1056,10 @@ var Select2 = /** @class */ (function () {
 
 /***/ }),
 
-/***/ "./projects/angular-select2/src/lib/select2.module.ts":
-/*!************************************************************!*\
-  !*** ./projects/angular-select2/src/lib/select2.module.ts ***!
-  \************************************************************/
+/***/ "./projects/ng-select2-component/src/lib/select2.module.ts":
+/*!*****************************************************************!*\
+  !*** ./projects/ng-select2-component/src/lib/select2.module.ts ***!
+  \*****************************************************************/
 /*! exports provided: Select2Module */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -1069,8 +1069,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
 /* harmony import */ var _angular_common__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/common */ "./node_modules/@angular/common/fesm5/common.js");
 /* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/forms */ "./node_modules/@angular/forms/fesm5/forms.js");
-/* harmony import */ var _select2_component__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./select2.component */ "./projects/angular-select2/src/lib/select2.component.ts");
-/* harmony import */ var _select2_hint_component__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./select2-hint.component */ "./projects/angular-select2/src/lib/select2-hint.component.ts");
+/* harmony import */ var _select2_component__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./select2.component */ "./projects/ng-select2-component/src/lib/select2.component.ts");
+/* harmony import */ var _select2_hint_component__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./select2-hint.component */ "./projects/ng-select2-component/src/lib/select2-hint.component.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -1111,31 +1111,31 @@ var Select2Module = /** @class */ (function () {
 
 /***/ }),
 
-/***/ "./projects/angular-select2/src/public_api.ts":
-/*!****************************************************!*\
-  !*** ./projects/angular-select2/src/public_api.ts ***!
-  \****************************************************/
+/***/ "./projects/ng-select2-component/src/public_api.ts":
+/*!*********************************************************!*\
+  !*** ./projects/ng-select2-component/src/public_api.ts ***!
+  \*********************************************************/
 /*! exports provided: Select2, Select2Hint, timeout, Select2Utils, Select2Module */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _lib_select2_component__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./lib/select2.component */ "./projects/angular-select2/src/lib/select2.component.ts");
+/* harmony import */ var _lib_select2_component__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./lib/select2.component */ "./projects/ng-select2-component/src/lib/select2.component.ts");
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Select2", function() { return _lib_select2_component__WEBPACK_IMPORTED_MODULE_0__["Select2"]; });
 
-/* harmony import */ var _lib_select2_hint_component__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./lib/select2-hint.component */ "./projects/angular-select2/src/lib/select2-hint.component.ts");
+/* harmony import */ var _lib_select2_hint_component__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./lib/select2-hint.component */ "./projects/ng-select2-component/src/lib/select2-hint.component.ts");
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Select2Hint", function() { return _lib_select2_hint_component__WEBPACK_IMPORTED_MODULE_1__["Select2Hint"]; });
 
-/* harmony import */ var _lib_select2_utils__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./lib/select2-utils */ "./projects/angular-select2/src/lib/select2-utils.ts");
+/* harmony import */ var _lib_select2_utils__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./lib/select2-utils */ "./projects/ng-select2-component/src/lib/select2-utils.ts");
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "timeout", function() { return _lib_select2_utils__WEBPACK_IMPORTED_MODULE_2__["timeout"]; });
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Select2Utils", function() { return _lib_select2_utils__WEBPACK_IMPORTED_MODULE_2__["Select2Utils"]; });
 
-/* harmony import */ var _lib_select2_module__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./lib/select2.module */ "./projects/angular-select2/src/lib/select2.module.ts");
+/* harmony import */ var _lib_select2_module__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./lib/select2.module */ "./projects/ng-select2-component/src/lib/select2.module.ts");
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Select2Module", function() { return _lib_select2_module__WEBPACK_IMPORTED_MODULE_3__["Select2Module"]; });
 
 /*
- * Public API Surface of angular-select2
+ * Public API Surface of ng-select2-component
  */
 
 
@@ -1486,7 +1486,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
 /* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/forms */ "./node_modules/@angular/forms/fesm5/forms.js");
 /* harmony import */ var _app_component__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./app.component */ "./src/app/app.component.ts");
-/* harmony import */ var projects_angular_select2_src_public_api__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! projects/angular-select2/src/public_api */ "./projects/angular-select2/src/public_api.ts");
+/* harmony import */ var projects_ng_select2_component_src_public_api__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! projects/ng-select2-component/src/public_api */ "./projects/ng-select2-component/src/public_api.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -1509,7 +1509,7 @@ var AppModule = /** @class */ (function () {
             imports: [
                 _angular_platform_browser__WEBPACK_IMPORTED_MODULE_0__["BrowserModule"],
                 _angular_forms__WEBPACK_IMPORTED_MODULE_2__["FormsModule"],
-                projects_angular_select2_src_public_api__WEBPACK_IMPORTED_MODULE_4__["Select2Module"]
+                projects_ng_select2_component_src_public_api__WEBPACK_IMPORTED_MODULE_4__["Select2Module"]
             ],
             providers: [],
             bootstrap: [_app_component__WEBPACK_IMPORTED_MODULE_3__["AppComponent"]]
@@ -1582,7 +1582,7 @@ Object(_angular_platform_browser_dynamic__WEBPACK_IMPORTED_MODULE_1__["platformB
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! c:\Data\sources-svn\pitch\ng-select2\src\main.ts */"./src/main.ts");
+module.exports = __webpack_require__(/*! C:\Data\sources-svn\pitch\ng-select2\src\main.ts */"./src/main.ts");
 
 
 /***/ })

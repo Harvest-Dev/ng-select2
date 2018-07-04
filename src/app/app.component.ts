@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { Validators, FormControl, FormBuilder, FormGroup } from '@angular/forms';
 
-import { Select2Option, Select2Data } from 'projects/angular-select2/src/lib/select2-utils';
+import { Select2Option, Select2Data } from 'projects/ng-select2-component/src/lib/select2-utils';
 
 import { data1, data2, data3, data5, data12 } from './app.data';
 
