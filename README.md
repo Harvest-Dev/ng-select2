@@ -38,7 +38,7 @@ npm i ng-select2-component --save
 ### example
 
 ```ts
-import { Select2Module } from "ng-angular-component";
+import { Select2Module } from "ng-select2-component";
 
 @NgModule({
     imports: [BrowserModule, FormsModule, Select2Module],
