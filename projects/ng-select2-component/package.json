@@ -4,5 +4,16 @@
   "peerDependencies": {
     "@angular/common": "^6.0.0-rc.0 || ^6.0.0",
     "@angular/core": "^6.0.0-rc.0 || ^6.0.0"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Zefling/ng-select2.git"
+  },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.com"
+  },
+  "bugs": {
+    "url": "https://github.com/Zefling/ng-select2/issues"
+  },
+  "homepage": "https://github.com/Zefling/ng-select2#readme"
 }
