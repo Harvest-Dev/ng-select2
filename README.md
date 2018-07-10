@@ -16,7 +16,7 @@ npm i ng-select2-component --save
 
 ## Demo
 
-[See a demo](https://zefling.github.io/ng-walkthrough/dist/ng-select2/).
+[See a demo](https://zefling.github.io/ng-select2/dist/ng-select2/).
 
 ## Usage
 
