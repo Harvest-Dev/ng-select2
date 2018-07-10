@@ -77,13 +77,13 @@ search | (text: string) => void | triggered when search text changed
 ```ts
 type Select2Data = (Select2Group | Select2Option)[];
 
-type Select2Group = {
+interface Select2Group = {
     label: string;
     options: Select2Option[];
     classes?: string;
 };
 
-type Select2Option = {
+interface Select2Option = {
     value: Select2Value;
     label: string;
     disabled?: boolean;
