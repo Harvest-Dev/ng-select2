@@ -146,8 +146,10 @@ export class Select2 implements ControlValueAccessor, OnInit, OnDestroy, DoCheck
   @Input()
   get value() { return this._value; }
   set value(value: Select2UpdateValue) {
-    this._value = value;
-    this.writeValue(value);
+    setTimeout(() => {
+      this._value = value;
+      this.writeValue(value);
+    });
   }
 
   /** Tab index for the select2 element. */
