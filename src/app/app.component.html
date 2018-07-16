@@ -4,33 +4,39 @@
   <h3>options in group ({{value1}})</h3>
   <select2 [data]="data1"
            [value]="value1"
-           (update)="update1($event)">
+           (update)="update1($event)"
+           id="selec2-1">
   </select2>
   <h3>options ({{value2}})</h3>
   <select2 [data]="data2"
            [value]="value2"
-           (update)="update2($event)">
+           (update)="update2($event)"
+           id="selec2-2">
   </select2>
   <h3>less options ({{value3}})</h3>
   <select2 [data]="data3"
            [value]="value3"
-           (update)="update3($event)">
+           (update)="update3($event)"
+           id="selec2-3">
   </select2>
   <h3>disabled ({{value4}})</h3>
   <select2 [data]="data4"
            [value]="value4"
            [disabled]="true">
+    id="selec2-4"
   </select2>
   <h3>hide search box ({{value5}})</h3>
   <select2 [data]="data5"
            [value]="value5"
            [minCountForSearch]="minCountForSearch"
-           (update)="update5($event)">
+           (update)="update5($event)"
+           id="selec2-5">
   </select2>
   <h3>placeholder ({{value6}})</h3>
   <select2 [data]="data6"
            placeholder="select an item"
-           (update)="update6($event)">
+           (update)="update6($event)"
+           id="selec2-6">
   </select2>
   <h3>open and search event ({{value7}})</h3>
   <select2 [data]="data7"
@@ -43,7 +49,8 @@
   <select2 [data]="data9"
            [value]="value9"
            multiple="true"
-           (update)="update9($event)">
+           (update)="update9($event)"
+           id="selec2-9">
   </select2>
   <h3>form binding ({{value10}})</h3>
   <form [formGroup]="ctrlForm">
@@ -51,7 +58,8 @@
              [data]="data10"
              formControlName="test10"
              placeholder="Select a state"
-             material></select2>
+             material
+             id="selec2-10"></select2>
     <button (click)="reset10()">reset</button>
     <button (click)="change10()">Utah</button>
   </form>
@@ -59,11 +67,13 @@
   <select2 [data]="data11"
            [value]="value11"
            (update)="update11($event)"
-           material>
+           material
+           id="selec2-11">
   </select2>
   <h3>boolean value ({{value12}})</h3>
   <select2 [data]="data12"
            [value]="value12"
-           (update)="update12($event)">
+           (update)="update12($event)"
+           id="selec2-12">
   </select2>
 </div>

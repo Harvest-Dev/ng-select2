@@ -7,8 +7,8 @@ describe('workspace-project App', () => {
     page = new AppPage();
   });
 
-  it('should display welcome message', () => {
+  it('the source code of the demo', () => {
     page.navigateTo();
-    expect(page.getParagraphText()).toEqual('Welcome to ng-select2!');
+    expect(page.getParagraphText()).toEqual('the source code of the demo');
   });
 });
