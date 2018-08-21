@@ -1,4 +1,4 @@
-[![npm version](https://badge.fury.io/js/ng-select2-component.svg)](https://badge.fury.io/js/ng-select2-component) [![Downloads](https://img.shields.io/npm/dm/ng-select2-component.svg)](https://www.npmjs.com/package/ng-select2-component) [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/Zefling/ng-select2/master/LICENSE.md)
+[![npm version](https://badge.fury.io/js/ng-select2-component.svg)](https://badge.fury.io/js/ng-select2-component) [![Downloads](https://img.shields.io/npm/dm/ng-select2-component.svg)](https://www.npmjs.com/package/ng-select2-component) [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/Harvest-Dev/ng-select2/master/LICENSE.md)
 
 # Select2
 
@@ -16,7 +16,7 @@ npm i ng-select2-component --save
 
 ## Demo
 
-[See a demo](https://zefling.github.io/ng-select2/dist/ng-select2/).
+[See a demo](https://harvest-dev.github.io/ng-select2/dist/ng-select2/).
 
 ## Features
 
