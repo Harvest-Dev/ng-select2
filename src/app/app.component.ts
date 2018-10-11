@@ -48,9 +48,7 @@ export class AppComponent {
       test10: new FormControl(null, Validators.required)
     });
 
-    this.fg.patchValue({
-        state: ['CA']
-    });
+      this.fg.patchValue(this.formData());
   }
 
   update1(value: string) {
@@ -119,6 +117,12 @@ export class AppComponent {
   }
 
   resetForm() {
-      this.fg.reset();
-  }
+      this.fg.reset(this.formData());
+    }
+
+    formData() {
+        return {
+            state: ['CA', 'NV']
+        };
+    }
 }
