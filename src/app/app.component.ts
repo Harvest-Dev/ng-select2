@@ -39,9 +39,17 @@ export class AppComponent {
   value11 = 'CA';
   value12 = true;
 
+  fg: FormGroup = new FormGroup({
+      state: new FormControl()
+  });
+
   constructor(private fb: FormBuilder) {
     this.ctrlForm = this.fb.group({
       test10: new FormControl(null, Validators.required)
+    });
+
+    this.fg.patchValue({
+        state: ['CA']
     });
   }
 
@@ -84,6 +92,10 @@ export class AppComponent {
     this.value9 = value;
   }
 
+  reset9() {
+    this.value9 = ['CA'];
+  }
+
   reset10() {
     const test10 = this.ctrlForm.get('test10');
     if (test10) {
@@ -104,5 +116,9 @@ export class AppComponent {
 
   update12(value: boolean) {
     this.value12 = value;
+  }
+
+  resetForm() {
+      this.fg.reset();
   }
 }
