@@ -100,6 +100,7 @@ type Select2UpdateValue = Select2Value | Select2Value[];
 
 ```
 ng build ng-select2-component --prod
+cp *.md  dist/ng-select2-component
 cd dist/ng-select2-component
 npm publish
 ```
