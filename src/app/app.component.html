@@ -77,4 +77,11 @@
            (update)="update12($event)"
            id="selec2-12">
   </select2>
+  <h3>13. FormControl</h3>
+  <form [formGroup]="fg">
+    <select2 [data]="data9"  multiple="true" id="selec2-10" formControlName="state">
+    </select2>
+    <button (click)="resetForm()">Reset Form</button>
+  </form>
+  
 </div>

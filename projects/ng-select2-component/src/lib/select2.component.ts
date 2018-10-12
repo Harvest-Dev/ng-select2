@@ -538,7 +538,18 @@ export class Select2 implements ControlValueAccessor, OnInit, OnDestroy, DoCheck
       if (this.multiple && value && !isArray) {
         throw new Error('Non array value.');
       } else if (this.data) {
-        this.select(Select2Utils.getOptionByValue(this.data, value));
+        if (this._control && this.multiple) {
+          this.option = []; // if value is null, then empty option and return
+          if (isArray) {
+            // value is not null. Preselect value
+            const selectedValues: any = Select2Utils.getOptionsByValue(this.data, value, this.multiple);
+            selectedValues.map(
+              item => this.select(item)
+            );
+          }
+        } else {
+            this.select(Select2Utils.getOptionByValue(this.data, value));
+          }
       } else if (this._control) {
         this._control.viewToModelUpdate(value);
       }
