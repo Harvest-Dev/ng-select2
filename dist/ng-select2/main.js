@@ -593,8 +593,11 @@ var Select2 = /** @class */ (function () {
         /** The input element's value. */
         get: function () { return this._value; },
         set: function (value) {
-            this._value = value;
-            this.writeValue(value);
+            var _this = this;
+            setTimeout(function () {
+                _this._value = value;
+                _this.writeValue(value);
+            });
         },
         enumerable: true,
         configurable: true
@@ -904,13 +907,24 @@ var Select2 = /** @class */ (function () {
      * found with the designated value, the select trigger is cleared.
      */
     Select2.prototype._setSelectionByValue = function (value) {
+        var _this = this;
         if (this.option || (value !== undefined && value !== null)) {
             var isArray = Array.isArray(value);
             if (this.multiple && value && !isArray) {
                 throw new Error('Non array value.');
             }
             else if (this.data) {
-                this.select(_select2_utils__WEBPACK_IMPORTED_MODULE_3__["Select2Utils"].getOptionByValue(this.data, value));
+                if (this._control && this.multiple) {
+                    this.option = []; // if value is null, then empty option and return
+                    if (isArray) {
+                        // value is not null. Preselect value
+                        var selectedValues = _select2_utils__WEBPACK_IMPORTED_MODULE_3__["Select2Utils"].getOptionsByValue(this.data, value, this.multiple);
+                        selectedValues.map(function (item) { return _this.select(item); });
+                    }
+                }
+                else {
+                    this.select(_select2_utils__WEBPACK_IMPORTED_MODULE_3__["Select2Utils"].getOptionByValue(this.data, value));
+                }
             }
             else if (this._control) {
                 this._control.viewToModelUpdate(value);
@@ -1186,7 +1200,7 @@ module.exports = ""
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div style=\"width: 500px;\">\r\n  <a href=\"https://github.com/Zefling/ng-select2/tree/master/src\"\r\n     target=\"_blank\">the source code of the demo</a>\r\n  <h3>options in group ({{value1}})</h3>\r\n  <select2 [data]=\"data1\"\r\n           [value]=\"value1\"\r\n           (update)=\"update1($event)\">\r\n  </select2>\r\n  <h3>options ({{value2}})</h3>\r\n  <select2 [data]=\"data2\"\r\n           [value]=\"value2\"\r\n           (update)=\"update2($event)\">\r\n  </select2>\r\n  <h3>less options ({{value3}})</h3>\r\n  <select2 [data]=\"data3\"\r\n           [value]=\"value3\"\r\n           (update)=\"update3($event)\">\r\n  </select2>\r\n  <h3>disabled ({{value4}})</h3>\r\n  <select2 [data]=\"data4\"\r\n           [value]=\"value4\"\r\n           [disabled]=\"true\">\r\n  </select2>\r\n  <h3>hide search box ({{value5}})</h3>\r\n  <select2 [data]=\"data5\"\r\n           [value]=\"value5\"\r\n           [minCountForSearch]=\"minCountForSearch\"\r\n           (update)=\"update5($event)\">\r\n  </select2>\r\n  <h3>placeholder ({{value6}})</h3>\r\n  <select2 [data]=\"data6\"\r\n           placeholder=\"select an item\"\r\n           (update)=\"update6($event)\">\r\n  </select2>\r\n  <h3>open and search event ({{value7}})</h3>\r\n  <select2 [data]=\"data7\"\r\n           customSearchEnabled=\"true\"\r\n           (open)=\"open7()\"\r\n           (search)=\"search7($event)\"\r\n           (update)=\"update7($event)\">\r\n  </select2>\r\n  <h3>multiple ({{value9}})</h3>\r\n  <select2 [data]=\"data9\"\r\n           [value]=\"value9\"\r\n           multiple=\"true\"\r\n           (update)=\"update9($event)\">\r\n  </select2>\r\n  <h3>form binding ({{value10}})</h3>\r\n  <form [formGroup]=\"ctrlForm\">\r\n    <select2 [(ngModel)]=\"value10\"\r\n             [data]=\"data10\"\r\n             formControlName=\"test10\"\r\n             placeholder=\"Select a state\"\r\n             material></select2>\r\n    <button (click)=\"reset10()\">reset</button>\r\n    <button (click)=\"change10()\">Utah</button>\r\n  </form>\r\n  <h3>material style ({{value11}})</h3>\r\n  <select2 [data]=\"data11\"\r\n           [value]=\"value11\"\r\n           (update)=\"update11($event)\"\r\n           material>\r\n  </select2>\r\n  <h3>boolean value ({{value12}})</h3>\r\n  <select2 [data]=\"data12\"\r\n           [value]=\"value12\"\r\n           (update)=\"update12($event)\">\r\n  </select2>\r\n</div>"
+module.exports = "<div style=\"width: 500px;\">\r\n  <a href=\"https://github.com/Zefling/ng-select2/tree/master/src\"\r\n     target=\"_blank\">the source code of the demo</a>\r\n  <h3>1. options in group ({{value1}})</h3>\r\n  <select2 [data]=\"data1\"\r\n           [value]=\"value1\"\r\n           (update)=\"update1($event)\"\r\n           id=\"selec2-1\">\r\n  </select2>\r\n  <h3>2. options ({{value2}})</h3>\r\n  <select2 [data]=\"data2\"\r\n           [value]=\"value2\"\r\n           (update)=\"update2($event)\"\r\n           id=\"selec2-2\">\r\n  </select2>\r\n  <h3>3. less options ({{value3}})</h3>\r\n  <select2 [data]=\"data3\"\r\n           [value]=\"value3\"\r\n           (update)=\"update3($event)\"\r\n           id=\"selec2-3\">\r\n  </select2>\r\n  <h3>4. disabled ({{value4}})</h3>\r\n  <select2 [data]=\"data4\"\r\n           [value]=\"value4\"\r\n           [disabled]=\"true\"\r\n           id=\"selec2-4\">\r\n\r\n  </select2>\r\n  <h3>5. hide search box ({{value5}})</h3>\r\n  <select2 [data]=\"data5\"\r\n           [value]=\"value5\"\r\n           [minCountForSearch]=\"minCountForSearch\"\r\n           (update)=\"update5($event)\"\r\n           id=\"selec2-5\">\r\n  </select2>\r\n  <h3>6. placeholder ({{value6}})</h3>\r\n  <select2 [data]=\"data6\"\r\n           placeholder=\"select an item\"\r\n           (update)=\"update6($event)\"\r\n           id=\"selec2-6\">\r\n  </select2>\r\n  <h3>7. open and search event ({{value7}})</h3>\r\n  <select2 [data]=\"data7\"\r\n           customSearchEnabled=\"true\"\r\n           (open)=\"open7()\"\r\n           (search)=\"search7($event)\"\r\n           (update)=\"update7($event)\">\r\n  </select2>\r\n  <h3>9. multiple ({{value9}})</h3>\r\n  <select2 [data]=\"data9\"\r\n           [value]=\"value9\"\r\n           multiple=\"true\"\r\n           (update)=\"update9($event)\"\r\n           id=\"selec2-9\">\r\n  </select2>\r\n  <h3>10. form binding ({{value10}})</h3>\r\n  <form [formGroup]=\"ctrlForm\">\r\n    <select2 [(ngModel)]=\"value10\"\r\n             [data]=\"data10\"\r\n             formControlName=\"test10\"\r\n             placeholder=\"Select a state\"\r\n             material\r\n             id=\"selec2-10\"></select2>\r\n    <button (click)=\"reset10()\">reset</button>\r\n    <button (click)=\"change10()\">Utah</button>\r\n  </form>\r\n  <h3>11. material style ({{value11}})</h3>\r\n  <select2 [data]=\"data11\"\r\n           [value]=\"value11\"\r\n           (update)=\"update11($event)\"\r\n           material\r\n           id=\"selec2-11\">\r\n  </select2>\r\n  <h3>12. boolean value ({{value12}})</h3>\r\n  <select2 [data]=\"data12\"\r\n           [value]=\"value12\"\r\n           (update)=\"update12($event)\"\r\n           id=\"selec2-12\">\r\n  </select2>\r\n  <h3>13. FormControl</h3>\r\n  <form [formGroup]=\"fg\">\r\n    <select2 [data]=\"data9\"  multiple=\"true\" id=\"selec2-10\" formControlName=\"state\">\r\n    </select2>\r\n    <button (click)=\"resetForm()\">Reset Form</button>\r\n  </form>\r\n  \r\n</div>"
 
 /***/ }),
 
@@ -1241,9 +1255,13 @@ var AppComponent = /** @class */ (function () {
         this.value10 = 'CA';
         this.value11 = 'CA';
         this.value12 = true;
+        this.fg = new _angular_forms__WEBPACK_IMPORTED_MODULE_1__["FormGroup"]({
+            state: new _angular_forms__WEBPACK_IMPORTED_MODULE_1__["FormControl"]()
+        });
         this.ctrlForm = this.fb.group({
             test10: new _angular_forms__WEBPACK_IMPORTED_MODULE_1__["FormControl"](null, _angular_forms__WEBPACK_IMPORTED_MODULE_1__["Validators"].required)
         });
+        this.fg.patchValue(this.formData());
     }
     AppComponent.prototype.update1 = function (value) {
         this.value1 = value;
@@ -1275,6 +1293,9 @@ var AppComponent = /** @class */ (function () {
     AppComponent.prototype.update9 = function (value) {
         this.value9 = value;
     };
+    AppComponent.prototype.reset9 = function () {
+        this.value9 = ['CA'];
+    };
     AppComponent.prototype.reset10 = function () {
         var test10 = this.ctrlForm.get('test10');
         if (test10) {
@@ -1292,6 +1313,14 @@ var AppComponent = /** @class */ (function () {
     };
     AppComponent.prototype.update12 = function (value) {
         this.value12 = value;
+    };
+    AppComponent.prototype.resetForm = function () {
+        this.fg.reset(this.formData());
+    };
+    AppComponent.prototype.formData = function () {
+        return {
+            state: ['CA', 'NV']
+        };
     };
     AppComponent = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
@@ -1582,7 +1611,7 @@ Object(_angular_platform_browser_dynamic__WEBPACK_IMPORTED_MODULE_1__["platformB
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! C:\Data\sources-svn\pitch\ng-select2\src\main.ts */"./src/main.ts");
+module.exports = __webpack_require__(/*! c:\Data\sources-svn\pitch\ng-select2\src\main.ts */"./src/main.ts");
 
 
 /***/ })
