@@ -470,14 +470,20 @@ export class Select2 implements ControlValueAccessor, OnInit, OnDestroy, DoCheck
 
   removeSelection(e: MouseEvent, option: Select2Option) {
     Select2Utils.removeSelection(this.option, option);
-    this.update.emit((this.option as Select2Option[]).map(op => op.value));
+
+      const value = (this.option as Select2Option[]).map(op => op.value);
+      if (this._control) {
+          this._onChange(value);
+      }
+      this.update.emit(value);
+
 
     e.preventDefault();
     e.stopPropagation();
 
     if (this.isOpen) {
       this.focusSearchboxOrResultsElement();
-    }
+      }
   }
 
   /**
