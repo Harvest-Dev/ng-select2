@@ -474,9 +474,8 @@ export class Select2 implements ControlValueAccessor, OnInit, OnDestroy, DoCheck
       const value = (this.option as Select2Option[]).map(op => op.value);
       if (this._control) {
           this._onChange(value);
-      } else {
-          this.update.emit(value);
       }
+      this.update.emit(value);
 
 
     e.preventDefault();
