@@ -119,6 +119,9 @@ export class AppComponent {
   resetForm() {
       this.fg.reset(this.formData());
     }
+    print() {
+        console.log('FormControl', this.fg.value);
+    }
 
     formData() {
         return {
