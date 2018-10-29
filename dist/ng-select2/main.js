@@ -853,7 +853,11 @@ var Select2 = /** @class */ (function () {
     };
     Select2.prototype.removeSelection = function (e, option) {
         _select2_utils__WEBPACK_IMPORTED_MODULE_3__["Select2Utils"].removeSelection(this.option, option);
-        this.update.emit(this.option.map(function (op) { return op.value; }));
+        var value = this.option.map(function (op) { return op.value; });
+        if (this._control) {
+            this._onChange(value);
+        }
+        this.update.emit(value);
         e.preventDefault();
         e.stopPropagation();
         if (this.isOpen) {
@@ -1200,7 +1204,7 @@ module.exports = ""
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div style=\"width: 500px;\">\r\n  <a href=\"https://github.com/Zefling/ng-select2/tree/master/src\"\r\n     target=\"_blank\">the source code of the demo</a>\r\n  <h3>1. options in group ({{value1}})</h3>\r\n  <select2 [data]=\"data1\"\r\n           [value]=\"value1\"\r\n           (update)=\"update1($event)\"\r\n           id=\"selec2-1\">\r\n  </select2>\r\n  <h3>2. options ({{value2}})</h3>\r\n  <select2 [data]=\"data2\"\r\n           [value]=\"value2\"\r\n           (update)=\"update2($event)\"\r\n           id=\"selec2-2\">\r\n  </select2>\r\n  <h3>3. less options ({{value3}})</h3>\r\n  <select2 [data]=\"data3\"\r\n           [value]=\"value3\"\r\n           (update)=\"update3($event)\"\r\n           id=\"selec2-3\">\r\n  </select2>\r\n  <h3>4. disabled ({{value4}})</h3>\r\n  <select2 [data]=\"data4\"\r\n           [value]=\"value4\"\r\n           [disabled]=\"true\"\r\n           id=\"selec2-4\">\r\n\r\n  </select2>\r\n  <h3>5. hide search box ({{value5}})</h3>\r\n  <select2 [data]=\"data5\"\r\n           [value]=\"value5\"\r\n           [minCountForSearch]=\"minCountForSearch\"\r\n           (update)=\"update5($event)\"\r\n           id=\"selec2-5\">\r\n  </select2>\r\n  <h3>6. placeholder ({{value6}})</h3>\r\n  <select2 [data]=\"data6\"\r\n           placeholder=\"select an item\"\r\n           (update)=\"update6($event)\"\r\n           id=\"selec2-6\">\r\n  </select2>\r\n  <h3>7. open and search event ({{value7}})</h3>\r\n  <select2 [data]=\"data7\"\r\n           customSearchEnabled=\"true\"\r\n           (open)=\"open7()\"\r\n           (search)=\"search7($event)\"\r\n           (update)=\"update7($event)\">\r\n  </select2>\r\n  <h3>9. multiple ({{value9}})</h3>\r\n  <select2 [data]=\"data9\"\r\n           [value]=\"value9\"\r\n           multiple=\"true\"\r\n           (update)=\"update9($event)\"\r\n           id=\"selec2-9\">\r\n  </select2>\r\n  <h3>10. form binding ({{value10}})</h3>\r\n  <form [formGroup]=\"ctrlForm\">\r\n    <select2 [(ngModel)]=\"value10\"\r\n             [data]=\"data10\"\r\n             formControlName=\"test10\"\r\n             placeholder=\"Select a state\"\r\n             material\r\n             id=\"selec2-10\"></select2>\r\n    <button (click)=\"reset10()\">reset</button>\r\n    <button (click)=\"change10()\">Utah</button>\r\n  </form>\r\n  <h3>11. material style ({{value11}})</h3>\r\n  <select2 [data]=\"data11\"\r\n           [value]=\"value11\"\r\n           (update)=\"update11($event)\"\r\n           material\r\n           id=\"selec2-11\">\r\n  </select2>\r\n  <h3>12. boolean value ({{value12}})</h3>\r\n  <select2 [data]=\"data12\"\r\n           [value]=\"value12\"\r\n           (update)=\"update12($event)\"\r\n           id=\"selec2-12\">\r\n  </select2>\r\n  <h3>13. FormControl</h3>\r\n  <form [formGroup]=\"fg\">\r\n    <select2 [data]=\"data9\"  multiple=\"true\" id=\"selec2-10\" formControlName=\"state\">\r\n    </select2>\r\n    <button (click)=\"resetForm()\">Reset Form</button>\r\n  </form>\r\n  \r\n</div>"
+module.exports = "<div style=\"width: 500px;\">\r\n  <a href=\"https://github.com/Zefling/ng-select2/tree/master/src\"\r\n     target=\"_blank\">the source code of the demo</a>\r\n  <h3>1. options in group ({{value1}})</h3>\r\n  <select2 [data]=\"data1\"\r\n           [value]=\"value1\"\r\n           (update)=\"update1($event)\"\r\n           id=\"selec2-1\">\r\n  </select2>\r\n  <h3>2. options ({{value2}})</h3>\r\n  <select2 [data]=\"data2\"\r\n           [value]=\"value2\"\r\n           (update)=\"update2($event)\"\r\n           id=\"selec2-2\">\r\n  </select2>\r\n  <h3>3. less options ({{value3}})</h3>\r\n  <select2 [data]=\"data3\"\r\n           [value]=\"value3\"\r\n           (update)=\"update3($event)\"\r\n           id=\"selec2-3\">\r\n  </select2>\r\n  <h3>4. disabled ({{value4}})</h3>\r\n  <select2 [data]=\"data4\"\r\n           [value]=\"value4\"\r\n           [disabled]=\"true\"\r\n           id=\"selec2-4\">\r\n\r\n  </select2>\r\n  <h3>5. hide search box ({{value5}})</h3>\r\n  <select2 [data]=\"data5\"\r\n           [value]=\"value5\"\r\n           [minCountForSearch]=\"minCountForSearch\"\r\n           (update)=\"update5($event)\"\r\n           id=\"selec2-5\">\r\n  </select2>\r\n  <h3>6. placeholder ({{value6}})</h3>\r\n  <select2 [data]=\"data6\"\r\n           placeholder=\"select an item\"\r\n           (update)=\"update6($event)\"\r\n           id=\"selec2-6\">\r\n  </select2>\r\n  <h3>7. open and search event ({{value7}})</h3>\r\n  <select2 [data]=\"data7\"\r\n           customSearchEnabled=\"true\"\r\n           (open)=\"open7()\"\r\n           (search)=\"search7($event)\"\r\n           (update)=\"update7($event)\">\r\n  </select2>\r\n  <h3>9. multiple ({{value9}})</h3>\r\n  <select2 [data]=\"data9\"\r\n           [value]=\"value9\"\r\n           multiple=\"true\"\r\n           (update)=\"update9($event)\"\r\n           id=\"selec2-9\">\r\n  </select2>\r\n  <h3>10. form binding ({{value10}})</h3>\r\n  <form [formGroup]=\"ctrlForm\">\r\n    <select2 [(ngModel)]=\"value10\"\r\n             [data]=\"data10\"\r\n             formControlName=\"test10\"\r\n             placeholder=\"Select a state\"\r\n             material\r\n             id=\"selec2-10\"></select2>\r\n    <button (click)=\"reset10()\">reset</button>\r\n    <button (click)=\"change10()\">Utah</button>\r\n  </form>\r\n  <h3>11. material style ({{value11}})</h3>\r\n  <select2 [data]=\"data11\"\r\n           [value]=\"value11\"\r\n           (update)=\"update11($event)\"\r\n           material\r\n           id=\"selec2-11\">\r\n  </select2>\r\n  <h3>12. boolean value ({{value12}})</h3>\r\n  <select2 [data]=\"data12\"\r\n           [value]=\"value12\"\r\n           (update)=\"update12($event)\"\r\n           id=\"selec2-12\">\r\n  </select2>\r\n  <h3>13. FormControl</h3>\r\n  <form [formGroup]=\"fg\">\r\n    <select2 [data]=\"data9\"  multiple=\"true\" id=\"selec2-10\" formControlName=\"state\">\r\n    </select2>\r\n    <button (click)=\"print()\">Log Selected</button>\r\n    <button (click)=\"resetForm()\">Reset Form</button>\r\n  </form>\r\n  \r\n</div>"
 
 /***/ }),
 
@@ -1316,6 +1320,9 @@ var AppComponent = /** @class */ (function () {
     };
     AppComponent.prototype.resetForm = function () {
         this.fg.reset(this.formData());
+    };
+    AppComponent.prototype.print = function () {
+        console.log('FormControl', this.fg.value);
     };
     AppComponent.prototype.formData = function () {
         return {
@@ -1611,7 +1618,7 @@ Object(_angular_platform_browser_dynamic__WEBPACK_IMPORTED_MODULE_1__["platformB
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! c:\Data\sources-svn\pitch\ng-select2\src\main.ts */"./src/main.ts");
+module.exports = __webpack_require__(/*! C:\Data\sources-svn\pitch\ng-select2\src\main.ts */"./src/main.ts");
 
 
 /***/ })
