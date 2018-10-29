@@ -1,5 +1,11 @@
 # Changelog of ng-select2
 
+## V6.0.3 (2018-10-29)
+
+### Correction
+
+- fix formcontrol value update
+
 ## V6.0.2 (2018-10-12)
 
 ### Correction

@@ -1,6 +1,6 @@
 {
   "name": "ng-select2-component",
-  "version": "6.0.2",
+  "version": "6.0.3",
   "peerDependencies": {
     "@angular/common": "^6.0.0-rc.0 || ^6.0.0",
     "@angular/core": "^6.0.0-rc.0 || ^6.0.0"
