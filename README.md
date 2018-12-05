@@ -12,7 +12,7 @@ npm i ng-select2-component --save
 
 ## Requirements
 
-- Angular 6.0.0 and more
+- Angular 7.0.0 and more
 
 ## Demo
 
