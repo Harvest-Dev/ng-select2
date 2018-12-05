@@ -8,6 +8,7 @@
 
     .select2-container-dropdown {
         position: absolute;
+        width: 0px;
     }
 
     .select2-selection--single {
@@ -93,6 +94,10 @@
     &[aria-selected] {
         cursor: pointer;
     }
+}
+
+.select2-container.select2-container-dropdown.select2-container--open {
+    width: 100%;
 }
 
 .select2-container--open .select2-dropdown {

@@ -427,32 +427,32 @@ export class Select2 implements ControlValueAccessor, OnInit, OnDestroy, DoCheck
   }
 
   keyDown(e: KeyboardEvent) {
-    if (e.keyCode === 40) {
+    if (this._testKey(e, ['ArrowDown', 40])) {
       this.moveDown();
       e.preventDefault();
-    } else if (e.keyCode === 38) {
+    } else if (this._testKey(e, ['ArrowUp', 38])) {
       this.moveUp();
       e.preventDefault();
-    } else if (e.keyCode === 13) {
+    } else if (this._testKey(e, ['Enter', 13])) {
       this.selectByEnter();
       e.preventDefault();
-    } else if (e.keyCode === 9 && this.isOpen) {
+    } else if (this._testKey(e, ['Escape', 'Tab', 9, 27]) && this.isOpen) {
       this.toggleOpenAndClose();
       this.focused = false;
     }
   }
 
   openKey(e: KeyboardEvent) {
-    if (e.keyCode === 40 || e.keyCode === 38 || e.keyCode === 13) {
+    if (this._testKey(e, ['ArrowDown', 'ArrowUp', 'Enter', 40, 38, 13])) {
       this.toggleOpenAndClose();
       e.preventDefault();
-    } else if (e.keyCode === 9) {
+    } else if (this._testKey(e, ['Escape', 9])) {
       this.focused = false;
       this._onTouched();
     }
   }
 
-  trackBy(index: number, item: Select2Option): any {
+  trackBy(_index: number, item: Select2Option): any {
     return item.value;
   }
 
@@ -471,11 +471,11 @@ export class Select2 implements ControlValueAccessor, OnInit, OnDestroy, DoCheck
   removeSelection(e: MouseEvent, option: Select2Option) {
     Select2Utils.removeSelection(this.option, option);
 
-      const value = (this.option as Select2Option[]).map(op => op.value);
-      if (this._control) {
-          this._onChange(value);
-      }
-      this.update.emit(value);
+    const value = (this.option as Select2Option[]).map(op => op.value);
+    if (this._control) {
+      this._onChange(value);
+    }
+    this.update.emit(value);
 
 
     e.preventDefault();
@@ -483,7 +483,7 @@ export class Select2 implements ControlValueAccessor, OnInit, OnDestroy, DoCheck
 
     if (this.isOpen) {
       this.focusSearchboxOrResultsElement();
-      }
+    }
   }
 
   /**
@@ -534,6 +534,33 @@ export class Select2 implements ControlValueAccessor, OnInit, OnDestroy, DoCheck
     return !!(isInvalid && (isTouched || isSubmitted));
   }
 
+  private _testKey(event: KeyboardEvent, refs: (number | string)[] = []): boolean {
+    return this._isKey(this._getKey(event), refs);
+  }
+
+
+  private _getKey(event: KeyboardEvent): number | string {
+    let code: number | string;
+
+    if (event.key !== undefined) {
+      code = event.key;
+    } else if (event['keyIdentifier'] !== undefined) {
+      code = event['keyIdentifier'];
+    } else if (event['keyCode'] !== undefined) {
+      code = event['keyCode'];
+    } else {
+      event.preventDefault();
+    }
+
+    return code;
+  }
+
+  private _isKey(code: number | string, refs: (number | string)[] = []): boolean {
+    return refs && refs.length > 0
+      ? refs.indexOf(code) !== -1
+      : false;
+  }
+
   /**
    * Sets the selected option based on a value. If no option can be
    * found with the designated value, the select trigger is cleared.
@@ -554,8 +581,8 @@ export class Select2 implements ControlValueAccessor, OnInit, OnDestroy, DoCheck
             );
           }
         } else {
-            this.select(Select2Utils.getOptionByValue(this.data, value));
-          }
+          this.select(Select2Utils.getOptionByValue(this.data, value));
+        }
       } else if (this._control) {
         this._control.viewToModelUpdate(value);
       }

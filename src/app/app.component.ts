@@ -22,6 +22,7 @@ export class AppComponent {
   data10: Select2Data = JSON.parse(JSON.stringify(data1));
   data11: Select2Data = JSON.parse(JSON.stringify(data1));
   data12 = data12;
+  data14 = data2;
 
   minCountForSearch = Infinity;
 
@@ -38,9 +39,10 @@ export class AppComponent {
   value10 = 'CA';
   value11 = 'CA';
   value12 = true;
+  value14 = '';
 
   fg: FormGroup = new FormGroup({
-      state: new FormControl()
+    state: new FormControl()
   });
 
   constructor(private fb: FormBuilder) {
@@ -48,7 +50,7 @@ export class AppComponent {
       test10: new FormControl(null, Validators.required)
     });
 
-      this.fg.patchValue(this.formData());
+    this.fg.patchValue(this.formData());
   }
 
   update1(value: string) {
@@ -116,16 +118,20 @@ export class AppComponent {
     this.value12 = value;
   }
 
-  resetForm() {
-      this.fg.reset(this.formData());
-    }
-    print() {
-        console.log('FormControl', this.fg.value);
-    }
+  update14(value: string) {
+    this.value14 = value;
+  }
 
-    formData() {
-        return {
-            state: ['CA', 'NV']
-        };
-    }
+  resetForm() {
+    this.fg.reset(this.formData());
+  }
+  print() {
+    console.log('FormControl', this.fg.value);
+  }
+
+  formData() {
+    return {
+      state: ['CA', 'NV']
+    };
+  }
 }

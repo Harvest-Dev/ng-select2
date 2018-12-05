@@ -1,5 +1,17 @@
 # Changelog of ng-select2
 
+## V7.0.0 (2018-12-05)
+
+### Changes
+
+- update to Angular 7
+- add Label with `<select2-label>` tag
+
+### Corrections
+
+- ajust CSS
+- change the key detection
+
 ## V6.0.3 (2018-10-29)
 
 ### Correction

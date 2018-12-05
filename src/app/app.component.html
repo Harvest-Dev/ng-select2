@@ -79,10 +79,19 @@
   </select2>
   <h3>13. FormControl</h3>
   <form [formGroup]="fg">
-    <select2 [data]="data9"  multiple="true" id="selec2-10" formControlName="state">
+    <select2 [data]="data9"
+             multiple="true"
+             id="selec2-10"
+             formControlName="state">
     </select2>
     <button (click)="print()">Log Selected</button>
     <button (click)="resetForm()">Reset Form</button>
   </form>
-  
+  <h3>14. with label ({{value14}})</h3>
+  <select2 [data]="data14"
+           [value]="value14"
+           (update)="update14($event)"
+           id="selec2-14">
+    <select2-label>Select a state</select2-label>
+  </select2>
 </div>
