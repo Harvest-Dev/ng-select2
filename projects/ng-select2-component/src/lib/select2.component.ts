@@ -60,6 +60,8 @@ export class Select2 implements ControlValueAccessor, OnInit, OnDestroy, DoCheck
   /** Whether the element is focused or not. */
   focused = false;
 
+  filteredData: Select2Data;
+
   /** View -> model callback called when select has been touched */
   private _onTouched = () => {
     // do nothing
@@ -88,29 +90,6 @@ export class Select2 implements ControlValueAccessor, OnInit, OnDestroy, DoCheck
 
   get dropdownStyle() {
     return Select2Utils.getDropdownStyle(this.isOpen);
-  }
-
-  get filteredData(): Select2Data {
-    const result = this.customSearchEnabled
-      ? this.data
-      : Select2Utils.getFilteredData(this.data, this.searchText, this.editPattern);
-
-    if (Select2Utils.valueIsNotInFilteredData(result, this.hoveringValue)) {
-      this.hoveringValue = Select2Utils.getFirstAvailableOption(result);
-
-      if (this.resultsElement) {
-        const lastScrollTopIndex = Select2Utils.getLastScrollTopIndex(
-          this.hoveringValue,
-          this.resultsElement,
-          result,
-          this.lastScrollTopIndex
-        );
-        if (lastScrollTopIndex !== null) {
-          this.lastScrollTopIndex = lastScrollTopIndex;
-        }
-      }
-    }
-    return result;
   }
 
   get containerStyle() {
@@ -258,6 +237,7 @@ export class Select2 implements ControlValueAccessor, OnInit, OnDestroy, DoCheck
     this.isOpen = !this.isOpen;
     if (this.isOpen) {
       this.innerSearchText = '';
+      this.updateFilteredData();
       this.focusSearchboxOrResultsElement();
 
       if (this.resultsElement) {
@@ -282,6 +262,29 @@ export class Select2 implements ControlValueAccessor, OnInit, OnDestroy, DoCheck
     }
 
     this._changeDetectorRef.markForCheck();
+  }
+
+  private updateFilteredData() {
+    const result = this.customSearchEnabled
+      ? this.data
+      : Select2Utils.getFilteredData(this.data, this.searchText, this.editPattern);
+
+    if (Select2Utils.valueIsNotInFilteredData(result, this.hoveringValue)) {
+      this.hoveringValue = Select2Utils.getFirstAvailableOption(result);
+
+      if (this.resultsElement) {
+        const lastScrollTopIndex = Select2Utils.getLastScrollTopIndex(
+          this.hoveringValue,
+          this.resultsElement,
+          result,
+          this.lastScrollTopIndex
+        );
+        if (lastScrollTopIndex !== null) {
+          this.lastScrollTopIndex = lastScrollTopIndex;
+        }
+      }
+    }
+    this.filteredData = result;
   }
 
   private clickDetection(e: MouseEvent) {
@@ -458,6 +461,7 @@ export class Select2 implements ControlValueAccessor, OnInit, OnDestroy, DoCheck
 
   searchUpdate(e: Event) {
     this.searchText = (e.target as HTMLInputElement).value;
+    this.updateFilteredData();
   }
 
   isSelected(option: Select2Option) {

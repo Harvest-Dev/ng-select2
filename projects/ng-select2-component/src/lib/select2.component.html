@@ -49,7 +49,7 @@
             <div [class]="searchStyle">
                 <input #searchInput
                        [id]="id + '-search-field'"
-                       [(value)]="searchText"
+                       [value]="searchText"
                        (keydown)="keyDown($event)"
                        (keyup)="searchUpdate($event)"
                        class="select2-search__field"
@@ -74,7 +74,8 @@
                         <li *ngIf="groupOrOption.options"
                             class="select2-results__option"
                             role="group">
-                            <strong [attr.class]="'select2-results__group' + (groupOrOption.classes ? ' ' + groupOrOption.classes : '')">{{groupOrOption.label}}</strong>
+                            <strong
+                                    [attr.class]="'select2-results__group' + (groupOrOption.classes ? ' ' + groupOrOption.classes : '')">{{groupOrOption.label}}</strong>
                             <ul class="select2-results__options select2-results__options--nested">
                                 <li *ngFor="let option of groupOrOption.options; trackBy:trackBy"
                                     [class]="getOptionStyle(option)"
