@@ -1,6 +1,6 @@
 import {
   Component, Input, Output, EventEmitter, ElementRef, ViewChild, Optional, Self, ChangeDetectorRef,
-  Attribute, OnInit, OnDestroy, DoCheck, AfterViewInit, HostBinding
+  Attribute, OnInit, OnDestroy, DoCheck, AfterViewInit, HostBinding, ViewChildren, QueryList
 } from '@angular/core';
 import {
   FormGroupDirective, NgControl, NgForm, ControlValueAccessor
@@ -44,7 +44,8 @@ export class Select2 implements ControlValueAccessor, OnInit, OnDestroy, DoCheck
   searchStyle!: string;
 
   @ViewChild('selection') selection!: ElementRef;
-  @ViewChild('results') private results!: ElementRef;
+  @ViewChild('results') private resultContainer!: ElementRef;
+  @ViewChildren('result') private results!: QueryList<ElementRef>;
   @ViewChild('searchInput') private searchInput!: ElementRef;
   private hoveringValue: Select2Value | null | undefined = null;
   private innerSearchText = '';
@@ -201,7 +202,7 @@ export class Select2 implements ControlValueAccessor, OnInit, OnDestroy, DoCheck
   ngAfterViewInit() {
     this.selectionElement = this.selection.nativeElement as HTMLElement;
     this.searchInputElement = this.searchInput.nativeElement as HTMLElement;
-    this.resultsElement = this.results.nativeElement as HTMLElement;
+    this.resultsElement = this.resultContainer.nativeElement as HTMLElement;
   }
 
   ngDoCheck() {
@@ -240,17 +241,10 @@ export class Select2 implements ControlValueAccessor, OnInit, OnDestroy, DoCheck
       this.updateFilteredData();
       this.focusSearchboxOrResultsElement();
 
-      if (this.resultsElement) {
-        const lastScrollTopIndex = Select2Utils.getLastScrollTopIndex(
-          this.hoveringValue,
-          this.resultsElement,
-          this.data,
-          this.lastScrollTopIndex
-        );
-        if (lastScrollTopIndex !== null) {
-          this.lastScrollTopIndex = lastScrollTopIndex;
-        }
+      if (this.resultsElement && this.lastScrollTopIndex) {
+        this.resultsElement.scrollTop = this.lastScrollTopIndex;
       }
+
       this.open.emit();
     }
 
@@ -271,18 +265,6 @@ export class Select2 implements ControlValueAccessor, OnInit, OnDestroy, DoCheck
 
     if (Select2Utils.valueIsNotInFilteredData(result, this.hoveringValue)) {
       this.hoveringValue = Select2Utils.getFirstAvailableOption(result);
-
-      if (this.resultsElement) {
-        const lastScrollTopIndex = Select2Utils.getLastScrollTopIndex(
-          this.hoveringValue,
-          this.resultsElement,
-          result,
-          this.lastScrollTopIndex
-        );
-        if (lastScrollTopIndex !== null) {
-          this.lastScrollTopIndex = lastScrollTopIndex;
-        }
-      }
     }
     this.filteredData = result;
   }
@@ -360,33 +342,26 @@ export class Select2 implements ControlValueAccessor, OnInit, OnDestroy, DoCheck
   }
 
   private moveUp() {
-    this.hoveringValue = Select2Utils.getPreviousOption(this.filteredData, this.hoveringValue);
-
-    if (this.resultsElement) {
-      const lastScrollTopIndex = Select2Utils.getLastScrollTopIndex(
-        this.hoveringValue,
-        this.resultsElement,
-        this.filteredData,
-        this.lastScrollTopIndex
-      );
-      if (lastScrollTopIndex !== null) {
-        this.lastScrollTopIndex = lastScrollTopIndex;
-      }
-    }
+    this.updateScrollFromOption(Select2Utils.getPreviousOption(this.filteredData, this.hoveringValue));
   }
 
   private moveDown() {
-    this.hoveringValue = Select2Utils.getNextOption(this.filteredData, this.hoveringValue);
+    this.updateScrollFromOption(Select2Utils.getNextOption(this.filteredData, this.hoveringValue));
+  }
 
-    if (this.resultsElement) {
-      const lastScrollTopIndex = Select2Utils.getLastScrollTopIndex(
-        this.hoveringValue,
-        this.resultsElement,
-        this.filteredData,
-        this.lastScrollTopIndex
-      );
-      if (lastScrollTopIndex !== null) {
-        this.lastScrollTopIndex = lastScrollTopIndex;
+  private updateScrollFromOption(option: Select2Option) {
+    if (option) {
+      this.hoveringValue = option.value;
+      const domElement = this.results.find(r => r.nativeElement.innerText.trim() === option.label);
+      if (domElement) {
+        const rect = domElement.nativeElement.getBoundingClientRect();
+        this.lastScrollTopIndex =
+          rect.top +
+          this.resultsElement.scrollTop -
+          this.resultsElement.getBoundingClientRect().height -
+          this.selection.nativeElement.getBoundingClientRect().top +
+          rect.height * 2;
+        this.resultsElement.scrollTop = this.lastScrollTopIndex;
       }
     }
   }

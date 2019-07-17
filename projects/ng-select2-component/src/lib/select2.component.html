@@ -78,6 +78,7 @@
                                     [attr.class]="'select2-results__group' + (groupOrOption.classes ? ' ' + groupOrOption.classes : '')">{{groupOrOption.label}}</strong>
                             <ul class="select2-results__options select2-results__options--nested">
                                 <li *ngFor="let option of groupOrOption.options; trackBy:trackBy"
+                                    #result
                                     [class]="getOptionStyle(option)"
                                     role="treeitem"
                                     [attr.aria-selected]="isSelected(option)"
@@ -87,6 +88,7 @@
                             </ul>
                         </li>
                         <li *ngIf="!groupOrOption.options"
+                            #result
                             [class]="getOptionStyle(groupOrOption)"
                             role="treeitem"
                             [attr.aria-selected]="isSelected(groupOrOption)"

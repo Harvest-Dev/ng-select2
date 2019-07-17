@@ -193,7 +193,7 @@ export class Select2Utils {
                     const option = options[j];
                     if (findIt) {
                         if (!option.disabled) {
-                            return option.value;
+                            return option;
                         }
                     }
                     findIt = option.value === hoveringValue;
@@ -202,13 +202,13 @@ export class Select2Utils {
                 const option = groupOrOption as Select2Option;
                 if (findIt) {
                     if (!option.disabled) {
-                        return option.value;
+                        return option;
                     }
                 }
                 findIt = option.value === hoveringValue;
             }
         }
-        return findIt ? hoveringValue : null;
+        return null;
     }
     // tslint:disable-next-line:cognitive-complexity
     static getNextOption(filteredData: Select2Data, hoveringValue: Select2Value | null | undefined) {
@@ -219,7 +219,7 @@ export class Select2Utils {
                 for (const option of options) {
                     if (findIt) {
                         if (!option.disabled) {
-                            return option.value;
+                            return option;
                         }
                     } else {
                         findIt = option.value === hoveringValue;
@@ -229,49 +229,18 @@ export class Select2Utils {
                 const option = groupOrOption as Select2Option;
                 if (findIt) {
                     if (!option.disabled) {
-                        return option.value;
+                        return option;
                     }
                 } else {
                     findIt = option.value === hoveringValue;
                 }
             }
         }
-        return findIt ? hoveringValue : null;
+        return null;
     }
 
     private static isNullOrUndefined(value: any) {
         return value === null || value === undefined;
-    }
-
-    static getLastScrollTopIndex(
-        hoveringValue: Select2Value | null | undefined,
-        results: HTMLElement,
-        filteredData: Select2Data,
-        lastScrollTopIndex: number
-    ) {
-        if (Select2Utils.isNullOrUndefined(hoveringValue)) {
-            results.scrollTop = 0;
-            return 0;
-        } else {
-            const scrollTop = Select2Utils.getScrollUpIndex(filteredData, hoveringValue!);
-            if (scrollTop - lastScrollTopIndex > 5) {
-                lastScrollTopIndex += scrollTop - lastScrollTopIndex - 5;
-                const item = results.querySelectorAll('li').item(scrollTop);
-                if (item) {
-                    results.scrollTop = item.offsetTop - results.offsetHeight;
-                }
-                return lastScrollTopIndex;
-            }
-            if (lastScrollTopIndex - scrollTop > 0) {
-                lastScrollTopIndex -= lastScrollTopIndex - scrollTop;
-                const item = results.querySelectorAll('li').item(lastScrollTopIndex - 1);
-                if (item) {
-                    results.scrollTop = item.offsetTop;
-                }
-                return lastScrollTopIndex;
-            }
-            return null;
-        }
     }
 
     private static containSearchText(
