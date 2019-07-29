@@ -557,7 +557,7 @@ if(false) {}
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! c:\Data\sources-svn\pitch\ng-select2\src\styles.css */"./src/styles.css");
+module.exports = __webpack_require__(/*! C:\Data\sources-svn\pitch\ng-select2\src\styles.css */"./src/styles.css");
 
 
 /***/ })
