@@ -1,5 +1,12 @@
 # Changelog of ng-select2
 
+## V7.0.1 (2019-07-17)
+
+### Corrections
+
+- fix spam issue on filteredData in some cases
+- refactoring the method to handle up/down arrows
+
 ## V7.0.0 (2018-12-05)
 
 ### Changes
