@@ -1,5 +1,12 @@
 # Changelog of ng-select2
 
+## V7.0.2 (2019-08-09)
+
+### Corrections
+
+- fix scroll when opening the select to go to the selected option(s)
+- fix arrowUp/arrowDown to be able to jump disabled options within the list
+
 ## V7.0.1 (2019-07-29)
 
 ### Corrections

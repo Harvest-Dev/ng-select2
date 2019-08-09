@@ -196,7 +196,9 @@ export class Select2Utils {
                             return option;
                         }
                     }
-                    findIt = option.value === hoveringValue;
+                    if (!findIt) {
+                        findIt = option.value === hoveringValue;
+                    }
                 }
             } else {
                 const option = groupOrOption as Select2Option;
@@ -205,7 +207,9 @@ export class Select2Utils {
                         return option;
                     }
                 }
-                findIt = option.value === hoveringValue;
+                if (!findIt) {
+                    findIt = option.value === hoveringValue;
+                }
             }
         }
         return null;
@@ -221,7 +225,7 @@ export class Select2Utils {
                         if (!option.disabled) {
                             return option;
                         }
-                    } else {
+                    } else if (!findIt) {
                         findIt = option.value === hoveringValue;
                     }
                 }
@@ -231,7 +235,7 @@ export class Select2Utils {
                     if (!option.disabled) {
                         return option;
                     }
-                } else {
+                } else if (!findIt) {
                     findIt = option.value === hoveringValue;
                 }
             }

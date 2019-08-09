@@ -236,14 +236,20 @@ export class Select2 implements ControlValueAccessor, OnInit, OnDestroy, DoCheck
     }
     this.focused = true;
     this.isOpen = !this.isOpen;
+
     if (this.isOpen) {
       this.innerSearchText = '';
       this.updateFilteredData();
-      this.focusSearchboxOrResultsElement();
+      this._focusSearchboxOrResultsElement();
 
-      if (this.resultsElement && this.lastScrollTopIndex) {
-        this.resultsElement.scrollTop = this.lastScrollTopIndex;
-      }
+      setTimeout(() => {
+        if (this.option) {
+          const option: Select2Option = this.option instanceof Array ? this.option[0] : this.option;
+          this.updateScrollFromOption(option);
+        } else {
+          this.resultsElement.scrollTop = 0;
+        }
+      });
 
       this.open.emit();
     }
@@ -354,14 +360,10 @@ export class Select2 implements ControlValueAccessor, OnInit, OnDestroy, DoCheck
       this.hoveringValue = option.value;
       const domElement = this.results.find(r => r.nativeElement.innerText.trim() === option.label);
       if (domElement) {
-        const rect = domElement.nativeElement.getBoundingClientRect();
-        this.lastScrollTopIndex =
-          rect.top +
-          this.resultsElement.scrollTop -
-          this.resultsElement.getBoundingClientRect().height -
-          this.selection.nativeElement.getBoundingClientRect().top +
-          rect.height * 2;
-        this.resultsElement.scrollTop = this.lastScrollTopIndex;
+        this.resultsElement.scrollTop = 0;
+        const listClientRect = this.resultsElement.getBoundingClientRect();
+        const optionClientRect = domElement.nativeElement.getBoundingClientRect();
+        this.resultsElement.scrollTop = optionClientRect.top - listClientRect.top;
       }
     }
   }
@@ -461,7 +463,7 @@ export class Select2 implements ControlValueAccessor, OnInit, OnDestroy, DoCheck
     e.stopPropagation();
 
     if (this.isOpen) {
-      this.focusSearchboxOrResultsElement();
+      this._focusSearchboxOrResultsElement();
     }
   }
 
@@ -584,7 +586,7 @@ export class Select2 implements ControlValueAccessor, OnInit, OnDestroy, DoCheck
     return value != null && `${value}` !== 'false';
   }
 
-  private focusSearchboxOrResultsElement() {
+  private _focusSearchboxOrResultsElement() {
     if (!this.isSearchboxHidden) {
       if (this.searchInputElement) {
         this.searchInputElement.focus();

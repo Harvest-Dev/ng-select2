@@ -127,7 +127,7 @@ export const data2: Select2Data = [
     { value: 'RI', label: 'Rhode Island' },
     { value: 'SC', label: 'South Carolina' },
     { value: 'VT', label: 'Vermont' },
-    { value: 'VA', label: 'Virginia' },
+    { value: 'VA', label: 'Virginia', disabled: true },
     { value: 'WV', label: 'West Virginia' }
 ];
 
