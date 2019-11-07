@@ -150,3 +150,27 @@ export const data12: Select2Data = [
     { value: true, label: 'true' },
     { value: false, label: 'false' }
 ];
+
+export const data15: Select2Data = [
+    {
+        value: 'fr',
+        label: `<div class="select2-multiple-labels">
+                    <div>France</div>
+                    <div>Europe</div>
+                </div>`
+    },
+    {
+        value: 'sp',
+        label: `<div class="select2-multiple-labels">
+                    <div>Spain</div>
+                    <div>Europe</div>
+                </div>`
+    },
+    {
+        value: 'ch',
+        label: `<div class="select2-multiple-labels">
+                    <div>China</div>
+                    <div>Asia</div>
+                </div>`
+    }
+];
