@@ -17,7 +17,8 @@
                   class="select2-selection__rendered"
                   [title]="select2Option ? select2Option.label : ''">
                 <span *ngIf="!select2Option">&nbsp;</span>
-                <ng-container *ngIf="select2Option">{{select2Option.label}}</ng-container>
+                <span *ngIf="select2Option"
+                      [innerHTML]="select2Option.label"></span>
                 <span [class.select2-selection__placeholder__option]="option"
                       class="select2-selection__placeholder">{{placeholder}}</span>
             </span>
@@ -35,8 +36,8 @@
                     [title]="op.label">
                     <span (click)="removeSelection($event, op)"
                           class="select2-selection__choice__remove"
-                          role="presentation">×</span>
-                    {{op.label}}
+                          role="presentation">x</span>
+                    <span [innerHTML]="op.label"></span>
                 </li>
             </ul>
         </div>
@@ -74,8 +75,8 @@
                         <li *ngIf="groupOrOption.options"
                             class="select2-results__option"
                             role="group">
-                            <strong
-                                    [attr.class]="'select2-results__group' + (groupOrOption.classes ? ' ' + groupOrOption.classes : '')">{{groupOrOption.label}}</strong>
+                            <strong [attr.class]="'select2-results__group' + (groupOrOption.classes ? ' ' + groupOrOption.classes : '')"
+                                    [innerHTML]="groupOrOption.label"></strong>
                             <ul class="select2-results__options select2-results__options--nested">
                                 <li *ngFor="let option of groupOrOption.options; trackBy:trackBy"
                                     #result
@@ -84,7 +85,8 @@
                                     [attr.aria-selected]="isSelected(option)"
                                     [attr.aria-disabled]="isDisabled(option)"
                                     (mouseenter)="mouseenter(option)"
-                                    (click)="click(option)">{{option.label}}</li>
+                                    (click)="click(option)"
+                                    [innerHTML]="option.label"></li>
                             </ul>
                         </li>
                         <li *ngIf="!groupOrOption.options"
@@ -94,8 +96,8 @@
                             [attr.aria-selected]="isSelected(groupOrOption)"
                             [attr.aria-disabled]="isDisabled(groupOrOption)"
                             (mouseenter)="mouseenter(groupOrOption)"
-                            (click)="click(groupOrOption)">
-                            {{groupOrOption.label}}
+                            (click)="click(groupOrOption)"
+                            [innerHTML]="groupOrOption.label">
                         </li>
                     </ng-template>
                 </ul>
