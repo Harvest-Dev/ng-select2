@@ -3,7 +3,7 @@ import { Validators, FormControl, FormBuilder, FormGroup } from '@angular/forms'
 
 import { Select2Option, Select2Data } from 'projects/ng-select2-component/src/lib/select2-utils';
 
-import { data1, data2, data3, data5, data12 } from './app.data';
+import { data1, data2, data3, data5, data12, data15 } from './app.data';
 
 @Component({
   selector: 'app-root',
@@ -23,6 +23,7 @@ export class AppComponent {
   data11: Select2Data = JSON.parse(JSON.stringify(data1));
   data12 = data12;
   data14 = data2;
+  data15 = data15;
 
   minCountForSearch = Infinity;
 
@@ -40,6 +41,7 @@ export class AppComponent {
   value11 = 'CA';
   value12 = true;
   value14 = '';
+  value15 = '';
 
   fg: FormGroup = new FormGroup({
     state: new FormControl()
@@ -120,6 +122,10 @@ export class AppComponent {
 
   update14(value: string) {
     this.value14 = value;
+  }
+
+  update15(value: string) {
+    this.value15 = value;
   }
 
   resetForm() {

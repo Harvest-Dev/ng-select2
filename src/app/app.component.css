@@ -1,0 +1,4 @@
+#select2-15 /deep/ .select2-multiple-labels {
+    display: flex;
+    justify-content: space-between;
+}
