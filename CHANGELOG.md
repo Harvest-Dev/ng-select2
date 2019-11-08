@@ -1,5 +1,11 @@
 # Changelog of ng-select2
 
+## V7.0.3 (2019-11-08)
+
+### Changes
+
+- options label accept HTML content
+
 ## V7.0.2 (2019-08-09)
 
 ### Corrections
