@@ -1,4 +1,4 @@
-import { Component, ViewEncapsulation } from '@angular/core';
+import { Component } from '@angular/core';
 import { Validators, FormControl, FormBuilder, FormGroup } from '@angular/forms';
 
 import { Select2Option, Select2Data } from 'projects/ng-select2-component/src/lib/select2-utils';
@@ -8,8 +8,7 @@ import { data1, data2, data3, data5, data12, data15 } from './app.data';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css'],
-  encapsulation: ViewEncapsulation.None
+  styleUrls: ['./app.component.css']
 })
 export class AppComponent {
   data1 = data1;
