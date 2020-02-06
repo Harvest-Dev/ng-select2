@@ -39,6 +39,8 @@ export class Select2 implements ControlValueAccessor, OnInit, OnDestroy, DoCheck
     @Output() open = new EventEmitter();
     @Output() search = new EventEmitter();
 
+    @Output() resultMaxHeight = '200px';
+
     option: Select2Option | Select2Option[] | null = null;
     isOpen = false;
     searchStyle!: string;

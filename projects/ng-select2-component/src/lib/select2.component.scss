@@ -72,9 +72,10 @@
     box-sizing: border-box;
     display: block;
     position: absolute;
-    left: -100000px;
     width: 100%;
     z-index: 1051;
+    height: 0;
+    overflow: hidden;
 }
 
 .select2-results {
@@ -102,7 +103,8 @@
 
 .select2-container--open {
     .select2-dropdown {
-        left: 0;
+        overflow: auto;
+        height: auto;
     }
 
     .select2-dropdown--above {
@@ -362,7 +364,6 @@
     }
 
     .select2-results > .select2-results__options {
-        max-height: 200px;
         overflow-y: auto;
     }
 

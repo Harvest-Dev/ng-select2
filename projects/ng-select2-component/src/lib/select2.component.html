@@ -66,6 +66,7 @@
             <div class="select2-results">
                 <ul #results
                     class="select2-results__options"
+                    [style.max-height]="resultMaxHeight"
                     role="tree"
                     tabindex="-1"
                     (keydown)="keyDown($event)">
