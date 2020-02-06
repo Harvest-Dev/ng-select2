@@ -69,29 +69,6 @@ const defaultMinCountForSearch = 6;
 
 export class Select2Utils {
 
-    private static getScrollUpIndex(data: Select2Data, value: Select2Value) {
-        let index = 0;
-        for (const groupOrOption of data) {
-            const options = (groupOrOption as Select2Group).options;
-            if (options) {
-                index++;
-                const valueIndex = options.findIndex(op => op.value === value);
-                if (valueIndex !== -1) {
-                    return index + valueIndex;
-                } else {
-                    index += options.length;
-                }
-            } else {
-                if ((groupOrOption as Select2Option).value === value) {
-                    return index;
-                } else {
-                    index++;
-                }
-            }
-        }
-        return 0;
-    }
-
     static getOptionByValue(data: Select2Data, value: Select2Value | null | undefined) {
         for (const groupOrOption of data) {
             const options = (groupOrOption as Select2Group).options;
