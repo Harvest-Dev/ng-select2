@@ -37,7 +37,7 @@
                     [title]="op.label">
                     <span (click)="removeSelection($event, op)"
                           class="select2-selection__choice__remove"
-                          role="presentation">x</span>
+                          role="presentation">×</span>
                     <span [innerHTML]="op.label"></span>
                 </li>
             </ul>
@@ -69,10 +69,7 @@
                     role="tree"
                     tabindex="-1"
                     (keydown)="keyDown($event)">
-                    <ng-template ngFor
-                                 [ngForOf]="filteredData"
-                                 let-groupOrOption
-                                 [ngForTrackBy]="trackBy">
+                    <ng-container *ngFor="let groupOrOption of filteredData; trackBy:trackBy">
                         <li *ngIf="groupOrOption.options"
                             class="select2-results__option"
                             role="group">
@@ -100,7 +97,7 @@
                             (click)="click(groupOrOption)"
                             [innerHTML]="groupOrOption.label">
                         </li>
-                    </ng-template>
+                    </ng-container>
                 </ul>
             </div>
         </div>

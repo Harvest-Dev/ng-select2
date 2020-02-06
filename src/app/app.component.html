@@ -46,38 +46,47 @@
              (search)="search7($event)"
              (update)="update7($event)">
     </select2>
-    <h3>9. multiple ({{value9}})</h3>
+    <h3>9. multiple ({{value9 | json}})</h3>
     <select2 [data]="data9"
              [value]="value9"
              multiple="true"
              (update)="update9($event)"
              id="selec2-9">
     </select2>
-    <h3>10. material style and form binding ({{value10}})</h3>
+    <h3>10. multiple + hide selected items ({{value10 | json}})</h3>
+    <select2 [data]="data10"
+             [value]="value10"
+             multiple="true"
+             (update)="update10($event)"
+             hideSelectedItems="true"
+             id="selec2-10">
+    </select2>
+    <h3>11. material style and form binding ({{value11}})</h3>
     <form [formGroup]="ctrlForm">
-        <select2 [(ngModel)]="value10"
-                 [data]="data10"
-                 formControlName="test10"
+        <select2 [(ngModel)]="value11"
+                 [data]="data11"
+                 formControlName="test11"
                  placeholder="Select a state"
                  material
-                 id="selec2-10"></select2>
-        <button (click)="reset10()">reset</button>
-        <button (click)="change10()">Utah</button>
+                 id="selec2-11"></select2>
+        <button (click)="reset11()">reset</button>
+        <button (click)="change11()">Utah</button>
     </form>
-    <h3>11. material style ({{value11}})</h3>
-    <select2 [data]="data11"
-             [value]="value11"
-             (update)="update11($event)"
-             material
-             id="selec2-11">
-    </select2>
-    <h3>12. boolean value ({{value12}})</h3>
+
+    <h3>12. material style ({{value12}})</h3>
     <select2 [data]="data12"
              [value]="value12"
              (update)="update12($event)"
+             material
              id="selec2-12">
     </select2>
-    <h3>13. FormControl</h3>
+    <h3>13. boolean value ({{value13}})</h3>
+    <select2 [data]="data13"
+             [value]="value13"
+             (update)="update13($event)"
+             id="selec2-13">
+    </select2>
+    <h3>14. FormControl</h3>
     <form [formGroup]="fg">
         <select2 [data]="data9"
                  multiple="true"
@@ -87,25 +96,25 @@
         <button (click)="print()">Log Selected</button>
         <button (click)="resetForm()">Reset Form</button>
     </form>
-    <h3>14. with label ({{value14}})</h3>
-    <select2 [data]="data14"
-             [value]="value14"
-             (update)="update14($event)"
-             id="selec2-14">
-        <select2-label>Select a state</select2-label>
-    </select2>
-    <h3>15. required with label ({{value15}})</h3>
+    <h3>15. with label ({{value15}})</h3>
     <select2 [data]="data15"
              [value]="value15"
              (update)="update15($event)"
-             required
              id="selec2-15">
         <select2-label>Select a state</select2-label>
     </select2>
-    <h3>16. with two option labels ({{value16}})</h3>
+    <h3>16. required with label ({{value16}})</h3>
     <select2 [data]="data16"
              [value]="value16"
              (update)="update16($event)"
-             id="select2-16">
+             required
+             id="selec2-16">
+        <select2-label>Select a state</select2-label>
+    </select2>
+    <h3>17. with two option labels ({{value17}})</h3>
+    <select2 [data]="data17"
+             [value]="value17"
+             (update)="update17($event)"
+             id="select2-17">
     </select2>
 </div>

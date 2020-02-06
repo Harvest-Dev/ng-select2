@@ -3,7 +3,7 @@ import { Validators, FormControl, FormBuilder, FormGroup } from '@angular/forms'
 
 import { Select2Option, Select2Data } from 'projects/ng-select2-component/src/lib/select2-utils';
 
-import { data1, data2, data3, data5, data12, data15 as data16 } from './app.data';
+import { data1, data2, data3, data5, data12 as data13, data15 as data17 } from './app.data';
 
 @Component({
     selector: 'app-root',
@@ -21,10 +21,11 @@ export class AppComponent {
     data9: Select2Data = JSON.parse(JSON.stringify(data1));
     data10: Select2Data = JSON.parse(JSON.stringify(data1));
     data11: Select2Data = JSON.parse(JSON.stringify(data1));
-    data12 = data12;
-    data14 = data2;
+    data12: Select2Data = JSON.parse(JSON.stringify(data1));
+    data13 = data13;
     data15 = data2;
-    data16 = data16;
+    data16 = data2;
+    data17 = data17;
 
     minCountForSearch = Infinity;
 
@@ -38,12 +39,13 @@ export class AppComponent {
     value6 = '';
     value7 = '';
     value9: string[] = [];
-    value10 = 'CA';
+    value10: string[] = [];
     value11 = 'CA';
-    value12 = true;
-    value14 = '';
+    value12 = 'CA';
+    value13 = true;
     value15 = '';
     value16 = '';
+    value17 = '';
 
     fg: FormGroup = new FormGroup({
         state: new FormControl()
@@ -51,7 +53,7 @@ export class AppComponent {
 
     constructor(private fb: FormBuilder) {
         this.ctrlForm = this.fb.group({
-            test10: new FormControl(null, Validators.required)
+            test11: new FormControl(null, Validators.required)
         });
 
         this.fg.patchValue(this.formData());
@@ -96,34 +98,30 @@ export class AppComponent {
         this.value9 = value;
     }
 
-    reset9() {
-        this.value9 = ['CA'];
+    update10(value: string[]) {
+        this.value10 = value;
     }
 
-    reset10() {
-        const test10 = this.ctrlForm.get('test10');
-        if (test10) {
-            test10.reset();
+    reset11() {
+        const test11 = this.ctrlForm.get('test11');
+        if (test11) {
+            test11.reset();
         }
     }
 
-    change10() {
-        const test10 = this.ctrlForm.get('test10');
-        if (test10) {
-            test10.setValue('UT');
+    change11() {
+        const test11 = this.ctrlForm.get('test11');
+        if (test11) {
+            test11.setValue('UT');
         }
     }
 
-    update11(value: string) {
-        this.value11 = value;
-    }
-
-    update12(value: boolean) {
+    update12(value: string) {
         this.value12 = value;
     }
 
-    update14(value: string) {
-        this.value14 = value;
+    update13(value: boolean) {
+        this.value13 = value;
     }
 
     update15(value: string) {
@@ -132,6 +130,10 @@ export class AppComponent {
 
     update16(value: string) {
         this.value16 = value;
+    }
+
+    update17(value: string) {
+        this.value17 = value;
     }
 
     resetForm() {

@@ -304,6 +304,27 @@ export class Select2Utils {
         }
     }
 
+    static getFilteredSelectedData(data: Select2Data, selectedOptions: Select2Option | Select2Option[] | null): Select2Data {
+        const result: Select2Data = [];
+        for (const groupOrOption of data) {
+            const options = (groupOrOption as Select2Group).options;
+            if (options) {
+                const filteredOptions = options.filter(
+                    group => Select2Utils.isSelected(selectedOptions, group, true) === 'false'
+                );
+                if (filteredOptions.length) {
+                    result.push({
+                        label: groupOrOption.label,
+                        options: filteredOptions
+                    });
+                }
+            } else if (Select2Utils.isSelected(selectedOptions, groupOrOption as Select2Option, true) === 'false') {
+                result.push(groupOrOption);
+            }
+        }
+        return result;
+    }
+
     static getOptionStyle(value: Select2Value, hoveringValue: Select2Value | null | undefined) {
         return value === hoveringValue
             ? 'select2-results__option select2-results__option--highlighted'
