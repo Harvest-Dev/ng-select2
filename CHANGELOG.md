@@ -1,5 +1,19 @@
 # Changelog of ng-select2
 
+## V7.0.4 (2020-02-06)
+
+### Changes
+
+- with label and required is true, add a red `*` after the label 
+- add new @input parameters :
+    - `hideSelectedItems` : for `multiple`, remove selected values (by defaut : `false`)
+    - `resultMaxHeight` : change the height size of results (by defaut : `200px`);
+
+### Corrections
+
+- fix value update
+- fix CSS for the height of result when the panel is closed
+
 ## V7.0.3 (2019-11-08)
 
 ### Changes
@@ -17,7 +31,7 @@
 
 ### Corrections
 
-- fix spam issue on filteredData in some cases
+- fix spam issue on `filteredData` in some cases
 - refactoring the method to handle up/down arrows
 
 ## V7.0.0 (2018-12-05)

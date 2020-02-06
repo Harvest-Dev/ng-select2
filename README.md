@@ -65,6 +65,8 @@ minCountForSearch | number? = 6 | hide search box if `options.length < minCountF
 placeholder | string? | the placeholder string if nothing selected
 customSearchEnabled | boolean? | will trigger `search` event, and disable inside filter
 multiple | boolean? | select multiple options
+hideSelectedItems | boolean? |  for `multiple`, remove selected values
+resultMaxHeight | string? | change the height size of results
 material | `""` or `true` | enable material style
 editPattern | (str: string) => string | use it for change the pattern of the filter search
 ngModel/id/required/disabled/readonly/tabIndex | just like a `select` control | 
