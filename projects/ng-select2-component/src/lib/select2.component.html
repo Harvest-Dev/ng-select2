@@ -1,6 +1,7 @@
 <div class="select2-lalel"
      (click)="toggleOpenAndClose()">
-    <ng-content select="select2-label"></ng-content>
+    <ng-content select="select2-label"></ng-content><span *ngIf="required"
+          class="select2-required"></span>
 </div>
 <div [class]="containerStyle">
     <div class="selection"
