@@ -283,7 +283,7 @@ export class Select2 implements ControlValueAccessor, OnInit, OnDestroy, DoCheck
             && (value1 as Select2Value[]).length === (value2 as Select2Value[]).length
         ) {
             for (const e1 of (value1 as Select2Value[])) {
-                const test = (value2 as Select2Value[]).includes(e1);
+                const test = (value2 as Select2Value[]).indexOf(e1) > -1;
                 if (!test) {
                     return true;
                 }
