@@ -1,5 +1,11 @@
 # Changelog of ng-select2
 
+## V7.0.5 (2020-02-07)
+
+### Corrections
+
+- fix `resultMaxHeight` (`@Output` instead of `@Input`)
+
 ## V7.0.4 (2020-02-06)
 
 ### Changes
