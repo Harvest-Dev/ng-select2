@@ -35,11 +35,12 @@ export class Select2 implements ControlValueAccessor, OnInit, OnDestroy, DoCheck
     /** use it for change the pattern of the filter search */
     @Input() editPattern!: (str: string) => string;
 
+    /** the max height of the results container when opening the select */
+    @Input() resultMaxHeight = '200px';
+
     @Output() update = new EventEmitter();
     @Output() open = new EventEmitter();
     @Output() search = new EventEmitter();
-
-    @Output() resultMaxHeight = '200px';
 
     option: Select2Option | Select2Option[] | null = null;
     isOpen = false;
