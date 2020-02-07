@@ -8,9 +8,11 @@
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
+    "build:lib": "ng build ng-select2-component --prod && cp *.md  dist/ng-select2-component",
     "test": "ng test",
     "lint": "ng lint",
-    "e2e": "ng e2e"
+    "e2e": "ng e2e",
+    "build:demo": "ng build --prod"
   },
   "private": false,
   "dependencies": {
