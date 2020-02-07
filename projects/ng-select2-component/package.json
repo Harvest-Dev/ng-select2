@@ -7,13 +7,13 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Zefling/ng-select2.git"
+    "url": "git+https://github.com/Harvest-Dev/ng-select2.git"
   },
   "publishConfig": {
     "registry": "https://registry.npmjs.com"
   },
   "bugs": {
-    "url": "https://github.com/Zefling/ng-select2/issues"
+    "url": "https://github.com/Harvest-Dev/ng-select2/issues"
   },
-  "homepage": "https://github.com/Zefling/ng-select2#readme"
+  "homepage": "https://github.com/Harvest-Dev/ng-select2#readme"
 }
