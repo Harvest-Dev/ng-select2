@@ -101,10 +101,15 @@ type Select2UpdateValue = Select2Value | Select2Value[];
 ## Publishing the library
 
 ```
-ng build ng-select2-component --prod
-cp *.md  dist/ng-select2-component
+npm run build:lib
 cd dist/ng-select2-component
 npm publish
+```
+
+## Update Demo
+
+```
+npm run build:demo
 ```
 
 ## License
