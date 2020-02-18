@@ -9,6 +9,7 @@
     .select2-container-dropdown {
         position: absolute;
         width: 0px;
+        opacity: 0;
     }
 
     .select2-selection--single {
@@ -99,6 +100,7 @@
 
 .select2-container.select2-container-dropdown.select2-container--open {
     width: 100%;
+    opacity: 1;
 }
 
 .select2-container--open {
