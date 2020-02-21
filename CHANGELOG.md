@@ -1,5 +1,11 @@
 # Changelog of ng-select2
 
+## V7.0.6 (2020-02-21)
+
+### Corrections
+
+- fix dropdown when is close
+
 ## V7.0.5 (2020-02-07)
 
 ### Corrections
