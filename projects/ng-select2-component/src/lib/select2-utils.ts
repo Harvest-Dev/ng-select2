@@ -323,13 +323,13 @@ export class Select2Utils {
         return `select2-selection select2-selection--${multiple ? 'multiple' : 'single'}`;
     }
 
-
-    static isSearchboxHiddex(data: Select2Data, minCountForSearch?: number) {
-        if (typeof minCountForSearch !== 'number') {
+    static isSearchboxHiddex(data: Select2Data, minCountForSearch?: number | string) {
+        if (minCountForSearch === '' || minCountForSearch === undefined || minCountForSearch === null || isNaN(+minCountForSearch)) {
             minCountForSearch = defaultMinCountForSearch;
         }
         const optionCount = Select2Utils.getOptionsCount(data);
-        return optionCount < minCountForSearch;
+        console.log(optionCount, +minCountForSearch)
+        return optionCount < +minCountForSearch;
     }
 
     static getSearchStyle(isHidden: boolean) {

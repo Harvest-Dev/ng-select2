@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
-import { Validators, FormControl, FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 
-import { Select2Option, Select2Data } from 'projects/ng-select2-component/src/lib/select2-utils';
+import { data1, data12 as data13, data15 as data17, data2, data3, data5 } from './app.data';
 
-import { data1, data2, data3, data5, data12 as data13, data15 as data17 } from './app.data';
+import { Select2Data, Select2Option } from 'projects/ng-select2-component/src/lib/select2-utils';
 
 @Component({
     selector: 'app-root',
@@ -16,8 +16,9 @@ export class AppComponent {
     data3 = data3;
     data4: Select2Data = JSON.parse(JSON.stringify(data3));
     data5 = data5;
-    data6: Select2Data = JSON.parse(JSON.stringify(data3));
-    data7: Select2Option[] = [];
+    data6 = data5;
+    data7: Select2Data = JSON.parse(JSON.stringify(data3));
+    data8: Select2Option[] = [];
     data9: Select2Data = JSON.parse(JSON.stringify(data1));
     data10: Select2Data = JSON.parse(JSON.stringify(data1));
     data11: Select2Data = JSON.parse(JSON.stringify(data1));
@@ -36,8 +37,9 @@ export class AppComponent {
     value3 = 'foo';
     value4 = 'bar';
     value5 = 'foo3';
-    value6 = '';
+    value6 = 'foo3';
     value7 = '';
+    value8 = '';
     value9: string[] = [];
     value10: string[] = [];
     value11 = 'CA';
@@ -79,16 +81,20 @@ export class AppComponent {
         this.value6 = value;
     }
 
-    open7() {
-        this.data7 = JSON.parse(JSON.stringify(data2));
-    }
-
     update7(value: string) {
         this.value7 = value;
     }
 
-    search7(text: string) {
-        this.data7 = text
+    open8() {
+        this.data8 = JSON.parse(JSON.stringify(data2));
+    }
+
+    update8(value: string) {
+        this.value8 = value;
+    }
+
+    search8(text: string) {
+        this.data8 = text
             ? (JSON.parse(JSON.stringify(data2)) as Select2Option[])
                 .filter(option => option.label.toLowerCase().indexOf(text.toLowerCase()) > -1)
             : JSON.parse(JSON.stringify(data2));

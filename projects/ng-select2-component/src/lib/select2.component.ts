@@ -1,16 +1,13 @@
 import {
-    Component, Input, Output, EventEmitter, ElementRef, ViewChild, Optional, Self, ChangeDetectorRef,
-    Attribute, OnInit, OnDestroy, DoCheck, AfterViewInit, HostBinding, ViewChildren, QueryList
+    AfterViewInit, Attribute, ChangeDetectorRef, Component, DoCheck, ElementRef,
+    EventEmitter, HostBinding, Input, OnDestroy, OnInit, Optional,
+    Output, QueryList, Self, ViewChild, ViewChildren
 } from '@angular/core';
-import {
-    FormGroupDirective, NgControl, NgForm, ControlValueAccessor
-} from '@angular/forms';
+import { ControlValueAccessor, FormGroupDirective, NgControl, NgForm } from '@angular/forms';
 
 import { Subject } from 'rxjs';
 
-import {
-    Select2Data, Select2Option, Select2Value, Select2Utils, Select2UpdateValue, timeout
-} from './select2-utils';
+import { Select2Data, Select2Option, Select2UpdateValue, Select2Utils, Select2Value, timeout } from './select2-utils';
 
 let nextUniqueId = 0;
 
@@ -24,7 +21,14 @@ export class Select2 implements ControlValueAccessor, OnInit, OnDestroy, DoCheck
     /** data of options & optiongrps */
     @Input() data!: Select2Data;
     /** minimal data of show the search field */
-    @Input() minCountForSearch?: number;
+    @Input()
+    public get minCountForSearch(): number | string {
+        return this._minCountForSearch;
+    }
+    public set minCountForSearch(value: number | string) {
+        this._minCountForSearch = value;
+        this.updateSearchBox();
+    }
     @Input() placeholder?: string;
     @Input() customSearchEnabled?: boolean;
     @Input() multiple?: boolean;
@@ -45,6 +49,8 @@ export class Select2 implements ControlValueAccessor, OnInit, OnDestroy, DoCheck
     option: Select2Option | Select2Option[] | null = null;
     isOpen = false;
     searchStyle!: string;
+
+    private _minCountForSearch?: number | string;
 
     @ViewChild('selection') selection!: ElementRef;
     @ViewChild('results') private resultContainer!: ElementRef;
@@ -114,12 +120,12 @@ export class Select2 implements ControlValueAccessor, OnInit, OnDestroy, DoCheck
     get required() { return this._required; }
     set required(value: any) { this._required = this._coerceBooleanProperty(value); }
 
-    /** Whether the element is disabled. */
+    /** Whether selected items should be hidden. */
     @Input()
     get disabled() { return this._control ? this._control.disabled : this._disabled; }
     set disabled(value: any) { this._disabled = this._coerceBooleanProperty(value); }
 
-    /** Whether the element is readonly. */
+    /** Whether items are hidden when has. */
     @Input()
     get hideSelectedItems() { return this._hideSelectedItems; }
     set hideSelectedItems(value: any) { this._hideSelectedItems = this._coerceBooleanProperty(value); }
@@ -157,7 +163,7 @@ export class Select2 implements ControlValueAccessor, OnInit, OnDestroy, DoCheck
 
     @HostBinding('class.material')
     get classMaterial() {
-        return this.material === '' || this.material === true;
+        return this.material === '' || this.material === true || this.material === 'true';
     }
 
     /** Tab index for the element. */
@@ -203,10 +209,7 @@ export class Select2 implements ControlValueAccessor, OnInit, OnDestroy, DoCheck
         if (!Array.isArray(option)) {
             this.hoveringValue = this.value as string | undefined;
         }
-        this.isSearchboxHidden = this.customSearchEnabled
-            ? false
-            : Select2Utils.isSearchboxHiddex(this.data, this.minCountForSearch);
-        this.searchStyle = Select2Utils.getSearchStyle(this.isSearchboxHidden);
+        this.updateSearchBox();
     }
 
     ngAfterViewInit() {
@@ -221,6 +224,13 @@ export class Select2 implements ControlValueAccessor, OnInit, OnDestroy, DoCheck
 
     ngOnDestroy() {
         window.document.body.removeEventListener('click', this._clickDetectionFc);
+    }
+
+    updateSearchBox() {
+        this.isSearchboxHidden = this.customSearchEnabled
+            ? false
+            : Select2Utils.isSearchboxHiddex(this.data, this._minCountForSearch);
+        this.searchStyle = Select2Utils.getSearchStyle(this.isSearchboxHidden);
     }
 
     getOptionStyle(option: Select2Option) {

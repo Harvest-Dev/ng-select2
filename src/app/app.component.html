@@ -33,18 +33,28 @@
              (update)="update5($event)"
              id="selec2-5">
     </select2>
-    <h3>6. placeholder ({{value6}})</h3>
+    <h3>6. search limit to <input #limit
+               size="3"
+               value="7"> ({{value6}})</h3>
     <select2 [data]="data6"
-             placeholder="select an item"
+             [value]="value6"
+             [minCountForSearch]="limit.value"
              (update)="update6($event)"
              id="selec2-6">
     </select2>
-    <h3>7. open and search event ({{value7}})</h3>
+    <h3>7. placeholder ({{value7}})</h3>
     <select2 [data]="data7"
+             placeholder="select an item"
+             (update)="update7($event)"
+             id="selec2-7">
+    </select2>
+    <h3>8. open and search event ({{value8}})</h3>
+    <select2 [data]="data8"
              customSearchEnabled="true"
-             (open)="open7()"
-             (search)="search7($event)"
-             (update)="update7($event)">
+             (open)="open8()"
+             (search)="search8($event)"
+             (update)="update8($event)"
+             id="selec2-8">
     </select2>
     <h3>9. multiple ({{value9 | json}})</h3>
     <select2 [data]="data9"
