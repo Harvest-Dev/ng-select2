@@ -56,23 +56,24 @@ class MainModule { }
 ```
 ### properties and events of the component
 
-name | type | description
---- | --- | ---
-data | [Select2Data](#select2-data-structure) | the data of the select2
-value | [Select2Value](#select2-data-structure)? | initial value
-disabled | boolean? | whether the component is disabled
-minCountForSearch | number? = 6 | hide search box if `options.length < minCountForSearch`
-placeholder | string? | the placeholder string if nothing selected
-customSearchEnabled | boolean? | will trigger `search` event, and disable inside filter
-multiple | boolean? | select multiple options
-hideSelectedItems | boolean? |  for `multiple`, remove selected values
-resultMaxHeight | string? | change the height size of results
-material | `""` or `true` | enable material style
-editPattern | (str: string) => string | use it for change the pattern of the filter search
-ngModel/id/required/disabled/readonly/tabIndex | just like a `select` control | 
-update | (value: [Select2UpdateValue](#select2-data-structure)) => void | triggered when user select an option
-open | () => void | triggered when user open the options
-search | (text: string) => void | triggered when search text changed
+name | type | status | default | description
+--- | --- | --- | --- | ---
+`data` | [`Select2Data`](#select2-data-structure) | required | |  the data of the select2
+`value` | [`Select2Value`](#select2-data-structure)| | | initial value
+`disabled` | `boolean` | | |  whether the component is disabled
+`minCountForSearch` | `number` | | `6` |  hide search box if `options.length < minCountForSearch`
+`displaySearchStatus` | `'default'` or `'hidden'` or `'always'` | |  `'default'` | display the search box (`default` : is based on `minCountForSearch`)
+`placeholder` | `string` | | | the placeholder string if nothing selected
+`customSearchEnabled` | `boolean` | | | will trigger `search` event, and disable inside filter
+`multiple` | `boolean` | | | select multiple options
+`hideSelectedItems` | `boolean` | | | for `multiple`, remove selected values
+`resultMaxHeight` | `string` | | |  change the height size of results
+`material` | `""` or `true` | | |  enable material style
+`editPattern` | `(str: string) => string` | | | use it for change the pattern of the filter search
+`ngModel`/`id`/`required`/<br>`disabled`/`readonly`/`tabIndex` | | | |  just like a `select` control | 
+`(update)` | `(value: `[`Select2UpdateValue`](#select2-data-structure)`) => void` | event | |  triggered when user select an option
+`(open)` | `() => void` | event | |  triggered when user open the options
+`(search)` | `(text: string) => void` | event | |  triggered when search text changed
 
 ### select2 data structure
 

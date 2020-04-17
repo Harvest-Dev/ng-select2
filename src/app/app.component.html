@@ -35,10 +35,15 @@
     </select2>
     <h3>6. search limit to <input #limit
                size="3"
-               value="7"> ({{value6}})</h3>
+               value="7"> / display status <select #status>
+            <option selected>default</option>
+            <option>hidden</option>
+            <option>always</option>
+        </select> ({{value6}})</h3>
     <select2 [data]="data6"
              [value]="value6"
              [minCountForSearch]="limit.value"
+             [displaySearchStatus]="status.value"
              (update)="update6($event)"
              id="selec2-6">
     </select2>

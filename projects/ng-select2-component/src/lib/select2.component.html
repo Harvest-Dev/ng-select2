@@ -48,7 +48,8 @@
     </div>
     <div [class]="dropdownStyle">
         <div class="select2-dropdown select2-dropdown--below">
-            <div [class]="searchStyle">
+            <div class="select2-search select2-search--dropdown"
+                 [class.select2-search--hide]="hideSearch()">
                 <input #searchInput
                        [id]="id + '-search-field'"
                        [value]="searchText"

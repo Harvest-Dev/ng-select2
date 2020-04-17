@@ -328,14 +328,7 @@ export class Select2Utils {
             minCountForSearch = defaultMinCountForSearch;
         }
         const optionCount = Select2Utils.getOptionsCount(data);
-        console.log(optionCount, +minCountForSearch)
         return optionCount < +minCountForSearch;
-    }
-
-    static getSearchStyle(isHidden: boolean) {
-        return isHidden
-            ? 'select2-search select2-search--dropdown select2-search--hide'
-            : 'select2-search select2-search--dropdown';
     }
 
     static isSelected(

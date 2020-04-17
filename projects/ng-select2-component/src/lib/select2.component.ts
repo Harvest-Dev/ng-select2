@@ -11,6 +11,8 @@ import { Select2Data, Select2Option, Select2UpdateValue, Select2Utils, Select2Va
 
 let nextUniqueId = 0;
 
+const displaySearchStatusList = ['default', 'hidden', 'always'];
+
 @Component({
     selector: 'select2',
     templateUrl: './select2.component.html',
@@ -29,6 +31,7 @@ export class Select2 implements ControlValueAccessor, OnInit, OnDestroy, DoCheck
         this._minCountForSearch = value;
         this.updateSearchBox();
     }
+    @Input() displaySearchStatus?: 'default' | 'hidden' | 'always';
     @Input() placeholder?: string;
     @Input() customSearchEnabled?: boolean;
     @Input() multiple?: boolean;
@@ -230,7 +233,13 @@ export class Select2 implements ControlValueAccessor, OnInit, OnDestroy, DoCheck
         this.isSearchboxHidden = this.customSearchEnabled
             ? false
             : Select2Utils.isSearchboxHiddex(this.data, this._minCountForSearch);
-        this.searchStyle = Select2Utils.getSearchStyle(this.isSearchboxHidden);
+    }
+
+    hideSearch(): boolean {
+        const displaySearchStatus = displaySearchStatusList.includes(this.displaySearchStatus)
+            ? this.displaySearchStatus
+            : 'default';
+        return (displaySearchStatus === 'default' && this.isSearchboxHidden) || displaySearchStatus === 'hidden';
     }
 
     getOptionStyle(option: Select2Option) {
