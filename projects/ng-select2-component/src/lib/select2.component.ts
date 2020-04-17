@@ -236,7 +236,7 @@ export class Select2 implements ControlValueAccessor, OnInit, OnDestroy, DoCheck
     }
 
     hideSearch(): boolean {
-        const displaySearchStatus = displaySearchStatusList.includes(this.displaySearchStatus)
+        const displaySearchStatus = displaySearchStatusList.indexOf(this.displaySearchStatus) > -1
             ? this.displaySearchStatus
             : 'default';
         return (displaySearchStatus === 'default' && this.isSearchboxHidden) || displaySearchStatus === 'hidden';
