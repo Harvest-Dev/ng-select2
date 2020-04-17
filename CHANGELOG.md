@@ -1,5 +1,12 @@
 # Changelog of ng-select2
 
+## V7.0.7 (2020-04-17)
+
+### Changes
+
+- add a new `displaySearchStatus` attribute
+- edit `minCountForSearch` to make it dynamic and easier to use 
+
 ## V7.0.6 (2020-02-21)
 
 ### Corrections
