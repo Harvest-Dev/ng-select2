@@ -103,18 +103,6 @@ export class Select2 implements ControlValueAccessor, OnInit, OnDestroy, DoCheck
         this.innerSearchText = text;
     }
 
-    get dropdownStyle() {
-        return Select2Utils.getDropdownStyle(this.isOpen);
-    }
-
-    get containerStyle() {
-        return Select2Utils.getContainerStyle(this.disabled, this.isOpen);
-    }
-
-    get selectionStyle() {
-        return Select2Utils.getSelectionStyle(this.multiple);
-    }
-
     /** Unique id of the element. */
     @Input()
     @HostBinding('id')
@@ -246,8 +234,9 @@ export class Select2 implements ControlValueAccessor, OnInit, OnDestroy, DoCheck
     }
 
     getOptionStyle(option: Select2Option) {
-        return Select2Utils.getOptionStyle(option.value, this.hoveringValue)
-            + (option.classes ? ' ' + option.classes : '');
+        return 'select2-results__option ' +
+            (option.value === this.hoveringValue ? 'select2-results__option--highlighted ' : '') +
+            option.classes;
     }
 
     mouseenter(option: Select2Option) {

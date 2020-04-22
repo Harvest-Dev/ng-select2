@@ -310,27 +310,6 @@ export class Select2Utils {
         return result;
     }
 
-    static getOptionStyle(value: Select2Value, hoveringValue: Select2Value | null | undefined) {
-        return value === hoveringValue
-            ? 'select2-results__option select2-results__option--highlighted'
-            : 'select2-results__option';
-    }
-
-    static getDropdownStyle(isOpen: boolean) {
-        return isOpen
-            ? 'select2-container select2-container--default select2-container-dropdown select2-container--open'
-            : 'select2-container select2-container--default select2-container-dropdown';
-    }
-
-    static getContainerStyle(disabled: boolean | undefined, isOpen: boolean) {
-        return `select2 select2-container select2-container--default ${disabled ? 'select2-container--disabled' : ''} `
-            + `${isOpen ? 'select2-container--open' : ''} select2-container--below select2-container--focus`;
-    }
-
-    static getSelectionStyle(multiple: boolean | undefined) {
-        return `select2-selection select2-selection--${multiple ? 'multiple' : 'single'}`;
-    }
-
     static isSearchboxHiddex(data: Select2Data, minCountForSearch?: number | string) {
         if (minCountForSearch === '' || minCountForSearch === undefined || minCountForSearch === null || isNaN(+minCountForSearch)) {
             minCountForSearch = defaultMinCountForSearch;

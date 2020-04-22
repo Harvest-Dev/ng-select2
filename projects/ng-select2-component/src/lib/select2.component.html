@@ -3,7 +3,9 @@
     <ng-content select="select2-label"></ng-content><span *ngIf="required"
           class="select2-required"></span>
 </div>
-<div [class]="containerStyle">
+<div class="select2 select2-container select2-container--default select2-container--below select2-container--focus"
+     [class.select2-container--open]="isOpen"
+     [class.select2-container--disabled]="disabled">
     <div class="selection"
          #selection
          [attr.tabindex]="!this.isOpen ? tabIndex : '-1'"
@@ -12,7 +14,9 @@
          (blur)="focusout()"
          (keydown)="openKey($event)"
          [class.select2-focused]="focused">
-        <div [class]="selectionStyle"
+        <div class="select2-selection"
+             [class.select2-selection--multiple]="multiple"
+             [class.select2-selection--single]="!multiple"
              role="combobox">
             <span *ngIf="!multiple"
                   class="select2-selection__rendered"
@@ -46,7 +50,8 @@
             <ng-content select="select2-hint"></ng-content>
         </div>
     </div>
-    <div [class]="dropdownStyle">
+    <div class="select2-container select2-container--default select2-container-dropdown "
+         [class.select2-container--open]="isOpen">
         <div class="select2-dropdown select2-dropdown--below">
             <div class="select2-search select2-search--dropdown"
                  [class.select2-search--hide]="hideSearch()">
