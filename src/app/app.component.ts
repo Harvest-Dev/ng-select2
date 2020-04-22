@@ -3,7 +3,7 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 
 import { data1, data12 as data13, data15 as data17, data2, data3, data5 } from './app.data';
 
-import { Select2Data, Select2Option } from 'projects/ng-select2-component/src/lib/select2-utils';
+import { Select2Data, Select2Option, Select2UpdateEvent } from 'projects/ng-select2-component/src/lib/select2-utils';
 
 @Component({
     selector: 'app-root',
@@ -61,36 +61,36 @@ export class AppComponent {
         this.fg.patchValue(this.formData());
     }
 
-    update1(value: string) {
-        this.value1 = value;
+    update1(event: Select2UpdateEvent<string>) {
+        this.value1 = event.value;
     }
 
-    update2(value: string) {
-        this.value2 = value;
+    update2(event: Select2UpdateEvent<string>) {
+        this.value2 = event.value;
     }
 
-    update3(value: string) {
-        this.value3 = value;
+    update3(event: Select2UpdateEvent<string>) {
+        this.value3 = event.value;
     }
 
-    update5(value: string) {
-        this.value5 = value;
+    update5(event: Select2UpdateEvent<string>) {
+        this.value5 = event.value;
     }
 
-    update6(value: string) {
-        this.value6 = value;
+    update6(event: Select2UpdateEvent<string>) {
+        this.value6 = event.value;
     }
 
-    update7(value: string) {
-        this.value7 = value;
+    update7(event: Select2UpdateEvent<string>) {
+        this.value7 = event.value;
     }
 
     open8() {
         this.data8 = JSON.parse(JSON.stringify(data2));
     }
 
-    update8(value: string) {
-        this.value8 = value;
+    update8(event: Select2UpdateEvent<string>) {
+        this.value8 = event.value;
     }
 
     search8(text: string) {
@@ -100,12 +100,12 @@ export class AppComponent {
             : JSON.parse(JSON.stringify(data2));
     }
 
-    update9(value: string[]) {
-        this.value9 = value;
+    update9(event: Select2UpdateEvent<string[]>) {
+        this.value9 = event.value;
     }
 
-    update10(value: string[]) {
-        this.value10 = value;
+    update10(event: Select2UpdateEvent<string[]>) {
+        this.value10 = event.value;
     }
 
     reset11() {
@@ -122,24 +122,24 @@ export class AppComponent {
         }
     }
 
-    update12(value: string) {
-        this.value12 = value;
+    update12(event: Select2UpdateEvent<string>) {
+        this.value12 = event.value;
     }
 
-    update13(value: boolean) {
-        this.value13 = value;
+    update13(event: Select2UpdateEvent<boolean>) {
+        this.value13 = event.value;
     }
 
-    update15(value: string) {
-        this.value15 = value;
+    update15(event: Select2UpdateEvent<string>) {
+        this.value15 = event.value;
     }
 
-    update16(value: string) {
-        this.value16 = value;
+    update16(event: Select2UpdateEvent<string>) {
+        this.value16 = event.value;
     }
 
-    update17(value: string) {
-        this.value17 = value;
+    update17(event: Select2UpdateEvent<string>) {
+        this.value17 = event.value;
     }
 
     resetForm() {

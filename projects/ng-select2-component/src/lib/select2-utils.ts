@@ -1,3 +1,5 @@
+import { Select2 } from './select2.component';
+
 export interface Select2Group {
     label: string;
     options: Select2Option[];
@@ -17,6 +19,12 @@ export type Select2Value = string | number | boolean;
 export type Select2UpdateValue = Select2Value | Select2Value[];
 
 export type Select2Data = (Select2Group | Select2Option)[];
+
+export interface Select2UpdateEvent<U extends Select2UpdateValue> {
+    component: Select2;
+    value: U;
+    options: Select2Option[];
+}
 
 export const timeout = 200;
 

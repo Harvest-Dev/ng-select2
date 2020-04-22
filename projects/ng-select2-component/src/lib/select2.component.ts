@@ -7,7 +7,10 @@ import { ControlValueAccessor, FormGroupDirective, NgControl, NgForm } from '@an
 
 import { Subject } from 'rxjs';
 
-import { Select2Data, Select2Option, Select2UpdateValue, Select2Utils, Select2Value, timeout } from './select2-utils';
+import {
+    Select2Data, Select2Option, Select2UpdateEvent, Select2UpdateValue, Select2Utils, Select2Value,
+    timeout
+} from './select2-utils';
 
 let nextUniqueId = 0;
 
@@ -45,9 +48,9 @@ export class Select2 implements ControlValueAccessor, OnInit, OnDestroy, DoCheck
     /** the max height of the results container when opening the select */
     @Input() resultMaxHeight = '200px';
 
-    @Output() update = new EventEmitter();
-    @Output() open = new EventEmitter();
-    @Output() search = new EventEmitter();
+    @Output() update = new EventEmitter<Select2UpdateEvent<Select2UpdateValue>>();
+    @Output() open = new EventEmitter<void>();
+    @Output() search = new EventEmitter<string>();
 
     option: Select2Option | Select2Option[] | null = null;
     isOpen = false;
@@ -464,7 +467,11 @@ export class Select2 implements ControlValueAccessor, OnInit, OnDestroy, DoCheck
 
             this._onChange(value);
         }
-        this.update.emit(value);
+        this.update.emit({
+            component: this,
+            value: value,
+            options: Array.isArray(this.option) ? this.option : (this.option ? [this.option] : null)
+        });
     }
 
     keyDown(e: KeyboardEvent) {
@@ -522,8 +529,12 @@ export class Select2 implements ControlValueAccessor, OnInit, OnDestroy, DoCheck
         if (this._control) {
             this._onChange(value);
         }
-        this.update.emit(value);
 
+        this.update.emit({
+            component: this,
+            value: value,
+            options: Array.isArray(this.option) ? this.option : (this.option ? [this.option] : null)
+        });
 
         e.preventDefault();
         e.stopPropagation();

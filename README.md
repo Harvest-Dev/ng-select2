@@ -71,7 +71,7 @@ name | type | status | default | description
 `material` | `""` or `true` | | |  enable material style
 `editPattern` | `(str: string) => string` | | | use it for change the pattern of the filter search
 `ngModel`/`id`/`required`/<br>`disabled`/`readonly`/`tabIndex` | | | |  just like a `select` control | 
-`(update)` | `(value: `[`Select2UpdateValue`](#select2-data-structure)`) => void` | event | |  triggered when user select an option
+`(update)` | `(event: `[`Select2UpdateEvent`](#select2-data-structure)`) => void` | event | |  triggered when user select an option
 `(open)` | `() => void` | event | |  triggered when user open the options
 `(search)` | `(text: string) => void` | event | |  triggered when search text changed
 
@@ -97,6 +97,12 @@ interface Select2Option = {
 type Select2Value = string | number | boolean;
 
 type Select2UpdateValue = Select2Value | Select2Value[];
+
+interface Select2UpdateEvent<U extends Select2UpdateValue> {
+    component: Select2;
+    value: U;
+    options: Select2Option[];
+}
 ```
 
 ## Publishing the library
