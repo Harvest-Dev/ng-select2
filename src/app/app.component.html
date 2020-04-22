@@ -40,6 +40,11 @@
             <option>hidden</option>
             <option>always</option>
         </select> ({{value6}})</h3>
+    <div> <button type="button"
+                (click)="addItem()">Add item</button>
+        <button type="button"
+                (click)="removeItem()">Remove item</button>
+    </div>
     <select2 [data]="data6"
              [value]="value6"
              [minCountForSearch]="limit.value"

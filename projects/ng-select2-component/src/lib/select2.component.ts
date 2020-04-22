@@ -213,6 +213,7 @@ export class Select2 implements ControlValueAccessor, OnInit, OnDestroy, DoCheck
     }
 
     ngDoCheck() {
+        this.updateSearchBox();
         this._dirtyCheckNativeValue();
     }
 
@@ -221,9 +222,12 @@ export class Select2 implements ControlValueAccessor, OnInit, OnDestroy, DoCheck
     }
 
     updateSearchBox() {
-        this.isSearchboxHidden = this.customSearchEnabled
+        const hidden = this.customSearchEnabled
             ? false
             : Select2Utils.isSearchboxHiddex(this.data, this._minCountForSearch);
+        if (this.isSearchboxHidden !== hidden) {
+            this.isSearchboxHidden = hidden;
+        }
     }
 
     hideSearch(): boolean {

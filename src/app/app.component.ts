@@ -16,7 +16,7 @@ export class AppComponent {
     data3 = data3;
     data4: Select2Data = JSON.parse(JSON.stringify(data3));
     data5 = data5;
-    data6 = data5;
+    data6: Select2Data = JSON.parse(JSON.stringify(data5));
     data7: Select2Data = JSON.parse(JSON.stringify(data3));
     data8: Select2Option[] = [];
     data9: Select2Data = JSON.parse(JSON.stringify(data1));
@@ -75,6 +75,14 @@ export class AppComponent {
 
     update5(event: Select2UpdateEvent<string>) {
         this.value5 = event.value;
+    }
+
+    addItem() {
+        const count = this.data6.length + 1;
+        this.data6.push({ value: 'foo' + count, label: 'foo' + count });
+    }
+    removeItem() {
+        this.data6.pop();
     }
 
     update6(event: Select2UpdateEvent<string>) {

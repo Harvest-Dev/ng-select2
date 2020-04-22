@@ -310,7 +310,7 @@ export class Select2Utils {
         return result;
     }
 
-    static isSearchboxHiddex(data: Select2Data, minCountForSearch?: number | string) {
+    static isSearchboxHiddex(data: Select2Data, minCountForSearch?: number | string): boolean {
         if (minCountForSearch === '' || minCountForSearch === undefined || minCountForSearch === null || isNaN(+minCountForSearch)) {
             minCountForSearch = defaultMinCountForSearch;
         }
