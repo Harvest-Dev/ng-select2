@@ -144,6 +144,8 @@ It's possible to change different colors (and more) with CSS variables without h
 }
 ```
 
+For IE11, see [css-vars-ponyfill](https://github.com/jhildenbiddle/css-vars-ponyfill).
+
 ## Publishing the library
 
 ```
