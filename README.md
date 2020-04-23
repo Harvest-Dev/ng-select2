@@ -70,7 +70,8 @@ name | type | status | default | description
 `hideSelectedItems` | `boolean` | | | for `multiple`, remove selected values
 `resultMaxHeight` | `string` | | |  change the height size of results
 `listPosition` | `'below'` or `'above'` | | `'below'` | the position for the dropdown list
-`material` | `""` or `true` | | |  enable material style
+`material` | `""` or `true` or `'true'` | | | enable material style
+`nostyle` | `""` or `true` or `'true'` | | | remove border and background color
 `editPattern` | `(str: string) => string` | | | use it for change the pattern of the filter search
 `ngModel`/`id`/`required`/<br>`disabled`/`readonly`/`tabIndex` | | | |  just like a `select` control | 
 `(update)` | `(event: `[`Select2UpdateEvent`](#select2-data-structure)`) => void` | event | |  triggered when user select an option
@@ -132,17 +133,17 @@ It's possible to change different colors (and more) with CSS variables without h
     --select2-option-highlighted-color: #fff;
     --select2-option-group-color: gray;
     --select2-border-radius: 4px;
-    
+
     /* for Material */
-    --select2-material-underline-color: #ddd;
-    --select2-material-underline-active-color: #5a419e;
+    --select2-material-underline: #ddd;
+    --select2-material-underline-active: #5a419e;
+    --select2-material-underline-disabled: linear-gradient(to right, rgba(0, 0, 0, 0.26) 0, rgba(0, 0, 0, 0.26) 33%, transparent 0);
+    --select2-material-underline-invalid: red;
     --select2-material-placeholder-color: rgba(0, 0, 0, 0.38);
     --select2-material-selection-background-color: #ddd;
     --select2-material-option-selected-background-color: rgba(0, 0, 0, 0.04);
-    --select2-material-option-selected-text-color: #000;
     --select2-material-option-highlighted-text-color: #000;
     --select2-material-option-selected-text-color: #ff5722;
-    --select2-material-underline-invalid-color: red;
 }
 ```
 

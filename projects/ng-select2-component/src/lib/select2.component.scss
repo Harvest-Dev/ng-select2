@@ -18,15 +18,17 @@
     --select2-option-highlighted-color: #fff;
     --select2-option-group-color: gray;
     --select2-border-radius: 4px;
-    --select2-material-underline-color: #ddd;
-    --select2-material-underline-active-color: #5a419e;
+
+    /* for Material */
+    --select2-material-underline: #ddd;
+    --select2-material-underline-active: #5a419e;
+    --select2-material-underline-disabled: linear-gradient(to right, rgba(0, 0, 0, 0.26) 0, rgba(0, 0, 0, 0.26) 33%, transparent 0);
+    --select2-material-underline-invalid: red;
     --select2-material-placeholder-color: rgba(0, 0, 0, 0.38);
     --select2-material-selection-background-color: #ddd;
     --select2-material-option-selected-background-color: rgba(0, 0, 0, 0.04);
-    --select2-material-option-selected-text-color: #000;
     --select2-material-option-highlighted-text-color: #000;
     --select2-material-option-selected-text-color: #ff5722;
-    --select2-material-underline-invalid-color: red;
 }
 
 .select2-container {
@@ -488,6 +490,27 @@
     }
 }
 
+:host.nostyle {
+    .select2-dropdown {
+        border-color: transparent;
+    }
+
+    .select2-selection--single,
+    .select2-selection--multiple {
+        background-color: transparent;
+        border-color: transparent;
+    }
+
+    .select2-container--default .select2-focused,
+    .select2-container--default:not(.select2-container--open) .select2-focused {
+        .select2-selection--single,
+        .select2-selection--multiple {
+            background-color: transparent;
+            border-color: transparent;
+        }
+    }
+}
+
 // material style
 /* stylelint-disable-next-line selector-type-no-unknown */
 :host.material {
@@ -522,8 +545,8 @@
                 display: block;
                 position: absolute;
                 bottom: 1.65em;
-                background-color: #ddd;
-                background-color: var(--select2-material-underline-color, #ddd);
+                background: #ddd;
+                background: var(--select2-material-underline, #ddd);
                 height: 1px;
                 width: 100%;
             }
@@ -533,8 +556,8 @@
                 display: block;
                 position: absolute;
                 bottom: 1.63em;
-                background-color: #5a419e;
-                background-color: var(--select2-material-underline-active-color, #5a419e);
+                background: #5a419e;
+                background: var(--select2-material-underline-active, #5a419e);
                 height: 2px;
                 width: 0%;
                 left: 50%;
@@ -606,10 +629,10 @@
             background-color: transparent;
 
             &::before {
-                background-image: linear-gradient(to right, rgba(0, 0, 0, 0.26) 0, rgba(0, 0, 0, 0.26) 33%, transparent 0);
+                background: linear-gradient(to right, rgba(0, 0, 0, 0.26) 0, rgba(0, 0, 0, 0.26) 33%, transparent 0);
+                background: var(--select2-material-underline-disabled, linear-gradient(to right, rgba(0, 0, 0, 0.26) 0, rgba(0, 0, 0, 0.26) 33%, transparent 0));
                 background-size: 4px 1px;
                 background-repeat: repeat-x;
-                background-color: transparent;
                 background-position: 0 bottom;
             }
         }
@@ -619,8 +642,8 @@
     &.ng-invalid.ng-touched .select2-container--default .select2-selection--multiple {
         &::before,
         &::after {
-            background-color: red;
-            background-color: var(--select2-material-underline-invalid-color, red);
+            background: red;
+            background: var(--select2-material-underline-invalid, red);
         }
     }
 

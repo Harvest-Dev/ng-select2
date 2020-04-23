@@ -32,6 +32,7 @@ export class AppComponent {
     data17 = data17;
     data18 = data18;
     data19 = data19;
+    data20: Select2Data = JSON.parse(JSON.stringify(data19));
 
     minCountForSearch = Infinity;
 
@@ -55,6 +56,7 @@ export class AppComponent {
     value17 = '';
     value18 = '';
     value19 = '';
+    value20 = '';
 
     fg: FormGroup = new FormGroup({
         state: new FormControl()
@@ -163,6 +165,10 @@ export class AppComponent {
 
     update19(event: Select2UpdateEvent<string>) {
         this.value19 = event.value;
+    }
+
+    update20(event: Select2UpdateEvent<string>) {
+        this.value20 = event.value;
     }
 
     resetForm() {

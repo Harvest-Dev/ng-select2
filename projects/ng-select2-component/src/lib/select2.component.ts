@@ -33,7 +33,10 @@ export class Select2 implements ControlValueAccessor, OnInit, OnDestroy, DoCheck
     @Input() listPosition: 'above' | 'below';
 
     /** use the material style */
-    @Input() material: '' | true;
+    @Input() material: '' | 'true' | true;
+
+    /** use the material style */
+    @Input() noStyle: '' | 'true' | true;
 
     /** use it for change the pattern of the filter search */
     @Input() editPattern: (str: string) => string;
@@ -190,6 +193,11 @@ export class Select2 implements ControlValueAccessor, OnInit, OnDestroy, DoCheck
     @HostBinding('class.material')
     get classMaterial(): boolean {
         return this.material === '' || this.material === true || this.material === 'true';
+    }
+
+    @HostBinding('class.nostyle')
+    get classNostyle(): boolean {
+        return this.noStyle === '' || this.noStyle === true || this.noStyle === 'true';
     }
 
     @HostBinding('class.select2-above')
