@@ -105,6 +105,45 @@ interface Select2UpdateEvent<U extends Select2UpdateValue> {
 }
 ```
 
+## CSS variables (doesn't work on IE11)
+
+It's possible to change different colors (and more) with CSS variables without having to modify them with `::ng-deep` or other CSS rules :
+
+```css
+:root {
+    --select2-required-color: red;
+    --select2-selection-background-color: #fff;
+    --select2-selection-disabled-background-color: #eee;
+    --select2-selection-choice-background-color: #e4e4e4;
+    --select2-selection-border-color: #aaa;
+    --select2-selection-focus-border-color: #000;
+    --select2-selection-text-color: #444;
+    --select2-selection-choice-text-color: #999;
+    --select2-selection-choice-hover-text-color: #333;
+    --select2-placeholder-color: #999;
+    --select2-arrow-color: #888;
+    --select2-dropdown-background-color: #fff;
+    --select2-dropdown-border-color: #aaa;
+    --select2-option-disabled-color: #999;
+    --select2-option-selected-background-color: #ddd;
+    --select2-option-highlighted-background-color: #5897fb;
+    --select2-option-highlighted-color: #fff;
+    --select2-option-group-color: gray;
+    --select2-border-radius: 4px;
+    
+    /* for Material */
+    --select2-material-underline-color: #ddd;
+    --select2-material-underline-active-color: #5a419e;
+    --select2-material-placeholder-color: rgba(0, 0, 0, 0.38);
+    --select2-material-selection-background-color: #ddd;
+    --select2-material-option-selected-background-color: rgba(0, 0, 0, 0.04);
+    --select2-material-option-selected-text-color: #000;
+    --select2-material-option-highlighted-text-color: #000;
+    --select2-material-option-selected-text-color: #ff5722;
+    --select2-material-underline-invalid-color: red;
+}
+```
+
 ## Publishing the library
 
 ```
