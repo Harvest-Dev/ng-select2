@@ -25,6 +25,7 @@ export class Select2 implements ControlValueAccessor, OnInit, OnDestroy, DoCheck
 
     /** data of options & optiongrps */
     @Input() data!: Select2Data;
+    @Input() minCharForSearch = 0;
     @Input() displaySearchStatus: 'default' | 'hidden' | 'always';
     @Input() placeholder: string;
     @Input() customSearchEnabled: boolean;
@@ -321,7 +322,7 @@ export class Select2 implements ControlValueAccessor, OnInit, OnDestroy, DoCheck
                 result = Select2Utils.getFilteredSelectedData(result, this.option);
             }
 
-            if (!this.customSearchEnabled) {
+            if (!this.customSearchEnabled && this.searchText && this.searchText.length >= +this.minCharForSearch) {
                 result = Select2Utils.getFilteredData(result, this.searchText, this.editPattern);
             }
 
