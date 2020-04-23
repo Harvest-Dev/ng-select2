@@ -1,5 +1,18 @@
 # Changelog of ng-select2
 
+## V7.1.0 (2020-04-23)
+
+### Breaking Changes
+
+* `(update)` : return object `Select2UpdateValue` change for `Select2UpdateEvent` object. Please, see the readme.
+
+### Changes
+
+- add CSS variables for colors (see the readme)
+- add new attributes : `listPosition`, `minCharForSearch`, `noStyle` 
+- now, selection container use a flexbox layout (CSS symplification)
+- update the SearchBox status when the list change
+
 ## V7.0.7 (2020-04-17)
 
 ### Changes
