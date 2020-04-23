@@ -68,6 +68,7 @@ name | type | status | default | description
 `multiple` | `boolean` | | | select multiple options
 `hideSelectedItems` | `boolean` | | | for `multiple`, remove selected values
 `resultMaxHeight` | `string` | | |  change the height size of results
+`listPosition` | `'below'` or `'above'` | | `'below'` | the position for the dropdown list
 `material` | `""` or `true` | | |  enable material style
 `editPattern` | `(str: string) => string` | | | use it for change the pattern of the filter search
 `ngModel`/`id`/`required`/<br>`disabled`/`readonly`/`tabIndex` | | | |  just like a `select` control | 

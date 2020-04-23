@@ -25,25 +25,17 @@ export class Select2 implements ControlValueAccessor, OnInit, OnDestroy, DoCheck
 
     /** data of options & optiongrps */
     @Input() data!: Select2Data;
-    /** minimal data of show the search field */
-    @Input()
-    public get minCountForSearch(): number | string {
-        return this._minCountForSearch;
-    }
-    public set minCountForSearch(value: number | string) {
-        this._minCountForSearch = value;
-        this.updateSearchBox();
-    }
-    @Input() displaySearchStatus?: 'default' | 'hidden' | 'always';
-    @Input() placeholder?: string;
-    @Input() customSearchEnabled?: boolean;
-    @Input() multiple?: boolean;
+    @Input() displaySearchStatus: 'default' | 'hidden' | 'always';
+    @Input() placeholder: string;
+    @Input() customSearchEnabled: boolean;
+    @Input() multiple: boolean;
+    @Input() listPosition: 'above' | 'below';
 
     /** use the material style */
-    @Input() material?: '' | true;
+    @Input() material: '' | true;
 
     /** use it for change the pattern of the filter search */
-    @Input() editPattern!: (str: string) => string;
+    @Input() editPattern: (str: string) => string;
 
     /** the max height of the results container when opening the select */
     @Input() resultMaxHeight = '200px';
@@ -54,28 +46,59 @@ export class Select2 implements ControlValueAccessor, OnInit, OnDestroy, DoCheck
 
     option: Select2Option | Select2Option[] | null = null;
     isOpen = false;
-    searchStyle!: string;
-
-    private _minCountForSearch?: number | string;
-
-    @ViewChild('selection') selection!: ElementRef;
-    @ViewChild('results') private resultContainer!: ElementRef;
-    @ViewChildren('result') private results!: QueryList<ElementRef>;
-    @ViewChild('searchInput') private searchInput!: ElementRef;
-    private hoveringValue: Select2Value | null | undefined = null;
-    private innerSearchText = '';
-    private isSearchboxHidden!: boolean;
-    private selectionElement!: HTMLElement;
-    private searchInputElement!: HTMLElement;
-    private resultsElement!: HTMLElement;
-
-    // tslint:disable:member-ordering
-    private _stateChanges = new Subject<void>();
+    searchStyle: string;
 
     /** Whether the element is focused or not. */
     focused = false;
 
     filteredData: Select2Data;
+
+    private _minCountForSearch?: number | string;
+
+    @ViewChild('selection') private selection: ElementRef;
+    @ViewChild('results') private resultContainer: ElementRef;
+    @ViewChildren('result') private results: QueryList<ElementRef>;
+    @ViewChild('searchInput') private searchInput: ElementRef;
+
+    private hoveringValue: Select2Value | null | undefined = null;
+    private innerSearchText = '';
+    private isSearchboxHidden: boolean;
+    private selectionElement: HTMLElement;
+    private searchInputElement: HTMLElement;
+    private resultsElement: HTMLElement;
+
+    private _stateChanges = new Subject<void>();
+
+    /** Tab index for the element. */
+    private _tabIndex: number;
+
+    private _disabled = false;
+    private _required = false;
+    private _readonly = false;
+    private _hideSelectedItems = false;
+    private _clickDetection = false;
+    private _clickDetectionFc: (e: MouseEvent) => void;
+    private _id: string;
+    private _uid = `select2-${nextUniqueId++}`;
+    private _value: Select2UpdateValue;
+    private _previousNativeValue: Select2UpdateValue = this._value;
+
+    constructor(
+        private _changeDetectorRef: ChangeDetectorRef,
+        @Optional() private _parentForm: NgForm,
+        @Optional() private _parentFormGroup: FormGroupDirective,
+        @Self() @Optional() public _control: NgControl,
+        @Attribute('tabindex') tabIndex: string
+    ) {
+        this.id = this.id;
+        this._tabIndex = parseInt(tabIndex, 10) || 0;
+
+        if (this._control) {
+            this._control.valueAccessor = this;
+        }
+
+        this._clickDetectionFc = this.clickDetection.bind(this);
+    }
 
     /** View -> model callback called when select has been touched */
     private _onTouched = () => {
@@ -101,6 +124,14 @@ export class Select2 implements ControlValueAccessor, OnInit, OnDestroy, DoCheck
             this.search.emit(text);
         }
         this.innerSearchText = text;
+    }
+
+    /** minimal data of show the search field */
+    @Input()
+    get minCountForSearch(): number | string { return this._minCountForSearch; }
+    set minCountForSearch(value: number | string) {
+        this._minCountForSearch = value;
+        this.updateSearchBox();
     }
 
     /** Unique id of the element. */
@@ -151,44 +182,18 @@ export class Select2 implements ControlValueAccessor, OnInit, OnDestroy, DoCheck
     }
 
     @HostBinding('attr.aria-invalid')
-    get ariaInvalid() {
+    get ariaInvalid(): boolean {
         return this._isErrorState();
     }
 
     @HostBinding('class.material')
-    get classMaterial() {
+    get classMaterial(): boolean {
         return this.material === '' || this.material === true || this.material === 'true';
     }
 
-    /** Tab index for the element. */
-    private _tabIndex: number;
-
-    private _disabled = false;
-    private _required = false;
-    private _readonly = false;
-    private _hideSelectedItems = false;
-    private _clickDetection = false;
-    private _clickDetectionFc: (e: MouseEvent) => void;
-    private _id!: string;
-    private _uid = `select2-${nextUniqueId++}`;
-    private _value!: Select2UpdateValue;
-    private _previousNativeValue: Select2UpdateValue = this._value;
-
-    constructor(
-        private _changeDetectorRef: ChangeDetectorRef,
-        @Optional() private _parentForm: NgForm,
-        @Optional() private _parentFormGroup: FormGroupDirective,
-        @Self() @Optional() public _control: NgControl,
-        @Attribute('tabindex') tabIndex: string
-    ) {
-        this.id = this.id;
-        this._tabIndex = parseInt(tabIndex, 10) || 0;
-
-        if (this._control) {
-            this._control.valueAccessor = this;
-        }
-
-        this._clickDetectionFc = this.clickDetection.bind(this);
+    @HostBinding('class.select2-above')
+    get select2above(): boolean {
+        return this.listPosition === 'above';
     }
 
     ngOnInit() {

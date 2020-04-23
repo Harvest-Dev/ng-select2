@@ -147,6 +147,9 @@
         border-bottom: none;
         border-bottom-left-radius: 0;
         border-bottom-right-radius: 0;
+        bottom: 27px;
+        display: flex;
+        flex-direction: column-reverse;
     }
 
     .select2-dropdown--below {

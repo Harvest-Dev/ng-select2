@@ -146,12 +146,24 @@ export const data5: Select2Data = [
     { value: 'foo6', label: 'foo6' }
 ];
 
-export const data12: Select2Data = [
+
+export const data18: Select2Data = [
+    { value: 'foo1', label: 'foo1' },
+    { value: 'foo2', label: 'foo2' },
+    { value: 'foo3', label: 'foo3' },
+    { value: 'foo4', label: 'foo4' },
+    { value: 'foo5', label: 'foo5' },
+    { value: 'foo6', label: 'foo6' },
+    { value: 'foo7', label: 'foo7' },
+    { value: 'foo8', label: 'foo8' }
+];
+
+export const data13: Select2Data = [
     { value: true, label: 'true' },
     { value: false, label: 'false' }
 ];
 
-export const data15: Select2Data = [
+export const data17: Select2Data = [
     {
         value: 'fr',
         label: `<div class="select2-multiple-labels">

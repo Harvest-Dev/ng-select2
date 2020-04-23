@@ -1,9 +1,11 @@
-<div class="select2-lalel"
+<div class="select2-label"
      (click)="toggleOpenAndClose()">
     <ng-content select="select2-label"></ng-content><span *ngIf="required"
           class="select2-required"></span>
 </div>
-<div class="select2 select2-container select2-container--default select2-container--below select2-container--focus"
+<div class="select2 select2-container select2-container--default select2-container--focus"
+     [class.select2-container--below]="!select2above"
+     [class.select2-container--above]="select2above"
      [class.select2-container--open]="isOpen"
      [class.select2-container--disabled]="disabled">
     <div class="selection"
@@ -49,9 +51,11 @@
             <ng-content select="select2-hint"></ng-content>
         </div>
     </div>
-    <div class="select2-container select2-container--default select2-container-dropdown "
+    <div class="select2-container select2-container--default select2-container-dropdown"
          [class.select2-container--open]="isOpen">
-        <div class="select2-dropdown select2-dropdown--below">
+        <div class="select2-dropdown"
+             [class.select2-dropdown--below]="!select2above"
+             [class.select2-dropdown--above]="select2above">
             <div class="select2-search select2-search--dropdown"
                  [class.select2-search--hide]="hideSearch()">
                 <input #searchInput
