@@ -76,6 +76,7 @@ name | type | status | default | description
 `ngModel`/`id`/`required`/<br>`disabled`/`readonly`/`tabIndex` | | | |  just like a `select` control | 
 `(update)` | `(event: `[`Select2UpdateEvent`](#select2-data-structure)`) => void` | event | |  triggered when user select an option
 `(open)` | `() => void` | event | |  triggered when user open the options
+`(close)` | `() => void` | event | |  triggered when user close the options
 `(search)` | `(text: string) => void` | event | |  triggered when search text changed
 
 ### select2 data structure

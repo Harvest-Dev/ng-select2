@@ -46,6 +46,7 @@ export class Select2 implements ControlValueAccessor, OnInit, OnDestroy, DoCheck
 
     @Output() update = new EventEmitter<Select2UpdateEvent<Select2UpdateValue>>();
     @Output() open = new EventEmitter<void>();
+    @Output() close = new EventEmitter<void>();
     @Output() search = new EventEmitter<string>();
 
     option: Select2Option | Select2Option[] | null = null;
@@ -289,8 +290,9 @@ export class Select2 implements ControlValueAccessor, OnInit, OnDestroy, DoCheck
                     this.resultsElement.scrollTop = 0;
                 }
             });
-
             this.open.emit();
+        } else {
+            this.close.emit();
         }
 
         if (this.isOpen && !this._clickDetection) {
