@@ -47,9 +47,6 @@
                 </li>
             </ul>
         </div>
-        <div class="select2-subscript-wrapper">
-            <ng-content select="select2-hint"></ng-content>
-        </div>
     </div>
     <div class="select2-container select2-container--default select2-container-dropdown"
          [class.select2-container--open]="isOpen">
@@ -111,5 +108,8 @@
                 </ul>
             </div>
         </div>
+    </div>
+    <div class="select2-subscript-wrapper">
+        <ng-content select="select2-hint"></ng-content>
     </div>
 </div>
