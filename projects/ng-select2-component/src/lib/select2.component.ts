@@ -459,6 +459,7 @@ export class Select2 implements ControlValueAccessor, OnInit, OnDestroy, DoCheck
             } else {
                 this.option = option;
                 this.isOpen = false;
+                this.close.emit();
                 if (this.selectionElement) {
                     this.selectionElement.focus();
                 }
@@ -473,7 +474,6 @@ export class Select2 implements ControlValueAccessor, OnInit, OnDestroy, DoCheck
         }
 
         if (this._control) {
-
             this._onChange(value);
         }
         this.update.emit({

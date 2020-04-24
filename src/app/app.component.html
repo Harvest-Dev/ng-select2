@@ -58,10 +58,11 @@
              (update)="update7($event)"
              id="selec2-7">
     </select2>
-    <h3>8. open and search event ({{value8}})</h3>
+    <h3>8. open, close and search event ({{value8}})</h3>
     <select2 [data]="data8"
              customSearchEnabled="true"
              (open)="open8()"
+             (close)="close8()"
              (search)="search8($event)"
              (update)="update8($event)"
              id="selec2-8">

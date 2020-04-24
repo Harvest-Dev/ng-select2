@@ -106,6 +106,10 @@ export class AppComponent {
         this.data8 = JSON.parse(JSON.stringify(data2));
     }
 
+    close8() {
+        alert('close');
+    }
+
     update8(event: Select2UpdateEvent<string>) {
         this.value8 = event.value;
     }
