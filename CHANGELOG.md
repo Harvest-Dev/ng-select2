@@ -1,5 +1,15 @@
 # Changelog of ng-select2
 
+## V7.1.1 (2020-04-24)
+
+### Changes
+
+- add event `(close)`
+
+### Corrections
+
+- fix dropdown position with hint
+
 ## V7.1.0 (2020-04-23)
 
 ### Breaking Changes
