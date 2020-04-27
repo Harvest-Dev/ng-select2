@@ -47,6 +47,8 @@ export class Select2 implements ControlValueAccessor, OnInit, OnDestroy, DoCheck
     @Output() update = new EventEmitter<Select2UpdateEvent<Select2UpdateValue>>();
     @Output() open = new EventEmitter<void>();
     @Output() close = new EventEmitter<void>();
+    @Output() focus = new EventEmitter<void>();
+    @Output() blur = new EventEmitter<void>();
     @Output() search = new EventEmitter<string>();
 
     option: Select2Option | Select2Option[] | null = null;
@@ -274,7 +276,7 @@ export class Select2 implements ControlValueAccessor, OnInit, OnDestroy, DoCheck
         if (this.disabled) {
             return;
         }
-        this.focused = true;
+        this._focus(true);
         this.isOpen = !this.isOpen;
 
         if (this.isOpen) {
@@ -359,7 +361,7 @@ export class Select2 implements ControlValueAccessor, OnInit, OnDestroy, DoCheck
     }
 
     private clickExit() {
-        this.focused = false;
+        this._focus(false);
         window.document.body.removeEventListener('click', this._clickDetectionFc);
         this._clickDetection = false;
     }
@@ -406,12 +408,12 @@ export class Select2 implements ControlValueAccessor, OnInit, OnDestroy, DoCheck
         if (this.disabled) {
             return;
         }
-        this.focused = true;
+        this._focus(true);
     }
 
     focusout() {
         if (this.selectionElement && !this.selectionElement.classList.contains('select2-focused')) {
-            this.focused = false;
+            this._focus(false);
             this._onTouched();
         }
     }
@@ -458,10 +460,12 @@ export class Select2 implements ControlValueAccessor, OnInit, OnDestroy, DoCheck
                 value = (this.option as Select2Option[]).map(op => op.value);
             } else {
                 this.option = option;
-                this.isOpen = false;
-                this.close.emit();
-                if (this.selectionElement) {
-                    this.selectionElement.focus();
+                if (this.isOpen) {
+                    this.isOpen = false;
+                    this.close.emit();
+                    if (this.selectionElement) {
+                        this.selectionElement.focus();
+                    }
                 }
                 value = this.option.value;
             }
@@ -495,7 +499,7 @@ export class Select2 implements ControlValueAccessor, OnInit, OnDestroy, DoCheck
             e.preventDefault();
         } else if (this._testKey(e, ['Escape', 'Tab', 9, 27]) && this.isOpen) {
             this.toggleOpenAndClose();
-            this.focused = false;
+            this._focus(false);
         }
     }
 
@@ -503,8 +507,8 @@ export class Select2 implements ControlValueAccessor, OnInit, OnDestroy, DoCheck
         if (this._testKey(e, ['ArrowDown', 'ArrowUp', 'Enter', 40, 38, 13])) {
             this.toggleOpenAndClose();
             e.preventDefault();
-        } else if (this._testKey(e, ['Escape', 9])) {
-            this.focused = false;
+        } else if (this._testKey(e, ['Escape', 'Tab', 9, 27])) {
+            this._focus(false);
             this._onTouched();
         }
     }
@@ -681,6 +685,16 @@ export class Select2 implements ControlValueAccessor, OnInit, OnDestroy, DoCheck
             if (this.resultsElement) {
                 this.resultsElement.focus();
             }
+        }
+    }
+
+    private _focus(state: boolean) {
+        if (!state && this.focused) {
+            this.focused = state;
+            this.blur.emit();
+        } else if (state && !this.focused) {
+            this.focused = state;
+            this.focus.emit();
         }
     }
 }

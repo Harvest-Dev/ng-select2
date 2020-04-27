@@ -77,6 +77,8 @@ name | type | status | default | description
 `(update)` | `(event: `[`Select2UpdateEvent`](#select2-data-structure)`) => void` | event | |  triggered when user select an option
 `(open)` | `() => void` | event | |  triggered when user open the options
 `(close)` | `() => void` | event | |  triggered when user close the options
+`(focus)` | `() => void` | event | |  triggered when user enters the component
+`(blur)` | `() => void` | event | |  triggered when user leaves the component
 `(search)` | `(text: string) => void` | event | |  triggered when search text changed
 
 ### select2 data structure
