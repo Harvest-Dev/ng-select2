@@ -1,5 +1,15 @@
 # Changelog of ng-select2
 
+## V7.1.2 (2020-04-27)
+
+### Changes
+
+- add event `(focus)` and `(blur)`
+
+### Corrections
+
+- fix the focused status which is not removed in some cases or called for the wrong reason
+
 ## V7.1.1 (2020-04-24)
 
 ### Changes
