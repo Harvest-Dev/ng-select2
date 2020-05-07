@@ -1,5 +1,12 @@
 # Changelog of ng-select2
 
+## V7.1.3 (2020-05-07)
+
+### Breaking Changes
+
+- review the naming of all CSS variables and add new
+- no more predefined variables (it was impossible to overwrite them)
+
 ## V7.1.2 (2020-04-27)
 
 ### Changes
