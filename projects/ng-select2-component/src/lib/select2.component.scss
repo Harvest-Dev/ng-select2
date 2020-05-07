@@ -1,3 +1,8 @@
+.select2-label {
+    color: #000;
+    color: var(--select2-label-text-color, #000);
+}
+
 .select2-container {
     box-sizing: border-box;
     display: inline-block;
@@ -67,12 +72,12 @@
 }
 
 .select2-dropdown {
-    background-color: white;
-    background-color: var(--select2-dropdown-background-color, white);
+    background: white;
+    background: var(--select2-dropdown-background, white);
     border: 1px solid #aaa;
     border: 1px solid var(--select2-dropdown-border-color, #aaa);
     border-radius: 4px;
-    border-radius: var(--select2-border-radius, 4px);
+    border-radius: var(--select2-selection-border-radius, 4px);
     box-sizing: border-box;
     display: block;
     position: absolute;
@@ -95,6 +100,8 @@
 .select2-results__option {
     padding: 6px;
     user-select: none;
+    color: #000;
+    color: var(--select2-option-text-color, #000);
 
     &[aria-selected] {
         cursor: pointer;
@@ -164,7 +171,7 @@
 
     // styles required for IE to work
 
-    background-color: #fff;
+    background: #fff;
     filter: alpha(opacity = 0);
 }
 
@@ -187,12 +194,12 @@
 
 .select2-container--default {
     .select2-selection--single {
-        background-color: #fff;
-        background-color: var(--select2-selection-background-color, #fff);
+        background: #fff;
+        background: var(--select2-selection-background, #fff);
         border: 1px solid #aaa;
         border: 1px solid var(--select2-selection-border-color, #aaa);
         border-radius: 4px;
-        border-radius: var(--select2-border-radius, 4px);
+        border-radius: var(--select2-selection-border-radius, 4px);
         display: flex;
 
         .select2-selection__rendered {
@@ -236,8 +243,8 @@
 
     &.select2-container--disabled {
         .select2-selection--single {
-            background-color: #eee;
-            background-color: var(--select2-selection-disabled-background-color, #eee);
+            background: #eee;
+            background: var(--select2-selection-disabled-background, #eee);
             cursor: default;
 
             .select2-selection__clear {
@@ -257,12 +264,12 @@
     }
 
     .select2-selection--multiple {
-        background-color: #fff;
-        background-color: var(--select2-selection-background-color, #fff);
+        background: #fff;
+        background: var(--select2-selection-background, #fff);
         border: 1px solid #aaa;
         border: 1px solid var(--select2-selection-border-color, #aaa);
         border-radius: 4px;
-        border-radius: var(--select2-border-radius, 4px);
+        border-radius: var(--select2-selection-border-radius, 4px);
         cursor: text;
 
         .select2-selection__rendered {
@@ -298,12 +305,14 @@
         }
 
         .select2-selection__choice {
-            background-color: #e4e4e4;
-            background-color: var(--select2-selection-choice-background-color, #e4e4e4);
+            color: #000;
+            color: var(--select2-selection-choice-text-color, #000);
+            background: #e4e4e4;
+            background: var(--select2-selection-choice-background, #e4e4e4);
             border: 1px solid #aaa;
-            border: 1px solid var(--select2-selection-border-color, #aaa);
+            border: 1px solid var(--select2-selection-choice-border-color, #aaa);
             border-radius: 4px;
-            border-radius: var(--select2-border-radius, 4px);
+            border-radius: var(--select2-selection-border-radius, 4px);
             cursor: default;
             float: left;
             margin-right: 5px;
@@ -313,7 +322,7 @@
 
         .select2-selection__choice__remove {
             color: #999;
-            color: var(--select2-selection-choice-text-color, #999);
+            color: var(--select2-selection-choice-close-color, #999);
             cursor: pointer;
             display: inline-block;
             font-weight: bold;
@@ -321,7 +330,7 @@
 
             &:hover {
                 color: #333;
-                color: var(--select2-selection-choice-hover-text-color, #333);
+                color: var(--select2-selection-choice-hover-close-color, #333);
             }
         }
     }
@@ -345,8 +354,8 @@
 
     &.select2-container--disabled {
         .select2-selection--multiple {
-            background-color: #eee;
-            background-color: var(--select2-selection-disabled-background-color, #eee);
+            background: #eee;
+            background: var(--select2-selection-disabled-background, #eee);
             cursor: default;
         }
 
@@ -374,7 +383,11 @@
     .select2-search--dropdown {
         .select2-search__field {
             border: 1px solid #aaa;
-            border: 1px solid var(--select2-dropdown-border-color, #aaa);
+            border: 1px solid var(--select2-search-border-color, #aaa);
+            background: #fff;
+            background: 1px solid var(--select2-search-background, #fff);
+            border-radius: 0px;
+            border-radius: var(--select2-search-border-radius, 0px);
         }
     }
 
@@ -399,12 +412,16 @@
 
         &[aria-disabled=true] {
             color: #999;
-            color: var(--select2-option-disabled-color, #999);
+            color: var(--select2-option-disabled-text-color, #999);
+            background: transparent;
+            background: var(--select2-option-disabled-background, transparent);
         }
 
         &[aria-selected=true] {
-            background-color: #ddd;
-            background-color: var(--select2-option-selected-background-color, #ddd);
+            color: #000;
+            color: var(--select2-option-selected-text-color, #000);
+            background: #ddd;
+            background: var(--select2-option-selected-background, #ddd);
         }
 
         .select2-results__option {
@@ -442,10 +459,10 @@
     }
 
     .select2-results__option--highlighted[aria-selected] {
-        background-color: #5897fb;
-        background-color: var(--select2-option-highlighted-background-color, #5897fb);
+        background: #5897fb;
+        background: var(--select2-option-highlighted-background, #5897fb);
         color: #fff;
-        color: var(--select2-option-highlighted-color, #fff);
+        color: var(--select2-option-highlighted-text-color, #fff);
     }
 
     .select2-results__group {
@@ -453,7 +470,9 @@
         display: block;
         padding: 6px;
         color: gray;
-        color: var(--select2-option-group-color, gray);
+        color: var(--select2-option-group-text-color, gray);
+        background: transparent;
+        background: var(--select2-option-group-background, transparent);
     }
 }
 
@@ -464,7 +483,7 @@
 
     .select2-selection--single,
     .select2-selection--multiple {
-        background-color: transparent;
+        background: transparent;
         border-color: transparent;
     }
 
@@ -472,7 +491,7 @@
     .select2-container--default:not(.select2-container--open) .select2-focused {
         .select2-selection--single,
         .select2-selection--multiple {
-            background-color: transparent;
+            background: transparent;
             border-color: transparent;
         }
     }
@@ -580,8 +599,8 @@
 
         .select2-results__option[aria-selected=true],
         .select2-results__option--highlighted[aria-selected] {
-            background-color: rgba(0, 0, 0, 0.04);
-            background-color: var(--select2-material-option-selected-background-color, rgba(0, 0, 0, 0.04));
+            background: rgba(0, 0, 0, 0.04);
+            background: var(--select2-material-option-selected-background, rgba(0, 0, 0, 0.04));
             color: #000;
             color: var(--select2-material-option-highlighted-text-color, #000);
         }
@@ -593,7 +612,7 @@
 
         &.select2-container--disabled .select2-selection--single,
         &.select2-container--disabled .select2-selection--multiple {
-            background-color: transparent;
+            background: transparent;
 
             &::before {
                 background: linear-gradient(to right, rgba(0, 0, 0, 0.26) 0, rgba(0, 0, 0, 0.26) 33%, transparent 0);
@@ -625,6 +644,8 @@
         position: absolute;
         top: calc(100% - 1.72917em);
         font-size: 75%;
+        color: #888;
+        color: var(--select2-hint-text-color, #888);
     }
 }
 
