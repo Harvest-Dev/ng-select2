@@ -28,7 +28,7 @@ export interface Select2UpdateEvent<U extends Select2UpdateValue> {
 
 export const timeout = 200;
 
-const unicodePatterns: { l: string, s: RegExp }[] = [
+export const unicodePatterns: { l: string, s: RegExp }[] = [
     { l: 'a', s: /[ⓐａẚàáâầấẫẩãāăằắẵẳȧǡäǟảåǻǎȁȃạậặḁąⱥɐ]/gi },
     { l: 'aa', s: /ꜳ/gi },
     { l: 'ae', s: /[æǽǣ]/gi },
