@@ -1,6 +1,6 @@
 # Changelog of ng-select2
 
-## V7.1.4 (next)
+## V7.1.4 (2020-09-18)
 
 ### Changes
 
