@@ -1,5 +1,11 @@
 # Changelog of ng-select2
 
+## V7.1.4 (next)
+
+### Changes
+
+- add `limitSelection` attribute to limit multiple selection. (By defaut `0` for no limit)
+
 ## V7.1.3 (2020-05-07)
 
 ### Breaking Changes

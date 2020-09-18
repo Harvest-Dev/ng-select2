@@ -30,6 +30,7 @@ export class Select2 implements ControlValueAccessor, OnInit, OnDestroy, DoCheck
     @Input() placeholder: string;
     @Input() customSearchEnabled: boolean;
     @Input() multiple: boolean;
+    @Input() limitSelection = 0;
     @Input() listPosition: 'above' | 'below';
 
     /** use the material style */
@@ -267,7 +268,7 @@ export class Select2 implements ControlValueAccessor, OnInit, OnDestroy, DoCheck
     }
 
     click(option: Select2Option) {
-        if (!option.disabled) {
+        if (this.testSelection(option)) {
             this.select(option);
         }
     }
@@ -305,6 +306,21 @@ export class Select2 implements ControlValueAccessor, OnInit, OnDestroy, DoCheck
         }
 
         this._changeDetectorRef.markForCheck();
+    }
+
+    private testSelection(option: Select2Option) {
+        if (option.disabled) {
+            return false;
+        }
+
+        if (
+            !this.multiple ||
+            !this.limitSelection ||
+            Array.isArray(this._value) && this._value.length < this.limitSelection
+        ) {
+            return true;
+        }
+        return false;
     }
 
     private testValueChange(value1: Select2UpdateValue, value2: Select2UpdateValue) {

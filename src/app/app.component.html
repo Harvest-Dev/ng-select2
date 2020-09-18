@@ -68,10 +68,12 @@
              id="selec2-8">
         <select2-hint>value : {{value8}}</select2-hint>
     </select2>
-    <h3>9. multiple ({{value9 | json}})</h3>
+    <h3>9. multiple + limite <input type="number"
+               [(ngModel)]="limitSelection"> ({{value9 | json}})</h3>
     <select2 [data]="data9"
              [value]="value9"
              multiple="true"
+             [limitSelection]="limitSelection"
              (update)="update9($event)"
              id="selec2-9">
     </select2>

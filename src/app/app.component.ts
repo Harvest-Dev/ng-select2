@@ -58,6 +58,8 @@ export class AppComponent {
     value19 = '';
     value20 = '';
 
+    limitSelection = 0;
+
     fg: FormGroup = new FormGroup({
         state: new FormControl()
     });

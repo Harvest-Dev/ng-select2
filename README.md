@@ -61,12 +61,13 @@ name | type | status | default | description
 `data` | [`Select2Data`](#select2-data-structure) | required | |  the data of the select2
 `value` | [`Select2Value`](#select2-data-structure)| | | initial value
 `disabled` | `boolean` | | |  whether the component is disabled
-`minCharForSearch` | `number` | | `0` | start the search when the number of characters is reached
-`minCountForSearch` | `number` | | `6` |  hide search box if `options.length < minCountForSearch`
+`minCharForSearch` | `number` | | `0` | start the search when the number of characters is reached (`0` = unlimited)
+`minCountForSearch` | `number` | | `6` |  hide search box if `options.length < minCountForSearch` 
 `displaySearchStatus` | `'default'` or `'hidden'` or `'always'` | |  `'default'` | display the search box (`default` : is based on `minCountForSearch`)
 `placeholder` | `string` | | | the placeholder string if nothing selected
 `customSearchEnabled` | `boolean` | | | will trigger `search` event, and disable inside filter
 `multiple` | `boolean` | | | select multiple options
+`limitSelection` | `number` | | `0` | to limit multiple selection  (`0` = unlimited)
 `hideSelectedItems` | `boolean` | | | for `multiple`, remove selected values
 `resultMaxHeight` | `string` | | |  change the height size of results
 `listPosition` | `'below'` or `'above'` | | `'below'` | the position for the dropdown list
