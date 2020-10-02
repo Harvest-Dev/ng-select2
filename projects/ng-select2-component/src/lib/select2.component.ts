@@ -1,15 +1,13 @@
 import {
-    AfterViewInit, Attribute, ChangeDetectorRef, Component, DoCheck, ElementRef,
-    EventEmitter, HostBinding, Input, OnDestroy, OnInit, Optional,
-    Output, QueryList, Self, ViewChild, ViewChildren
+    AfterViewInit, Attribute, ChangeDetectorRef, Component, DoCheck, ElementRef, EventEmitter, HostBinding, Input,
+    OnDestroy, OnInit, Optional, Output, QueryList, Self, ViewChild, ViewChildren
 } from '@angular/core';
 import { ControlValueAccessor, FormGroupDirective, NgControl, NgForm } from '@angular/forms';
 
 import { Subject } from 'rxjs';
 
 import {
-    Select2Data, Select2Option, Select2UpdateEvent, Select2UpdateValue, Select2Utils, Select2Value,
-    timeout
+    Select2Data, Select2Option, Select2UpdateEvent, Select2UpdateValue, Select2Utils, Select2Value, timeout
 } from './select2-utils';
 
 let nextUniqueId = 0;
@@ -485,7 +483,7 @@ export class Select2 implements ControlValueAccessor, OnInit, OnDestroy, DoCheck
                 }
                 value = this.option.value;
             }
-        } else if (this._control) {
+        } else {
             this.option = null;
         }
 
