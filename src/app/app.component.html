@@ -165,4 +165,14 @@
                  id="selec2-20">
         </select2>
     </div>
+    <h3>21. update to empty/null/undefined ({{value21}})</h3>
+    <select2 [data]="data21"
+             [value]="value21"
+             (update)="update21($event)"
+             listPosition="above"
+             id="selec2-21">
+    </select2>
+    <button (click)="value21 = ''">Update value to empty string</button>
+    <button (click)="value21 = null">Update value to null</button>
+    <button (click)="value21 = undefined">Update value to undefined</button>
 </div>
