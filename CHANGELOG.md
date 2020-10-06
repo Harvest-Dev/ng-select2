@@ -1,5 +1,11 @@
 # Changelog of ng-select2
 
+## V7.1.5 (2020-10-06)
+
+### Corrections
+
+- fix update of list when value is `null`/`undefined`/`empty`
+
 ## V7.1.4 (2020-09-18)
 
 ### Changes
