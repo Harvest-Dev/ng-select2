@@ -11,6 +11,7 @@ export interface Select2Option {
     label: string;
     disabled?: boolean;
     component?: string | Function;
+    id?: string;
     classes?: string;
 }
 
