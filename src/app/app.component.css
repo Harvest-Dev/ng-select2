@@ -68,3 +68,15 @@
 .noStyle {
     background-color: antiquewhite;
 }
+
+::ng-deep .white.flower::before {
+    content: "🌼 ";
+}
+
+::ng-deep .red.flower::before {
+    content: "🌹 ";
+}
+
+::ng-deep .yellow.flower::before {
+    content: "🌻 ";
+}

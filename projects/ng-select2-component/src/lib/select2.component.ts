@@ -256,7 +256,7 @@ export class Select2 implements ControlValueAccessor, OnInit, OnDestroy, DoCheck
     getOptionStyle(option: Select2Option) {
         return 'select2-results__option ' +
             (option.value === this.hoveringValue ? 'select2-results__option--highlighted ' : '') +
-            option.classes;
+            (option.classes || '');
     }
 
     mouseenter(option: Select2Option) {
