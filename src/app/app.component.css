@@ -69,14 +69,14 @@
     background-color: antiquewhite;
 }
 
-::ng-deep .white.flower::before {
+.flower-list ::ng-deep .white.flower::before {
     content: "🌼 ";
 }
 
-::ng-deep .red.flower::before {
+.flower-list ::ng-deep .red.flower::before {
     content: "🌹 ";
 }
 
-::ng-deep .yellow.flower::before {
+.flower-list ::ng-deep .yellow.flower::before {
     content: "🌻 ";
 }
