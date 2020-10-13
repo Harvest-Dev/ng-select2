@@ -217,3 +217,12 @@ export const data17: Select2Data = [
                 </div>`
     }
 ];
+
+export const data22: Select2Data = [
+    { value: 'heliotrope', label: 'Heliotrope', classes: 'white flower', id: 'option-heliotrope' },
+    { value: 'hibiscus', label: 'Hibiscus', classes: 'red flower', id: 'option-hibiscus' },
+    { value: 'lily', label: 'Lily', classes: 'white flower', id: 'option-lily' },
+    { value: 'marigold', label: 'Marigold', classes: 'red flower', id: 'option-marigold' },
+    { value: 'petunia', label: 'Petunia', classes: 'white flower', id: 'option-petunia' },
+    { value: 'sunflower', label: 'Sunflower', classes: 'yellow flower', id: 'option-sunflower' }
+];

@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 
-import { data1, data13, data17, data18, data19, data2, data3, data5 } from './app.data';
+import { data1, data13, data17, data18, data19, data2, data22, data3, data5 } from './app.data';
 
 import { Select2Data, Select2Option, Select2UpdateEvent } from 'projects/ng-select2-component/src/lib/select2-utils';
 
@@ -31,6 +31,7 @@ export class AppComponent {
     data19 = data19;
     data20: Select2Data = JSON.parse(JSON.stringify(data19));
     data21: Select2Data = JSON.parse(JSON.stringify(data19));
+    data22 = data22;
 
     minCountForSearch = Infinity;
 
@@ -56,6 +57,7 @@ export class AppComponent {
     value19 = '';
     value20 = '';
     value21 = 'foo6';
+    value22 = '';
 
     limitSelection = 0;
 
@@ -178,6 +180,10 @@ export class AppComponent {
 
     update21(event: Select2UpdateEvent<string>) {
         this.value21 = event.value;
+    }
+
+    update22(event: Select2UpdateEvent<string>) {
+        this.value22 = event.value;
     }
 
     resetForm() {
