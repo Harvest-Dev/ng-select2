@@ -27,12 +27,14 @@
 
     </select2>
     <h3>5. hide search box ({{value5}})</h3>
-    <select2 [data]="data5"
-             [value]="value5"
-             [minCountForSearch]="minCountForSearch"
-             (update)="update5($event)"
-             id="selec2-5">
-    </select2>
+    <form [formGroup]="ctrlForm2">
+        <select2 [data]="data5"
+                 formControlName="test5"
+                 [minCountForSearch]="minCountForSearch"
+                 (update)="update5($event)"
+                 id="selec2-5">
+        </select2>
+    </form>
     <h3>6. search limit to <input #limit
                size="3"
                value="7"> / display status <select #status>

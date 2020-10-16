@@ -59,62 +59,6 @@ export class Select2 implements ControlValueAccessor, OnInit, OnDestroy, DoCheck
 
     filteredData: Select2Data;
 
-    private _minCountForSearch?: number | string;
-
-    @ViewChild('selection') private selection: ElementRef;
-    @ViewChild('results') private resultContainer: ElementRef;
-    @ViewChildren('result') private results: QueryList<ElementRef>;
-    @ViewChild('searchInput') private searchInput: ElementRef;
-
-    private hoveringValue: Select2Value | null | undefined = null;
-    private innerSearchText = '';
-    private isSearchboxHidden: boolean;
-    private selectionElement: HTMLElement;
-    private searchInputElement: HTMLElement;
-    private resultsElement: HTMLElement;
-
-    private _stateChanges = new Subject<void>();
-
-    /** Tab index for the element. */
-    private _tabIndex: number;
-
-    private _disabled = false;
-    private _required = false;
-    private _readonly = false;
-    private _hideSelectedItems = false;
-    private _clickDetection = false;
-    private _clickDetectionFc: (e: MouseEvent) => void;
-    private _id: string;
-    private _uid = `select2-${nextUniqueId++}`;
-    private _value: Select2UpdateValue;
-    private _previousNativeValue: Select2UpdateValue = this._value;
-
-    constructor(
-        private _changeDetectorRef: ChangeDetectorRef,
-        @Optional() private _parentForm: NgForm,
-        @Optional() private _parentFormGroup: FormGroupDirective,
-        @Self() @Optional() public _control: NgControl,
-        @Attribute('tabindex') tabIndex: string
-    ) {
-        this.id = this.id;
-        this._tabIndex = parseInt(tabIndex, 10) || 0;
-
-        if (this._control) {
-            this._control.valueAccessor = this;
-        }
-
-        this._clickDetectionFc = this.clickDetection.bind(this);
-    }
-
-    /** View -> model callback called when select has been touched */
-    private _onTouched = () => {
-        // do nothing
-    }
-
-    /** View -> model callback called when value changes */
-    private _onChange: (value: any) => void = () => {
-        // do nothing
-    }
 
     get select2Options() {
         return this.multiple ? this.option as Select2Option[] : null;
@@ -205,6 +149,63 @@ export class Select2 implements ControlValueAccessor, OnInit, OnDestroy, DoCheck
     @HostBinding('class.select2-above')
     get select2above(): boolean {
         return this.listPosition === 'above';
+    }
+
+    private _minCountForSearch?: number | string;
+
+    @ViewChild('selection') private selection: ElementRef;
+    @ViewChild('results') private resultContainer: ElementRef;
+    @ViewChildren('result') private results: QueryList<ElementRef>;
+    @ViewChild('searchInput') private searchInput: ElementRef;
+
+    private hoveringValue: Select2Value | null | undefined = null;
+    private innerSearchText = '';
+    private isSearchboxHidden: boolean;
+    private selectionElement: HTMLElement;
+    private searchInputElement: HTMLElement;
+    private resultsElement: HTMLElement;
+
+    private _stateChanges = new Subject<void>();
+
+    /** Tab index for the element. */
+    private _tabIndex: number;
+
+    private _disabled = false;
+    private _required = false;
+    private _readonly = false;
+    private _hideSelectedItems = false;
+    private _clickDetection = false;
+    private _clickDetectionFc: (e: MouseEvent) => void;
+    private _id: string;
+    private _uid = `select2-${nextUniqueId++}`;
+    private _value: Select2UpdateValue;
+    private _previousNativeValue: Select2UpdateValue;
+
+    constructor(
+        private _changeDetectorRef: ChangeDetectorRef,
+        @Optional() private _parentForm: NgForm,
+        @Optional() private _parentFormGroup: FormGroupDirective,
+        @Self() @Optional() public _control: NgControl,
+        @Attribute('tabindex') tabIndex: string
+    ) {
+        this.id = this.id;
+        this._tabIndex = parseInt(tabIndex, 10) || 0;
+
+        if (this._control) {
+            this._control.valueAccessor = this;
+        }
+
+        this._clickDetectionFc = this.clickDetection.bind(this);
+    }
+
+    /** View -> model callback called when select has been touched */
+    private _onTouched = () => {
+        // do nothing
+    }
+
+    /** View -> model callback called when value changes */
+    private _onChange: (value: any) => void = () => {
+        // do nothing
     }
 
     ngOnInit() {
@@ -322,7 +323,10 @@ export class Select2 implements ControlValueAccessor, OnInit, OnDestroy, DoCheck
     }
 
     private testValueChange(value1: Select2UpdateValue, value2: Select2UpdateValue) {
-        if (!value1 && !value2 || value1 === value2) {
+        if (
+            (value1 === null || value1 === undefined) && (value2 === null || value2 === undefined) ||
+            value1 === value2
+        ) {
             return false;
         }
         if (this.multiple
