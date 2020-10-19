@@ -1,14 +1,14 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 
-import { data1, data13, data17, data18, data19, data2, data3, data5 } from './app.data';
+import { data1, data13, data17, data18, data19, data2, data22, data3, data5, data6 } from './app.data';
 
 import { Select2Data, Select2Option, Select2UpdateEvent } from 'projects/ng-select2-component/src/lib/select2-utils';
 
 @Component({
     selector: 'app-root',
     templateUrl: './app.component.html',
-    styleUrls: ['./app.component.css']
+    styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
     data1 = data1;
@@ -16,7 +16,7 @@ export class AppComponent {
     data3 = data3;
     data4: Select2Data = JSON.parse(JSON.stringify(data3));
     data5 = data5;
-    data6: Select2Data = JSON.parse(JSON.stringify(data5));
+    data6 = data6;
     data7: Select2Data = JSON.parse(JSON.stringify(data3));
     data8: Select2Option[] = [];
     data9: Select2Data = JSON.parse(JSON.stringify(data1));
@@ -31,16 +31,18 @@ export class AppComponent {
     data19 = data19;
     data20: Select2Data = JSON.parse(JSON.stringify(data19));
     data21: Select2Data = JSON.parse(JSON.stringify(data19));
+    data22 = data22;
 
     minCountForSearch = Infinity;
 
     ctrlForm: FormGroup;
+    ctrlForm2: FormGroup;
 
     value1 = 'CA';
     value2 = 'CA';
     value3 = 'foo';
     value4 = 'bar';
-    value5 = 'foo3';
+    value5 = '0';
     value6 = 'foo3';
     value7 = '';
     value8 = '';
@@ -56,6 +58,7 @@ export class AppComponent {
     value19 = '';
     value20 = '';
     value21 = 'foo6';
+    value22 = '';
 
     limitSelection = 0;
 
@@ -66,6 +69,10 @@ export class AppComponent {
     constructor(private fb: FormBuilder) {
         this.ctrlForm = this.fb.group({
             test11: new FormControl(null, Validators.required)
+        });
+
+        this.ctrlForm2 = this.fb.group({
+            test5: new FormControl(0, Validators.required)
         });
 
         this.fg.patchValue(this.formData());
@@ -178,6 +185,10 @@ export class AppComponent {
 
     update21(event: Select2UpdateEvent<string>) {
         this.value21 = event.value;
+    }
+
+    update22(event: Select2UpdateEvent<string>) {
+        this.value22 = event.value;
     }
 
     resetForm() {

@@ -11,6 +11,7 @@ export interface Select2Option {
     label: string;
     disabled?: boolean;
     component?: string | Function;
+    id?: string;
     classes?: string;
 }
 
@@ -20,7 +21,7 @@ export type Select2UpdateValue = Select2Value | Select2Value[];
 
 export type Select2Data = (Select2Group | Select2Option)[];
 
-export interface Select2UpdateEvent<U extends Select2UpdateValue> {
+export interface Select2UpdateEvent<U extends Select2UpdateValue = Select2Value> {
     component: Select2;
     value: U;
     options: Select2Option[];
@@ -323,11 +324,10 @@ export class Select2Utils {
         option: Select2Option,
         multiple: boolean | null | undefined
     ) {
-        if (multiple) {
-            return options && (options as Select2Option[]).some(op => op.value === option.value) ? 'true' : 'false';
-        } else {
-            return options && option.value === (options as Select2Option).value ? 'true' : 'false';
-        }
+        return multiple
+            ? options && (options as Select2Option[])
+                .some(op => op.value === option.value) ? 'true' : 'false'
+            : options && option.value === (options as Select2Option).value ? 'true' : 'false';
     }
 
     static removeSelection(options: Select2Option | Select2Option[] | null, option: Select2Option) {

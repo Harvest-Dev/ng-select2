@@ -138,6 +138,16 @@ export const data3: Select2Data = [
 ];
 
 export const data5: Select2Data = [
+    { value: 0, label: '0' },
+    { value: 1, label: '1' },
+    { value: 2, label: '2' },
+    { value: 3, label: '3' },
+    { value: 4, label: '4' },
+    { value: 5, label: '5' },
+    { value: 6, label: '6' }
+];
+
+export const data6: Select2Data = [
     { value: 'foo1', label: 'foo1' },
     { value: 'foo2', label: 'foo2' },
     { value: 'foo3', label: 'foo3' },
@@ -216,4 +226,13 @@ export const data17: Select2Data = [
                     <div>Asia</div>
                 </div>`
     }
+];
+
+export const data22: Select2Data = [
+    { value: 'heliotrope', label: 'Heliotrope', classes: 'white flower', id: 'option-heliotrope' },
+    { value: 'hibiscus', label: 'Hibiscus', classes: 'red flower', id: 'option-hibiscus' },
+    { value: 'lily', label: 'Lily', classes: 'white flower', id: 'option-lily' },
+    { value: 'marigold', label: 'Marigold', classes: 'red flower', id: 'option-marigold' },
+    { value: 'petunia', label: 'Petunia', classes: 'white flower', id: 'option-petunia' },
+    { value: 'sunflower', label: 'Sunflower', classes: 'yellow flower', id: 'option-sunflower' }
 ];
