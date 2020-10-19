@@ -1,6 +1,6 @@
 {
   "name": "ng-select2-component",
-  "version": "7.1.6",
+  "version": "7.1.7",
   "peerDependencies": {
     "@angular/common": "^7.0.0-rc.0 || ^7.0.0",
     "@angular/core": "^7.0.0-rc.0 || ^7.0.0"
@@ -15,5 +15,10 @@
   "bugs": {
     "url": "https://github.com/Harvest-Dev/ng-select2/issues"
   },
-  "homepage": "https://github.com/Harvest-Dev/ng-select2#readme"
+  "homepage": "https://github.com/Harvest-Dev/ng-select2#readme",
+  "keywords": [
+    "typescript",
+    "angular",
+    "select2"
+  ]
 }

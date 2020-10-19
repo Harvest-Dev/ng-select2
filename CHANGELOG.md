@@ -1,5 +1,11 @@
 # Changelog of ng-select2
 
+## V7.1.7 (2020-10-19)
+
+### Corrections
+
+- Fix case with 0 in value
+
 ## V7.1.6 (2020-10-13)
 
 ### Changes
