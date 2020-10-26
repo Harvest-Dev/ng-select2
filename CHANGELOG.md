@@ -9,7 +9,7 @@
     - `(close)`: `void` to `Select2`
     - `(focus)`: `void` to `Select2`
     - `(blur)`: `void` to `Select2`
-    - `(search)`: `string` to `Select2UpdateEvent`
+    - `(search)`: `string` to `Select2SearchEvent`
 
 ### Corrections
 

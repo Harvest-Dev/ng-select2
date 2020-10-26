@@ -80,7 +80,7 @@ name | type | status | default | description
 `(close)` | `(event: Select2) => void` | event | |  triggered when user close the options
 `(focus)` | `(event: Select2) => void` | event | |  triggered when user enters the component
 `(blur)` | `(event: Select2) => void` | event | |  triggered when user leaves the component
-`(search)` | `(event: `[`Select2UpdateEvent`](#select2-data-structure)`) => void` | event | |  triggered when search text changed
+`(search)` | `(event: `[`Select2SearchEvent`](#select2-data-structure)`) => void` | event | |  triggered when search text changed
 
 ### select2 data structure
 
