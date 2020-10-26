@@ -7,7 +7,8 @@ import { ControlValueAccessor, FormGroupDirective, NgControl, NgForm } from '@an
 import { Subject } from 'rxjs';
 
 import {
-    Select2Data, Select2Option, Select2UpdateEvent, Select2UpdateValue, Select2Utils, Select2Value, timeout
+    Select2Data, Select2Option, Select2SearchEvent, Select2UpdateEvent, Select2UpdateValue, Select2Utils, Select2Value,
+    timeout
 } from './select2-utils';
 
 let nextUniqueId = 0;
@@ -44,11 +45,11 @@ export class Select2 implements ControlValueAccessor, OnInit, OnDestroy, DoCheck
     @Input() resultMaxHeight = '200px';
 
     @Output() update = new EventEmitter<Select2UpdateEvent<Select2UpdateValue>>();
-    @Output() open = new EventEmitter<void>();
-    @Output() close = new EventEmitter<void>();
-    @Output() focus = new EventEmitter<void>();
-    @Output() blur = new EventEmitter<void>();
-    @Output() search = new EventEmitter<string>();
+    @Output() open = new EventEmitter<Select2>();
+    @Output() close = new EventEmitter<Select2>();
+    @Output() focus = new EventEmitter<Select2>();
+    @Output() blur = new EventEmitter<Select2>();
+    @Output() search = new EventEmitter<Select2SearchEvent<Select2UpdateValue>>();
 
     option: Select2Option | Select2Option[] | null = null;
     isOpen = false;
@@ -71,7 +72,11 @@ export class Select2 implements ControlValueAccessor, OnInit, OnDestroy, DoCheck
     }
     set searchText(text: string) {
         if (this.customSearchEnabled) {
-            this.search.emit(text);
+            this.search.emit({
+                component: this,
+                value: this._value,
+                search: text
+            });
         }
         this.innerSearchText = text;
     }
@@ -114,12 +119,12 @@ export class Select2 implements ControlValueAccessor, OnInit, OnDestroy, DoCheck
     @Input()
     get value() { return this._value; }
     set value(value: Select2UpdateValue) {
-        if (this.testValueChange(this._value, value)) {
-            setTimeout(() => {
+        setTimeout(() => {
+            if (this.testValueChange(this._value, value)) {
                 this._value = value;
                 this.writeValue(value);
-            });
-        }
+            }
+        }, 10);
     }
 
     /** Tab index for the select2 element. */
@@ -292,9 +297,9 @@ export class Select2 implements ControlValueAccessor, OnInit, OnDestroy, DoCheck
                     this.resultsElement.scrollTop = 0;
                 }
             });
-            this.open.emit();
+            this.open.emit(this);
         } else {
-            this.close.emit();
+            this.close.emit(this);
         }
 
         if (this.isOpen && !this._clickDetection) {
@@ -480,7 +485,7 @@ export class Select2 implements ControlValueAccessor, OnInit, OnDestroy, DoCheck
                 this.option = option;
                 if (this.isOpen) {
                     this.isOpen = false;
-                    this.close.emit();
+                    this.close.emit(this);
                     if (this.selectionElement) {
                         this.selectionElement.focus();
                     }
@@ -497,7 +502,10 @@ export class Select2 implements ControlValueAccessor, OnInit, OnDestroy, DoCheck
 
         if (this._control) {
             this._onChange(value);
+        } else {
+            this._value = value;
         }
+
         this.update.emit({
             component: this,
             value: value,
@@ -557,8 +565,11 @@ export class Select2 implements ControlValueAccessor, OnInit, OnDestroy, DoCheck
         }
 
         const value = (this.option as Select2Option[]).map(op => op.value);
+
         if (this._control) {
             this._onChange(value);
+        } else {
+            this._value = value;
         }
 
         this.update.emit({
@@ -709,10 +720,10 @@ export class Select2 implements ControlValueAccessor, OnInit, OnDestroy, DoCheck
     private _focus(state: boolean) {
         if (!state && this.focused) {
             this.focused = state;
-            this.blur.emit();
+            this.blur.emit(this);
         } else if (state && !this.focused) {
             this.focused = state;
-            this.focus.emit();
+            this.focus.emit(this);
         }
     }
 }

@@ -1,5 +1,20 @@
 # Changelog of ng-select2
 
+## V7.1.8 (2020-10-26)
+
+### Changes
+
+- change the return of these events:
+    - `(open)`: `void` to `Select2`
+    - `(close)`: `void` to `Select2`
+    - `(focus)`: `void` to `Select2`
+    - `(blur)`: `void` to `Select2`
+    - `(search)`: `string` to `Select2UpdateEvent`
+
+### Corrections
+
+- Fix multiple events for `(update)` when value changes
+
 ## V7.1.7 (2020-10-19)
 
 ### Corrections

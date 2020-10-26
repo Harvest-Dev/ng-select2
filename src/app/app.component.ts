@@ -80,6 +80,25 @@ export class AppComponent {
 
     update1(event: Select2UpdateEvent<string>) {
         this.value1 = event.value;
+        console.log('update1', event);
+    }
+    change1(event: Event) {
+        console.log('change1', event);
+    }
+    focus1(event: Event) {
+        console.log('focus1', event);
+    }
+    blur1(event: Event) {
+        console.log('blur1', event);
+    }
+    open1(event: Event) {
+        console.log('open1', event);
+    }
+    close1(event: Event) {
+        console.log('close1', event);
+    }
+    search1(event: Event) {
+        console.log('search1', event);
     }
 
     update2(event: Select2UpdateEvent<string>) {
@@ -131,6 +150,22 @@ export class AppComponent {
 
     update9(event: Select2UpdateEvent<string[]>) {
         this.value9 = event.value;
+        console.log('update9', event);
+    }
+    focus9(event: Event) {
+        console.log('focus9', event);
+    }
+    blur9(event: Event) {
+        console.log('blur9', event);
+    }
+    open9(event: Event) {
+        console.log('open9', event);
+    }
+    close9(event: Event) {
+        console.log('close9', event);
+    }
+    search9(event: Event) {
+        console.log('search9', event);
     }
 
     update10(event: Select2UpdateEvent<string[]>) {

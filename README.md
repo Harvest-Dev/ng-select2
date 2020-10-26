@@ -76,39 +76,53 @@ name | type | status | default | description
 `editPattern` | `(str: string) => string` | | | use it for change the pattern of the filter search
 `ngModel`/`id`/`required`/<br>`disabled`/`readonly`/`tabIndex` | | | |  just like a `select` control | 
 `(update)` | `(event: `[`Select2UpdateEvent`](#select2-data-structure)`) => void` | event | |  triggered when user select an option
-`(open)` | `() => void` | event | |  triggered when user open the options
-`(close)` | `() => void` | event | |  triggered when user close the options
-`(focus)` | `() => void` | event | |  triggered when user enters the component
-`(blur)` | `() => void` | event | |  triggered when user leaves the component
-`(search)` | `(text: string) => void` | event | |  triggered when search text changed
+`(open)` | `(event: Select2) => void` | event | |  triggered when user open the options
+`(close)` | `(event: Select2) => void` | event | |  triggered when user close the options
+`(focus)` | `(event: Select2) => void` | event | |  triggered when user enters the component
+`(blur)` | `(event: Select2) => void` | event | |  triggered when user leaves the component
+`(search)` | `(event: `[`Select2UpdateEvent`](#select2-data-structure)`) => void` | event | |  triggered when search text changed
 
 ### select2 data structure
 
 ```ts
 type Select2Data = (Select2Group | Select2Option)[];
 
-interface Select2Group = {
+export interface Select2Group {
+    /** label of group */
     label: string;
+    /** options list */
     options: Select2Option[];
+    /** add classes  */
     classes?: string;
-};
+}
 
-interface Select2Option = {
+export interface Select2Option {
+    /** value  */
     value: Select2Value;
+    /** label of option */
     label: string;
+    /** no selectable is disabled */
     disabled?: boolean;
-    component?: string | Function; // the component
+    /** for identification */
+    id?: string;
+    /** add classes  */
     classes?: string;
-};
+}
 
 type Select2Value = string | number | boolean;
 
 type Select2UpdateValue = Select2Value | Select2Value[];
 
-interface Select2UpdateEvent<U extends Select2UpdateValue> {
+export interface Select2UpdateEvent<U extends Select2UpdateValue = Select2Value> {
     component: Select2;
     value: U;
     options: Select2Option[];
+}
+
+export interface Select2SearchEvent<U extends Select2UpdateValue = Select2Value> {
+    component: Select2;
+    value: U;
+    search: string;
 }
 ```
 

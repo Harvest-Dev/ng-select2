@@ -5,6 +5,12 @@
     <select2 [data]="data1"
              [value]="value1"
              (update)="update1($event)"
+             (change)="change1($event)"
+             (blur)="blur1($event)"
+             (focus)="focus1($event)"
+             (open)="open1($event)"
+             (close)="close1($event)"
+             (search)="search1($event)"
              id="selec2-1">
     </select2>
     <h3>2. options ({{value2}})</h3>
@@ -77,6 +83,12 @@
              multiple="true"
              [limitSelection]="limitSelection"
              (update)="update9($event)"
+             (change)="change9($event)"
+             (blur)="blur9($event)"
+             (focus)="focus9($event)"
+             (open)="open9($event)"
+             (close)="close9($event)"
+             (search)="search9($event)"
              id="selec2-9">
     </select2>
     <h3>10. multiple + hide selected items ({{value10 | json}})</h3>

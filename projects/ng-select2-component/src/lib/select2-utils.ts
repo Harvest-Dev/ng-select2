@@ -1,17 +1,24 @@
 import { Select2 } from './select2.component';
 
 export interface Select2Group {
+    /** label of group */
     label: string;
+    /** options list */
     options: Select2Option[];
+    /** add classes  */
     classes?: string;
 }
 
 export interface Select2Option {
+    /** value  */
     value: Select2Value;
+    /** label of option */
     label: string;
+    /** no selectable is disabled */
     disabled?: boolean;
-    component?: string | Function;
+    /** for identification */
     id?: string;
+    /** add classes  */
     classes?: string;
 }
 
@@ -25,6 +32,12 @@ export interface Select2UpdateEvent<U extends Select2UpdateValue = Select2Value>
     component: Select2;
     value: U;
     options: Select2Option[];
+}
+
+export interface Select2SearchEvent<U extends Select2UpdateValue = Select2Value> {
+    component: Select2;
+    value: U;
+    search: string;
 }
 
 export const timeout = 200;
