@@ -339,7 +339,7 @@
         .select2-selection--multiple {
             border: solid #000 1px;
             border: solid var(--select2-selection-focus-border-color, #000) 1px;
-            outline: 0;
+            outline: none;
         }
     }
 
@@ -348,7 +348,7 @@
         .select2-selection--multiple {
             border: solid #000 1px;
             border: solid var(--select2-selection-focus-border-color, #000) 1px;
-            outline: 0;
+            outline: none;
         }
     }
 
@@ -395,7 +395,7 @@
         .select2-search__field {
             background: transparent;
             border: none;
-            outline: 0;
+            outline: none;
             box-shadow: none;
             -webkit-appearance: textfield;
         }
