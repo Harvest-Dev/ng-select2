@@ -1,5 +1,13 @@
 # Changelog of ng-select2
 
+## V7.1.9 (2020-11-02)
+
+### Corrections
+
+- Change event is stopped for input
+- Fix CSS for outline
+- Fix infinite valueChange sometimes because of asynchronous test
+
 ## V7.1.8 (2020-10-26)
 
 ### Changes
