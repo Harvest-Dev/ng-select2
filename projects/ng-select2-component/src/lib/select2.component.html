@@ -60,6 +60,7 @@
                        [value]="searchText"
                        (keydown)="keyDown($event)"
                        (keyup)="searchUpdate($event)"
+                       (change)="prevChange($event)"
                        class="select2-search__field"
                        type="search"
                        role="textbox"

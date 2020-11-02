@@ -277,6 +277,10 @@ export class Select2 implements ControlValueAccessor, OnInit, OnDestroy, DoCheck
         }
     }
 
+    prevChange(event: Event) {
+        event.stopPropagation();
+    }
+
     toggleOpenAndClose() {
         if (this.disabled) {
             return;
