@@ -370,6 +370,7 @@ export class Select2 implements ControlValueAccessor, OnInit, OnDestroy, DoCheck
             }
 
             this.filteredData = result;
+            this._changeDetectorRef.markForCheck();
         });
     }
 
