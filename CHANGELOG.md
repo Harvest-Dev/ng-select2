@@ -1,5 +1,12 @@
 # Changelog of ng-select2
 
+## V7.1.10 (2020-11-11)
+
+### Corrections
+
+- also call markForCheck() on the change detector when the filtered values are set
+- support for Angular versions up to 10
+
 ## V7.1.9 (2020-11-02)
 
 ### Corrections
