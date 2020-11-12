@@ -1,5 +1,11 @@
 # Changelog of ng-select2
 
+## V7.1.10 (2020-11-12)
+
+### Corrections
+
+- support for Angular versions up to 11
+
 ## V7.1.10 (2020-11-11)
 
 ### Corrections
