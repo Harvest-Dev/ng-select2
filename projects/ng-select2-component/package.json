@@ -10,7 +10,7 @@
     "url": "git+https://github.com/Harvest-Dev/ng-select2.git"
   },
   "publishConfig": {
-    "registry": "https://registry.npmjs.com"
+    "registry": "https://registry.npmjs.org"
   },
   "bugs": {
     "url": "https://github.com/Harvest-Dev/ng-select2/issues"
