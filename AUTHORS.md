@@ -11,3 +11,4 @@ Thanks for your contributions:
 * mbelin-hvs
 * Varun Nambiar
 * Khanh Ngo
+* Johan Compagner
