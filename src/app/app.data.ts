@@ -236,3 +236,73 @@ export const data22: Select2Data = [
     { value: 'petunia', label: 'Petunia', classes: 'white flower', id: 'option-petunia' },
     { value: 'sunflower', label: 'Sunflower', classes: 'yellow flower', id: 'option-sunflower' }
 ];
+
+export const data23: Select2Data = [
+    {
+        value: 'heliotrope', label: 'Heliotrope', data: { color: 'white', name: 'Heliotrope' },
+        templateId: 'template1', id: 'option-heliotrope'
+    },
+    {
+        value: 'hibiscus', label: 'Hibiscus', data: { color: 'red', name: 'Hibiscus' },
+        templateId: 'template1', id: 'option-hibiscus'
+    },
+    {
+        value: 'lily', label: 'Lily', data: { color: 'white', name: 'Lily' },
+        templateId: 'template2', id: 'option-lily'
+    },
+    {
+        value: 'marigold', label: 'Marigold', data: { color: 'red', name: 'Marigold' },
+        templateId: 'template2', id: 'option-marigold'
+    },
+    {
+        value: 'petunia', label: 'Petunia', data: { color: 'white', name: 'Petunia' },
+        templateId: 'template3', id: 'option-petunia'
+    },
+    {
+        value: 'sunflower', label: 'Sunflower', data: { color: 'yellow', name: 'Sunflower' },
+        templateId: 'template3', id: 'option-sunflower'
+    }
+];
+
+export const data24: Select2Data = [
+    {
+        label: 'Red',
+        options: [
+            {
+                value: 'hibiscus', label: 'Hibiscus', data: { color: 'red', name: 'Hibiscus' },
+                templateId: 'template1', id: 'option-hibiscus'
+            },
+            {
+                value: 'marigold', label: 'Marigold', data: { color: 'red', name: 'Marigold' },
+                templateId: 'template2', id: 'option-marigold'
+            },
+        ]
+    },
+    {
+        label: 'Yellow',
+        options: [
+            {
+                value: 'sunflower', label: 'Sunflower', data: { color: 'yellow', name: 'Sunflower' },
+                templateId: 'template3', id: 'option-sunflower'
+            }
+        ]
+    },
+    {
+        label: 'White',
+        options: [
+            {
+                value: 'heliotrope', label: 'Heliotrope', data: { color: 'white', name: 'Heliotrope' },
+                templateId: 'template1', id: 'option-heliotrope'
+            },
+            {
+                value: 'lily', label: 'Lily', data: { color: 'white', name: 'Lily' },
+                templateId: 'template2', id: 'option-lily'
+            },
+            {
+                value: 'petunia', label: 'Petunia', data: { color: 'white', name: 'Petunia' },
+                templateId: 'template3', id: 'option-petunia'
+            }
+        ]
+    }
+
+];

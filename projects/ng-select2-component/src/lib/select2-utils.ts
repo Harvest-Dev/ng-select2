@@ -7,6 +7,10 @@ export interface Select2Group {
     options: Select2Option[];
     /** add classes  */
     classes?: string;
+    /** template id  */
+    templateId?: string;
+    /** template data  */
+    data?: any;
 }
 
 export interface Select2Option {
@@ -20,6 +24,10 @@ export interface Select2Option {
     id?: string;
     /** add classes  */
     classes?: string;
+    /** template id  */
+    templateId?: string;
+    /** template data  */
+    data?: any;
 }
 
 export type Select2Value = string | number | boolean;
@@ -92,17 +100,19 @@ const defaultMinCountForSearch = 6;
 export class Select2Utils {
 
     static getOptionByValue(data: Select2Data, value: Select2Value | null | undefined) {
-        for (const groupOrOption of data) {
-            const options = (groupOrOption as Select2Group).options;
-            if (options) {
-                for (const option of options) {
-                    if (option.value === value) {
-                        return option;
+        if (Array.isArray(data)) {
+            for (const groupOrOption of data) {
+                const options = (groupOrOption as Select2Group).options;
+                if (options) {
+                    for (const option of options) {
+                        if (option.value === value) {
+                            return option;
+                        }
                     }
-                }
-            } else {
-                if ((groupOrOption as Select2Option).value === value) {
-                    return groupOrOption as Select2Option;
+                } else {
+                    if ((groupOrOption as Select2Option).value === value) {
+                        return groupOrOption as Select2Option;
+                    }
                 }
             }
         }
@@ -129,18 +139,20 @@ export class Select2Utils {
     }
 
     static getFirstAvailableOption(data: Select2Data) {
-        for (const groupOrOption of data) {
-            const options = (groupOrOption as Select2Group).options;
-            if (options) {
-                for (const option of options) {
+        if (Array.isArray(data)) {
+            for (const groupOrOption of data) {
+                const options = (groupOrOption as Select2Group).options;
+                if (options) {
+                    for (const option of options) {
+                        if (!option.disabled) {
+                            return option.value;
+                        }
+                    }
+                } else {
+                    const option = groupOrOption as Select2Option;
                     if (!option.disabled) {
                         return option.value;
                     }
-                }
-            } else {
-                const option = groupOrOption as Select2Option;
-                if (!option.disabled) {
-                    return option.value;
                 }
             }
         }
@@ -149,12 +161,14 @@ export class Select2Utils {
 
     private static getOptionsCount(data: Select2Data) {
         let count = 0;
-        for (const groupOrOption of data) {
-            const options = (groupOrOption as Select2Group).options;
-            if (options) {
-                count += options.length;
-            } else {
-                count++;
+        if (Array.isArray(data)) {
+            for (const groupOrOption of data) {
+                const options = (groupOrOption as Select2Group).options;
+                if (options) {
+                    count += options.length;
+                } else {
+                    count++;
+                }
             }
         }
         return count;

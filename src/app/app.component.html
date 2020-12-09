@@ -196,4 +196,49 @@
              id="selec2-22"
              class="flower-list">
     </select2>
+
+    <h3>23 with template ({{value23}})</h3>
+
+    <select2 [data]="data23"
+             [value]="value23"
+             (update)="update23($event)"
+             listPosition="above"
+             [templates]="template"
+             id="selec2-23"
+             class="flower-list">
+        <ng-template #template
+                     let-data="data"><strong>{{data?.color}}</strong>: {{data?.name}}</ng-template>
+    </select2>
+
+    <h3>24 with template (option / group) ({{value24}})</h3>
+
+    <select2 [data]="data24"
+             [value]="value24"
+             (update)="update24($event)"
+             listPosition="above"
+             [templates]="{ option : templateOption, group: templateGroup }"
+             id="selec2-24"
+             class="flower-list">
+        <ng-template #templateOption
+                     let-data="data"><strong>{{data?.color}}</strong>: {{data?.name}}</ng-template>
+        <ng-template #templateGroup
+                     let-label="label"><strong>({{label}})</strong></ng-template>
+    </select2>
+
+    <h3>25 with templates Ids ({{value25}})</h3>
+
+    <select2 [data]="data25"
+             [value]="value25"
+             (update)="update25($event)"
+             listPosition="above"
+             [templates]="{template1 : template1, template2 : template2, template3 : template3 }"
+             id="selec2-25"
+             class="flower-list">
+        <ng-template #template1
+                     let-data="data"><span [style.background]="data?.color">{{data?.name}}</span></ng-template>
+        <ng-template #template2
+                     let-data="data"><strong>{{data?.color}}</strong>: {{data?.name}}</ng-template>
+        <ng-template #template3
+                     let-data="data">{{data | json}}</ng-template>
+    </select2>
 </div>
