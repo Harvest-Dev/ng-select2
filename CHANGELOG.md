@@ -1,5 +1,15 @@
 # Changelog of ng-select2
 
+## V7.2.0 (2020-12-09)
+
+### Changes
+
+- formating options & groups with template
+
+### Corrections
+
+- crash when data is empty
+
 ## V7.1.11 (2020-11-12)
 
 ### Corrections
