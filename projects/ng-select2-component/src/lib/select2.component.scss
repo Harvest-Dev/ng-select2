@@ -85,6 +85,10 @@
     z-index: 1051;
     height: 0;
     overflow: hidden;
+
+    .select2-label-content {
+        display: contents;
+    }
 }
 
 .select2-results {

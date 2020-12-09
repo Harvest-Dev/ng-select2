@@ -1,14 +1,14 @@
 import {
     AfterViewInit, Attribute, ChangeDetectorRef, Component, DoCheck, ElementRef, EventEmitter, HostBinding, Input,
-    OnDestroy, OnInit, Optional, Output, QueryList, Self, ViewChild, ViewChildren
+    OnDestroy, OnInit, Optional, Output, QueryList, Self, TemplateRef, ViewChild, ViewChildren
 } from '@angular/core';
 import { ControlValueAccessor, FormGroupDirective, NgControl, NgForm } from '@angular/forms';
 
 import { Subject } from 'rxjs';
 
 import {
-    Select2Data, Select2Option, Select2SearchEvent, Select2UpdateEvent, Select2UpdateValue, Select2Utils, Select2Value,
-    timeout
+    Select2Data, Select2Group, Select2Option, Select2SearchEvent, Select2UpdateEvent, Select2UpdateValue, Select2Utils,
+    Select2Value, timeout
 } from './select2-utils';
 
 let nextUniqueId = 0;
@@ -40,6 +40,9 @@ export class Select2 implements ControlValueAccessor, OnInit, OnDestroy, DoCheck
 
     /** use it for change the pattern of the filter search */
     @Input() editPattern: (str: string) => string;
+
+    /** template for formating */
+    @Input() templates: (TemplateRef<any> | { [key: string]: TemplateRef<any> });
 
     /** the max height of the results container when opening the select */
     @Input() resultMaxHeight = '200px';
@@ -314,6 +317,21 @@ export class Select2 implements ControlValueAccessor, OnInit, OnDestroy, DoCheck
         }
 
         this._changeDetectorRef.markForCheck();
+    }
+
+    hasTemplate(option: (Select2Option | Select2Group), defaut: string) {
+        return this.templates instanceof TemplateRef
+            || this.templates && this.templates[option.templateId] instanceof TemplateRef
+            || this.templates && this.templates[defaut] instanceof TemplateRef;
+    }
+
+    getTemplate(option: (Select2Option | Select2Group), defaut: string) {
+        if (this.hasTemplate(option, defaut)) {
+            return this.templates[option.templateId]
+                || this.templates[defaut]
+                || this.templates;
+        }
+        return undefined;
     }
 
     private testSelection(option: Select2Option) {

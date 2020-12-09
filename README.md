@@ -32,6 +32,7 @@ npm i ng-select2-component --save
 + multiple selection
 + material style
 + form binding
++ templating
 
 ## Usage
 
@@ -73,6 +74,7 @@ name | type | status | default | description
 `listPosition` | `'below'` or `'above'` | | `'below'` | the position for the dropdown list
 `material` | `""` or `true` or `'true'` | | | enable material style
 `nostyle` | `""` or `true` or `'true'` | | | remove border and background color
+`templates` | `TemplateRef` or {templateId : TemplateRef, ...} | | | use template for formatting content (see [Templating](#templating))
 `editPattern` | `(str: string) => string` | | | use it for change the pattern of the filter search
 `ngModel`/`id`/`required`/<br>`disabled`/`readonly`/`tabIndex` | | | |  just like a `select` control | 
 `(update)` | `(event: `[`Select2UpdateEvent`](#select2-data-structure)`) => void` | event | |  triggered when user select an option
@@ -94,6 +96,10 @@ export interface Select2Group {
     options: Select2Option[];
     /** add classes  */
     classes?: string;
+    /** template id  */
+    templateId?: string;
+    /** template data  */
+    data?: any;
 }
 
 export interface Select2Option {
@@ -107,6 +113,10 @@ export interface Select2Option {
     id?: string;
     /** add classes  */
     classes?: string;
+    /** template id  */
+    templateId?: string;
+    /** template data  */
+    data?: any;
 }
 
 type Select2Value = string | number | boolean;
@@ -126,6 +136,63 @@ export interface Select2SearchEvent<U extends Select2UpdateValue = Select2Value>
 }
 ```
 
+### Templating
+
+#### Unique template
+
+```html
+<select2 [data]="data"
+         [templates]="template">
+    <ng-template #template let-data="data"><strong>{{data?.color}}</strong>: {{data?.name}}</ng-template>
+</select2>
+```
+
+
+
+```ts 
+const data: Select2Data = [
+    {
+        value: 'heliotrope', label: 'Heliotrope', data: { color: 'white', name: 'Heliotrope' }
+    },
+    {
+        value: 'hibiscus', label: 'Hibiscus', data: { color: 'red', name: 'Hibiscus' }
+    }
+]
+```
+
+#### Template group & option 
+
+```html
+<select2 [data]="data"
+         [templates]="{option : option, group: group">
+    <ng-template #option let-data="data">{{data?.name}}</ng-template>
+    <ng-template #group let-label="label">{{label}}</ng-template>
+</select2>
+```
+
+No difference in data structure.
+The template is defined by its type, option or group, automatically.
+
+#### Template by templateId
+
+```html
+<select2 [data]="data"
+         [templates]="{template1 : template1, template2: template2">
+    <ng-template #template1 let-data="data">{{data?.name}}</ng-template>
+    <ng-template #template2 let-label="label">{{label}}</ng-template>
+</select2>
+```
+
+```ts 
+const data: Select2Data = [
+    {
+        value: 'heliotrope', label: 'Heliotrope', data: { color: 'white', name: 'Heliotrope', templateId: 'template1' }
+    },
+    {
+        value: 'hibiscus', label: 'Hibiscus', data: { color: 'red', name: 'Hibiscus', templateId: 'template2' }
+    }
+]
+```
 ## CSS variables (doesn't work on IE11)
 
 It's possible to change different colors (and more) with CSS variables without having to modify them with `::ng-deep` or other CSS rules :
