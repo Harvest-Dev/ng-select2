@@ -74,7 +74,7 @@ name | type | status | default | description
 `listPosition` | `'below'` or `'above'` | | `'below'` | the position for the dropdown list
 `material` | `""` or `true` or `'true'` | | | enable material style
 `nostyle` | `""` or `true` or `'true'` | | | remove border and background color
-`templates` | `TemplateRef` or {templateId : TemplateRef, ...} | | | use template for formatting content (see [Templating](#templating))
+`templates` | `TemplateRef` or `{option?: TemplateRef, group?: TemplateRef}` or `{templateId1: TemplateRef, ...}` | | | use templates for formatting content (see [Templating](#templating))
 `editPattern` | `(str: string) => string` | | | use it for change the pattern of the filter search
 `ngModel`/`id`/`required`/<br>`disabled`/`readonly`/`tabIndex` | | | |  just like a `select` control | 
 `(update)` | `(event: `[`Select2UpdateEvent`](#select2-data-structure)`) => void` | event | |  triggered when user select an option
@@ -147,15 +147,17 @@ export interface Select2SearchEvent<U extends Select2UpdateValue = Select2Value>
 </select2>
 ```
 
-
-
 ```ts 
 const data: Select2Data = [
     {
-        value: 'heliotrope', label: 'Heliotrope', data: { color: 'white', name: 'Heliotrope' }
+        value: 'heliotrope', 
+        label: 'Heliotrope', 
+        data: { color: 'white', name: 'Heliotrope' }
     },
     {
-        value: 'hibiscus', label: 'Hibiscus', data: { color: 'red', name: 'Hibiscus' }
+        value: 'hibiscus', 
+        label: 'Hibiscus', 
+        data: { color: 'red', name: 'Hibiscus' }
     }
 ]
 ```
@@ -164,9 +166,9 @@ const data: Select2Data = [
 
 ```html
 <select2 [data]="data"
-         [templates]="{option : option, group: group">
+         [templates]="{option : option, group: group}">
     <ng-template #option let-data="data">{{data?.name}}</ng-template>
-    <ng-template #group let-label="label">{{label}}</ng-template>
+    <ng-template #group let-label="label">Group: {{label}}</ng-template>
 </select2>
 ```
 
@@ -179,17 +181,23 @@ The template is defined by its type, option or group, automatically.
 <select2 [data]="data"
          [templates]="{template1 : template1, template2: template2">
     <ng-template #template1 let-data="data">{{data?.name}}</ng-template>
-    <ng-template #template2 let-label="label">{{label}}</ng-template>
+    <ng-template #template2 let-label="label" let-data="data">{{label}} : {{data?.color}}</ng-template>
 </select2>
 ```
 
 ```ts 
 const data: Select2Data = [
     {
-        value: 'heliotrope', label: 'Heliotrope', data: { color: 'white', name: 'Heliotrope', templateId: 'template1' }
+        value: 'heliotrope', 
+        label: 'Heliotrope', 
+        data: { color: 'white', name: 'Heliotrope' }, 
+        templateId: 'template1'
     },
     {
-        value: 'hibiscus', label: 'Hibiscus', data: { color: 'red', name: 'Hibiscus', templateId: 'template2' }
+        value: 'hibiscus', 
+        label: 'Hibiscus', 
+        data: { color: 'red', name: 'Hibiscus'},
+        templateId: 'template2' 
     }
 ]
 ```
