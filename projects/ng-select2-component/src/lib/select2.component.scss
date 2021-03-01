@@ -227,21 +227,27 @@
             display: none;
         }
 
+        .select2-selection__reset,
         .select2-selection__arrow {
             display: flex;
             width: 20px;
             align-items: center;
             justify-content: center;
+        }
 
-            &::before {
-                content: ' ';
-                border-color: #888 transparent;
-                border-color: var(--select2-arrow-color, #888) transparent;
-                border-style: solid;
-                border-width: 5px 4px 0;
-                height: 0;
-                width: 0;
-            }
+        .select2-selection__arrow::before {
+            content: ' ';
+            border-color: #888 transparent;
+            border-color: var(--select2-arrow-color, #888) transparent;
+            border-style: solid;
+            border-width: 5px 4px 0;
+            height: 0;
+            width: 0;
+        }
+
+        .select2-selection__reset {
+            color: #999;
+            color: var(--select2-reset-color, #999);
         }
     }
 

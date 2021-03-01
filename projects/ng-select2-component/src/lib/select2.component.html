@@ -22,13 +22,17 @@
              role="combobox">
             <span *ngIf="!multiple"
                   class="select2-selection__rendered"
-                  [title]="select2Option ? select2Option.label : ''">
+                  [title]="select2Option?.label || ''">
                 <span *ngIf="!select2Option">&nbsp;</span>
                 <span *ngIf="select2Option"
                       [innerHTML]="select2Option.label"></span>
                 <span [class.select2-selection__placeholder__option]="option"
                       class="select2-selection__placeholder">{{placeholder}}</span>
             </span>
+            <span (click)="reset($event)"
+                  *ngIf="!multiple && resetable"
+                  class="select2-selection__reset"
+                  role="presentation">×</span>
             <span *ngIf="!multiple"
                   class="select2-selection__arrow"
                   role="presentation">
