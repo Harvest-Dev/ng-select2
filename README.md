@@ -68,7 +68,7 @@ name | type | status | default | description
 `placeholder` | `string` | | | the placeholder string if nothing selected
 `customSearchEnabled` | `boolean` | | | will trigger `search` event, and disable inside filter
 `multiple` | `""` or `true` or `'true'` | | | select multiple options
-`resetable` | | | | add a button for reset value (not with `multiple`)
+`resettable` | | | | add a button to reset value (not with `multiple`)
 `limitSelection` | `number` | | `0` | to limit multiple selection  (`0` = unlimited)
 `hideSelectedItems` | `boolean` | | | for `multiple`, remove selected values
 `resultMaxHeight` | `string` | | |  change the height size of results
