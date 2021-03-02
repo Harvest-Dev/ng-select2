@@ -141,8 +141,8 @@ export class Select2 implements ControlValueAccessor, OnInit, OnDestroy, DoCheck
 
     /** reset with no selected value */
     @Input()
-    get resetable() { return this._resetable; }
-    set resetable(value: any) { this._resetable = this._coerceBooleanProperty(value); }
+    get resettable() { return this._resettable; }
+    set resettable(value: any) { this._resettable = this._coerceBooleanProperty(value); }
 
     @HostBinding('attr.aria-invalid')
     get ariaInvalid(): boolean {
@@ -186,7 +186,7 @@ export class Select2 implements ControlValueAccessor, OnInit, OnDestroy, DoCheck
     private _disabled = false;
     private _required = false;
     private _readonly = false;
-    private _resetable = false;
+    private _resettable = false;
     private _hideSelectedItems = false;
     private _clickDetection = false;
     private _clickDetectionFc: (e: MouseEvent) => void;

@@ -30,7 +30,7 @@
                       class="select2-selection__placeholder">{{placeholder}}</span>
             </span>
             <span (click)="reset($event)"
-                  *ngIf="!multiple && resetable"
+                  *ngIf="!multiple && resettable && select2Option"
                   class="select2-selection__reset"
                   role="presentation">×</span>
             <span *ngIf="!multiple"
