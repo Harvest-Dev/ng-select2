@@ -11,6 +11,7 @@
              (open)="open1($event)"
              (close)="close1($event)"
              (search)="search1($event)"
+             resettable
              id="selec2-1">
     </select2>
     <h3>2. options ({{value2}})</h3>
@@ -64,6 +65,7 @@
     <select2 [data]="data7"
              placeholder="select an item"
              (update)="update7($event)"
+             resettable
              id="selec2-7">
     </select2>
     <h3>8. open, close and search event ({{value8}})</h3>
@@ -240,5 +242,18 @@
                      let-data="data"><strong>{{data?.color}}</strong>: {{data?.name}}</ng-template>
         <ng-template #template3
                      let-data="data">{{data | json}}</ng-template>
+    </select2>
+    <h3>1. options in group ({{value1}})</h3>
+    <select2 [data]="data1"
+             [value]="value1"
+             (update)="update1($event)"
+             (change)="change1($event)"
+             (blur)="blur1($event)"
+             (focus)="focus1($event)"
+             (open)="open1($event)"
+             (close)="close1($event)"
+             (search)="search1($event)"
+             resettable
+             id="selec2-1">
     </select2>
 </div>

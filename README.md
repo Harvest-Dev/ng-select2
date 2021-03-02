@@ -67,7 +67,8 @@ name | type | status | default | description
 `displaySearchStatus` | `'default'` or `'hidden'` or `'always'` | |  `'default'` | display the search box (`default` : is based on `minCountForSearch`)
 `placeholder` | `string` | | | the placeholder string if nothing selected
 `customSearchEnabled` | `boolean` | | | will trigger `search` event, and disable inside filter
-`multiple` | `boolean` | | | select multiple options
+`multiple` | `""` or `true` or `'true'` | | | select multiple options
+`resettable` | | | | add a button to reset value (not with `multiple`)
 `limitSelection` | `number` | | `0` | to limit multiple selection  (`0` = unlimited)
 `hideSelectedItems` | `boolean` | | | for `multiple`, remove selected values
 `resultMaxHeight` | `string` | | |  change the height size of results
@@ -76,7 +77,7 @@ name | type | status | default | description
 `nostyle` | `""` or `true` or `'true'` | | | remove border and background color
 `templates` | `TemplateRef` or `{option?: TemplateRef, group?: TemplateRef}` or `{templateId1: TemplateRef, ...}` | | | use templates for formatting content (see [Templating](#templating))
 `editPattern` | `(str: string) => string` | | | use it for change the pattern of the filter search
-`ngModel`/`id`/`required`/<br>`disabled`/`readonly`/`tabIndex` | | | |  just like a `select` control | 
+`ngModel`<br>`id`<br>`required`<br>`disabled`<br>`readonly`<br>`tabIndex` | | | |  just like a `select` control | 
 `(update)` | `(event: `[`Select2UpdateEvent`](#select2-data-structure)`) => void` | event | |  triggered when user select an option
 `(open)` | `(event: Select2) => void` | event | |  triggered when user open the options
 `(close)` | `(event: Select2) => void` | event | |  triggered when user close the options
