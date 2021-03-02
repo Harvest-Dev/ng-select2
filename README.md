@@ -227,9 +227,11 @@ It's possible to change different colors (and more) with CSS variables without h
     --select2-selection-choice-close-color: #999;
     --select2-selection-choice-hover-close-color: #333;
 
-    /* placeholder */
-
+     /* placeholder */
     --select2-placeholder-color: #999;
+
+    /* reset */
+    --select2-reset-color: #999;
 
     /* arrow */
     --select2-arrow-color: #888;
