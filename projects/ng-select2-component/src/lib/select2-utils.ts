@@ -28,6 +28,8 @@ export interface Select2Option {
     templateId?: string;
     /** template data  */
     data?: any;
+    /** hide this option */
+    hide?: boolean;
 }
 
 export type Select2Value = string | number | boolean;

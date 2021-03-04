@@ -475,6 +475,10 @@
         color: var(--select2-option-highlighted-text-color, #fff);
     }
 
+    .select2-results__option--hide {
+        display: none;
+    }
+
     .select2-results__group {
         cursor: default;
         display: block;

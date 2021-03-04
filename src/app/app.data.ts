@@ -196,7 +196,8 @@ export const data19: Select2Data = [
     { value: 'foo5', label: 'foo5' },
     { value: 'foo6', label: 'foo6' },
     { value: 'foo7', label: 'foo7' },
-    { value: 'foo8', label: 'foo8' }
+    { value: 'foo8', label: 'foo8' },
+    { value: 'foo9', label: 'foo9', hide: true }
 ];
 
 export const data13: Select2Data = [
