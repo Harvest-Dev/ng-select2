@@ -207,7 +207,7 @@ export class Select2Utils {
                 for (let j = options.length - 1; j >= 0; j--) {
                     const option = options[j];
                     if (findIt) {
-                        if (!option.disabled) {
+                        if (!option.disabled && !option.hide) {
                             return option;
                         }
                     }
@@ -218,7 +218,7 @@ export class Select2Utils {
             } else {
                 const option = groupOrOption as Select2Option;
                 if (findIt) {
-                    if (!option.disabled) {
+                    if (!option.disabled && !option.hide) {
                         return option;
                     }
                 }
@@ -237,7 +237,7 @@ export class Select2Utils {
             if (options) {
                 for (const option of options) {
                     if (findIt) {
-                        if (!option.disabled) {
+                        if (!option.disabled && !option.hide) {
                             return option;
                         }
                     } else if (!findIt) {
@@ -247,7 +247,7 @@ export class Select2Utils {
             } else {
                 const option = groupOrOption as Select2Option;
                 if (findIt) {
-                    if (!option.disabled) {
+                    if (!option.disabled && !option.hide) {
                         return option;
                     }
                 } else if (!findIt) {
