@@ -1,5 +1,12 @@
 # Changelog of ng-select2
 
+## V7.2.1 (2020-03-04)
+
+### Changes
+
+- add a possibility to hide an option
+- add an argument `resettable` to display a reset button (in single mode) 
+
 ## V7.2.0 (2020-12-09)
 
 ### Changes
