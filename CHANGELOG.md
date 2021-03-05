@@ -1,9 +1,10 @@
 # Changelog of ng-select2
 
 ## V7.2.2 (2021-03-05)
+
 ### Corrections
 
-- add an argument `resettable` to display a reset button (in single mode) 
+- hidden options are no longer selectable with keyboard
 
 ## V7.2.1 (2021-03-04)
 
