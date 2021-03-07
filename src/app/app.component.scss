@@ -62,25 +62,11 @@
     --select2-material-option-selected-text-color: #ff5722;
 }
 
-#select2-17 ::ng-deep .select2-multiple-labels {
-    display: flex;
-    justify-content: space-between;
+ul {
+    display: block;
 }
 
-.noStyle {
-    background-color: antiquewhite;
-}
-
-.flower-list ::ng-deep .flower {
-    &.white::before {
-        content: "🌼 ";
-    }
-
-    &.red::before {
-        content: "🌹 ";
-    }
-
-    &.yellow::before {
-        content: "🌻 ";
-    }
+li {
+    display: inline-block;
+    padding: 0 15px;
 }

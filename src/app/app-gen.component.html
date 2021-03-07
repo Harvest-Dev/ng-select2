@@ -1,0 +1,123 @@
+<h2>
+    Generator
+</h2>
+
+<div class="cols">
+    <div [formGroup]="ctrlForm">
+        <div>
+            <label for="json">json : </label>
+            <textarea formControlName="json"
+                      id="json"></textarea>
+        </div>
+        <div>
+            <label for="disabled">disabled : </label>
+            <input type="checkbox"
+                   formControlName="disabled"
+                   id="disabled">
+        </div>
+        <div>
+            <label for="minCharForSearch">minCharForSearch : </label>
+            <input type="number"
+                   formControlName="minCharForSearch"
+                   id="minCharForSearch">
+        </div>
+        <div>
+            <label for="minCountForSearch">minCountForSearch : </label>
+            <input type="number"
+                   formControlName="minCountForSearch"
+                   id="minCountForSearch">
+        </div>
+        <div>
+            <label for="displaySearchStatus">displaySearchStatus :</label>
+            <select formControlName="displaySearchStatus"
+                    id="displaySearchStatus">
+                <option value="default">default</option>
+                <option value="hidden">hidden</option>
+                <option value="always">always</option>
+            </select>
+        </div>
+        <div>
+            <label for="placeholder">placeholder : </label>
+            <input type="text"
+                   formControlName="placeholder"
+                   id="placeholder">
+        </div>
+        <div>
+            <label for="customSearchEnabled">customSearchEnabled : </label>
+            <input type="checkbox"
+                   formControlName="customSearchEnabled"
+                   id="customSearchEnabled">
+        </div>
+        <div>
+            <label for="multiple">multiple : </label>
+            <input type="checkbox"
+                   formControlName="multiple"
+                   id="multiple">
+        </div>
+        <div>
+            <label for="resettable">resettable : </label>
+            <input type="checkbox"
+                   formControlName="resettable"
+                   id="resettable">
+        </div>
+        <div>
+            <label for="limitSelection">limitSelection : </label>
+            <input type="number"
+                   formControlName="limitSelection"
+                   id="limitSelection">
+        </div>
+        <div>
+            <label for="hideSelectedItems">hideSelectedItems : </label>
+            <input type="checkbox"
+                   formControlName="hideSelectedItems"
+                   id="hideSelectedItems">
+        </div>
+        <div>
+            <label for="resultMaxHeight">resultMaxHeight : </label>
+            <input type="text"
+                   formControlName="resultMaxHeight"
+                   id="resultMaxHeight">
+        </div>
+        <div>
+            <label for="listPosition">listPosition :</label>
+            <select formControlName="listPosition"
+                    id="listPosition">
+                <option value="below">below</option>
+                <option value="above">above</option>
+            </select>
+        </div>
+        <div>
+            <label for="material">material : </label>
+            <input type="checkbox"
+                   formControlName="material"
+                   id="material">
+        </div>
+        <div>
+            <label for="noStyle">nostyle : </label>
+            <input type="checkbox"
+                   formControlName="noStyle"
+                   id="nostyle">
+        </div>
+    </div>
+    <div>
+        <select2 *ngIf="ctrlForm.value"
+                 [data]="data"
+                 [disabled]="ctrlForm?.value?.disabled"
+                 [minCharForSearch]="ctrlForm?.value?.minCharForSearch"
+                 [minCountForSearch]="ctrlForm?.value?.minCountForSearch"
+                 [displaySearchStatus]="ctrlForm?.value?.displaySearchStatus"
+                 [placeholder]="ctrlForm?.value?.placeholder"
+                 [customSearchEnabled]="ctrlForm?.value?.customSearchEnabled"
+                 [multiple]="ctrlForm?.value?.multiple"
+                 [resettable]="ctrlForm?.value?.resettable"
+                 [limitSelection]="ctrlForm?.value?.limitSelection"
+                 [hideSelectedItems]="ctrlForm?.value?.hideSelectedItems"
+                 [resultMaxHeight]="ctrlForm?.value?.resultMaxHeight"
+                 [listPosition]="ctrlForm?.value?.listPosition"
+                 [material]="ctrlForm?.value?.material"
+                 [noStyle]="ctrlForm?.value?.noStyle"></select2>
+    </div>
+</div>
+<pre>
+{{ ctrlForm.value | json }}
+</pre>

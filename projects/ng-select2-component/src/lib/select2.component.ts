@@ -28,15 +28,25 @@ export class Select2 implements ControlValueAccessor, OnInit, OnDestroy, DoCheck
     @Input() displaySearchStatus: 'default' | 'hidden' | 'always';
     @Input() placeholder: string;
     @Input() customSearchEnabled: boolean;
-    @Input() multiple: boolean;
     @Input() limitSelection = 0;
     @Input() listPosition: 'above' | 'below';
 
-    /** use the material style */
-    @Input() material: '' | 'true' | true;
+    @Input()
+    public get multiple(): any { return this._multiple; }
+    public set multiple(value: any) {
+        this._multiple = this._coerceBooleanProperty(value);
+        this.ngOnInit();
+    }
 
     /** use the material style */
-    @Input() noStyle: '' | 'true' | true;
+    @Input()
+    public get material(): any { return this._material; }
+    public set material(value: any) { this._material = this._coerceBooleanProperty(value); }
+
+    /** use no style */
+    @Input()
+    public get noStyle(): any { return this._noStyle; }
+    public set noStyle(value: any) { this._noStyle = this._coerceBooleanProperty(value); }
 
     /** use it for change the pattern of the filter search */
     @Input() editPattern: (str: string) => string;
@@ -62,7 +72,6 @@ export class Select2 implements ControlValueAccessor, OnInit, OnDestroy, DoCheck
     focused = false;
 
     filteredData: Select2Data;
-
 
     get select2Options() {
         return this.multiple ? this.option as Select2Option[] : null;
@@ -186,6 +195,9 @@ export class Select2 implements ControlValueAccessor, OnInit, OnDestroy, DoCheck
     private _disabled = false;
     private _required = false;
     private _readonly = false;
+    private _multiple = false;
+    private _material = false;
+    private _noStyle = false;
     private _resettable = false;
     private _hideSelectedItems = false;
     private _clickDetection = false;
@@ -509,6 +521,7 @@ export class Select2 implements ControlValueAccessor, OnInit, OnDestroy, DoCheck
     select(option: Select2Option | null) {
         let value: any;
         if (option !== null) {
+            console.log(this.option);
             if (this.multiple) {
                 const options = this.option as Select2Option[];
                 const index = options.findIndex(op => op.value === option.value);

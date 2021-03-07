@@ -1,0 +1,14 @@
+
+
+label {
+    display: inline-block;
+    width: 250px;
+}
+
+.cols {
+    display: flex;
+
+    & > * {
+        flex: 1 1 0;
+    }
+}

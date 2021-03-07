@@ -1,0 +1,22 @@
+#select2-17 ::ng-deep .select2-multiple-labels {
+    display: flex;
+    justify-content: space-between;
+}
+
+.noStyle {
+    background-color: antiquewhite;
+}
+
+.flower-list ::ng-deep .flower {
+    &.white::before {
+        content: "🌼 ";
+    }
+
+    &.red::before {
+        content: "🌹 ";
+    }
+
+    &.yellow::before {
+        content: "🌻 ";
+    }
+}
