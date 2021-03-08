@@ -4,11 +4,32 @@
 
 <div class="cols">
     <div [formGroup]="ctrlForm">
+        <h4>
+            data
+        </h4>
         <div>
             <label for="json">json : </label>
             <textarea formControlName="json"
                       id="json"></textarea>
         </div>
+        <h4>
+            tags
+        </h4>
+        <div>
+            <label for="label">label : </label>
+            <input type="text"
+                   formControlName="label"
+                   id="label">
+        </div>
+        <div>
+            <label for="hint">hint : </label>
+            <input type="text"
+                   formControlName="hint"
+                   id="hint">
+        </div>
+        <h4>
+            parameters
+        </h4>
         <div>
             <label for="disabled">disabled : </label>
             <input type="checkbox"
@@ -16,13 +37,13 @@
                    id="disabled">
         </div>
         <div>
-            <label for="minCharForSearch">minCharForSearch : </label>
+            <label for="minCharForSearch">minCharForSearch (0) : </label>
             <input type="number"
                    formControlName="minCharForSearch"
                    id="minCharForSearch">
         </div>
         <div>
-            <label for="minCountForSearch">minCountForSearch : </label>
+            <label for="minCountForSearch">minCountForSearch (6) : </label>
             <input type="number"
                    formControlName="minCountForSearch"
                    id="minCountForSearch">
@@ -61,7 +82,7 @@
                    id="resettable">
         </div>
         <div>
-            <label for="limitSelection">limitSelection : </label>
+            <label for="limitSelection">limitSelection (0) : </label>
             <input type="number"
                    formControlName="limitSelection"
                    id="limitSelection">
@@ -73,7 +94,7 @@
                    id="hideSelectedItems">
         </div>
         <div>
-            <label for="resultMaxHeight">resultMaxHeight : </label>
+            <label for="resultMaxHeight">resultMaxHeight ('200px') : </label>
             <input type="text"
                    formControlName="resultMaxHeight"
                    id="resultMaxHeight">
@@ -98,26 +119,82 @@
                    formControlName="noStyle"
                    id="nostyle">
         </div>
+        <h4>
+            Events
+        </h4>
+        <div>
+            <label for="update">update : </label>
+            <input type="checkbox"
+                   formControlName="update"
+                   id="update">
+        </div>
+        <div>
+            <label for="open">open : </label>
+            <input type="checkbox"
+                   formControlName="open"
+                   id="open">
+        </div>
+        <div>
+            <label for="close">close : </label>
+            <input type="checkbox"
+                   formControlName="close"
+                   id="close">
+        </div>
+        <div>
+            <label for="focus">focus : </label>
+            <input type="checkbox"
+                   formControlName="focus"
+                   id="focus">
+        </div>
+        <div>
+            <label for="blur">blur : </label>
+            <input type="checkbox"
+                   formControlName="blur"
+                   id="blur">
+        </div>
+        <div>
+            <label for="search">search : </label>
+            <input type="checkbox"
+                   formControlName="search"
+                   id="search">
+        </div>
     </div>
     <div>
+        <h4>
+            HTML render
+        </h4>
         <select2 *ngIf="ctrlForm.value"
                  [data]="data"
                  [disabled]="ctrlForm?.value?.disabled"
-                 [minCharForSearch]="ctrlForm?.value?.minCharForSearch"
-                 [minCountForSearch]="ctrlForm?.value?.minCountForSearch"
+                 [minCharForSearch]="ctrlForm?.value?.minCharForSearch || 0"
+                 [minCountForSearch]="ctrlForm?.value?.minCountForSearch || 6"
                  [displaySearchStatus]="ctrlForm?.value?.displaySearchStatus"
                  [placeholder]="ctrlForm?.value?.placeholder"
                  [customSearchEnabled]="ctrlForm?.value?.customSearchEnabled"
                  [multiple]="ctrlForm?.value?.multiple"
                  [resettable]="ctrlForm?.value?.resettable"
-                 [limitSelection]="ctrlForm?.value?.limitSelection"
+                 [limitSelection]="ctrlForm?.value?.limitSelection || 0"
                  [hideSelectedItems]="ctrlForm?.value?.hideSelectedItems"
-                 [resultMaxHeight]="ctrlForm?.value?.resultMaxHeight"
+                 [resultMaxHeight]="ctrlForm?.value?.resultMaxHeight || '200px'"
                  [listPosition]="ctrlForm?.value?.listPosition"
                  [material]="ctrlForm?.value?.material"
-                 [noStyle]="ctrlForm?.value?.noStyle"></select2>
+                 [noStyle]="ctrlForm?.value?.noStyle"
+                 (update)="_event('update', $event)"
+                 (open)="_event('open', $event)"
+                 (close)="_event('close', $event)"
+                 (focus)="_event('focus', $event)"
+                 (blur)="_event('blur', $event)"
+                 (search)="_event('search', $event)">
+            <select2-label [innerHTML]="ctrlForm?.value?.label"></select2-label>
+            <select2-hint [innerHTML]="ctrlForm?.value?.hint"></select2-hint>
+        </select2>
+
+        <h4>
+            HTML Code
+        </h4>
+
+        <div>
+            <pre>{{ html }}</pre>
+        </div>
     </div>
 </div>
-<pre>
-{{ ctrlForm.value | json }}
-</pre>

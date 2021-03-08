@@ -57,31 +57,31 @@ class MainModule { }
 ```
 ### properties and events of the component
 
-name                  | type | status | default | description
---------------------- | --- | --- | --- | ---
-`data`                | [`Select2Data`](#select2-data-structure) | required | |  the data of the select2
-`value`               | [`Select2Value`](#select2-data-structure)| | | initial value
-`minCharForSearch`    | `number` | | `0` | start the search when the number of characters is reached (`0` = unlimited)
-`minCountForSearch`   | `number` | | `6` |  hide search box if `options.length < minCountForSearch` 
-`displaySearchStatus` | `'default'` or `'hidden'` or `'always'` | |  `'default'` | display the search box (`default` : is based on `minCountForSearch`)
-`placeholder`         | `string` | | | the placeholder string if nothing selected
-`customSearchEnabled` | `boolean` | | `false` | will trigger `search` event, and disable inside filter
-`multiple`            | `boolean`   | |  `false` | select multiple options
-`resettable`          | `boolean` | |  `false` | add a button to reset value (not with `multiple`)
-`limitSelection`      | `number` | | `0` | to limit multiple selection  (`0` = unlimited)
-`hideSelectedItems`   | `boolean` | | `false` | for `multiple`, remove selected values
-`resultMaxHeight`     | `string` | | |  change the height size of results
-`listPosition`        | `'below'` or `'above'` | | `'below'` | the position for the dropdown list
-`material`            | `boolean` | |  `false` | enable material style
-`nostyle`             | `boolean`| |  `false` | remove border and background color
-`templates`           | `TemplateRef` or `{option?: TemplateRef, group?: TemplateRef}` or `{templateId1: TemplateRef, ...}` | | | use templates for formatting content (see [Templating](#templating))
-`editPattern`         | `(str: string) => string` | | | use it for change the pattern of the filter search
-`ngModel`<br>`id`<br>`required`<br>`disabled`<br>`readonly`<br>`tabIndex` | | | |  just like a `select` control | 
+name                  | type                                     | status   | default     | description
+--------------------- | ---------------------------------------- | -------- | ----------- | ---------------------------------------------------------------
+`data`                | [`Select2Data`](#select2-data-structure) | required |             | the data of the select2
+`value`               | [`Select2Value`](#select2-data-structure)|          |             | initial value
+`minCharForSearch`    | `number`                                 |          | `0`         | start the search when the number of characters is reached (`0` = unlimited)
+`minCountForSearch`   | `number`                                 |          | `6`         | hide search box if `options.length < minCountForSearch` 
+`displaySearchStatus` | `'default'` or `'hidden'` or `'always'`  |          | `'default'` | display the search box (`default` : is based on `minCountForSearch`)
+`placeholder`         | `string`                                 |          |             | the placeholder string if nothing selected
+`customSearchEnabled` | `boolean`                                |          | `false`     | will trigger `search` event, and disable inside filter
+`multiple`            | `boolean`                                |          | `false`     | select multiple options
+`resettable`          | `boolean`                                |          | `false`     | add a button to reset value (not with `multiple`)
+`limitSelection`      | `number`                                 |          | `0`         | to limit multiple selection  (`0` = unlimited)
+`hideSelectedItems`   | `boolean`                                |          | `false`     | for `multiple`, remove selected values
+`resultMaxHeight`     | `string`                                 |          |             | change the height size of results
+`listPosition`        | `'below'` or `'above'`                   |          | `'below'`   | the position for the dropdown list
+`material`            | `boolean`                                |          | `false`     | enable material style
+`nostyle`             | `boolean`                                |          | `false`     | remove border and background color
+`templates`           | `TemplateRef` or<br> `{option?: TemplateRef, group?: TemplateRef}` or<br> `{templateId1: TemplateRef, ...}` | | | use templates for formatting content (see [Templating](#templating))
+`editPattern`         | `(str: string) => string`                |          |             | use it for change the pattern of the filter search
+`ngModel`<br>`id`<br>`required`<br>`disabled`<br>`readonly`<br>`tabIndex` | |  |          | just like a `select` control | 
 `(update)`            | `(event: `[`Select2UpdateEvent`](#select2-data-structure)`) => void` | event | |  triggered when user select an option
-`(open)`              | `(event: Select2) => void` | event | |  triggered when user open the options
-`(close)`             | `(event: Select2) => void` | event | |  triggered when user close the options
-`(focus)`             | `(event: Select2) => void` | event | |  triggered when user enters the component
-`(blur)`              | `(event: Select2) => void` | event | |  triggered when user leaves the component
+`(open)`              | `(event: Select2) => void`               | event    |             | triggered when user open the options
+`(close)`             | `(event: Select2) => void`               | event    |             | triggered when user close the options
+`(focus)`             | `(event: Select2) => void`               | event    |             | triggered when user enters the component
+`(blur)`              | `(event: Select2) => void`               | event    |             | triggered when user leaves the component
 `(search)`            | `(event: `[`Select2SearchEvent`](#select2-data-structure)`) => void` | event | |  triggered when search text changed
 
 ### select2 data structure
