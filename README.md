@@ -181,7 +181,7 @@ The template is defined by its type, option or group, automatically.
 
 ```html
 <select2 [data]="data"
-         [templates]="{template1 : template1, template2: template2">
+         [templates]="{template1 : template1, template2: template2}">
     <ng-template #template1 let-data="data">{{data?.name}}</ng-template>
     <ng-template #template2 let-label="label" let-data="data">{{label}} : {{data?.color}}</ng-template>
 </select2>

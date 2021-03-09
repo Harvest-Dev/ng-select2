@@ -1,8 +1,8 @@
-import { AfterContentInit, Component } from '@angular/core';
+import { AfterContentInit, Component, TemplateRef } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { Json2html, Json2htmlAttr, Json2htmlRef } from 'json2html-lib';
 
-import { data1 } from './app.data';
+import { data24 } from './app.data';
 
 @Component({
     selector: 'app-root',
@@ -10,7 +10,7 @@ import { data1 } from './app.data';
     styleUrls: ['./app-gen.component.scss']
 })
 export class AppGenComponent implements AfterContentInit {
-    data = data1;
+    data = data24;
 
     html: string;
 
@@ -39,6 +39,8 @@ export class AppGenComponent implements AfterContentInit {
             listPosition: new FormControl(),
             material: new FormControl(),
             noStyle: new FormControl(),
+            // template
+            template: new FormControl(),
             // event
             update: new FormControl(),
             open: new FormControl(),
@@ -60,6 +62,21 @@ export class AppGenComponent implements AfterContentInit {
         this.codeGeneration();
     }
 
+    getTemplate(
+        template: TemplateRef<any>,
+        option: TemplateRef<any>, group: TemplateRef<any>,
+        template1: TemplateRef<any>, template2: TemplateRef<any>
+    ) {
+        switch (this.ctrlForm.value.template) {
+            case 'ref':
+                return template;
+            case 'option-group':
+                return { option: option, group: group };
+            case 'templateId':
+                return { template1: template1, template2: template2 };
+        }
+    }
+
     _event(type: string, event: any) {
         if (this.ctrlForm.value && this.ctrlForm.value[type]) {
             console.log('Event', type, event);
@@ -75,80 +92,119 @@ export class AppGenComponent implements AfterContentInit {
             body: []
         };
         const value = this.ctrlForm.value;
+        const attrs = json.attrs;
+        const body = json.body as Json2htmlRef[];
 
         // tags
 
         if (value.label) {
-            (json.body as Json2htmlRef[]).push({ tag: 'select2-label', body: value.label, inline: true });
+            body.push({ tag: 'select2-label', body: value.label, inline: true });
         }
         if (value.hint) {
-            (json.body as Json2htmlRef[]).push({ tag: 'select2-hint', body: value.hint, inline: true });
+            body.push({ tag: 'select2-hint', body: value.hint, inline: true });
         }
 
         // parameters
 
         if (value.disabled) {
-            json.attrs.disabled = this._testBoolean(value.disabled);
+            attrs.disabled = this._testBoolean(value.disabled);
         }
         if (value.minCharForSearch) {
-            json.attrs.minCharForSearch = value.minCharForSearch;
+            attrs.minCharForSearch = value.minCharForSearch;
         }
         if (value.minCountForSearch) {
-            json.attrs.minCountForSearch = value.minCountForSearch;
+            attrs.minCountForSearch = value.minCountForSearch;
         }
         if (value.displaySearchStatus) {
-            json.attrs.displaySearchStatus = value.displaySearchStatus;
+            attrs.displaySearchStatus = value.displaySearchStatus;
         }
         if (value.placeholder) {
-            json.attrs.placeholder = value.placeholder;
+            attrs.placeholder = value.placeholder;
         }
         if (value.customSearchEnabled) {
-            json.attrs.customSearchEnabled = this._testBoolean(value.customSearchEnabled);
+            attrs.customSearchEnabled = this._testBoolean(value.customSearchEnabled);
         }
         if (value.multiple) {
-            json.attrs.multiple = this._testBoolean(value.multiple);
+            attrs.multiple = this._testBoolean(value.multiple);
         }
         if (value.resettable) {
-            json.attrs.resettable = this._testBoolean(value.resettable);
+            attrs.resettable = this._testBoolean(value.resettable);
         }
         if (value.limitSelection) {
-            json.attrs.limitSelection = value.limitSelection;
+            attrs.limitSelection = value.limitSelection;
         }
         if (value.hideSelectedItems) {
-            json.attrs.hideSelectedItems = this._testBoolean(value.hideSelectedItems);
+            attrs.hideSelectedItems = this._testBoolean(value.hideSelectedItems);
         }
         if (value.resultMaxHeight) {
-            json.attrs.resultMaxHeight = value.resultMaxHeight;
+            attrs.resultMaxHeight = value.resultMaxHeight;
         }
         if (value.listPosition) {
-            json.attrs.listPosition = value.listPosition;
+            attrs.listPosition = value.listPosition;
         }
         if (value.material) {
-            json.attrs.material = this._testBoolean(value.material);
+            attrs.material = this._testBoolean(value.material);
         }
         if (value.noStyle) {
-            json.attrs.noStyle = this._testBoolean(value.noStyle);
+            attrs.noStyle = this._testBoolean(value.noStyle);
+        }
+
+        // template
+
+        switch (value.template) {
+            case 'ref':
+                attrs['[templates]'] = 'template';
+                body.push({
+                    tag: 'ng-template',
+                    attrs: { '#template': null, 'let-data': 'data' },
+                    body: '<ng-container *ngIf="data?.color"> <strong>{{data?.color}}</strong>: </ng-container>{{data?.name}}'
+                });
+                break;
+            case 'option-group':
+                attrs['[templates]'] = '{option : option, group: group}';
+                body.push({
+                    tag: 'ng-template',
+                    attrs: { '#option': null, 'let-data': 'data' },
+                    body: '{{data?.name}}'
+                }, {
+                    tag: 'ng-template',
+                    attrs: { '#group': null, 'let-label': 'label' },
+                    body: 'Group: {{label}}'
+                });
+                break;
+            case 'templateId':
+                attrs['[templates]'] = '{template1 : template1, template2: template2}';
+                body.push({
+                    tag: 'ng-template',
+                    attrs: { '#template1': null, 'let-data': 'data' },
+                    body: '{{data?.name}}'
+                }, {
+                    tag: 'ng-template',
+                    attrs: { '#template2': null, 'let-label': 'label', 'let-data': 'data' },
+                    body: '{{label}} : {{data?.color}}'
+                });
+                break;
         }
 
         // event
 
         if (value.update) {
-            json.attrs['(update)'] = '$event';
+            attrs['(update)'] = '$event';
         }
         if (value.open) {
-            json.attrs['(open)'] = '$event';
+            attrs['(open)'] = '$event';
         }
         if (value.close) {
-            json.attrs['(close)'] = '$event';
+            attrs['(close)'] = '$event';
         }
         if (value.focus) {
-            json.attrs['(focus)'] = '$event';
+            attrs['(focus)'] = '$event';
         }
         if (value.blur) {
-            json.attrs['(blur)'] = '$event';
+            attrs['(blur)'] = '$event';
         }
         if (value.search) {
-            json.attrs['(search)'] = '$event';
+            attrs['(search)'] = '$event';
         }
 
         this.html = new Json2html(json).toString();

@@ -75,7 +75,7 @@
                    formControlName="multiple"
                    id="multiple">
         </div>
-        <div>
+        <div [class.hide]="ctrlForm?.value?.multiple">
             <label for="resettable">resettable : </label>
             <input type="checkbox"
                    formControlName="resettable"
@@ -87,7 +87,7 @@
                    formControlName="limitSelection"
                    id="limitSelection">
         </div>
-        <div>
+        <div [class.hide]="!ctrlForm?.value?.multiple">
             <label for="hideSelectedItems">hideSelectedItems : </label>
             <input type="checkbox"
                    formControlName="hideSelectedItems"
@@ -118,6 +118,19 @@
             <input type="checkbox"
                    formControlName="noStyle"
                    id="nostyle">
+        </div>
+        <h4>
+            Templates
+        </h4>
+        <div>
+            <label for="template">template style :</label>
+            <select formControlName="template"
+                    id="template">
+                <option value="none">None</option>
+                <option value="ref">Unique template</option>
+                <option value="option-group">Template group & option </option>
+                <option value="templateId">Template by templateId</option>
+            </select>
         </div>
         <h4>
             Events
@@ -179,6 +192,7 @@
                  [listPosition]="ctrlForm?.value?.listPosition"
                  [material]="ctrlForm?.value?.material"
                  [noStyle]="ctrlForm?.value?.noStyle"
+                 [templates]="getTemplate(template, option, group, template1, template2)"
                  (update)="_event('update', $event)"
                  (open)="_event('open', $event)"
                  (close)="_event('close', $event)"
@@ -187,6 +201,19 @@
                  (search)="_event('search', $event)">
             <select2-label [innerHTML]="ctrlForm?.value?.label"></select2-label>
             <select2-hint [innerHTML]="ctrlForm?.value?.hint"></select2-hint>
+            <ng-template #template
+                         let-data="data">
+                <ng-container *ngIf="data?.color"> <strong>{{data?.color}}</strong>: </ng-container>{{data?.name}}
+            </ng-template>
+            <ng-template #option
+                         let-data="data">{{data?.name}}</ng-template>
+            <ng-template #group
+                         let-label="label">Group: {{label}}</ng-template>
+            <ng-template #template1
+                         let-data="data">{{data?.name}}</ng-template>
+            <ng-template #template2
+                         let-label="label"
+                         let-data="data">{{label}} : {{data?.color}}</ng-template>
         </select2>
 
         <h4>

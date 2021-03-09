@@ -268,6 +268,7 @@ export const data23: Select2Data = [
 export const data24: Select2Data = [
     {
         label: 'Red',
+        data: { name: '(Red)' },
         options: [
             {
                 value: 'hibiscus', label: 'Hibiscus', data: { color: 'red', name: 'Hibiscus' },
@@ -281,6 +282,7 @@ export const data24: Select2Data = [
     },
     {
         label: 'Yellow',
+        data: { name: '(Yellow)' },
         options: [
             {
                 value: 'sunflower', label: 'Sunflower', data: { color: 'yellow', name: 'Sunflower' },
@@ -290,6 +292,7 @@ export const data24: Select2Data = [
     },
     {
         label: 'White',
+        data: { name: '(White)' },
         options: [
             {
                 value: 'heliotrope', label: 'Heliotrope', data: { color: 'white', name: 'Heliotrope' },
