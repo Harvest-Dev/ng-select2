@@ -29,6 +29,7 @@
     "json2html-lib": "0.0.6",
     "highlight.js": "9.15.6",
     "ngx-highlightjs": "3.0.3",
+    "bowser": "2.11.0",
     "rxjs": "^6.3.0",
     "zone.js": "^0.8.26"
   },

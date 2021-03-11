@@ -8,9 +8,12 @@
             data
         </h4>
         <div>
-            <label for="json">json : </label>
+            <label for="json">json (for <code>[data]</code>) : </label>
             <textarea formControlName="json"
                       id="json"></textarea>
+            <div class="error"
+                 [innerHTML]="jsonError"></div>
+
         </div>
         <h4>
             tags

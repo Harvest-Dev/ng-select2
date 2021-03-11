@@ -1,6 +1,7 @@
 import { AfterContentInit, Component, TemplateRef } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 
+import * as Bowser from 'bowser';
 import { Json2html, Json2htmlRef } from 'json2html-lib';
 
 import { data24 } from './app.data';
@@ -15,13 +16,15 @@ export class AppGenComponent implements AfterContentInit {
 
     html: string;
 
+    jsonError: string;
+
     ctrlForm: FormGroup;
 
     constructor(private fb: FormBuilder) {
 
         this.ctrlForm = this.fb.group({
             // data
-            json: new FormControl(''),
+            json: new FormControl(JSON.stringify(this.data, null, 2)),
             // tags
             label: new FormControl(),
             hint: new FormControl(),
@@ -57,6 +60,7 @@ export class AppGenComponent implements AfterContentInit {
         });
 
         this.ctrlForm.valueChanges.subscribe(_ => this.codeGeneration());
+        this.ctrlForm.get('json').valueChanges.subscribe(value => this.changeJson(value));
     }
 
     ngAfterContentInit() {
@@ -190,25 +194,80 @@ export class AppGenComponent implements AfterContentInit {
         // event
 
         if (value.update) {
-            attrs['(update)'] = '$event';
+            attrs['(update)'] = '_update($event)';
         }
         if (value.open) {
-            attrs['(open)'] = '$event';
+            attrs['(open)'] = '_open($event)';
         }
         if (value.close) {
-            attrs['(close)'] = '$event';
+            attrs['(close)'] = '_close($event)';
         }
         if (value.focus) {
-            attrs['(focus)'] = '$event';
+            attrs['(focus)'] = '_focus($event)';
         }
         if (value.blur) {
-            attrs['(blur)'] = '$event';
+            attrs['(blur)'] = '_blur($event)';
         }
         if (value.search) {
-            attrs['(search)'] = '$event';
+            attrs['(search)'] = '_search($event)';
         }
 
         this.html = new Json2html(json).toString();
+    }
+
+    changeJson(value: string): void {
+        this.jsonError = '';
+        try {
+            this.data = JSON.parse(value);
+        } catch (error) {
+            this.jsonError = this._parseJsonError(value, error);
+        }
+    }
+
+    private _parseJsonError(value: string, error: Error): string {
+        let returnMessage = '';
+
+        const message = error.message.match(/[^\n]+/)[0];
+
+        const browser = Bowser.getParser(window.navigator.userAgent).getResult();
+
+        if (browser.browser.name === 'Chrome') {
+            if (message.match(/at position/)) {
+                const position = parseInt(message.match(/at position (\d+)/)[1], 10);
+                const lines = value.split(/\n/);
+                let l = 1;
+                for (const line of lines) {
+                    if (line) {
+                        if ((l + line.length) >= position) {
+                            returnMessage = message + '<br><pre>' + line + '\n' + ' '.repeat(position - l + 1)
+                                + '^</pre>';
+                            break;
+                        }
+                        l += line.length + 1;
+                    }
+                }
+            } else {
+                returnMessage = message;
+            }
+
+        } else if (browser.browser.name === 'Firefox') {
+            if (message.match(/at line/)) {
+                const [, line, column] = message.match(/at line (\d+) column (\d+)/);
+                const lines = value.split(/\n/);
+                if (lines[+line - 1]) {
+                    returnMessage = message + '<br><pre>' + lines[+line - 1] + '\n' + ' '.repeat(+column - 1)
+                        + '^</pre>';
+                } else {
+                    returnMessage = message;
+                }
+            } else {
+                returnMessage = message;
+            }
+        } else {
+            returnMessage = message;
+        }
+
+        return returnMessage;
     }
 
     private _testBoolean(value: any) {
