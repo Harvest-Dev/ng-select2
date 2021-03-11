@@ -1,6 +1,7 @@
 import { AfterContentInit, Component, TemplateRef } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
-import { Json2html, Json2htmlAttr, Json2htmlRef } from 'json2html-lib';
+
+import { Json2html, Json2htmlRef } from 'json2html-lib';
 
 import { data24 } from './app.data';
 

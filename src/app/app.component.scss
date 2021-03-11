@@ -1,4 +1,6 @@
-::ng-deep :root {
+@import "~highlight.js/styles/github.css";
+
+:root {
     /* label */
     --select2-label-text-color: #000;
     --select2-required-color: red;
@@ -62,11 +64,13 @@
     --select2-material-option-selected-text-color: #ff5722;
 }
 
-ul {
-    display: block;
-}
+nav {
+    ul {
+        display: block;
+    }
 
-li {
-    display: inline-block;
-    padding: 0 15px;
+    li {
+        display: inline-block;
+        padding: 0 15px;
+    }
 }
