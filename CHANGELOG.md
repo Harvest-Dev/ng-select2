@@ -1,5 +1,15 @@
 # Changelog of ng-select2
 
+## V7.2.3 (2021-03-11)
+
+### Corrections
+
+- fix crash when switching between multiple and non-multiple 
+
+### Demo
+
+- add html generator 
+
 ## V7.2.2 (2021-03-05)
 
 ### Corrections
