@@ -63,6 +63,7 @@ export class Select2 implements ControlValueAccessor, OnInit, OnDestroy, DoCheck
     @Output() focus = new EventEmitter<Select2>();
     @Output() blur = new EventEmitter<Select2>();
     @Output() search = new EventEmitter<Select2SearchEvent<Select2UpdateValue>>();
+    @Output() onScroll = new EventEmitter();
 
     option: Select2Option | Select2Option[] | null = null;
     isOpen = false;
@@ -775,5 +776,9 @@ export class Select2 implements ControlValueAccessor, OnInit, OnDestroy, DoCheck
             this.focused = state;
             this.focus.emit(this);
         }
+    }
+
+    emitScroll() {
+        this.onScroll.emit();
     }
 }

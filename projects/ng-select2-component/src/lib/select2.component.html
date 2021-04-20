@@ -74,7 +74,12 @@
                        spellcheck="false"
                        [attr.tabindex]="this.isOpen ? tabIndex : '-1'">
             </div>
-            <div class="select2-results">
+            <div class="select2-results"
+                 infiniteScroll
+                 [infiniteScrollDistance]="2"
+                 [infiniteScrollThrottle]="50"
+                 (scrolled)="emitScroll()"
+            >
                 <ul #results
                     class="select2-results__options"
                     [style.max-height]="resultMaxHeight"
