@@ -5,12 +5,14 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Select2Hint } from './select2-hint.component';
 import { Select2Label } from './select2-label.component';
 import { Select2 } from './select2.component';
+import {InfiniteScrollModule} from 'ngx-infinite-scroll';
 
 @NgModule({
     imports: [
         CommonModule,
         FormsModule,
-        ReactiveFormsModule
+        ReactiveFormsModule,
+        InfiniteScrollModule
     ],
     declarations: [
         Select2Hint,
