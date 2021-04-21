@@ -1,6 +1,7 @@
 <div class="select2-label"
      (click)="toggleOpenAndClose()">
-    <ng-content select="select2-label"></ng-content><span *ngIf="required"
+    <ng-content select="select2-label"></ng-content>
+    <span *ngIf="required"
           class="select2-required"></span>
 </div>
 <div class="select2 select2-container select2-container--default select2-container--focus"
@@ -76,9 +77,10 @@
             </div>
             <div class="select2-results"
                  infiniteScroll
-                 [infiniteScrollDistance]="2"
-                 [infiniteScrollThrottle]="50"
+                 [infiniteScrollDistance]="infiniteScrollDistance"
+                 [infiniteScrollThrottle]="infiniteScrollThrottle"
                  (scrolled)="emitScroll()"
+                 [infiniteScrollDisabled]="infiniteScrollDisabled"
             >
                 <ul #results
                     class="select2-results__options"
@@ -95,7 +97,7 @@
                                     [innerHTML]="groupOrOption.label"></strong>
                             <ng-template #optGroup>
                                 <ng-container
-                                              *ngTemplateOutlet="getTemplate(groupOrOption, 'group'); context:  groupOrOption">
+                                    *ngTemplateOutlet="getTemplate(groupOrOption, 'group'); context:  groupOrOption">
                                 </ng-container>
                             </ng-template>
 
@@ -114,7 +116,7 @@
                                          [innerHTML]="option.label"></div>
                                     <ng-template #liGroup>
                                         <ng-container
-                                                      *ngTemplateOutlet="getTemplate(option, 'option'); context: option">
+                                            *ngTemplateOutlet="getTemplate(option, 'option'); context: option">
                                         </ng-container>
                                     </ng-template>
                                 </li>
@@ -134,7 +136,7 @@
                                  class="select2-label-content"></div>
                             <ng-template #li>
                                 <ng-container
-                                              *ngTemplateOutlet="getTemplate(groupOrOption, 'option'); context:  groupOrOption">
+                                    *ngTemplateOutlet="getTemplate(groupOrOption, 'option'); context:  groupOrOption">
                                 </ng-container>
                             </ng-template>
                         </li>
