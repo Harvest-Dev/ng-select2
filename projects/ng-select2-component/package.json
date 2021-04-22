@@ -20,5 +20,8 @@
     "typescript",
     "angular",
     "select2"
-  ]
+  ],
+  "dependencies": {
+    "ngx-infinite-scroll": "^10.0.1"
+  }
 }
