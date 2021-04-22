@@ -7,8 +7,8 @@ import { ControlValueAccessor, FormGroupDirective, NgControl, NgForm } from '@an
 import { Subject } from 'rxjs';
 
 import {
-    Select2Data, Select2Group, Select2Option, Select2SearchEvent, Select2UpdateEvent, Select2UpdateValue, Select2Utils,
-    Select2Value, timeout
+    Select2Data, Select2Group, Select2Option, Select2ScrollEvent, Select2SearchEvent, Select2UpdateEvent,
+    Select2UpdateValue, Select2Utils, Select2Value, timeout
 } from './select2-utils';
 
 let nextUniqueId = 0;
@@ -22,11 +22,6 @@ const displaySearchStatusList = ['default', 'hidden', 'always'];
 })
 export class Select2 implements ControlValueAccessor, OnInit, OnDestroy, DoCheck, AfterViewInit {
 
-    // Data for infinite scroll
-    @Input() infiniteScrollDistance = 2;
-    @Input() infiniteScrollThrottle = 50;
-    @Input() infiniteScrollDisabled = true;
-
     /** data of options & optiongrps */
     @Input() data!: Select2Data;
     @Input() minCharForSearch = 0;
@@ -37,40 +32,36 @@ export class Select2 implements ControlValueAccessor, OnInit, OnDestroy, DoCheck
     @Input() listPosition: 'above' | 'below';
 
     @Input()
-    public get multiple(): any {
-        return this._multiple;
-    }
-
-    public set multiple(value: any) {
-        this._multiple = this._coerceBooleanProperty(value);
-        this.ngOnInit();
-    }
+    public get multiple(): any { return this._multiple; }
+    public set multiple(value: any) { this._multiple = this._coerceBooleanProperty(value); this.ngOnInit(); }
 
     /** use the material style */
     @Input()
-    public get material(): any {
-        return this._material;
-    }
-
-    public set material(value: any) {
-        this._material = this._coerceBooleanProperty(value);
-    }
+    public get material(): any { return this._material; }
+    public set material(value: any) { this._material = this._coerceBooleanProperty(value); }
 
     /** use no style */
     @Input()
-    public get noStyle(): any {
-        return this._noStyle;
-    }
+    public get noStyle(): any { return this._noStyle; }
+    public set noStyle(value: any) { this._noStyle = this._coerceBooleanProperty(value); }
 
-    public set noStyle(value: any) {
-        this._noStyle = this._coerceBooleanProperty(value);
-    }
+    /** infinite scroll distance */
+    @Input() infiniteScrollDistance = 2;
+
+    /** infinite scroll distance */
+    @Input() infiniteScrollThrottle = 50;
+
+    /** infinite scroll activated */
+    @Input()
+    public get infiniteScroll(): any { return this._infiniteScroll; }
+    public set infiniteScroll(value: any) { this._infiniteScroll = this._coerceBooleanProperty(value); }
 
     /** use it for change the pattern of the filter search */
     @Input() editPattern: (str: string) => string;
 
     /** template for formating */
     @Input() templates: (TemplateRef<any> | { [key: string]: TemplateRef<any> });
+
 
     /** the max height of the results container when opening the select */
     @Input() resultMaxHeight = '200px';
@@ -81,7 +72,7 @@ export class Select2 implements ControlValueAccessor, OnInit, OnDestroy, DoCheck
     @Output() focus = new EventEmitter<Select2>();
     @Output() blur = new EventEmitter<Select2>();
     @Output() search = new EventEmitter<Select2SearchEvent<Select2UpdateValue>>();
-    @Output() scroll = new EventEmitter<void>();
+    @Output() scroll = new EventEmitter<Select2ScrollEvent>();
 
     option: Select2Option | Select2Option[] | null = null;
     isOpen = false;
@@ -129,53 +120,28 @@ export class Select2 implements ControlValueAccessor, OnInit, OnDestroy, DoCheck
     /** Unique id of the element. */
     @Input()
     @HostBinding('id')
-    get id() {
-        return this._id;
-    }
-
-    set id(value: string) {
-        this._id = value || this._uid;
-    }
+    get id() { return this._id; }
+    set id(value: string) { this._id = value || this._uid; }
 
     /** Whether the element is required. */
     @Input()
-    get required() {
-        return this._required;
-    }
-
-    set required(value: any) {
-        this._required = this._coerceBooleanProperty(value);
-    }
+    get required() { return this._required; }
+    set required(value: any) { this._required = this._coerceBooleanProperty(value); }
 
     /** Whether selected items should be hidden. */
     @Input()
-    get disabled() {
-        return this._control ? this._control.disabled : this._disabled;
-    }
-
-    set disabled(value: any) {
-        this._disabled = this._coerceBooleanProperty(value);
-    }
+    get disabled() { return this._control ? this._control.disabled : this._disabled; }
+    set disabled(value: any) { this._disabled = this._coerceBooleanProperty(value); }
 
     /** Whether items are hidden when has. */
     @Input()
-    get hideSelectedItems() {
-        return this._hideSelectedItems;
-    }
-
-    set hideSelectedItems(value: any) {
-        this._hideSelectedItems = this._coerceBooleanProperty(value);
-    }
+    get hideSelectedItems() { return this._hideSelectedItems; }
+    set hideSelectedItems(value: any) { this._hideSelectedItems = this._coerceBooleanProperty(value); }
 
     /** Whether the element is readonly. */
     @Input()
-    get readonly() {
-        return this._readonly;
-    }
-
-    set readonly(value: any) {
-        this._readonly = this._coerceBooleanProperty(value);
-    }
+    get readonly() { return this._readonly; }
+    set readonly(value: any) { this._readonly = this._coerceBooleanProperty(value); }
 
     /** The input element's value. */
     @Input()
@@ -206,13 +172,8 @@ export class Select2 implements ControlValueAccessor, OnInit, OnDestroy, DoCheck
 
     /** reset with no selected value */
     @Input()
-    get resettable() {
-        return this._resettable;
-    }
-
-    set resettable(value: any) {
-        this._resettable = this._coerceBooleanProperty(value);
-    }
+    get resettable() { return this._resettable; }
+    set resettable(value: any) { this._resettable = this._coerceBooleanProperty(value); }
 
     @HostBinding('attr.aria-invalid')
     get ariaInvalid(): boolean {
@@ -267,6 +228,7 @@ export class Select2 implements ControlValueAccessor, OnInit, OnDestroy, DoCheck
     private _uid = `select2-${nextUniqueId++}`;
     private _value: Select2UpdateValue;
     private _previousNativeValue: Select2UpdateValue;
+    private _infiniteScroll = true;
 
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
@@ -288,12 +250,12 @@ export class Select2 implements ControlValueAccessor, OnInit, OnDestroy, DoCheck
     /** View -> model callback called when select has been touched */
     private _onTouched = () => {
         // do nothing
-    };
+    }
 
     /** View -> model callback called when value changes */
     private _onChange: (value: any) => void = () => {
         // do nothing
-    };
+    }
 
     ngOnInit() {
         const option = Select2Utils.getOptionsByValue(
@@ -582,7 +544,6 @@ export class Select2 implements ControlValueAccessor, OnInit, OnDestroy, DoCheck
     select(option: Select2Option | null) {
         let value: any;
         if (option !== null) {
-            console.log(this.option);
             if (this.multiple) {
                 const options = this.option as Select2Option[];
                 const index = options.findIndex(op => op.value === option.value);
@@ -838,7 +799,10 @@ export class Select2 implements ControlValueAccessor, OnInit, OnDestroy, DoCheck
         }
     }
 
-    emitScroll() {
-        this.scroll.emit();
+    onScroll(way: 'up' | 'down') {
+        this.scroll.emit({
+            component: this,
+            way
+        });
     }
 }

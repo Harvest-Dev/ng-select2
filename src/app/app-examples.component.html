@@ -245,17 +245,14 @@
         <ng-template #template3
                      let-data="data">{{data | json}}</ng-template>
     </select2>
-    <h3>1. options in group ({{value1}})</h3>
-    <select2 [data]="data1"
-             [value]="value1"
-             (update)="update1($event)"
-             (change)="change1($event)"
-             (blur)="blur1($event)"
-             (focus)="focus1($event)"
-             (open)="open1($event)"
-             (close)="close1($event)"
-             (search)="search1($event)"
-             resettable
-             id="selec2-1">
-    </select2>
+    <h3>26. infiniteScroll({{value26}})</h3>
+    <select2 [data]="data26"
+             [value]="value26"
+             (update)="update26($event)"
+             listPosition="above"
+             infiniteScroll
+             infiniteScrollDistance="2"
+             infiniteScrollThrottle="30"
+             (scroll)="scroll26($event)"
+             id="selec2-26"></select2>
 </div>

@@ -41,6 +41,9 @@ export class AppGenComponent implements AfterContentInit {
             hideSelectedItems: new FormControl(),
             resultMaxHeight: new FormControl(),
             listPosition: new FormControl(),
+            infiniteScroll: new FormControl(),
+            infiniteScrollDistance: new FormControl(),
+            infiniteScrollThrottle: new FormControl(),
             material: new FormControl(),
             noStyle: new FormControl(),
             // template
@@ -146,6 +149,15 @@ export class AppGenComponent implements AfterContentInit {
         }
         if (value.listPosition) {
             attrs.listPosition = value.listPosition;
+        }
+        if (value.infiniteScroll) {
+            attrs.infiniteScroll = this._testBoolean(value.infiniteScroll);
+        }
+        if (value.infiniteScrollDistance) {
+            attrs.infiniteScrollDistance = value.infiniteScrollDistance;
+        }
+        if (value.infiniteScrollThrottle) {
+            attrs.infiniteScrollThrottle = value.infiniteScrollThrottle;
         }
         if (value.material) {
             attrs.material = this._testBoolean(value.material);

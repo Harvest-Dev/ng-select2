@@ -49,6 +49,10 @@ export interface Select2SearchEvent<U extends Select2UpdateValue = Select2Value>
     value: U;
     search: string;
 }
+export interface Select2ScrollEvent {
+    component: Select2;
+    way: 'up' | 'down';
+}
 
 export const timeout = 200;
 

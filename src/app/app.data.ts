@@ -310,3 +310,8 @@ export const data24: Select2Data = [
     }
 
 ];
+
+export let data26: Select2Data = [];
+for (let i = 1; i <= 260; i++) {
+    data26.push({ value: i, label: '>' + i });
+}

@@ -77,11 +77,11 @@
             </div>
             <div class="select2-results"
                  infiniteScroll
+                 [infiniteScrollDisabled]="!infiniteScroll"
                  [infiniteScrollDistance]="infiniteScrollDistance"
                  [infiniteScrollThrottle]="infiniteScrollThrottle"
-                 (scrolled)="emitScroll()"
-                 [infiniteScrollDisabled]="infiniteScrollDisabled"
-            >
+                 (scrolled)="onScroll('down')"
+                 (scrolledUp)="onScroll('up')">
                 <ul #results
                     class="select2-results__options"
                     [style.max-height]="resultMaxHeight"
@@ -97,7 +97,7 @@
                                     [innerHTML]="groupOrOption.label"></strong>
                             <ng-template #optGroup>
                                 <ng-container
-                                    *ngTemplateOutlet="getTemplate(groupOrOption, 'group'); context:  groupOrOption">
+                                              *ngTemplateOutlet="getTemplate(groupOrOption, 'group'); context:  groupOrOption">
                                 </ng-container>
                             </ng-template>
 
@@ -116,7 +116,7 @@
                                          [innerHTML]="option.label"></div>
                                     <ng-template #liGroup>
                                         <ng-container
-                                            *ngTemplateOutlet="getTemplate(option, 'option'); context: option">
+                                                      *ngTemplateOutlet="getTemplate(option, 'option'); context: option">
                                         </ng-container>
                                     </ng-template>
                                 </li>
@@ -136,7 +136,7 @@
                                  class="select2-label-content"></div>
                             <ng-template #li>
                                 <ng-container
-                                    *ngTemplateOutlet="getTemplate(groupOrOption, 'option'); context:  groupOrOption">
+                                              *ngTemplateOutlet="getTemplate(groupOrOption, 'option'); context:  groupOrOption">
                                 </ng-container>
                             </ng-template>
                         </li>

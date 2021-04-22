@@ -111,6 +111,24 @@
             </select>
         </div>
         <div>
+            <label for="infiniteScroll">infiniteScroll : </label>
+            <input type="checkbox"
+                   formControlName="infiniteScroll"
+                   id="infiniteScroll">
+        </div>
+        <div [class.hide]="!ctrlForm?.value?.infiniteScrollDistance">
+            <label for="infiniteScrollDistance">infiniteScrollDistance (2) : </label>
+            <input type="number"
+                   formControlName="infiniteScrollDistance"
+                   id="infiniteScrollDistance">
+        </div>
+        <div [class.hide]="!ctrlForm?.value?.infiniteScroll">
+            <label for="infiniteScrollThrottle">infiniteScrollThrottle (50) : </label>
+            <input type="number"
+                   formControlName="infiniteScrollThrottle"
+                   id="infiniteScrollThrottle">
+        </div>
+        <div>
             <label for="material">material : </label>
             <input type="checkbox"
                    formControlName="material"
@@ -193,6 +211,9 @@
                  [hideSelectedItems]="ctrlForm?.value?.hideSelectedItems"
                  [resultMaxHeight]="ctrlForm?.value?.resultMaxHeight || '200px'"
                  [listPosition]="ctrlForm?.value?.listPosition"
+                 [infiniteScroll]="infiniteScroll"
+                 [infiniteScrollDistance]="infiniteScrollDistance || 2"
+                 [infiniteScrollThrottle]="infiniteScrollThrottle || 50"
                  [material]="ctrlForm?.value?.material"
                  [noStyle]="ctrlForm?.value?.noStyle"
                  [templates]="getTemplate(template, option, group, template1, template2)"
