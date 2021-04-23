@@ -1,5 +1,16 @@
 # Changelog of ng-select2
 
+## V7.3.0 (2021-04-23)
+
+### Changes
+
+- add `ngx-infinite-scroll` support (See README)
+- add `(removedOption)` event, triggered when an option is removed from the list of selected options options list
+
+### Corrections
+
+- remove a forgotten logger 
+
 ## V7.2.3 (2021-03-11)
 
 ### Corrections

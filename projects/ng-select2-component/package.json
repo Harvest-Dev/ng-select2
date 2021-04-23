@@ -1,6 +1,6 @@
 {
   "name": "ng-select2-component",
-  "version": "7.2.3",
+  "version": "7.3.0",
   "dependencies": {
     "ngx-infinite-scroll": "^10.0.1"
   },
