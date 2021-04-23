@@ -12,7 +12,7 @@ import { AppComponent } from './app.component';
 
 import { AppRoutingModule } from './app.routing';
 
-declare var require: any
+declare var require: any;
 
 /**
  * Import every language you wish to highlight here
