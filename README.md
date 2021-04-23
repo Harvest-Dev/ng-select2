@@ -73,8 +73,8 @@ name                     | type                                     | status   |
 `resultMaxHeight`        | `string`                                 |          | `'200px'`   | change the height size of results
 `listPosition`           | `'below'` or `'above'`                   |          | `'below'`   | the position for the dropdown list
 `infiniteScroll`         | `boolean`                                |          | `false`     | active infiniteScroll on dropdown list ( with `ngx-infinite-scroll`)
-`infiniteScrollDistance` | `number`                                 |          | `2`         | infiniteScroll distance
-`infiniteScrollThrottle` | `number`                                 |          | `50`        | infiniteScroll throttle
+`infiniteScrollDistance` | `number`                                 |          | `1.5`       | infiniteScroll distance
+`infiniteScrollThrottle` | `number`                                 |          | `150`       | infiniteScroll throttle
 `material`               | `boolean`                                |          | `false`     | enable material style
 `nostyle`                | `boolean`                                |          | `false`     | remove border and background color
 `templates`              | `TemplateRef` or<br> `{option?: TemplateRef, group?: TemplateRef}` or<br> `{templateId1: TemplateRef, ...}` | | | use templates for formatting content (see [Templating](#templating))
@@ -86,6 +86,7 @@ name                     | type                                     | status   |
 `(focus)`                | `(event: Select2) => void`               | event    |             | triggered when user enters the component
 `(blur)`                 | `(event: Select2) => void`               | event    |             | triggered when user leaves the component
 `(search)`               | `(event: `[`Select2SearchEvent`](#select2-data-structure)`) => void` | event | |  triggered when search text changed
+`(scroll)`               | `(event: `[`Select2ScrollEvent`](#select2-data-structure)`) => void` | event | |  triggered when infiniteScroll is on `up` or `down` position
 
 ### select2 data structure
 
@@ -139,6 +140,13 @@ export interface Select2SearchEvent<U extends Select2UpdateValue = Select2Value>
     value: U;
     search: string;
 }
+
+export interface Select2ScrollEvent {
+    component: Select2;
+    way: 'up' | 'down';
+    search: string;
+}
+
 ```
 
 ### Templating

@@ -117,13 +117,13 @@
                    id="infiniteScroll">
         </div>
         <div [class.hide]="!ctrlForm?.value?.infiniteScrollDistance">
-            <label for="infiniteScrollDistance">infiniteScrollDistance (2) : </label>
+            <label for="infiniteScrollDistance">infiniteScrollDistance (1.5) : </label>
             <input type="number"
                    formControlName="infiniteScrollDistance"
                    id="infiniteScrollDistance">
         </div>
         <div [class.hide]="!ctrlForm?.value?.infiniteScroll">
-            <label for="infiniteScrollThrottle">infiniteScrollThrottle (50) : </label>
+            <label for="infiniteScrollThrottle">infiniteScrollThrottle (150) : </label>
             <input type="number"
                    formControlName="infiniteScrollThrottle"
                    id="infiniteScrollThrottle">
@@ -212,8 +212,8 @@
                  [resultMaxHeight]="ctrlForm?.value?.resultMaxHeight || '200px'"
                  [listPosition]="ctrlForm?.value?.listPosition"
                  [infiniteScroll]="infiniteScroll"
-                 [infiniteScrollDistance]="infiniteScrollDistance || 2"
-                 [infiniteScrollThrottle]="infiniteScrollThrottle || 50"
+                 [infiniteScrollDistance]="infiniteScrollDistance || 1.5"
+                 [infiniteScrollThrottle]="infiniteScrollThrottle || 150"
                  [material]="ctrlForm?.value?.material"
                  [noStyle]="ctrlForm?.value?.noStyle"
                  [templates]="getTemplate(template, option, group, template1, template2)"

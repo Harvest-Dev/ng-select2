@@ -75,18 +75,19 @@
                        spellcheck="false"
                        [attr.tabindex]="this.isOpen ? tabIndex : '-1'">
             </div>
-            <div class="select2-results"
-                 infiniteScroll
-                 [infiniteScrollDisabled]="!infiniteScroll"
-                 [infiniteScrollDistance]="infiniteScrollDistance"
-                 [infiniteScrollThrottle]="infiniteScrollThrottle"
-                 (scrolled)="onScroll('down')"
-                 (scrolledUp)="onScroll('up')">
+            <div class="select2-results">
                 <ul #results
                     class="select2-results__options"
                     [style.max-height]="resultMaxHeight"
                     role="tree"
                     tabindex="-1"
+                    infiniteScroll
+                    [infiniteScrollDisabled]="!infiniteScroll && !isOpen"
+                    [infiniteScrollDistance]="infiniteScrollDistance"
+                    [infiniteScrollThrottle]="infiniteScrollThrottle"
+                    [infiniteScrollContainer]="results"
+                    (scrolled)="onScroll('down')"
+                    (scrolledUp)="onScroll('up')"
                     (keydown)="keyDown($event)">
                     <ng-container *ngFor="let groupOrOption of filteredData; index as i; trackBy:trackBy">
                         <li *ngIf="groupOrOption.options"

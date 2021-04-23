@@ -46,10 +46,10 @@ export class Select2 implements ControlValueAccessor, OnInit, OnDestroy, DoCheck
     public set noStyle(value: any) { this._noStyle = this._coerceBooleanProperty(value); }
 
     /** infinite scroll distance */
-    @Input() infiniteScrollDistance = 2;
+    @Input() infiniteScrollDistance = 1.5;
 
     /** infinite scroll distance */
-    @Input() infiniteScrollThrottle = 50;
+    @Input() infiniteScrollThrottle = 150;
 
     /** infinite scroll activated */
     @Input()
@@ -802,7 +802,8 @@ export class Select2 implements ControlValueAccessor, OnInit, OnDestroy, DoCheck
     onScroll(way: 'up' | 'down') {
         this.scroll.emit({
             component: this,
-            way
+            way,
+            search: this.innerSearchText
         });
     }
 }

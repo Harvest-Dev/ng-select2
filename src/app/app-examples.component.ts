@@ -256,6 +256,12 @@ export class AppExamplesComponent {
 
     scroll26(event: Select2ScrollEvent) {
         console.log('scroll26', event);
+        if (event.way === 'down' && !event.search) {
+            const l = this.data26.length;
+            for (let i = 1 + l; i <= 50 + l; i++) {
+                this.data26.push({ value: i, label: '>' + i });
+            }
+        }
     }
 
     resetForm() {
