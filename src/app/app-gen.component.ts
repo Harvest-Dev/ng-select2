@@ -54,7 +54,9 @@ export class AppGenComponent implements AfterContentInit {
             close: new FormControl(),
             focus: new FormControl(),
             blur: new FormControl(),
-            search: new FormControl()
+            search: new FormControl(),
+            scroll: new FormControl(),
+            removeOption: new FormControl()
         });
 
         this.ctrlForm.valueChanges.subscribe(() => {

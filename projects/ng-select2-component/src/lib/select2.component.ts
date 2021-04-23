@@ -7,8 +7,8 @@ import { ControlValueAccessor, FormGroupDirective, NgControl, NgForm } from '@an
 import { Subject } from 'rxjs';
 
 import {
-    Select2Data, Select2Group, Select2Option, Select2ScrollEvent, Select2SearchEvent, Select2UpdateEvent,
-    Select2UpdateValue, Select2Utils, Select2Value, timeout
+    Select2Data, Select2Group, Select2Option, Select2RemoveEvent, Select2ScrollEvent, Select2SearchEvent,
+    Select2UpdateEvent, Select2UpdateValue, Select2Utils, Select2Value, timeout
 } from './select2-utils';
 
 let nextUniqueId = 0;
@@ -73,6 +73,7 @@ export class Select2 implements ControlValueAccessor, OnInit, OnDestroy, DoCheck
     @Output() blur = new EventEmitter<Select2>();
     @Output() search = new EventEmitter<Select2SearchEvent<Select2UpdateValue>>();
     @Output() scroll = new EventEmitter<Select2ScrollEvent>();
+    @Output() removeOption = new EventEmitter<Select2RemoveEvent<Select2UpdateValue>>();
 
     option: Select2Option | Select2Option[] | null = null;
     isOpen = false;
@@ -631,7 +632,6 @@ export class Select2 implements ControlValueAccessor, OnInit, OnDestroy, DoCheck
     removeSelection(e: MouseEvent, option: Select2Option) {
         Select2Utils.removeSelection(this.option, option);
 
-
         if (this.multiple && this.hideSelectedItems) {
             this.updateFilteredData();
         }
@@ -648,6 +648,11 @@ export class Select2 implements ControlValueAccessor, OnInit, OnDestroy, DoCheck
             component: this,
             value: value,
             options: Array.isArray(this.option) ? this.option : (this.option ? [this.option] : null)
+        });
+        this.removeOption.emit({
+            component: this,
+            value: value,
+            removedOption: option
         });
 
         e.preventDefault();

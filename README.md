@@ -85,8 +85,9 @@ name                     | type                                     | status   |
 `(close)`                | `(event: Select2) => void`               | event    |             | triggered when user close the options
 `(focus)`                | `(event: Select2) => void`               | event    |             | triggered when user enters the component
 `(blur)`                 | `(event: Select2) => void`               | event    |             | triggered when user leaves the component
-`(search)`               | `(event: `[`Select2SearchEvent`](#select2-data-structure)`) => void` | event | |  triggered when search text changed
-`(scroll)`               | `(event: `[`Select2ScrollEvent`](#select2-data-structure)`) => void` | event | |  triggered when infiniteScroll is on `up` or `down` position
+`(search)`               | `(event: `[`Select2SearchEvent`](#select2-data-structure)`) => void` | event | | triggered when search text changed
+`(scroll)`               | `(event: `[`Select2ScrollEvent`](#select2-data-structure)`) => void` | event | | triggered when infiniteScroll is on `up` or `down` position
+`(removedOption)`        | `(event: `[`Select2RemoveEvent`](#select2-data-structure)`) => void` | event | | for `multiple`, triggered when an option is removed from the list of selected options options list
 
 ### select2 data structure
 
@@ -139,6 +140,12 @@ export interface Select2SearchEvent<U extends Select2UpdateValue = Select2Value>
     component: Select2;
     value: U;
     search: string;
+}
+
+export interface Select2RemoveEvent<U extends Select2UpdateValue = Select2Value> {
+    component: Select2;
+    value: U;
+    removedOption: Select2Option;
 }
 
 export interface Select2ScrollEvent {

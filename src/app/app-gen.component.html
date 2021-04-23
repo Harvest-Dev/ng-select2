@@ -192,6 +192,18 @@
                    formControlName="search"
                    id="search">
         </div>
+        <div>
+            <label for="scroll">scroll : </label>
+            <input type="checkbox"
+                   formControlName="scroll"
+                   id="scroll">
+        </div>
+        <div>
+            <label for="removeOption">removeOption : </label>
+            <input type="checkbox"
+                   formControlName="removeOption"
+                   id="removeOption">
+        </div>
     </div>
     <div>
         <h4>
@@ -222,7 +234,9 @@
                  (close)="_event('close', $event)"
                  (focus)="_event('focus', $event)"
                  (blur)="_event('blur', $event)"
-                 (search)="_event('search', $event)">
+                 (search)="_event('search', $event)"
+                 (scroll)="_event('scroll', $event)"
+                 (removeOption)="_event('removeOption', $event)">
             <select2-label [innerHTML]="ctrlForm?.value?.label"></select2-label>
             <select2-hint [innerHTML]="ctrlForm?.value?.hint"></select2-hint>
             <ng-template #template
