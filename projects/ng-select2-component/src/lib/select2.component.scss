@@ -221,6 +221,12 @@
         .select2-selection__placeholder {
             color: #999;
             color: var(--select2-placeholder-color, #999);
+
+            span {
+                overflow: hidden;
+                white-space: nowrap;
+                text-overflow: ellipsis;
+            }
         }
 
         .select2-selection__placeholder__option {
