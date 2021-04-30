@@ -248,6 +248,7 @@ It's possible to change different colors (and more) with CSS variables without h
 
      /* placeholder */
     --select2-placeholder-color: #999;
+    --select2-placeholder-overflow: ellipsis;
 
     /* reset */
     --select2-reset-color: #999;

@@ -226,6 +226,7 @@
                 overflow: hidden;
                 white-space: nowrap;
                 text-overflow: ellipsis;
+                text-overflow: var(--select2-placeholder-overflow, ellipsis);
             }
         }
 
@@ -302,10 +303,16 @@
         }
 
         .select2-selection__placeholder {
+            display: block;
+            width: 100%;
             color: #999;
             color: var(--select2-placeholder-color, #999);
             margin-top: 5px;
             float: left;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            text-overflow: var(--select2-placeholder-overflow, ellipsis);
         }
 
         .select2-selection__placeholder__option {

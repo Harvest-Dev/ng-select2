@@ -1,5 +1,11 @@
 # Changelog of ng-select2
 
+## V7.3.1 (2021-04-24)
+
+### Corrections
+                
+- fix placeholder overflow (ellipsis)
+
 ## V7.3.0 (2021-04-23)
 
 ### Changes
