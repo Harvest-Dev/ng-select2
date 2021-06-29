@@ -1,115 +1,5 @@
-import { Select2 } from './select2.component';
-
-export interface Select2Group {
-    /** label of group */
-    label: string;
-    /** options list */
-    options: Select2Option[];
-    /** add classes  */
-    classes?: string;
-    /** template id  */
-    templateId?: string;
-    /** template data  */
-    data?: any;
-}
-
-export interface Select2Option {
-    /** value  */
-    value: Select2Value;
-    /** label of option */
-    label: string;
-    /** no selectable is disabled */
-    disabled?: boolean;
-    /** for identification */
-    id?: string;
-    /** add classes  */
-    classes?: string;
-    /** template id  */
-    templateId?: string;
-    /** template data  */
-    data?: any;
-    /** hide this option */
-    hide?: boolean;
-}
-
-export type Select2Value = string | number | boolean;
-
-export type Select2UpdateValue = Select2Value | Select2Value[];
-
-export type Select2Data = (Select2Group | Select2Option)[];
-
-export interface Select2UpdateEvent<U extends Select2UpdateValue = Select2Value> {
-    component: Select2;
-    value: U;
-    options: Select2Option[];
-}
-
-export interface Select2SearchEvent<U extends Select2UpdateValue = Select2Value> {
-    component: Select2;
-    value: U;
-    search: string;
-}
-
-export interface Select2RemoveEvent<U extends Select2UpdateValue = Select2Value> {
-    component: Select2;
-    value: U;
-    removedOption: Select2Option;
-}
-
-export interface Select2ScrollEvent {
-    component: Select2;
-    way: 'up' | 'down';
-    search: string;
-}
-
-export const timeout = 200;
-
-export const unicodePatterns: { l: string, s: RegExp }[] = [
-    { l: 'a', s: /[ⓐａẚàáâầấẫẩãāăằắẵẳȧǡäǟảåǻǎȁȃạậặḁąⱥɐ]/gi },
-    { l: 'aa', s: /ꜳ/gi },
-    { l: 'ae', s: /[æǽǣ]/gi },
-    { l: 'ao', s: /ꜵ/gi },
-    { l: 'au', s: /ꜷ/gi },
-    { l: 'av', s: /[ꜹꜻ]/gi },
-    { l: 'ay', s: /ꜽ/gi },
-    { l: 'b', s: /[ⓑｂḃḅḇƀƃɓ]/gi },
-    { l: 'c', s: /[ⓒｃćĉċčçḉƈȼꜿↄ]/gi },
-    { l: 'd', s: /[ⓓｄḋďḍḑḓḏđƌɖɗꝺ]/gi },
-    { l: 'dz', s: /[ǳǆ]/gi },
-    { l: 'e', s: /[ⓔｅèéêềếễểẽēḕḗĕėëẻěȅȇẹệȩḝęḙḛɇɛǝ]/gi },
-    { l: 'f', s: /[ⓕｆḟƒꝼ]/gi },
-    { l: 'g', s: /[ⓖｇǵĝḡğġǧģǥɠꞡᵹꝿ]/gi },
-    { l: 'h', s: /[ⓗｈĥḣḧȟḥḩḫẖħⱨⱶɥ]/gi },
-    { l: 'hv', s: /ƕ/gi },
-    { l: 'i', s: /[ⓘｉìíîĩīĭİïḯỉǐȉȋịįḭɨı]/gi },
-    { l: 'j', s: /[ⓙｊĵǰɉ]/gi },
-    { l: 'k', s: /[ⓚｋḱǩḳķḵƙⱪꝁꝃꝅꞣ]/gi },
-    { l: 'l', s: /[ⓛｌŀĺľḷḹļḽḻſłƚɫⱡꝉꞁꝇꝆ]/gi },
-    { l: 'lj', s: /ǉ/gi },
-    { l: 'm', s: /[ⓜｍḿṁṃɱɯ]/gi },
-    { l: 'n', s: /[ⓝｎǹńñṅňṇņṋṉƞɲŉꞑꞥ]/gi },
-    { l: 'nj', s: /ǌ/gi },
-    { l: 'o', s: /[ⓞｏòóôồốỗổõṍȭṏōṑṓŏȯȱöȫỏőǒȍȏơờớỡởợọộǫǭøǿɔƟꝋꝍɵ]/gi },
-    { l: 'oi', s: /ƣ/gi },
-    { l: 'oe', s: /œ/gi },
-    { l: 'oo', s: /ꝏ/gi },
-    { l: 'ou', s: /ȣ/gi },
-    { l: 'p', s: /[ⓟｐṕṗƥᵽꝑꝓꝕ]/gi },
-    { l: 'q', s: /[ⓠｑɋꝗꝙ]/gi },
-    { l: 'r', s: /[ⓡｒŕṙřȑȓṛṝŗṟɍɽꝛꞧꞃ]/gi },
-    { l: 's', s: /[ⓢｓßẞśṥŝṡšṧṣṩșşȿꞩꞅẛ]/gi },
-    { l: 't', s: /[ⓣｔṫẗťṭțţṱṯŧƭʈⱦꞇ]/gi },
-    { l: 'tz', s: /ꜩ/gi },
-    { l: 'u', s: /[ⓤｕùúûũṹūṻŭüǜǘǖǚủůűǔȕȗưừứữửựụṳųṷṵʉ]/gi },
-    { l: 'v', s: /[ⓥｖṽṿʋꝟʌ]/gi },
-    { l: 'vy', s: /ꝡ/gi },
-    { l: 'w', s: /[ⓦｗẁẃŵẇẅẘẉⱳ]/gi },
-    { l: 'x', s: /[ⓧｘẋẍ]/gi },
-    { l: 'y', s: /[ⓨｙỳýŷỹȳẏÿỷẙỵƴɏỿ]/gi },
-    { l: 'z', s: /[ⓩｚźẑżžẓẕƶȥɀⱬꝣ]/gi }
-];
-
-const defaultMinCountForSearch = 6;
+import { defaultMinCountForSearch, protectRegexp, unicodePatterns } from './select2-const';
+import { Select2Data, Select2Group, Select2Option, Select2UpdateValue, Select2Value } from './select2-interfaces';
 
 export class Select2Utils {
 
@@ -287,7 +177,7 @@ export class Select2Utils {
     }
 
     private static protectPattern(str: string): string {
-        return str.replace(new RegExp('[\\-\\[\\]\\/\\{\\}\\(\\)\\*\\+\\?\\.\\\\\\^\\$\\|]', 'g'), '\\$&');
+        return str.replace(protectRegexp, '\\$&');
     }
 
     private static formatSansUnicode(str: string): string {

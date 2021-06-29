@@ -1,15 +1,17 @@
 import {
     AfterViewInit, Attribute, ChangeDetectorRef, Component, DoCheck, ElementRef, EventEmitter, HostBinding, Input,
-    OnDestroy, OnInit, Optional, Output, QueryList, Self, TemplateRef, ViewChild, ViewChildren
+    OnDestroy, OnInit, Optional, Output, QueryList, Self, TemplateRef, ViewChild, ViewChildren,
 } from '@angular/core';
 import { ControlValueAccessor, FormGroupDirective, NgControl, NgForm } from '@angular/forms';
 
 import { Subject } from 'rxjs';
 
+import { timeout } from './select2-const';
 import {
     Select2Data, Select2Group, Select2Option, Select2RemoveEvent, Select2ScrollEvent, Select2SearchEvent,
-    Select2UpdateEvent, Select2UpdateValue, Select2Utils, Select2Value, timeout
-} from './select2-utils';
+    Select2UpdateEvent, Select2UpdateValue, Select2Value,
+} from './select2-interfaces';
+import { Select2Utils } from './select2-utils';
 
 let nextUniqueId = 0;
 

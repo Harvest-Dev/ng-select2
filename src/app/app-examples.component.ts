@@ -2,11 +2,11 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 
 import {
-    Select2Data, Select2Option, Select2ScrollEvent, Select2UpdateEvent
-} from 'projects/ng-select2-component/src/lib/select2-utils';
+    Select2Data, Select2Option, Select2ScrollEvent, Select2UpdateEvent,
+} from 'projects/ng-select2-component/src/public_api';
 
 import {
-    data1, data13, data17, data18, data19, data2, data22, data23, data24, data26, data3, data5, data6
+    data1, data13, data17, data18, data19, data2, data22, data23, data24, data26, data3, data5, data6,
 } from './app.data';
 
 @Component({

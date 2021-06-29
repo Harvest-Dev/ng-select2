@@ -1,4 +1,4 @@
-import { Select2Data } from 'projects/ng-select2-component/src/lib/select2-utils';
+import { Select2Data } from 'projects/ng-select2-component/src/public_api';
 
 export const data1: Select2Data = [
     {
