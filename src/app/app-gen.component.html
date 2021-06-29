@@ -40,6 +40,12 @@
                    id="disabled">
         </div>
         <div>
+            <label for="overlay">overlay : </label>
+            <input type="checkbox"
+                   formControlName="overlay"
+                   id="overlay">
+        </div>
+        <div>
             <label for="minCharForSearch">minCharForSearch (0) : </label>
             <input type="number"
                    formControlName="minCharForSearch"
@@ -211,6 +217,7 @@
         </h4>
         <select2 *ngIf="ctrlForm.value"
                  [data]="data"
+                 [overlay]="ctrlForm?.value?.overlay"
                  [disabled]="ctrlForm?.value?.disabled"
                  [minCharForSearch]="ctrlForm?.value?.minCharForSearch || 0"
                  [minCountForSearch]="ctrlForm?.value?.minCountForSearch || 6"

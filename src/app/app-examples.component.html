@@ -2,9 +2,15 @@
     Examples
 </h2>
 
+<label for="disabled">overlay : </label>
+<input type="checkbox"
+       [(ngModel)]="overlay">
+
+
 <div style="width: 500px;">
     <h3>1. options in group ({{value1}})</h3>
-    <select2 [data]="data1"
+    <select2 [overlay]="overlay"
+             [data]="data1"
              [value]="value1"
              (update)="update1($event)"
              (change)="change1($event)"
@@ -17,19 +23,22 @@
              id="selec2-1">
     </select2>
     <h3>2. options ({{value2}})</h3>
-    <select2 [data]="data2"
+    <select2 [overlay]="overlay"
+             [data]="data2"
              [value]="value2"
              (update)="update2($event)"
              id="selec2-2">
     </select2>
     <h3>3. less options ({{value3}})</h3>
-    <select2 [data]="data3"
+    <select2 [overlay]="overlay"
+             [data]="data3"
              [value]="value3"
              (update)="update3($event)"
              id="selec2-3">
     </select2>
     <h3>4. disabled ({{value4}})</h3>
-    <select2 [data]="data4"
+    <select2 [overlay]="overlay"
+             [data]="data4"
              [value]="value4"
              [disabled]="true"
              id="selec2-4">
@@ -37,7 +46,8 @@
     </select2>
     <h3>5. hide search box ({{value5}})</h3>
     <form [formGroup]="ctrlForm2">
-        <select2 [data]="data5"
+        <select2 [overlay]="overlay"
+                 [data]="data5"
                  formControlName="test5"
                  [minCountForSearch]="minCountForSearch"
                  (update)="update5($event)"
@@ -56,7 +66,8 @@
         <button type="button"
                 (click)="removeItem()">Remove item</button>
     </div>
-    <select2 [data]="data6"
+    <select2 [overlay]="overlay"
+             [data]="data6"
              [value]="value6"
              [minCountForSearch]="limit.value"
              [displaySearchStatus]="status.value"
@@ -64,14 +75,16 @@
              id="selec2-6">
     </select2>
     <h3>7. placeholder ({{value7}})</h3>
-    <select2 [data]="data7"
+    <select2 [overlay]="overlay"
+             [data]="data7"
              placeholder="select an item"
              (update)="update7($event)"
              resettable
              id="selec2-7">
     </select2>
     <h3>8. open, close and search event ({{value8}})</h3>
-    <select2 [data]="data8"
+    <select2 [overlay]="overlay"
+             [data]="data8"
              customSearchEnabled="true"
              (open)="open8()"
              (close)="close8()"
@@ -82,7 +95,8 @@
     </select2>
     <h3>9. multiple + limite <input type="number"
                [(ngModel)]="limitSelection"> ({{value9 | json}})</h3>
-    <select2 [data]="data9"
+    <select2 [overlay]="overlay"
+             [data]="data9"
              [value]="value9"
              multiple="true"
              [limitSelection]="limitSelection"
@@ -95,7 +109,8 @@
              id="selec2-9">
     </select2>
     <h3>10. multiple + hide selected items ({{value10 | json}})</h3>
-    <select2 [data]="data10"
+    <select2 [overlay]="overlay"
+             [data]="data10"
              [value]="value10"
              multiple="true"
              (update)="update10($event)"
@@ -104,7 +119,8 @@
     </select2>
     <h3>11. material style and form binding ({{value11}})</h3>
     <form [formGroup]="ctrlForm">
-        <select2 [(ngModel)]="value11"
+        <select2 [overlay]="overlay"
+                 [(ngModel)]="value11"
                  [data]="data11"
                  formControlName="test11"
                  placeholder="Select a state"
@@ -115,21 +131,24 @@
     </form>
 
     <h3>12. material style ({{value12}})</h3>
-    <select2 [data]="data12"
+    <select2 [overlay]="overlay"
+             [data]="data12"
              [value]="value12"
              (update)="update12($event)"
              material
              id="selec2-12">
     </select2>
     <h3>13. boolean value ({{value13}})</h3>
-    <select2 [data]="data13"
+    <select2 [overlay]="overlay"
+             [data]="data13"
              [value]="value13"
              (update)="update13($event)"
              id="selec2-13">
     </select2>
     <h3>14. FormControl</h3>
     <form [formGroup]="fg">
-        <select2 [data]="data9"
+        <select2 [overlay]="overlay"
+                 [data]="data9"
                  multiple="true"
                  id="selec2-10"
                  formControlName="state">
@@ -138,14 +157,16 @@
         <button (click)="resetForm()">Reset Form</button>
     </form>
     <h3>15. with label ({{value15}})</h3>
-    <select2 [data]="data15"
+    <select2 [overlay]="overlay"
+             [data]="data15"
              [value]="value15"
              (update)="update15($event)"
              id="selec2-15">
         <select2-label>Select a state</select2-label>
     </select2>
     <h3>16. required with label ({{value16}})</h3>
-    <select2 [data]="data16"
+    <select2 [overlay]="overlay"
+             [data]="data16"
              [value]="value16"
              (update)="update16($event)"
              required
@@ -153,20 +174,23 @@
         <select2-label>Select a state</select2-label>
     </select2>
     <h3>17. with two option labels ({{value17}})</h3>
-    <select2 [data]="data17"
+    <select2 [overlay]="overlay"
+             [data]="data17"
              [value]="value17"
              (update)="update17($event)"
              id="select2-17">
     </select2>
     <h3>18. search starts with 3 chars</h3>
-    <select2 [data]="data18"
+    <select2 [overlay]="overlay"
+             [data]="data18"
              [value]="value18"
              (update)="update18($event)"
              minCharForSearch="3"
              id="selec2-18">
     </select2>
     <h3>19. dropdown list position above ({{value19}})</h3>
-    <select2 [data]="data19"
+    <select2 [overlay]="overlay"
+             [data]="data19"
              [value]="value19"
              (update)="update19($event)"
              listPosition="above"
@@ -174,7 +198,8 @@
     </select2>
     <div class="noStyle">
         <h3>20. nostyle ({{value20}})</h3>
-        <select2 [data]="data20"
+        <select2 [overlay]="overlay"
+                 [data]="data20"
                  [value]="value20"
                  (update)="update20($event)"
                  listPosition="above"
@@ -183,7 +208,8 @@
         </select2>
     </div>
     <h3>21. update to empty/null/undefined ({{value21}})</h3>
-    <select2 [data]="data21"
+    <select2 [overlay]="overlay"
+             [data]="data21"
              [value]="value21"
              (update)="update21($event)"
              listPosition="above"
@@ -193,7 +219,8 @@
     <button (click)="value21 = null">Update value to null</button>
     <button (click)="value21 = undefined">Update value to undefined</button>
     <h3>22. with item classes and id ({{value22}})</h3>
-    <select2 [data]="data22"
+    <select2 [overlay]="overlay"
+             [data]="data22"
              [value]="value22"
              (update)="update22($event)"
              listPosition="above"
@@ -203,7 +230,8 @@
 
     <h3>23 with template ({{value23}})</h3>
 
-    <select2 [data]="data23"
+    <select2 [overlay]="overlay"
+             [data]="data23"
              [value]="value23"
              (update)="update23($event)"
              listPosition="above"
@@ -216,7 +244,8 @@
 
     <h3>24 with template (option / group) ({{value24}})</h3>
 
-    <select2 [data]="data24"
+    <select2 [overlay]="overlay"
+             [data]="data24"
              [value]="value24"
              (update)="update24($event)"
              listPosition="above"
@@ -231,7 +260,8 @@
 
     <h3>25 with templates Ids ({{value25}})</h3>
 
-    <select2 [data]="data25"
+    <select2 [overlay]="overlay"
+             [data]="data25"
              [value]="value25"
              (update)="update25($event)"
              listPosition="above"
@@ -246,7 +276,8 @@
                      let-data="data">{{data | json}}</ng-template>
     </select2>
     <h3>26. infiniteScroll({{value26}})</h3>
-    <select2 [data]="data26"
+    <select2 [overlay]="overlay"
+             [data]="data26"
              [value]="value26"
              (update)="update26($event)"
              listPosition="above"

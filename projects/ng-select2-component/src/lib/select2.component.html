@@ -11,11 +11,13 @@
      [class.select2-container--disabled]="disabled">
     <div class="selection"
          #selection
+         #trigger="cdkOverlayOrigin"
          [attr.tabindex]="!this.isOpen ? tabIndex : '-1'"
          (click)="toggleOpenAndClose()"
          (focus)="focusin()"
          (blur)="focusout()"
          (keydown)="openKey($event)"
+         cdkOverlayOrigin
          [class.select2-focused]="focused">
         <div class="select2-selection"
              [class.select2-selection--multiple]="multiple"
@@ -53,8 +55,28 @@
             </ul>
         </div>
     </div>
+    <ng-container *ngIf="!overlay">
+        <ng-container *ngTemplateOutlet="containerTemplate"></ng-container>
+    </ng-container>
+
+    <div class="select2-subscript-wrapper">
+        <ng-content select="select2-hint"></ng-content>
+    </div>
+</div>
+
+<ng-template cdkConnectedOverlay
+             cdkConnectedOverlayHasBackdrop
+             [cdkConnectedOverlayOrigin]="trigger"
+             [cdkConnectedOverlayOpen]="this.isOpen && overlay"
+             [cdkConnectedOverlayMinWidth]="_triggerRect?.width!"
+             (backdropClick)="toggleOpenAndClose()">
+    <ng-container *ngTemplateOutlet="containerTemplate"></ng-container>
+</ng-template>
+
+<ng-template #containerTemplate>
     <div class="select2-container select2-container--default select2-container-dropdown"
-         [class.select2-container--open]="isOpen">
+         [class.select2-container--open]="isOpen"
+         [class.select2-overlay]="overlay">
         <div class="select2-dropdown"
              [class.select2-dropdown--below]="!select2above"
              [class.select2-dropdown--above]="select2above">
@@ -146,7 +168,4 @@
             </div>
         </div>
     </div>
-    <div class="select2-subscript-wrapper">
-        <ng-content select="select2-hint"></ng-content>
-    </div>
-</div>
+</ng-template>

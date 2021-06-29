@@ -74,6 +74,8 @@ export class AppExamplesComponent {
 
     limitSelection = 0;
 
+    overlay = false;
+
     fg: FormGroup = new FormGroup({
         state: new FormControl()
     });

@@ -30,6 +30,7 @@ export class AppGenComponent implements AfterContentInit {
             hint: new FormControl(),
             // parameters
             disabled: new FormControl(),
+            overlay: new FormControl(),
             minCharForSearch: new FormControl(),
             minCountForSearch: new FormControl(),
             displaySearchStatus: new FormControl(),
@@ -118,6 +119,9 @@ export class AppGenComponent implements AfterContentInit {
 
         if (value.disabled) {
             attrs.disabled = this._testBoolean(value.disabled);
+        }
+        if (value.overlay) {
+            attrs.overlay = this._testBoolean(value.overlay);
         }
         if (value.minCharForSearch) {
             attrs.minCharForSearch = value.minCharForSearch;

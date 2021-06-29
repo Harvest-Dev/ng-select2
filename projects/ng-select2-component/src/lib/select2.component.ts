@@ -1,3 +1,4 @@
+import { ViewportRuler } from '@angular/cdk/scrolling';
 import {
     AfterViewInit, Attribute, ChangeDetectorRef, Component, DoCheck, ElementRef, EventEmitter, HostBinding, Input,
     OnDestroy, OnInit, Optional, Output, QueryList, Self, TemplateRef, ViewChild, ViewChildren,
@@ -36,6 +37,11 @@ export class Select2 implements ControlValueAccessor, OnInit, OnDestroy, DoCheck
     @Input()
     public get multiple(): any { return this._multiple; }
     public set multiple(value: any) { this._multiple = this._coerceBooleanProperty(value); this.ngOnInit(); }
+
+    /** use the material style */
+    @Input()
+    public get overlay(): any { return this._overlay; }
+    public set overlay(value: any) { this._overlay = this._coerceBooleanProperty(value); }
 
     /** use the material style */
     @Input()
@@ -198,19 +204,24 @@ export class Select2 implements ControlValueAccessor, OnInit, OnDestroy, DoCheck
         return this.listPosition === 'above';
     }
 
+    _triggerRect: ClientRect;
+
     private _minCountForSearch?: number | string;
 
     @ViewChild('selection', { static: true }) private selection: ElementRef;
-    @ViewChild('results', { static: true }) private resultContainer: ElementRef;
+    @ViewChild('results') private resultContainer: ElementRef;
     @ViewChildren('result') private results: QueryList<ElementRef>;
-    @ViewChild('searchInput', { static: true }) private searchInput: ElementRef;
+    @ViewChild('searchInput') private searchInput: ElementRef;
 
     private hoveringValue: Select2Value | null | undefined = null;
     private innerSearchText = '';
     private isSearchboxHidden: boolean;
+
     private selectionElement: HTMLElement;
-    private searchInputElement: HTMLElement;
-    private resultsElement: HTMLElement;
+
+    private get resultsElement(): HTMLElement {
+        return this.resultContainer.nativeElement;
+    }
 
     private _stateChanges = new Subject<void>();
 
@@ -222,6 +233,7 @@ export class Select2 implements ControlValueAccessor, OnInit, OnDestroy, DoCheck
     private _readonly = false;
     private _multiple = false;
     private _material = false;
+    private _overlay = false;
     private _noStyle = false;
     private _resettable = false;
     private _hideSelectedItems = false;
@@ -234,6 +246,7 @@ export class Select2 implements ControlValueAccessor, OnInit, OnDestroy, DoCheck
     private _infiniteScroll = true;
 
     constructor(
+        protected _viewportRuler: ViewportRuler,
         private _changeDetectorRef: ChangeDetectorRef,
         @Optional() private _parentForm: NgForm,
         @Optional() private _parentFormGroup: FormGroupDirective,
@@ -261,6 +274,12 @@ export class Select2 implements ControlValueAccessor, OnInit, OnDestroy, DoCheck
     }
 
     ngOnInit() {
+        this._viewportRuler.change(100).subscribe(() => {
+            if (this.isOpen) {
+                this._triggerRect = this.selectionElement.getBoundingClientRect();
+            }
+        });
+
         const option = Select2Utils.getOptionsByValue(
             this.data,
             this._control ? this._control.value : this.value,
@@ -276,9 +295,8 @@ export class Select2 implements ControlValueAccessor, OnInit, OnDestroy, DoCheck
     }
 
     ngAfterViewInit() {
-        this.selectionElement = this.selection.nativeElement as HTMLElement;
-        this.searchInputElement = this.searchInput.nativeElement as HTMLElement;
-        this.resultsElement = this.resultContainer.nativeElement as HTMLElement;
+        this.selectionElement = this.selection.nativeElement;
+        this._triggerRect = this.selectionElement.getBoundingClientRect();
     }
 
     ngDoCheck() {
@@ -786,8 +804,8 @@ export class Select2 implements ControlValueAccessor, OnInit, OnDestroy, DoCheck
 
     private _focusSearchboxOrResultsElement() {
         if (!this.isSearchboxHidden) {
-            if (this.searchInputElement) {
-                this.searchInputElement.focus();
+            if (this.searchInput.nativeElement) {
+                this.searchInput.nativeElement.focus();
             }
         } else {
             if (this.resultsElement) {
