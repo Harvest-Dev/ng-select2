@@ -12,7 +12,15 @@ npm i ng-select2-component --save
 
 ## Requirements
 
-- Angular 7.0.0 and more
+- peerDependencies:
+    - `angular` 10.0.0 and more
+    - `angular/cdk` 10.0.0 and more
+
+- dependencies (include):
+    -  `ngx-infinite-scroll@^10.0.1`
+
+> **Note:**<br>
+> For `angular` 7, 8 and 9 : use version `7.3.1`.
 
 ## Demo
 

@@ -200,10 +200,10 @@ export class Select2 implements ControlValueAccessor, OnInit, OnDestroy, DoCheck
 
     private _minCountForSearch?: number | string;
 
-    @ViewChild('selection') private selection: ElementRef;
-    @ViewChild('results') private resultContainer: ElementRef;
+    @ViewChild('selection', { static: true }) private selection: ElementRef;
+    @ViewChild('results', { static: true }) private resultContainer: ElementRef;
     @ViewChildren('result') private results: QueryList<ElementRef>;
-    @ViewChild('searchInput') private searchInput: ElementRef;
+    @ViewChild('searchInput', { static: true }) private searchInput: ElementRef;
 
     private hoveringValue: Select2Value | null | undefined = null;
     private innerSearchText = '';
