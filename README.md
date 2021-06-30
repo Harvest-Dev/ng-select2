@@ -268,6 +268,9 @@ It's possible to change different colors (and more) with CSS variables without h
     --select2-dropdown-background: #fff;
     --select2-dropdown-border-color: #aaa;
 
+    /* overlay */
+    --select2-overlay-backdrop: transparent;
+
     /* search field */
     --select2-search-border-color: #aaa;
     --select2-search-background: #fff;

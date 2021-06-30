@@ -676,6 +676,11 @@
     }
 }
 
+::ng-deep .select2-overlay-backdrop {
+    background: rgba(0, 0, 0, 0.32);
+    background: var(--select2-overlay-backdrop, transparent);
+}
+
 // material fix (firefox)
 /* stylelint-disable selector-type-no-unknown */
 @supports (-moz-appearance: none) {
