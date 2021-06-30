@@ -9,7 +9,7 @@
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
-    "build:lib": "ng build ng-select2-component --prod enableIvy=false && cp *.md  dist/ng-select2-component",
+    "build:lib": "ng build ng-select2-component --prod && cp *.md dist/ng-select2-component",
     "build:demo": "ng build --prod",
     "test": "ng test",
     "lint": "ng lint",
