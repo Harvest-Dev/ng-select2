@@ -5,6 +5,9 @@
     "ngx-infinite-scroll"
   ],
   "lib": {
-    "entryFile": "src/public_api.ts"
+    "entryFile": "src/public_api.ts",
+    "umdModuleIds": {
+      "ngx-infinite-scroll": "ngxInfiniteScroll"
+    }
   }
 }

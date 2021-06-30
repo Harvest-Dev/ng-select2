@@ -1,7 +1,8 @@
 import { ViewportRuler } from '@angular/cdk/scrolling';
+import type { ElementRef, QueryList } from '@angular/core';
 import {
-    AfterViewInit, Attribute, ChangeDetectorRef, Component, DoCheck, ElementRef, EventEmitter, HostBinding, Input,
-    OnDestroy, OnInit, Optional, Output, QueryList, Self, TemplateRef, ViewChild, ViewChildren,
+    AfterViewInit, Attribute, ChangeDetectorRef, Component, DoCheck, EventEmitter, HostBinding, Input, OnDestroy,
+    OnInit, Optional, Output, Self, TemplateRef, ViewChild, ViewChildren,
 } from '@angular/core';
 import { ControlValueAccessor, FormGroupDirective, NgControl, NgForm } from '@angular/forms';
 

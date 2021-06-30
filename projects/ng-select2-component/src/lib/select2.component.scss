@@ -87,6 +87,7 @@
     overflow: hidden;
 
     .select2-label-content {
+        /* autoprefixer: ignore next */
         display: contents;
     }
 }
