@@ -73,6 +73,12 @@
                    id="placeholder">
         </div>
         <div>
+            <label for="noResultMessage">noResultMessage : </label>
+            <input type="text"
+                   formControlName="noResultMessage"
+                   id="noResultMessage">
+        </div>
+        <div>
             <label for="customSearchEnabled">customSearchEnabled : </label>
             <input type="checkbox"
                    formControlName="customSearchEnabled"
@@ -232,6 +238,7 @@
                  [infiniteScrollDistance]="ctrlForm?.value?.infiniteScrollDistance || 1.5"
                  [infiniteScrollThrottle]="ctrlForm?.value?.infiniteScrollThrottle || 150"
                  [styleMode]="ctrlForm?.value?.styleMode"
+                 [noResultMessage]="ctrlForm?.value?.noResultMessage"
                  [templates]="getTemplate(template, option, group, template1, template2)"
                  (update)="_event('update', $event)"
                  (open)="_event('open', $event)"

@@ -165,6 +165,9 @@
                             </ng-template>
                         </li>
                     </ng-container>
+                    <li class="select2-no-result select2-results__option"
+                        *ngIf="!filteredData?.length && noResultMessage"
+                        [innerHTML]="noResultMessage"></li>
                 </ul>
             </div>
         </div>

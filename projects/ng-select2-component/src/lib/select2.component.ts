@@ -46,6 +46,9 @@ export class Select2 implements ControlValueAccessor, OnInit, OnDestroy, DoCheck
     /** use the material style */
     @Input() styleMode: 'material' | 'noStyle' | 'default' = 'default';
 
+    /** message when no result */
+    @Input() noResultMessage: string;
+
     /** infinite scroll distance */
     @Input() infiniteScrollDistance = 1.5;
 

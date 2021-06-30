@@ -70,9 +70,10 @@ name                     | type                                     | status   |
 `data`                   | [`Select2Data`](#select2-data-structure) | required |             | the data of the select2
 `value`                  | [`Select2Value`](#select2-data-structure)|          |             | initial value
 `minCharForSearch`       | `number`                                 |          | `0`         | start the search when the number of characters is reached (`0` = unlimited)
-`minCountForSearch`      | `number`                                 |          | `6`         | hide search box if `options.length < minCountForSearch` 
+`minCountForSearch`      | `number`                                 |          | `6`         | hide search box if `options.length < minCountForSearch`
 `displaySearchStatus`    | `'default'`<br>`'hidden'`<br>`'always'`  |          | `'default'` | display the search box (`default` : is based on `minCountForSearch`)
 `placeholder`            | `string`                                 |          |             | the placeholder string if nothing selected
+`noResultMessage`        | `string`                                 |          |             | the message string if no results when using the search field 
 `customSearchEnabled`    | `boolean`                                |          | `false`     | will trigger `search` event, and disable inside filter
 `multiple`               | `boolean`                                |          | `false`     | select multiple options
 `resettable`             | `boolean`                                |          | `false`     | add a button to reset value (not with `multiple`)
@@ -87,7 +88,7 @@ name                     | type                                     | status   |
 `sytleMode`              | `'default'`<br>`'material'`<br>`'noStyle'` |        | `'default'` | change style for material style or remove border and background color
 `templates`              | `TemplateRef`<br> `{option?: TemplateRef, group?: TemplateRef}`<br> `{templateId1: TemplateRef, ...}` | | | use templates for formatting content (see [Templating](#templating))
 `editPattern`            | `(str: string) => string`                |          |             | use it for change the pattern of the filter search
-`ngModel`<br>`id`<br>`required`<br>`disabled`<br>`readonly`<br>`tabIndex` | |  |             | just like a `select` control | 
+`ngModel`<br>`id`<br>`required`<br>`disabled`<br>`readonly`<br>`tabIndex` | |  |             | just like a `select` control |
 `(update)`               | `(event: `[`Select2UpdateEvent`](#select2-data-structure)`) => void` | event | |  triggered when user select an option
 `(open)`                 | `(event: Select2) => void`               | event    |             | triggered when user open the options
 `(close)`                | `(event: Select2) => void`               | event    |             | triggered when user close the options
@@ -175,22 +176,22 @@ export interface Select2ScrollEvent {
 </select2>
 ```
 
-```ts 
+```ts
 const data: Select2Data = [
     {
-        value: 'heliotrope', 
-        label: 'Heliotrope', 
+        value: 'heliotrope',
+        label: 'Heliotrope',
         data: { color: 'white', name: 'Heliotrope' }
     },
     {
-        value: 'hibiscus', 
-        label: 'Hibiscus', 
+        value: 'hibiscus',
+        label: 'Hibiscus',
         data: { color: 'red', name: 'Hibiscus' }
     }
 ]
 ```
 
-#### Template group & option 
+#### Template group & option
 
 ```html
 <select2 [data]="data"
@@ -213,19 +214,19 @@ The template is defined by its type, option or group, automatically.
 </select2>
 ```
 
-```ts 
+```ts
 const data: Select2Data = [
     {
-        value: 'heliotrope', 
-        label: 'Heliotrope', 
-        data: { color: 'white', name: 'Heliotrope' }, 
+        value: 'heliotrope',
+        label: 'Heliotrope',
+        data: { color: 'white', name: 'Heliotrope' },
         templateId: 'template1'
     },
     {
-        value: 'hibiscus', 
-        label: 'Hibiscus', 
+        value: 'hibiscus',
+        label: 'Hibiscus',
         data: { color: 'red', name: 'Hibiscus'},
-        templateId: 'template2' 
+        templateId: 'template2'
     }
 ]
 ```
@@ -266,6 +267,10 @@ It's possible to change different colors (and more) with CSS variables without h
      /* placeholder */
     --select2-placeholder-color: #999;
     --select2-placeholder-overflow: ellipsis;
+
+    /* no result message */
+    --select2-no-result-color: #888;
+    --select2-font-style-color: italic;
 
     /* reset */
     --select2-reset-color: #999;

@@ -46,6 +46,7 @@ export class AppGenComponent implements AfterContentInit {
             infiniteScrollDistance: new FormControl(),
             infiniteScrollThrottle: new FormControl(),
             styleMode: new FormControl(),
+            noResultMessage: new FormControl(),
             // template
             template: new FormControl(),
             // event
@@ -166,6 +167,9 @@ export class AppGenComponent implements AfterContentInit {
         }
         if (value.styleMode) {
             attrs.styleMode = value.styleMode;
+        }
+        if (value.noResultMessage) {
+            attrs.noResultMessage = value.noResultMessage;
         }
 
         // template

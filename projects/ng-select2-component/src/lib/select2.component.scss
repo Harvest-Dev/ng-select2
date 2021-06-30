@@ -503,6 +503,13 @@
     }
 }
 
+.select2-no-result {
+    color: #888;
+    color: var(--select2-no-result-color, #888);
+    font-style: italic;
+    font-style: var(--select2-font-style-color, italic);
+}
+
 :host.nostyle {
     .select2-dropdown {
         border-color: transparent;
