@@ -112,6 +112,7 @@
             <label for="listPosition">listPosition :</label>
             <select formControlName="listPosition"
                     id="listPosition">
+                <option></option>
                 <option value="below">below</option>
                 <option value="above">above</option>
             </select>
@@ -135,16 +136,13 @@
                    id="infiniteScrollThrottle">
         </div>
         <div>
-            <label for="material">material : </label>
-            <input type="checkbox"
-                   formControlName="material"
-                   id="material">
-        </div>
-        <div>
-            <label for="noStyle">nostyle : </label>
-            <input type="checkbox"
-                   formControlName="noStyle"
-                   id="nostyle">
+            <label for="styleMode">styleMode : </label>
+            <select formControlName="styleMode"
+                    id="listPstyleModeosition">
+                <option value="">default</option>
+                <option value="material">material</option>
+                <option value="none">none</option>
+            </select>
         </div>
         <h4>
             Templates
@@ -230,11 +228,10 @@
                  [hideSelectedItems]="ctrlForm?.value?.hideSelectedItems"
                  [resultMaxHeight]="ctrlForm?.value?.resultMaxHeight || '200px'"
                  [listPosition]="ctrlForm?.value?.listPosition"
-                 [infiniteScroll]="infiniteScroll"
-                 [infiniteScrollDistance]="infiniteScrollDistance || 1.5"
-                 [infiniteScrollThrottle]="infiniteScrollThrottle || 150"
-                 [material]="ctrlForm?.value?.material"
-                 [noStyle]="ctrlForm?.value?.noStyle"
+                 [infiniteScroll]="ctrlForm?.value?.infiniteScroll"
+                 [infiniteScrollDistance]="ctrlForm?.value?.infiniteScrollDistance || 1.5"
+                 [infiniteScrollThrottle]="ctrlForm?.value?.infiniteScrollThrottle || 150"
+                 [styleMode]="ctrlForm?.value?.styleMode"
                  [templates]="getTemplate(template, option, group, template1, template2)"
                  (update)="_event('update', $event)"
                  (open)="_event('open', $event)"

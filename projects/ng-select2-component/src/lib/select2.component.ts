@@ -35,23 +35,16 @@ export class Select2 implements ControlValueAccessor, OnInit, OnDestroy, DoCheck
     @Input() listPosition: 'above' | 'below';
 
     @Input()
-    public get multiple(): any { return this._multiple; }
-    public set multiple(value: any) { this._multiple = this._coerceBooleanProperty(value); this.ngOnInit(); }
+    get multiple(): any { return this._multiple; }
+    set multiple(value: any) { this._multiple = this._coerceBooleanProperty(value); this.ngOnInit(); }
 
     /** use the material style */
     @Input()
-    public get overlay(): any { return this._overlay; }
-    public set overlay(value: any) { this._overlay = this._coerceBooleanProperty(value); }
+    get overlay(): any { return this._overlay; }
+    set overlay(value: any) { this._overlay = this._coerceBooleanProperty(value); }
 
     /** use the material style */
-    @Input()
-    public get material(): any { return this._material; }
-    public set material(value: any) { this._material = this._coerceBooleanProperty(value); }
-
-    /** use no style */
-    @Input()
-    public get noStyle(): any { return this._noStyle; }
-    public set noStyle(value: any) { this._noStyle = this._coerceBooleanProperty(value); }
+    @Input() styleMode: 'material' | 'noStyle' | 'default' = 'default';
 
     /** infinite scroll distance */
     @Input() infiniteScrollDistance = 1.5;
@@ -61,8 +54,8 @@ export class Select2 implements ControlValueAccessor, OnInit, OnDestroy, DoCheck
 
     /** infinite scroll activated */
     @Input()
-    public get infiniteScroll(): any { return this._infiniteScroll; }
-    public set infiniteScroll(value: any) { this._infiniteScroll = this._coerceBooleanProperty(value); }
+    get infiniteScroll(): any { return this._infiniteScroll; }
+    set infiniteScroll(value: any) { this._infiniteScroll = this._coerceBooleanProperty(value); }
 
     /** use it for change the pattern of the filter search */
     @Input() editPattern: (str: string) => string;
@@ -191,12 +184,12 @@ export class Select2 implements ControlValueAccessor, OnInit, OnDestroy, DoCheck
 
     @HostBinding('class.material')
     get classMaterial(): boolean {
-        return this.material === '' || this.material === true || this.material === 'true';
+        return this.styleMode === 'material';
     }
 
     @HostBinding('class.nostyle')
     get classNostyle(): boolean {
-        return this.noStyle === '' || this.noStyle === true || this.noStyle === 'true';
+        return this.styleMode === 'noStyle';
     }
 
     @HostBinding('class.select2-above')
