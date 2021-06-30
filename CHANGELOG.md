@@ -1,5 +1,17 @@
 # Changelog of ng-select2
 
+## V8.0.0 (2021-06-30)
+
+### Breaking Changes
+
+- remove parameters `material` and `noStyle`, use `styleMode`.
+
+### Changes
+                
+- add `overlay` parameter with Angular CDK, to change the display method of the dropdown list to the root of the DOM. (See README).
+- add `noResultMessage` parameter, to display a message if there is no result.
+- add `styleMode` parameter, to choose an alternative predefined style of the component.
+
 ## V7.3.1 (2021-04-24)
 
 ### Corrections
