@@ -71,7 +71,7 @@ name                     | type                                     | status   |
 `value`                  | [`Select2Value`](#select2-data-structure)|          |             | initial value
 `minCharForSearch`       | `number`                                 |          | `0`         | start the search when the number of characters is reached (`0` = unlimited)
 `minCountForSearch`      | `number`                                 |          | `6`         | hide search box if `options.length < minCountForSearch` 
-`displaySearchStatus`    | `'default'` or `'hidden'` or `'always'`  |          | `'default'` | display the search box (`default` : is based on `minCountForSearch`)
+`displaySearchStatus`    | `'default'`<br>`'hidden'`<br>`'always'`  |          | `'default'` | display the search box (`default` : is based on `minCountForSearch`)
 `placeholder`            | `string`                                 |          |             | the placeholder string if nothing selected
 `customSearchEnabled`    | `boolean`                                |          | `false`     | will trigger `search` event, and disable inside filter
 `multiple`               | `boolean`                                |          | `false`     | select multiple options
@@ -79,13 +79,13 @@ name                     | type                                     | status   |
 `limitSelection`         | `number`                                 |          | `0`         | to limit multiple selection  (`0` = unlimited)
 `hideSelectedItems`      | `boolean`                                |          | `false`     | for `multiple`, remove selected values
 `resultMaxHeight`        | `string`                                 |          | `'200px'`   | change the height size of results
-`listPosition`           | `'below'` or `'above'`                   |          | `'below'`   | the position for the dropdown list
+`listPosition`           | `'below'`<br>`'above'`                   |          | `'below'`   | the position for the dropdown list
 `infiniteScroll`         | `boolean`                                |          | `false`     | active infiniteScroll on dropdown list ( with `ngx-infinite-scroll`)
 `infiniteScrollDistance` | `number`                                 |          | `1.5`       | infiniteScroll distance
 `infiniteScrollThrottle` | `number`                                 |          | `150`       | infiniteScroll throttle
-`material`               | `boolean`                                |          | `false`     | enable material style
-`nostyle`                | `boolean`                                |          | `false`     | remove border and background color
-`templates`              | `TemplateRef` or<br> `{option?: TemplateRef, group?: TemplateRef}` or<br> `{templateId1: TemplateRef, ...}` | | | use templates for formatting content (see [Templating](#templating))
+`overlay`                | `boolean`                                |          | `false`     | active an overlay mode for dropdown list (with angular cdk). (See [Overlay](#overlay))
+`sytleMode`              | `'default'`<br>`'material'`<br>`'noStyle'` |        | `'default'` | change style for material style or remove border and background color
+`templates`              | `TemplateRef`<br> `{option?: TemplateRef, group?: TemplateRef}`<br> `{templateId1: TemplateRef, ...}` | | | use templates for formatting content (see [Templating](#templating))
 `editPattern`            | `(str: string) => string`                |          |             | use it for change the pattern of the filter search
 `ngModel`<br>`id`<br>`required`<br>`disabled`<br>`readonly`<br>`tabIndex` | |  |             | just like a `select` control | 
 `(update)`               | `(event: `[`Select2UpdateEvent`](#select2-data-structure)`) => void` | event | |  triggered when user select an option
@@ -134,7 +134,7 @@ export interface Select2Option {
     hide?: boolean;
 }
 
-type Select2Value = string | number | boolean;
+type Select2Value = string | number | boolean | object;
 
 type Select2UpdateValue = Select2Value | Select2Value[];
 
@@ -229,6 +229,15 @@ const data: Select2Data = [
     }
 ]
 ```
+
+### Overlay
+
+If the overlay mode is used / activated, add to the project root in CSS (with `ViewEncapsulation.None`)
+
+```css
+@import "~@angular/cdk/overlay-prebuilt.css";
+```
+
 ## CSS variables (doesn't work on IE11)
 
 It's possible to change different colors (and more) with CSS variables without having to modify them with `::ng-deep` or other CSS rules :
