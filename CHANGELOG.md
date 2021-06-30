@@ -4,6 +4,7 @@
 
 ### Breaking Changes
 
+- minimum required support has been upgraded to Angular `10.0`. 
 - remove parameters `material` and `noStyle`, use `styleMode`.
 
 ### Changes
