@@ -48,4 +48,4 @@ export const unicodePatterns: { l: string, s: RegExp }[] = [
 
 export const defaultMinCountForSearch = 6;
 
-export const protectRegexp = new RegExp('[\\-\\[\\]\\/\\{\\}\\(\\)\\*\\+\\?\\.\\\\\\^\\$\\|]', 'g')
+export const protectRegexp = new RegExp('[\\-\\[\\]\\/\\{\\}\\(\\)\\*\\+\\?\\.\\\\\\^\\$\\|]', 'g');

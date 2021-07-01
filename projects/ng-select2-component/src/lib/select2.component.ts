@@ -229,9 +229,7 @@ export class Select2 implements ControlValueAccessor, OnInit, OnDestroy, DoCheck
     private _required = false;
     private _readonly = false;
     private _multiple = false;
-    private _material = false;
     private _overlay = false;
-    private _noStyle = false;
     private _resettable = false;
     private _hideSelectedItems = false;
     private _clickDetection = false;
@@ -273,7 +271,7 @@ export class Select2 implements ControlValueAccessor, OnInit, OnDestroy, DoCheck
     ngOnInit() {
         this._viewportRuler.change(100).subscribe(() => {
             if (this.isOpen) {
-                this.triggerRect();;
+                this.triggerRect();
             }
         });
 
