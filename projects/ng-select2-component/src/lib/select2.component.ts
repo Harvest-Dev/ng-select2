@@ -808,9 +808,12 @@ export class Select2 implements ControlValueAccessor, OnInit, OnDestroy, DoCheck
 
     private _focusSearchboxOrResultsElement() {
         if (!this.isSearchboxHidden) {
-            if (this.searchInput.nativeElement) {
-                this.searchInput.nativeElement.focus();
-            }
+            setTimeout(() => {
+                if (this.searchInput && this.searchInput.nativeElement) {
+                    console.log(this.searchInput.nativeElement);
+                    this.searchInput.nativeElement.focus();
+                }
+            });
         } else {
             if (this.resultsElement) {
                 this.resultsElement.focus();
