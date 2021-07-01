@@ -69,7 +69,7 @@
              cdkConnectedOverlayBackdropClass="select2-overlay-backdrop"
              [cdkConnectedOverlayOrigin]="trigger"
              [cdkConnectedOverlayOpen]="this.isOpen && overlay"
-             [cdkConnectedOverlayMinWidth]="_triggerRect?.width!"
+             [cdkConnectedOverlayMinWidth]="overlayWidth"
              (backdropClick)="toggleOpenAndClose()">
     <ng-container *ngTemplateOutlet="containerTemplate"></ng-container>
 </ng-template>

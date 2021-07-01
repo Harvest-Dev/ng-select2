@@ -201,6 +201,7 @@ export class Select2 implements ControlValueAccessor, OnInit, OnDestroy, DoCheck
         return this.listPosition === 'above';
     }
 
+    overlayWidth: number;
     _triggerRect: ClientRect;
 
     private _minCountForSearch?: number | string;
@@ -297,6 +298,9 @@ export class Select2 implements ControlValueAccessor, OnInit, OnDestroy, DoCheck
     ngDoCheck() {
         this.updateSearchBox();
         this._dirtyCheckNativeValue();
+        if (this._triggerRect && this.overlayWidth !== this._triggerRect.width) {
+            this.overlayWidth = this._triggerRect.width;
+        }
     }
 
     ngOnDestroy() {
