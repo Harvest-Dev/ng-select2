@@ -1,9 +1,16 @@
 # Changelog of ng-select2
 
+## V8.0.2 (2021-07-01)
+
+### Corrections
+
+- fix open event with overlay
+- fix ExpressionChangedAfterItHasBeenCheckedError
+
 ## V8.0.1 (2021-07-01)
 
 ### Corrections
-                
+
 - fix overlay size on reopen after resize
 
 ## V8.0.0 (2021-06-30)
@@ -22,7 +29,7 @@
 ## V7.3.1 (2021-04-24)
 
 ### Corrections
-                
+
 - fix placeholder overflow (ellipsis)
 
 ## V7.3.0 (2021-04-23)
