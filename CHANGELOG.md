@@ -2,9 +2,9 @@
 
 ## V8.0.1 (2021-07-01)
 
-### fix overlay size on reopen after resize
+### Corrections
                 
-- fix placeholder overflow (ellipsis)
+- fix overlay size on reopen after resize
 
 ## V8.0.0 (2021-06-30)
 
