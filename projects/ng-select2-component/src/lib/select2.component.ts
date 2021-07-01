@@ -273,7 +273,7 @@ export class Select2 implements ControlValueAccessor, OnInit, OnDestroy, DoCheck
     ngOnInit() {
         this._viewportRuler.change(100).subscribe(() => {
             if (this.isOpen) {
-                this._triggerRect = this.selectionElement.getBoundingClientRect();
+                this.triggerRect();;
             }
         });
 
@@ -293,7 +293,7 @@ export class Select2 implements ControlValueAccessor, OnInit, OnDestroy, DoCheck
 
     ngAfterViewInit() {
         this.selectionElement = this.selection.nativeElement;
-        this._triggerRect = this.selectionElement.getBoundingClientRect();
+        this.triggerRect();
     }
 
     ngDoCheck() {
@@ -359,6 +359,7 @@ export class Select2 implements ControlValueAccessor, OnInit, OnDestroy, DoCheck
         this.isOpen = !this.isOpen;
 
         if (this.isOpen) {
+            this.triggerRect();
             this.innerSearchText = '';
             this.updateFilteredData();
             this._focusSearchboxOrResultsElement();
@@ -399,6 +400,10 @@ export class Select2 implements ControlValueAccessor, OnInit, OnDestroy, DoCheck
                 || this.templates;
         }
         return undefined;
+    }
+
+    triggerRect() {
+        this._triggerRect = this.selectionElement.getBoundingClientRect();
     }
 
     private testSelection(option: Select2Option) {
