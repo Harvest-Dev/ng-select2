@@ -50,7 +50,7 @@ export class AppExamplesComponent {
     value2 = 'CA';
     value3 = 'foo';
     value4 = 'bar';
-    value5 = '0';
+    value5 = 0;
     value6 = 'foo3';
     value7 = '';
     value8 = '';
@@ -123,7 +123,7 @@ export class AppExamplesComponent {
         this.value3 = event.value;
     }
 
-    update5(event: Select2UpdateEvent<string>) {
+    update5(event: Select2UpdateEvent<number>) {
         this.value5 = event.value;
     }
 
