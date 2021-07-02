@@ -218,7 +218,7 @@ export class Select2 implements ControlValueAccessor, OnInit, OnDestroy, DoCheck
     private selectionElement: HTMLElement;
 
     private get resultsElement(): HTMLElement {
-        return this.resultContainer.nativeElement;
+        return this.resultContainer?.nativeElement;
     }
 
     private _stateChanges = new Subject<void>();
@@ -370,7 +370,7 @@ export class Select2 implements ControlValueAccessor, OnInit, OnDestroy, DoCheck
                 if (this.option) {
                     const option: Select2Option = this.option instanceof Array ? this.option[0] : this.option;
                     this.updateScrollFromOption(option);
-                } else {
+                } else if (this.resultsElement) {
                     this.resultsElement.scrollTop = 0;
                 }
             });
@@ -550,7 +550,7 @@ export class Select2 implements ControlValueAccessor, OnInit, OnDestroy, DoCheck
         if (option) {
             this.hoveringValue = option.value;
             const domElement = this.results.find(r => r.nativeElement.innerText.trim() === option.label);
-            if (domElement) {
+            if (domElement && this.resultsElement) {
                 this.resultsElement.scrollTop = 0;
                 const listClientRect = this.resultsElement.getBoundingClientRect();
                 const optionClientRect = domElement.nativeElement.getBoundingClientRect();
@@ -814,10 +814,8 @@ export class Select2 implements ControlValueAccessor, OnInit, OnDestroy, DoCheck
                     this.searchInput.nativeElement.focus();
                 }
             });
-        } else {
-            if (this.resultsElement) {
-                this.resultsElement.focus();
-            }
+        } else if (this.resultsElement) {
+            this.resultsElement.focus();
         }
     }
 
