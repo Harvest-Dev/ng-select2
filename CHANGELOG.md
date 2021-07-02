@@ -1,11 +1,17 @@
 # Changelog of ng-select2
 
+## V8.0.3 (2021-07-02)
+
+### Corrections
+
+- add more controls for `resultContainer`
+
 ## V8.0.2 (2021-07-01)
 
 ### Corrections
 
-- fix open event with overlay
-- fix ExpressionChangedAfterItHasBeenCheckedError
+- fix `open` event with overlay
+- fix `ExpressionChangedAfterItHasBeenCheckedError`
 
 ## V8.0.1 (2021-07-01)
 
