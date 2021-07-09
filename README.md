@@ -85,7 +85,7 @@ name                     | type                                     | status   |
 `infiniteScrollDistance` | `number`                                 |          | `1.5`       | infiniteScroll distance
 `infiniteScrollThrottle` | `number`                                 |          | `150`       | infiniteScroll throttle
 `overlay`                | `boolean`                                |          | `false`     | active an overlay mode for dropdown list (with angular cdk). (See [Overlay](#overlay))
-`sytleMode`              | `'default'`<br>`'material'`<br>`'noStyle'` |        | `'default'` | change style for material style or remove border and background color
+`styleMode`              | `'default'`<br>`'material'`<br>`'noStyle'` |        | `'default'` | change style for material style or remove border and background color
 `templates`              | `TemplateRef`<br> `{option?: TemplateRef, group?: TemplateRef}`<br> `{templateId1: TemplateRef, ...}` | | | use templates for formatting content (see [Templating](#templating))
 `editPattern`            | `(str: string) => string`                |          |             | use it for change the pattern of the filter search
 `ngModel`<br>`id`<br>`required`<br>`disabled`<br>`readonly`<br>`tabIndex` | |  |             | just like a `select` control |
