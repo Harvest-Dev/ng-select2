@@ -684,9 +684,17 @@
     }
 }
 
-::ng-deep .select2-overlay-backdrop {
-    background: rgba(0, 0, 0, 0.32);
-    background: var(--select2-overlay-backdrop, transparent);
+::ng-deep {
+    .select2-overlay-backdrop {
+        background: rgba(0, 0, 0, 0.32);
+        background: var(--select2-overlay-backdrop, transparent);
+    }
+
+    .cdk-overlay-container
+        .select2-container
+        .select2-dropdown.select2-dropdown--above {
+        bottom: 0;
+    }
 }
 
 // material fix (firefox)
