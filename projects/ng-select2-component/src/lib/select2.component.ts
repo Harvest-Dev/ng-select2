@@ -1,3 +1,6 @@
+import {
+    CdkConnectedOverlay, ConnectedOverlayPositionChange, ConnectedPosition, VerticalConnectionPos,
+} from '@angular/cdk/overlay';
 import { ViewportRuler } from '@angular/cdk/scrolling';
 import type { ElementRef, QueryList } from '@angular/core';
 import {
@@ -22,10 +25,9 @@ const displaySearchStatusList = ['default', 'hidden', 'always'];
 @Component({
     selector: 'select2',
     templateUrl: './select2.component.html',
-    styleUrls: ['./select2.component.scss']
+    styleUrls: ['./select2.component.scss'],
 })
 export class Select2 implements ControlValueAccessor, OnInit, OnDestroy, DoCheck, AfterViewInit {
-
     /** data of options & optiongrps */
     @Input() data!: Select2Data;
     @Input() minCharForSearch = 0;
@@ -33,16 +35,25 @@ export class Select2 implements ControlValueAccessor, OnInit, OnDestroy, DoCheck
     @Input() placeholder: string;
     @Input() customSearchEnabled: boolean;
     @Input() limitSelection = 0;
-    @Input() listPosition: 'above' | 'below';
+    @Input() listPosition: 'above' | 'below' | 'auto' = 'below';
 
     @Input()
-    get multiple(): any { return this._multiple; }
-    set multiple(value: any) { this._multiple = this._coerceBooleanProperty(value); this.ngOnInit(); }
+    get multiple(): any {
+        return this._multiple;
+    }
+    set multiple(value: any) {
+        this._multiple = this._coerceBooleanProperty(value);
+        this.ngOnInit();
+    }
 
     /** use the material style */
     @Input()
-    get overlay(): any { return this._overlay; }
-    set overlay(value: any) { this._overlay = this._coerceBooleanProperty(value); }
+    get overlay(): any {
+        return this._overlay;
+    }
+    set overlay(value: any) {
+        this._overlay = this._coerceBooleanProperty(value);
+    }
 
     /** use the material style */
     @Input() styleMode: 'material' | 'noStyle' | 'default' = 'default';
@@ -58,15 +69,18 @@ export class Select2 implements ControlValueAccessor, OnInit, OnDestroy, DoCheck
 
     /** infinite scroll activated */
     @Input()
-    get infiniteScroll(): any { return this._infiniteScroll; }
-    set infiniteScroll(value: any) { this._infiniteScroll = this._coerceBooleanProperty(value); }
+    get infiniteScroll(): any {
+        return this._infiniteScroll;
+    }
+    set infiniteScroll(value: any) {
+        this._infiniteScroll = this._coerceBooleanProperty(value);
+    }
 
     /** use it for change the pattern of the filter search */
     @Input() editPattern: (str: string) => string;
 
     /** template for formating */
-    @Input() templates: (TemplateRef<any> | { [key: string]: TemplateRef<any> });
-
+    @Input() templates: TemplateRef<any> | { [key: string]: TemplateRef<any> };
 
     /** the max height of the results container when opening the select */
     @Input() resultMaxHeight = '200px';
@@ -90,11 +104,11 @@ export class Select2 implements ControlValueAccessor, OnInit, OnDestroy, DoCheck
     filteredData: Select2Data;
 
     get select2Options() {
-        return this.multiple ? this.option as Select2Option[] : null;
+        return this.multiple ? (this.option as Select2Option[]) : null;
     }
 
     get select2Option() {
-        return this.multiple ? null : this.option as Select2Option;
+        return this.multiple ? null : (this.option as Select2Option);
     }
 
     get searchText() {
@@ -106,7 +120,7 @@ export class Select2 implements ControlValueAccessor, OnInit, OnDestroy, DoCheck
             this.search.emit({
                 component: this,
                 value: this._value,
-                search: text
+                search: text,
             });
         }
         this.innerSearchText = text;
@@ -126,28 +140,48 @@ export class Select2 implements ControlValueAccessor, OnInit, OnDestroy, DoCheck
     /** Unique id of the element. */
     @Input()
     @HostBinding('id')
-    get id() { return this._id; }
-    set id(value: string) { this._id = value || this._uid; }
+    get id() {
+        return this._id;
+    }
+    set id(value: string) {
+        this._id = value || this._uid;
+    }
 
     /** Whether the element is required. */
     @Input()
-    get required() { return this._required; }
-    set required(value: any) { this._required = this._coerceBooleanProperty(value); }
+    get required() {
+        return this._required;
+    }
+    set required(value: any) {
+        this._required = this._coerceBooleanProperty(value);
+    }
 
     /** Whether selected items should be hidden. */
     @Input()
-    get disabled() { return this._control ? this._control.disabled : this._disabled; }
-    set disabled(value: any) { this._disabled = this._coerceBooleanProperty(value); }
+    get disabled() {
+        return this._control ? this._control.disabled : this._disabled;
+    }
+    set disabled(value: any) {
+        this._disabled = this._coerceBooleanProperty(value);
+    }
 
     /** Whether items are hidden when has. */
     @Input()
-    get hideSelectedItems() { return this._hideSelectedItems; }
-    set hideSelectedItems(value: any) { this._hideSelectedItems = this._coerceBooleanProperty(value); }
+    get hideSelectedItems() {
+        return this._hideSelectedItems;
+    }
+    set hideSelectedItems(value: any) {
+        this._hideSelectedItems = this._coerceBooleanProperty(value);
+    }
 
     /** Whether the element is readonly. */
     @Input()
-    get readonly() { return this._readonly; }
-    set readonly(value: any) { this._readonly = this._coerceBooleanProperty(value); }
+    get readonly() {
+        return this._readonly;
+    }
+    set readonly(value: any) {
+        this._readonly = this._coerceBooleanProperty(value);
+    }
 
     /** The input element's value. */
     @Input()
@@ -178,8 +212,12 @@ export class Select2 implements ControlValueAccessor, OnInit, OnDestroy, DoCheck
 
     /** reset with no selected value */
     @Input()
-    get resettable() { return this._resettable; }
-    set resettable(value: any) { this._resettable = this._coerceBooleanProperty(value); }
+    get resettable() {
+        return this._resettable;
+    }
+    set resettable(value: any) {
+        this._resettable = this._coerceBooleanProperty(value);
+    }
 
     @HostBinding('attr.aria-invalid')
     get ariaInvalid(): boolean {
@@ -198,18 +236,46 @@ export class Select2 implements ControlValueAccessor, OnInit, OnDestroy, DoCheck
 
     @HostBinding('class.select2-above')
     get select2above(): boolean {
-        return this.listPosition === 'above';
+        return !this.overlay ? this.listPosition === 'above' : this._isAbobeOverlay();
     }
 
     overlayWidth: number;
+    overlayHeight: number;
     _triggerRect: ClientRect;
+    _dropdownRect: ClientRect;
 
+    get _positions(): ConnectedPosition[] {
+        if (this.listPosition === 'auto') {
+            [
+                {
+                    originX: 'start',
+                    originY: 'bottom',
+                    overlayX: 'start',
+                    overlayY: 'bottom',
+                },
+                {
+                    originX: 'start',
+                    originY: 'top',
+                    overlayX: 'start',
+                    overlayY: 'top',
+                },
+            ];
+        } else {
+            return null;
+        }
+    }
+    3;
     private _minCountForSearch?: number | string;
 
-    @ViewChild('selection', { static: true }) private selection: ElementRef;
-    @ViewChild('results') private resultContainer: ElementRef;
+    @ViewChild(CdkConnectedOverlay)
+    private cdkConnectedOverlay: CdkConnectedOverlay;
+
+    @ViewChild('selection', { static: true })
+    private selection: ElementRef<HTMLElement>;
+    @ViewChild('results') private resultContainer: ElementRef<HTMLElement>;
     @ViewChildren('result') private results: QueryList<ElementRef>;
-    @ViewChild('searchInput') private searchInput: ElementRef;
+    @ViewChild('searchInput') private searchInput: ElementRef<HTMLElement>;
+    @ViewChild('dropdown') private dropdown: ElementRef<HTMLElement>;
 
     private hoveringValue: Select2Value | null | undefined = null;
     private innerSearchText = '';
@@ -240,6 +306,7 @@ export class Select2 implements ControlValueAccessor, OnInit, OnDestroy, DoCheck
     private _value: Select2UpdateValue;
     private _previousNativeValue: Select2UpdateValue;
     private _infiniteScroll = true;
+    private _overlayPosition: VerticalConnectionPos;
 
     constructor(
         protected _viewportRuler: ViewportRuler,
@@ -247,7 +314,7 @@ export class Select2 implements ControlValueAccessor, OnInit, OnDestroy, DoCheck
         @Optional() private _parentForm: NgForm,
         @Optional() private _parentFormGroup: FormGroupDirective,
         @Self() @Optional() public _control: NgControl,
-        @Attribute('tabindex') tabIndex: string
+        @Attribute('tabindex') tabIndex: string,
     ) {
         this.id = this.id;
         this._tabIndex = parseInt(tabIndex, 10) || 0;
@@ -262,12 +329,12 @@ export class Select2 implements ControlValueAccessor, OnInit, OnDestroy, DoCheck
     /** View -> model callback called when select has been touched */
     private _onTouched = () => {
         // do nothing
-    }
+    };
 
     /** View -> model callback called when value changes */
     private _onChange: (value: any) => void = () => {
         // do nothing
-    }
+    };
 
     ngOnInit() {
         this._viewportRuler.change(100).subscribe(() => {
@@ -279,7 +346,7 @@ export class Select2 implements ControlValueAccessor, OnInit, OnDestroy, DoCheck
         const option = Select2Utils.getOptionsByValue(
             this.data,
             this._control ? this._control.value : this.value,
-            this.multiple
+            this.multiple,
         );
         if (option !== null) {
             this.option = option;
@@ -291,6 +358,16 @@ export class Select2 implements ControlValueAccessor, OnInit, OnDestroy, DoCheck
     }
 
     ngAfterViewInit() {
+        this.cdkConnectedOverlay.positionChange.subscribe((posChange: ConnectedOverlayPositionChange) => {
+            if (this.listPosition === 'auto') {
+                if (posChange.connectionPair?.originY && this._overlayPosition !== posChange.connectionPair.originY) {
+                    this.triggerRect();
+                    this._overlayPosition = posChange.connectionPair.originY;
+                    this._changeDetectorRef.detectChanges();
+                }
+            }
+        });
+
         this.selectionElement = this.selection.nativeElement;
         this.triggerRect();
     }
@@ -298,8 +375,13 @@ export class Select2 implements ControlValueAccessor, OnInit, OnDestroy, DoCheck
     ngDoCheck() {
         this.updateSearchBox();
         this._dirtyCheckNativeValue();
-        if (this._triggerRect && this.overlayWidth !== this._triggerRect.width) {
-            this.overlayWidth = this._triggerRect.width;
+        if (this._triggerRect) {
+            if (this.overlayWidth !== this._triggerRect.width) {
+                this.overlayWidth = this._triggerRect.width;
+            }
+            if (this._dropdownRect?.height > 0 && this.overlayHeight !== this._dropdownRect.height) {
+                this.overlayHeight = this._dropdownRect.height;
+            }
         }
     }
 
@@ -317,17 +399,18 @@ export class Select2 implements ControlValueAccessor, OnInit, OnDestroy, DoCheck
     }
 
     hideSearch(): boolean {
-        const displaySearchStatus = displaySearchStatusList.indexOf(this.displaySearchStatus) > -1
-            ? this.displaySearchStatus
-            : 'default';
+        const displaySearchStatus =
+            displaySearchStatusList.indexOf(this.displaySearchStatus) > -1 ? this.displaySearchStatus : 'default';
         return (displaySearchStatus === 'default' && this.isSearchboxHidden) || displaySearchStatus === 'hidden';
     }
 
     getOptionStyle(option: Select2Option) {
-        return 'select2-results__option ' +
+        return (
+            'select2-results__option ' +
             (option.hide ? 'select2-results__option--hide ' : '') +
             (option.value === this.hoveringValue ? 'select2-results__option--highlighted ' : '') +
-            (option.classes || '');
+            (option.classes || '')
+        );
     }
 
     mouseenter(option: Select2Option) {
@@ -361,7 +444,6 @@ export class Select2 implements ControlValueAccessor, OnInit, OnDestroy, DoCheck
         this.isOpen = !this.isOpen;
 
         if (this.isOpen) {
-            this.triggerRect();
             this.innerSearchText = '';
             this.updateFilteredData();
             this._focusSearchboxOrResultsElement();
@@ -373,6 +455,9 @@ export class Select2 implements ControlValueAccessor, OnInit, OnDestroy, DoCheck
                 } else if (this.resultsElement) {
                     this.resultsElement.scrollTop = 0;
                 }
+                setTimeout(() => {
+                    this.triggerRect();
+                }, 100);
             });
             this.open.emit(this);
         } else {
@@ -389,23 +474,25 @@ export class Select2 implements ControlValueAccessor, OnInit, OnDestroy, DoCheck
         this._changeDetectorRef.markForCheck();
     }
 
-    hasTemplate(option: (Select2Option | Select2Group), defaut: string) {
-        return this.templates instanceof TemplateRef
-            || this.templates && this.templates[option.templateId] instanceof TemplateRef
-            || this.templates && this.templates[defaut] instanceof TemplateRef;
+    hasTemplate(option: Select2Option | Select2Group, defaut: string) {
+        return (
+            this.templates instanceof TemplateRef ||
+            this.templates?.[option.templateId] instanceof TemplateRef ||
+            this.templates?.[defaut] instanceof TemplateRef
+        );
     }
 
-    getTemplate(option: (Select2Option | Select2Group), defaut: string) {
-        if (this.hasTemplate(option, defaut)) {
-            return this.templates[option.templateId]
-                || this.templates[defaut]
-                || this.templates;
-        }
-        return undefined;
+    getTemplate(option: Select2Option | Select2Group, defaut: string) {
+        return this.hasTemplate(option, defaut)
+            ? this.templates[option.templateId] || this.templates[defaut] || this.templates
+            : undefined;
     }
 
     triggerRect() {
         this._triggerRect = this.selectionElement.getBoundingClientRect();
+        this._dropdownRect = this.dropdown.nativeElement
+            ? this.dropdown.nativeElement.getBoundingClientRect()
+            : undefined;
     }
 
     private testSelection(option: Select2Option) {
@@ -416,7 +503,7 @@ export class Select2 implements ControlValueAccessor, OnInit, OnDestroy, DoCheck
         if (
             !this.multiple ||
             !this.limitSelection ||
-            Array.isArray(this._value) && this._value.length < this.limitSelection
+            (Array.isArray(this._value) && this._value.length < this.limitSelection)
         ) {
             return true;
         }
@@ -425,17 +512,18 @@ export class Select2 implements ControlValueAccessor, OnInit, OnDestroy, DoCheck
 
     private testValueChange(value1: Select2UpdateValue, value2: Select2UpdateValue) {
         if (
-            (value1 === null || value1 === undefined) && (value2 === null || value2 === undefined) ||
+            ((value1 === null || value1 === undefined) && (value2 === null || value2 === undefined)) ||
             value1 === value2
         ) {
             return false;
         }
-        if (this.multiple
-            && value1 && (value1 as Select2Value[]).length
-            && value2 && (value2 as Select2Value[]).length
-            && (value1 as Select2Value[]).length === (value2 as Select2Value[]).length
+        if (
+            this.multiple &&
+            (value1 as Select2Value[])?.length &&
+            (value2 as Select2Value[])?.length &&
+            (value1 as Select2Value[]).length === (value2 as Select2Value[]).length
         ) {
-            for (const e1 of (value1 as Select2Value[])) {
+            for (const e1 of value1 as Select2Value[]) {
                 const test = (value2 as Select2Value[]).indexOf(e1) > -1;
                 if (!test) {
                     return true;
@@ -498,18 +586,14 @@ export class Select2 implements ControlValueAccessor, OnInit, OnDestroy, DoCheck
         if (this.containClasses(element, cssClass.trim().split(/\s+/))) {
             return element;
         }
-        return element.parentElement
-            ? this.getParentElementByClass(element.parentElement, cssClass)
-            : null;
+        return element.parentElement ? this.getParentElementByClass(element.parentElement, cssClass) : null;
     }
 
     private getParentElementById(element: HTMLElement, id: string): HTMLElement | null {
         if (element.id === id) {
             return element;
         }
-        return element.parentElement
-            ? this.getParentElementById(element.parentElement, id)
-            : null;
+        return element.parentElement ? this.getParentElementById(element.parentElement, id) : null;
     }
 
     private containClasses(element: HTMLElement, cssClasses: string[]): boolean {
@@ -606,7 +690,7 @@ export class Select2 implements ControlValueAccessor, OnInit, OnDestroy, DoCheck
         this.update.emit({
             component: this,
             value: value,
-            options: Array.isArray(this.option) ? this.option : (this.option ? [this.option] : null)
+            options: Array.isArray(this.option) ? this.option : this.option ? [this.option] : null,
         });
     }
 
@@ -671,12 +755,12 @@ export class Select2 implements ControlValueAccessor, OnInit, OnDestroy, DoCheck
         this.update.emit({
             component: this,
             value: value,
-            options: Array.isArray(this.option) ? this.option : (this.option ? [this.option] : null)
+            options: Array.isArray(this.option) ? this.option : this.option ? [this.option] : null,
         });
         this.removeOption.emit({
             component: this,
             value: value,
-            removedOption: option
+            removedOption: option,
         });
 
         e.preventDefault();
@@ -726,10 +810,19 @@ export class Select2 implements ControlValueAccessor, OnInit, OnDestroy, DoCheck
         this.disabled = isDisabled;
     }
 
+    onScroll(way: 'up' | 'down') {
+        this.scroll.emit({
+            component: this,
+            way,
+            search: this.innerSearchText,
+        });
+    }
+
     _isErrorState(): boolean {
         const isInvalid = this._control && this._control.invalid;
         const isTouched = this._control && this._control.touched;
-        const isSubmitted = (this._parentFormGroup && this._parentFormGroup.submitted) ||
+        const isSubmitted =
+            (this._parentFormGroup && this._parentFormGroup.submitted) ||
             (this._parentForm && this._parentForm.submitted);
 
         return !!(isInvalid && (isTouched || isSubmitted));
@@ -738,7 +831,6 @@ export class Select2 implements ControlValueAccessor, OnInit, OnDestroy, DoCheck
     private _testKey(event: KeyboardEvent, refs: (number | string)[] = []): boolean {
         return this._isKey(this._getKey(event), refs);
     }
-
 
     private _getKey(event: KeyboardEvent): number | string {
         let code: number | string;
@@ -757,9 +849,7 @@ export class Select2 implements ControlValueAccessor, OnInit, OnDestroy, DoCheck
     }
 
     private _isKey(code: number | string, refs: (number | string)[] = []): boolean {
-        return refs && refs.length > 0
-            ? refs.indexOf(code) !== -1
-            : false;
+        return refs && refs.length > 0 ? refs.indexOf(code) !== -1 : false;
     }
 
     /**
@@ -777,9 +867,7 @@ export class Select2 implements ControlValueAccessor, OnInit, OnDestroy, DoCheck
                     if (isArray) {
                         // value is not null. Preselect value
                         const selectedValues: any = Select2Utils.getOptionsByValue(this.data, value, this.multiple);
-                        selectedValues.map(
-                            item => this.select(item)
-                        );
+                        selectedValues.map(item => this.select(item));
                     }
                 } else {
                     this.select(Select2Utils.getOptionByValue(this.data, value));
@@ -810,7 +898,6 @@ export class Select2 implements ControlValueAccessor, OnInit, OnDestroy, DoCheck
         if (!this.isSearchboxHidden) {
             setTimeout(() => {
                 if (this.searchInput && this.searchInput.nativeElement) {
-                    console.log(this.searchInput.nativeElement);
                     this.searchInput.nativeElement.focus();
                 }
             });
@@ -829,11 +916,9 @@ export class Select2 implements ControlValueAccessor, OnInit, OnDestroy, DoCheck
         }
     }
 
-    onScroll(way: 'up' | 'down') {
-        this.scroll.emit({
-            component: this,
-            way,
-            search: this.innerSearchText
-        });
+    private _isAbobeOverlay(): boolean {
+        return this.overlay && this._overlayPosition && this.listPosition === 'auto'
+            ? this._overlayPosition === 'top'
+            : this.listPosition === 'above';
     }
 }

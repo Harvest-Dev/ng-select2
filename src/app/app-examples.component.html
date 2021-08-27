@@ -1,289 +1,300 @@
-<h2>
-    Examples
-</h2>
+<h2>Examples</h2>
 
 <label for="disabled">overlay : </label>
-<input type="checkbox"
-       [(ngModel)]="overlay">
+<input type="checkbox" [(ngModel)]="overlay" />
 
-
-<div style="width: 500px;">
-    <h3>1. options in group ({{value1}})</h3>
-    <select2 [overlay]="overlay"
-             [data]="data1"
-             [value]="value1"
-             (update)="update1($event)"
-             (change)="change1($event)"
-             (blur)="blur1($event)"
-             (focus)="focus1($event)"
-             (open)="open1($event)"
-             (close)="close1($event)"
-             (search)="search1($event)"
-             resettable
-             id="selec2-1">
+<div style="width: 500px">
+    <h3>1. options in group ({{ value1 }})</h3>
+    <select2
+        [overlay]="overlay"
+        [data]="data1"
+        [value]="value1"
+        (update)="update1($event)"
+        (change)="change1($event)"
+        (blur)="blur1($event)"
+        (focus)="focus1($event)"
+        (open)="open1($event)"
+        (close)="close1($event)"
+        (search)="search1($event)"
+        resettable
+        id="selec2-1"
+    >
     </select2>
-    <h3>2. options ({{value2}})</h3>
-    <select2 [overlay]="overlay"
-             [data]="data2"
-             [value]="value2"
-             (update)="update2($event)"
-             id="selec2-2">
-    </select2>
-    <h3>3. less options ({{value3}})</h3>
-    <select2 [overlay]="overlay"
-             [data]="data3"
-             [value]="value3"
-             (update)="update3($event)"
-             id="selec2-3">
-    </select2>
-    <h3>4. disabled ({{value4}})</h3>
-    <select2 [overlay]="overlay"
-             [data]="data4"
-             [value]="value4"
-             [disabled]="true"
-             id="selec2-4">
-
-    </select2>
-    <h3>5. hide search box ({{value5}})</h3>
+    <h3>2. options ({{ value2 }})</h3>
+    <select2 [overlay]="overlay" [data]="data2" [value]="value2" (update)="update2($event)" id="selec2-2"> </select2>
+    <h3>3. less options ({{ value3 }})</h3>
+    <select2 [overlay]="overlay" [data]="data3" [value]="value3" (update)="update3($event)" id="selec2-3"> </select2>
+    <h3>4. disabled ({{ value4 }})</h3>
+    <select2 [overlay]="overlay" [data]="data4" [value]="value4" [disabled]="true" id="selec2-4"> </select2>
+    <h3>5. hide search box ({{ value5 }})</h3>
     <form [formGroup]="ctrlForm2">
-        <select2 [overlay]="overlay"
-                 [data]="data5"
-                 formControlName="test5"
-                 [minCountForSearch]="minCountForSearch"
-                 (update)="update5($event)"
-                 id="selec2-5">
+        <select2
+            [overlay]="overlay"
+            [data]="data5"
+            formControlName="test5"
+            [minCountForSearch]="minCountForSearch"
+            (update)="update5($event)"
+            id="selec2-5"
+        >
         </select2>
     </form>
-    <h3>6. search limit to <input #limit
-               size="3"
-               value="7"> / display status <select #status>
+    <h3>
+        6. search limit to <input #limit size="3" value="7" /> / display status
+        <select #status>
             <option selected>default</option>
             <option>hidden</option>
             <option>always</option>
-        </select> ({{value6}})</h3>
-    <div> <button type="button"
-                (click)="addItem()">Add item</button>
-        <button type="button"
-                (click)="removeItem()">Remove item</button>
+        </select>
+        ({{ value6 }})
+    </h3>
+    <div>
+        <button type="button" (click)="addItem()">Add item</button>
+        <button type="button" (click)="removeItem()">Remove item</button>
     </div>
-    <select2 [overlay]="overlay"
-             [data]="data6"
-             [value]="value6"
-             [minCountForSearch]="limit.value"
-             [displaySearchStatus]="status.value"
-             (update)="update6($event)"
-             id="selec2-6">
+    <select2
+        [overlay]="overlay"
+        [data]="data6"
+        [value]="value6"
+        [minCountForSearch]="limit.value"
+        [displaySearchStatus]="status.value"
+        (update)="update6($event)"
+        id="selec2-6"
+    >
     </select2>
-    <h3>7. placeholder ({{value7}})</h3>
-    <select2 [overlay]="overlay"
-             [data]="data7"
-             placeholder="select an item"
-             (update)="update7($event)"
-             resettable
-             id="selec2-7">
+    <h3>7. placeholder ({{ value7 }})</h3>
+    <select2
+        [overlay]="overlay"
+        [data]="data7"
+        placeholder="select an item"
+        (update)="update7($event)"
+        resettable
+        id="selec2-7"
+    >
     </select2>
-    <h3>8. open, close and search event ({{value8}})</h3>
-    <select2 [overlay]="overlay"
-             [data]="data8"
-             customSearchEnabled="true"
-             (open)="open8()"
-             (close)="close8()"
-             (search)="search8($event)"
-             (update)="update8($event)"
-             id="selec2-8">
-        <select2-hint>value : {{value8}}</select2-hint>
+    <h3>8. open, close and search event ({{ value8 }})</h3>
+    <select2
+        [overlay]="overlay"
+        [data]="data8"
+        customSearchEnabled="true"
+        listPosition="auto"
+        (open)="open8()"
+        (close)="close8()"
+        (search)="search8($event)"
+        (update)="update8($event)"
+        id="selec2-8"
+    >
+        <select2-hint>value : {{ value8 }}</select2-hint>
     </select2>
-    <h3>9. multiple + limite <input type="number"
-               [(ngModel)]="limitSelection"> ({{value9 | json}})</h3>
-    <select2 [overlay]="overlay"
-             [data]="data9"
-             [value]="value9"
-             multiple="true"
-             [limitSelection]="limitSelection"
-             (update)="update9($event)"
-             (blur)="blur9($event)"
-             (focus)="focus9($event)"
-             (open)="open9($event)"
-             (close)="close9($event)"
-             (search)="search9($event)"
-             id="selec2-9">
+    <h3>9. multiple + limite <input type="number" [(ngModel)]="limitSelection" /> ({{ value9 | json }})</h3>
+    <select2
+        [overlay]="overlay"
+        [data]="data9"
+        [value]="value9"
+        multiple="true"
+        [limitSelection]="limitSelection"
+        (update)="update9($event)"
+        (blur)="blur9($event)"
+        (focus)="focus9($event)"
+        (open)="open9($event)"
+        (close)="close9($event)"
+        (search)="search9($event)"
+        id="selec2-9"
+    >
     </select2>
-    <h3>10. multiple + hide selected items ({{value10 | json}})</h3>
-    <select2 [overlay]="overlay"
-             [data]="data10"
-             [value]="value10"
-             multiple="true"
-             (update)="update10($event)"
-             hideSelectedItems="true"
-             id="selec2-10">
+    <h3>10. multiple + hide selected items ({{ value10 | json }})</h3>
+    <select2
+        [overlay]="overlay"
+        [data]="data10"
+        [value]="value10"
+        multiple="true"
+        (update)="update10($event)"
+        hideSelectedItems="true"
+        id="selec2-10"
+    >
     </select2>
-    <h3>11. material style and form binding ({{value11}})</h3>
+    <h3>11. material style and form binding ({{ value11 }})</h3>
     <form [formGroup]="ctrlForm">
-        <select2 [overlay]="overlay"
-                 [(ngModel)]="value11"
-                 [data]="data11"
-                 formControlName="test11"
-                 placeholder="Select a state"
-                 styleMode="material"
-                 id="selec2-11"></select2>
+        <select2
+            [overlay]="overlay"
+            [(ngModel)]="value11"
+            [data]="data11"
+            formControlName="test11"
+            placeholder="Select a state"
+            styleMode="material"
+            id="selec2-11"
+        ></select2>
         <button (click)="reset11()">reset</button>
         <button (click)="change11()">Utah</button>
     </form>
 
-    <h3>12. material style ({{value12}})</h3>
-    <select2 [overlay]="overlay"
-             [data]="data12"
-             [value]="value12"
-             (update)="update12($event)"
-             styleMode="material"
-             id="selec2-12">
+    <h3>12. material style ({{ value12 }})</h3>
+    <select2
+        [overlay]="overlay"
+        [data]="data12"
+        [value]="value12"
+        (update)="update12($event)"
+        styleMode="material"
+        id="selec2-12"
+    >
     </select2>
-    <h3>13. boolean value ({{value13}})</h3>
-    <select2 [overlay]="overlay"
-             [data]="data13"
-             [value]="value13"
-             (update)="update13($event)"
-             id="selec2-13">
+    <h3>13. boolean value ({{ value13 }})</h3>
+    <select2 [overlay]="overlay" [data]="data13" [value]="value13" (update)="update13($event)" id="selec2-13">
     </select2>
     <h3>14. FormControl</h3>
     <form [formGroup]="fg">
-        <select2 [overlay]="overlay"
-                 [data]="data9"
-                 multiple="true"
-                 id="selec2-10"
-                 formControlName="state">
-        </select2>
+        <select2 [overlay]="overlay" [data]="data9" multiple="true" id="selec2-10" formControlName="state"> </select2>
         <button (click)="print()">Log Selected</button>
         <button (click)="resetForm()">Reset Form</button>
     </form>
-    <h3>15. with label ({{value15}})</h3>
-    <select2 [overlay]="overlay"
-             [data]="data15"
-             [value]="value15"
-             (update)="update15($event)"
-             id="selec2-15">
+    <h3>15. with label ({{ value15 }})</h3>
+    <select2 [overlay]="overlay" [data]="data15" [value]="value15" (update)="update15($event)" id="selec2-15">
         <select2-label>Select a state</select2-label>
     </select2>
-    <h3>16. required with label ({{value16}})</h3>
-    <select2 [overlay]="overlay"
-             [data]="data16"
-             [value]="value16"
-             (update)="update16($event)"
-             required
-             id="selec2-16">
+    <h3>16. required with label ({{ value16 }})</h3>
+    <select2 [overlay]="overlay" [data]="data16" [value]="value16" (update)="update16($event)" required id="selec2-16">
         <select2-label>Select a state</select2-label>
     </select2>
-    <h3>17. with two option labels ({{value17}})</h3>
-    <select2 [overlay]="overlay"
-             [data]="data17"
-             [value]="value17"
-             (update)="update17($event)"
-             id="select2-17">
+    <h3>17. with two option labels ({{ value17 }})</h3>
+    <select2 [overlay]="overlay" [data]="data17" [value]="value17" (update)="update17($event)" id="select2-17">
     </select2>
     <h3>18. search starts with 3 chars</h3>
-    <select2 [overlay]="overlay"
-             [data]="data18"
-             [value]="value18"
-             (update)="update18($event)"
-             minCharForSearch="3"
-             id="selec2-18">
+    <select2
+        [overlay]="overlay"
+        [data]="data18"
+        [value]="value18"
+        (update)="update18($event)"
+        minCharForSearch="3"
+        id="selec2-18"
+    >
     </select2>
-    <h3>19. dropdown list position above ({{value19}})</h3>
-    <select2 [overlay]="overlay"
-             [data]="data19"
-             [value]="value19"
-             (update)="update19($event)"
-             listPosition="above"
-             id="selec2-19">
+    <h3>19. dropdown list position above ({{ value19 }})</h3>
+    <select2
+        [overlay]="overlay"
+        [data]="data19"
+        [value]="value19"
+        (update)="update19($event)"
+        listPosition="above"
+        id="selec2-19"
+    >
     </select2>
     <div class="noStyle">
-        <h3>20. nostyle ({{value20}})</h3>
-        <select2 [overlay]="overlay"
-                 [data]="data20"
-                 [value]="value20"
-                 (update)="update20($event)"
-                 listPosition="above"
-                 styleMode="none"
-                 id="selec2-20">
+        <h3>20. nostyle ({{ value20 }})</h3>
+        <select2
+            [overlay]="overlay"
+            [data]="data20"
+            [value]="value20"
+            (update)="update20($event)"
+            listPosition="above"
+            styleMode="none"
+            id="selec2-20"
+        >
         </select2>
     </div>
-    <h3>21. update to empty/null/undefined ({{value21}})</h3>
-    <select2 [overlay]="overlay"
-             [data]="data21"
-             [value]="value21"
-             (update)="update21($event)"
-             listPosition="above"
-             id="selec2-21">
+    <h3>21. update to empty/null/undefined ({{ value21 }})</h3>
+    <select2
+        [overlay]="overlay"
+        [data]="data21"
+        [value]="value21"
+        (update)="update21($event)"
+        listPosition="above"
+        id="selec2-21"
+    >
     </select2>
     <button (click)="value21 = ''">Update value to empty string</button>
     <button (click)="value21 = null">Update value to null</button>
     <button (click)="value21 = undefined">Update value to undefined</button>
-    <h3>22. with item classes and id ({{value22}})</h3>
-    <select2 [overlay]="overlay"
-             [data]="data22"
-             [value]="value22"
-             (update)="update22($event)"
-             listPosition="above"
-             id="selec2-22"
-             class="flower-list">
+    <h3>22. with item classes and id ({{ value22 }})</h3>
+    <select2
+        [overlay]="overlay"
+        [data]="data22"
+        [value]="value22"
+        (update)="update22($event)"
+        listPosition="auto"
+        id="selec2-22"
+        class="flower-list"
+    >
     </select2>
 
-    <h3>23 with template ({{value23}})</h3>
+    <h3>23 with template ({{ value23 }})</h3>
 
-    <select2 [overlay]="overlay"
-             [data]="data23"
-             [value]="value23"
-             (update)="update23($event)"
-             listPosition="above"
-             [templates]="template"
-             id="selec2-23"
-             class="flower-list">
-        <ng-template #template
-                     let-data="data"><strong>{{data?.color}}</strong>: {{data?.name}}</ng-template>
+    <select2
+        [overlay]="overlay"
+        [data]="data23"
+        [value]="value23"
+        (update)="update23($event)"
+        listPosition="above"
+        [templates]="template"
+        id="selec2-23"
+        class="flower-list"
+    >
+        <ng-template #template let-data="data"
+            ><strong>{{ data?.color }}</strong
+            >: {{ data?.name }}</ng-template
+        >
     </select2>
 
-    <h3>24 with template (option / group) ({{value24}})</h3>
+    <h3>24 with template (option / group) ({{ value24 }})</h3>
 
-    <select2 [overlay]="overlay"
-             [data]="data24"
-             [value]="value24"
-             (update)="update24($event)"
-             listPosition="above"
-             [templates]="{ option : templateOption, group: templateGroup }"
-             id="selec2-24"
-             class="flower-list">
-        <ng-template #templateOption
-                     let-data="data"><strong>{{data?.color}}</strong>: {{data?.name}}</ng-template>
-        <ng-template #templateGroup
-                     let-label="label"><strong>({{label}})</strong></ng-template>
+    <select2
+        [overlay]="overlay"
+        [data]="data24"
+        [value]="value24"
+        (update)="update24($event)"
+        listPosition="above"
+        [templates]="{ option: templateOption, group: templateGroup }"
+        id="selec2-24"
+        class="flower-list"
+    >
+        <ng-template #templateOption let-data="data"
+            ><strong>{{ data?.color }}</strong
+            >: {{ data?.name }}</ng-template
+        >
+        <ng-template #templateGroup let-label="label"
+            ><strong>({{ label }})</strong></ng-template
+        >
     </select2>
 
-    <h3>25 with templates Ids ({{value25}})</h3>
+    <h3>25 with templates Ids ({{ value25 }})</h3>
 
-    <select2 [overlay]="overlay"
-             [data]="data25"
-             [value]="value25"
-             (update)="update25($event)"
-             listPosition="above"
-             [templates]="{template1 : template1, template2 : template2, template3 : template3 }"
-             id="selec2-25"
-             class="flower-list">
-        <ng-template #template1
-                     let-data="data"><span [style.background]="data?.color">{{data?.name}}</span></ng-template>
-        <ng-template #template2
-                     let-data="data"><strong>{{data?.color}}</strong>: {{data?.name}}</ng-template>
-        <ng-template #template3
-                     let-data="data">{{data | json}}</ng-template>
+    <select2
+        [overlay]="overlay"
+        [data]="data25"
+        [value]="value25"
+        (update)="update25($event)"
+        listPosition="above"
+        [templates]="{ template1: template1, template2: template2, template3: template3 }"
+        id="selec2-25"
+        class="flower-list"
+    >
+        <ng-template #template1 let-data="data"
+            ><span [style.background]="data?.color">{{ data?.name }}</span></ng-template
+        >
+        <ng-template #template2 let-data="data"
+            ><strong>{{ data?.color }}</strong
+            >: {{ data?.name }}</ng-template
+        >
+        <ng-template #template3 let-data="data">{{ data | json }}</ng-template>
     </select2>
-    <h3>26. infiniteScroll({{value26}})</h3>
-    <select2 [overlay]="overlay"
-             [data]="data26"
-             [value]="value26"
-             (update)="update26($event)"
-             listPosition="above"
-             infiniteScroll
-             infiniteScrollDistance="1.5"
-             infiniteScrollThrottle="150"
-             (scroll)="scroll26($event)"
-             id="selec2-26"></select2>
+    <h3>26. infiniteScroll({{ value26 }})</h3>
+    <select2
+        [overlay]="overlay"
+        [data]="data26"
+        [value]="value26"
+        (update)="update26($event)"
+        listPosition="above"
+        infiniteScroll
+        infiniteScrollDistance="1.5"
+        infiniteScrollThrottle="150"
+        (scroll)="scroll26($event)"
+        id="selec2-26"
+    ></select2>
+    <h3>27. poistion ({{ value2 }})</h3>
+    <select2
+        [overlay]="overlay"
+        [data]="data2"
+        [value]="value2"
+        listPosition="auto"
+        (update)="update2($event)"
+        id="selec2-27"
+    ></select2>
 </div>

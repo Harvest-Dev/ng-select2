@@ -430,18 +430,18 @@
     }
 
     .select2-results__option {
-        &[role=group] {
+        &[role='group'] {
             padding: 0;
         }
 
-        &[aria-disabled=true] {
+        &[aria-disabled='true'] {
             color: #999;
             color: var(--select2-option-disabled-text-color, #999);
             background: transparent;
             background: var(--select2-option-disabled-background, transparent);
         }
 
-        &[aria-selected=true] {
+        &[aria-selected='true'] {
             color: #000;
             color: var(--select2-option-selected-text-color, #000);
             background: #ddd;
@@ -632,7 +632,7 @@
             box-shadow: 0 5px 5px rgba(0, 0, 0, 0.5);
         }
 
-        .select2-results__option[aria-selected=true],
+        .select2-results__option[aria-selected='true'],
         .select2-results__option--highlighted[aria-selected] {
             background: rgba(0, 0, 0, 0.04);
             background: var(--select2-material-option-selected-background, rgba(0, 0, 0, 0.04));
@@ -640,7 +640,7 @@
             color: var(--select2-material-option-highlighted-text-color, #000);
         }
 
-        .select2-results__option[aria-selected=true] {
+        .select2-results__option[aria-selected='true'] {
             color: #ff5722;
             color: var(--select2-material-option-selected-text-color, #ff5722);
         }
@@ -651,7 +651,10 @@
 
             &::before {
                 background: linear-gradient(to right, rgba(0, 0, 0, 0.26) 0, rgba(0, 0, 0, 0.26) 33%, transparent 0);
-                background: var(--select2-material-underline-disabled, linear-gradient(to right, rgba(0, 0, 0, 0.26) 0, rgba(0, 0, 0, 0.26) 33%, transparent 0));
+                background: var(
+                    --select2-material-underline-disabled,
+                    linear-gradient(to right, rgba(0, 0, 0, 0.26) 0, rgba(0, 0, 0, 0.26) 33%, transparent 0)
+                );
                 background-size: 4px 1px;
                 background-repeat: repeat-x;
                 background-position: 0 bottom;
@@ -689,11 +692,18 @@
         background: rgba(0, 0, 0, 0.32);
         background: var(--select2-overlay-backdrop, transparent);
     }
-
-    .cdk-overlay-container
-        .select2-container
-        .select2-dropdown.select2-dropdown--above {
-        bottom: 0;
+    .cdk-overlay-container {
+        .select2-container .select2-dropdown.select2-dropdown--above {
+            bottom: 28px;
+        }
+        .select2-container--open.select2-position-auto .select2-dropdown {
+            margin-bottom: 28px;
+            &.select2-dropdown--above {
+                bottom: 0;
+                margin-bottom: 0;
+                margin-top: 28px;
+            }
+        }
     }
 }
 
