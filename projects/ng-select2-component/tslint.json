@@ -1,14 +1,7 @@
 {
-    "extends": "../../tslint.json",
-    "rules": {
-        "directive-selector": [
-            false
-        ],
-        "component-selector": [
-            true,
-            "element",
-            "",
-            ""
-        ]
-    }
+  "extends": "../../tslint.json",
+  "rules": {
+    "directive-selector": [false],
+    "component-selector": [true, "element", "", ""]
+  }
 }

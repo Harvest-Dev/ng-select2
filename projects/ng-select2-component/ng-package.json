@@ -2,9 +2,7 @@
   "$schema": "../../node_modules/ng-packagr/ng-package.schema.json",
   "dest": "../../dist/ng-select2-component",
   "deleteDestPath": false,
-  "whitelistedNonPeerDependencies": [
-    "ngx-infinite-scroll"
-  ],
+  "whitelistedNonPeerDependencies": ["ngx-infinite-scroll"],
   "lib": {
     "entryFile": "src/public_api.ts",
     "umdModuleIds": {

@@ -9,7 +9,7 @@ import { data24 } from './app.data';
 @Component({
     selector: 'app-root',
     templateUrl: './app-gen.component.html',
-    styleUrls: ['./app-gen.component.scss']
+    styleUrls: ['./app-gen.component.scss'],
 })
 export class AppGenComponent implements AfterContentInit {
     data = data24;
@@ -21,7 +21,6 @@ export class AppGenComponent implements AfterContentInit {
     ctrlForm: FormGroup;
 
     constructor(private fb: FormBuilder) {
-
         this.ctrlForm = this.fb.group({
             // data
             json: new FormControl(JSON.stringify(this.data, null, 2)),
@@ -57,7 +56,7 @@ export class AppGenComponent implements AfterContentInit {
             blur: new FormControl(),
             search: new FormControl(),
             scroll: new FormControl(),
-            removeOption: new FormControl()
+            removeOption: new FormControl(),
         });
 
         this.ctrlForm.valueChanges.subscribe(() => {
@@ -75,8 +74,10 @@ export class AppGenComponent implements AfterContentInit {
 
     getTemplate(
         template: TemplateRef<any>,
-        option: TemplateRef<any>, group: TemplateRef<any>,
-        template1: TemplateRef<any>, template2: TemplateRef<any>
+        option: TemplateRef<any>,
+        group: TemplateRef<any>,
+        template1: TemplateRef<any>,
+        template2: TemplateRef<any>,
     ) {
         switch (this.ctrlForm.value.template) {
             case 'ref':
@@ -98,9 +99,9 @@ export class AppGenComponent implements AfterContentInit {
         const json: Json2htmlRef = {
             tag: 'select2',
             attrs: {
-                '[data]': 'data'
+                '[data]': 'data',
             },
-            body: []
+            body: [],
         };
         const value = this.ctrlForm.value;
         const attrs = json.attrs;
@@ -180,32 +181,38 @@ export class AppGenComponent implements AfterContentInit {
                 body.push({
                     tag: 'ng-template',
                     attrs: { '#template': null, 'let-data': 'data' },
-                    body: '<ng-container *ngIf="data?.color"> <strong>{{data?.color}}</strong>: </ng-container>{{data?.name}}'
+                    body: '<ng-container *ngIf="data?.color"> <strong>{{data?.color}}</strong>: </ng-container>{{data?.name}}',
                 });
                 break;
             case 'option-group':
                 attrs['[templates]'] = '{option : option, group: group}';
-                body.push({
-                    tag: 'ng-template',
-                    attrs: { '#option': null, 'let-data': 'data' },
-                    body: '{{data?.name}}'
-                }, {
-                    tag: 'ng-template',
-                    attrs: { '#group': null, 'let-label': 'label' },
-                    body: 'Group: {{label}}'
-                });
+                body.push(
+                    {
+                        tag: 'ng-template',
+                        attrs: { '#option': null, 'let-data': 'data' },
+                        body: '{{data?.name}}',
+                    },
+                    {
+                        tag: 'ng-template',
+                        attrs: { '#group': null, 'let-label': 'label' },
+                        body: 'Group: {{label}}',
+                    },
+                );
                 break;
             case 'templateId':
                 attrs['[templates]'] = '{template1 : template1, template2: template2}';
-                body.push({
-                    tag: 'ng-template',
-                    attrs: { '#template1': null, 'let-data': 'data' },
-                    body: '{{data?.name}}'
-                }, {
-                    tag: 'ng-template',
-                    attrs: { '#template2': null, 'let-label': 'label', 'let-data': 'data' },
-                    body: '{{label}} : {{data?.color}}'
-                });
+                body.push(
+                    {
+                        tag: 'ng-template',
+                        attrs: { '#template1': null, 'let-data': 'data' },
+                        body: '{{data?.name}}',
+                    },
+                    {
+                        tag: 'ng-template',
+                        attrs: { '#template2': null, 'let-label': 'label', 'let-data': 'data' },
+                        body: '{{label}} : {{data?.color}}',
+                    },
+                );
                 break;
         }
 
@@ -256,9 +263,9 @@ export class AppGenComponent implements AfterContentInit {
                 let l = 1;
                 for (const line of lines) {
                     if (line) {
-                        if ((l + line.length) >= position) {
-                            returnMessage = message + '<br><pre>' + line + '\n' + ' '.repeat(position - l + 1)
-                                + '^</pre>';
+                        if (l + line.length >= position) {
+                            returnMessage =
+                                message + '<br><pre>' + line + '\n' + ' '.repeat(position - l + 1) + '^</pre>';
                             break;
                         }
                         l += line.length + 1;
@@ -267,14 +274,13 @@ export class AppGenComponent implements AfterContentInit {
             } else {
                 returnMessage = message;
             }
-
         } else if (browser.browser.name === 'Firefox') {
             if (message.match(/at line/)) {
                 const [, line, column] = message.match(/at line (\d+) column (\d+)/);
                 const lines = value.split(/\n/);
                 if (lines[+line - 1]) {
-                    returnMessage = message + '<br><pre>' + lines[+line - 1] + '\n' + ' '.repeat(+column - 1)
-                        + '^</pre>';
+                    returnMessage =
+                        message + '<br><pre>' + lines[+line - 1] + '\n' + ' '.repeat(+column - 1) + '^</pre>';
                 } else {
                     returnMessage = message;
                 }
@@ -291,5 +297,4 @@ export class AppGenComponent implements AfterContentInit {
     private _testBoolean(value: any) {
         return value ? null : undefined;
     }
-
 }

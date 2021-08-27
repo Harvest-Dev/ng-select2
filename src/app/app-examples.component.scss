@@ -9,14 +9,14 @@
 
 .flower-list ::ng-deep .flower {
     &.white::before {
-        content: "🌼 ";
+        content: '🌼 ';
     }
 
     &.red::before {
-        content: "🌹 ";
+        content: '🌹 ';
     }
 
     &.yellow::before {
-        content: "🌻 ";
+        content: '🌻 ';
     }
 }

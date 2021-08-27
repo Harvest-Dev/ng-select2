@@ -1,5 +1,5 @@
-@import "~@angular/cdk/overlay-prebuilt.css";
-@import "~highlight.js/styles/github.css";
+@import '~@angular/cdk/overlay-prebuilt.css';
+@import '~highlight.js/styles/github.css';
 
 :root {
     /* label */
@@ -64,7 +64,12 @@
     /* for Material ------------------------------------------*/
     --select2-material-underline: #ddd;
     --select2-material-underline-active: #5a419e;
-    --select2-material-underline-disabled: linear-gradient(to right, rgba(0, 0, 0, 0.26) 0, rgba(0, 0, 0, 0.26) 33%, transparent 0);
+    --select2-material-underline-disabled: linear-gradient(
+        to right,
+        rgba(0, 0, 0, 0.26) 0,
+        rgba(0, 0, 0, 0.26) 33%,
+        transparent 0
+    );
     --select2-material-underline-invalid: red;
     --select2-material-placeholder-color: rgba(0, 0, 0, 0.38);
     --select2-material-selection-background: #ddd;

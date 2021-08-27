@@ -2,7 +2,6 @@ import { defaultMinCountForSearch, protectRegexp, unicodePatterns } from './sele
 import { Select2Data, Select2Group, Select2Option, Select2UpdateValue, Select2Value } from './select2-interfaces';
 
 export class Select2Utils {
-
     static getOptionByValue(data: Select2Data, value: Select2Value | null | undefined) {
         if (Array.isArray(data)) {
             for (const groupOrOption of data) {
@@ -26,7 +25,7 @@ export class Select2Utils {
     static getOptionsByValue(
         data: Select2Data,
         value: Select2UpdateValue | null | undefined,
-        multiple: boolean | null | undefined
+        multiple: boolean | null | undefined,
     ) {
         if (multiple) {
             const values: Select2Value[] = Array.isArray(value) ? value : [];
@@ -167,12 +166,12 @@ export class Select2Utils {
     private static containSearchText(
         label: string,
         searchText: string | null,
-        editPattern: ((str: string) => string) | undefined
+        editPattern: ((str: string) => string) | undefined,
     ): boolean {
         return searchText
-            ? Select2Utils
-                .formatSansUnicode(label)
-                .match(new RegExp(Select2Utils.formatPattern(searchText, editPattern), 'i')) !== null
+            ? Select2Utils.formatSansUnicode(label).match(
+                  new RegExp(Select2Utils.formatPattern(searchText, editPattern), 'i'),
+              ) !== null
             : true;
     }
 
@@ -196,19 +195,23 @@ export class Select2Utils {
         return str;
     }
 
-    static getFilteredData(data: Select2Data, searchText: string | null, editPattern?: (str: string) => string): Select2Data {
+    static getFilteredData(
+        data: Select2Data,
+        searchText: string | null,
+        editPattern?: (str: string) => string,
+    ): Select2Data {
         if (searchText) {
             const result: Select2Data = [];
             for (const groupOrOption of data) {
                 const options = (groupOrOption as Select2Group).options;
                 if (options) {
                     if (options.some(group => Select2Utils.containSearchText(group.label, searchText, editPattern))) {
-                        const filteredOptions = options.filter(
-                            group => Select2Utils.containSearchText(group.label, searchText, editPattern)
+                        const filteredOptions = options.filter(group =>
+                            Select2Utils.containSearchText(group.label, searchText, editPattern),
                         );
                         result.push({
                             label: groupOrOption.label,
-                            options: filteredOptions
+                            options: filteredOptions,
                         });
                     }
                 } else if (Select2Utils.containSearchText(groupOrOption.label, searchText, editPattern)) {
@@ -221,18 +224,21 @@ export class Select2Utils {
         }
     }
 
-    static getFilteredSelectedData(data: Select2Data, selectedOptions: Select2Option | Select2Option[] | null): Select2Data {
+    static getFilteredSelectedData(
+        data: Select2Data,
+        selectedOptions: Select2Option | Select2Option[] | null,
+    ): Select2Data {
         const result: Select2Data = [];
         for (const groupOrOption of data) {
             const options = (groupOrOption as Select2Group).options;
             if (options) {
                 const filteredOptions = options.filter(
-                    group => Select2Utils.isSelected(selectedOptions, group, true) === 'false'
+                    group => Select2Utils.isSelected(selectedOptions, group, true) === 'false',
                 );
                 if (filteredOptions.length) {
                     result.push({
                         label: groupOrOption.label,
-                        options: filteredOptions
+                        options: filteredOptions,
                     });
                 }
             } else if (Select2Utils.isSelected(selectedOptions, groupOrOption as Select2Option, true) === 'false') {
@@ -243,7 +249,12 @@ export class Select2Utils {
     }
 
     static isSearchboxHiddex(data: Select2Data, minCountForSearch?: number | string): boolean {
-        if (minCountForSearch === '' || minCountForSearch === undefined || minCountForSearch === null || isNaN(+minCountForSearch)) {
+        if (
+            minCountForSearch === '' ||
+            minCountForSearch === undefined ||
+            minCountForSearch === null ||
+            isNaN(+minCountForSearch)
+        ) {
             minCountForSearch = defaultMinCountForSearch;
         }
         const optionCount = Select2Utils.getOptionsCount(data);
@@ -253,12 +264,15 @@ export class Select2Utils {
     static isSelected(
         options: Select2Option | Select2Option[] | null,
         option: Select2Option,
-        multiple: boolean | null | undefined
+        multiple: boolean | null | undefined,
     ) {
         return multiple
-            ? options && (options as Select2Option[])
-                .some(op => op.value === option.value) ? 'true' : 'false'
-            : options && option.value === (options as Select2Option).value ? 'true' : 'false';
+            ? options && (options as Select2Option[]).some(op => op.value === option.value)
+                ? 'true'
+                : 'false'
+            : options && option.value === (options as Select2Option).value
+            ? 'true'
+            : 'false';
     }
 
     static removeSelection(options: Select2Option | Select2Option[] | null, option: Select2Option) {

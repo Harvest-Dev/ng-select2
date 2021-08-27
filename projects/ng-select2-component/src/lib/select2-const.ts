@@ -1,7 +1,6 @@
-
 export const timeout = 200;
 
-export const unicodePatterns: { l: string, s: RegExp }[] = [
+export const unicodePatterns: { l: string; s: RegExp }[] = [
     { l: 'a', s: /[ⓐａẚàáâầấẫẩãāăằắẵẳȧǡäǟảåǻǎȁȃạậặḁąⱥɐ]/gi },
     { l: 'aa', s: /ꜳ/gi },
     { l: 'ae', s: /[æǽǣ]/gi },
@@ -43,7 +42,7 @@ export const unicodePatterns: { l: string, s: RegExp }[] = [
     { l: 'w', s: /[ⓦｗẁẃŵẇẅẘẉⱳ]/gi },
     { l: 'x', s: /[ⓧｘẋẍ]/gi },
     { l: 'y', s: /[ⓨｙỳýŷỹȳẏÿỷẙỵƴɏỿ]/gi },
-    { l: 'z', s: /[ⓩｚźẑżžẓẕƶȥɀⱬꝣ]/gi }
+    { l: 'z', s: /[ⓩｚźẑżžẓẕƶȥɀⱬꝣ]/gi },
 ];
 
 export const defaultMinCountForSearch = 6;

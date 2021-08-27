@@ -12,7 +12,7 @@ import {
 @Component({
     selector: 'app-root',
     templateUrl: './app-examples.component.html',
-    styleUrls: ['./app-examples.component.scss']
+    styleUrls: ['./app-examples.component.scss'],
 })
 export class AppExamplesComponent {
     data1 = data1;
@@ -77,16 +77,16 @@ export class AppExamplesComponent {
     overlay = false;
 
     fg: FormGroup = new FormGroup({
-        state: new FormControl()
+        state: new FormControl(),
     });
 
     constructor(private fb: FormBuilder) {
         this.ctrlForm = this.fb.group({
-            test11: new FormControl(null, Validators.required)
+            test11: new FormControl(null, Validators.required),
         });
 
         this.ctrlForm2 = this.fb.group({
-            test5: new FormControl(0, Validators.required)
+            test5: new FormControl(0, Validators.required),
         });
 
         this.fg.patchValue(this.formData());
@@ -157,8 +157,9 @@ export class AppExamplesComponent {
 
     search8(text: string) {
         this.data8 = text
-            ? (JSON.parse(JSON.stringify(data2)) as Select2Option[])
-                .filter(option => option.label.toLowerCase().indexOf(text.toLowerCase()) > -1)
+            ? (JSON.parse(JSON.stringify(data2)) as Select2Option[]).filter(
+                  option => option.label.toLowerCase().indexOf(text.toLowerCase()) > -1,
+              )
             : JSON.parse(JSON.stringify(data2));
     }
 
@@ -275,7 +276,7 @@ export class AppExamplesComponent {
 
     formData() {
         return {
-            state: ['CA', 'NV']
+            state: ['CA', 'NV'],
         };
     }
 }

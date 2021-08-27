@@ -1,66 +1,42 @@
-<h2>
-    Generator
-</h2>
+<h2>Generator</h2>
 
 <div class="cols">
     <div [formGroup]="ctrlForm">
-        <h4>
-            data
-        </h4>
+        <h4>data</h4>
         <div>
             <label for="json">json (for <code>[data]</code>) : </label>
-            <textarea formControlName="json"
-                      id="json"></textarea>
-            <div class="error"
-                 [innerHTML]="jsonError"></div>
-
+            <textarea formControlName="json" id="json"></textarea>
+            <div class="error" [innerHTML]="jsonError"></div>
         </div>
-        <h4>
-            tags
-        </h4>
+        <h4>tags</h4>
         <div>
             <label for="label">label : </label>
-            <input type="text"
-                   formControlName="label"
-                   id="label">
+            <input type="text" formControlName="label" id="label" />
         </div>
         <div>
             <label for="hint">hint : </label>
-            <input type="text"
-                   formControlName="hint"
-                   id="hint">
+            <input type="text" formControlName="hint" id="hint" />
         </div>
-        <h4>
-            parameters
-        </h4>
+        <h4>parameters</h4>
         <div>
             <label for="disabled">disabled : </label>
-            <input type="checkbox"
-                   formControlName="disabled"
-                   id="disabled">
+            <input type="checkbox" formControlName="disabled" id="disabled" />
         </div>
         <div>
             <label for="overlay">overlay : </label>
-            <input type="checkbox"
-                   formControlName="overlay"
-                   id="overlay">
+            <input type="checkbox" formControlName="overlay" id="overlay" />
         </div>
         <div>
             <label for="minCharForSearch">minCharForSearch (0) : </label>
-            <input type="number"
-                   formControlName="minCharForSearch"
-                   id="minCharForSearch">
+            <input type="number" formControlName="minCharForSearch" id="minCharForSearch" />
         </div>
         <div>
             <label for="minCountForSearch">minCountForSearch (6) : </label>
-            <input type="number"
-                   formControlName="minCountForSearch"
-                   id="minCountForSearch">
+            <input type="number" formControlName="minCountForSearch" id="minCountForSearch" />
         </div>
         <div>
             <label for="displaySearchStatus">displaySearchStatus :</label>
-            <select formControlName="displaySearchStatus"
-                    id="displaySearchStatus">
+            <select formControlName="displaySearchStatus" id="displaySearchStatus">
                 <option value="default">default</option>
                 <option value="hidden">hidden</option>
                 <option value="always">always</option>
@@ -68,56 +44,39 @@
         </div>
         <div>
             <label for="placeholder">placeholder : </label>
-            <input type="text"
-                   formControlName="placeholder"
-                   id="placeholder">
+            <input type="text" formControlName="placeholder" id="placeholder" />
         </div>
         <div>
             <label for="noResultMessage">noResultMessage : </label>
-            <input type="text"
-                   formControlName="noResultMessage"
-                   id="noResultMessage">
+            <input type="text" formControlName="noResultMessage" id="noResultMessage" />
         </div>
         <div>
             <label for="customSearchEnabled">customSearchEnabled : </label>
-            <input type="checkbox"
-                   formControlName="customSearchEnabled"
-                   id="customSearchEnabled">
+            <input type="checkbox" formControlName="customSearchEnabled" id="customSearchEnabled" />
         </div>
         <div>
             <label for="multiple">multiple : </label>
-            <input type="checkbox"
-                   formControlName="multiple"
-                   id="multiple">
+            <input type="checkbox" formControlName="multiple" id="multiple" />
         </div>
         <div [class.hide]="ctrlForm?.value?.multiple">
             <label for="resettable">resettable : </label>
-            <input type="checkbox"
-                   formControlName="resettable"
-                   id="resettable">
+            <input type="checkbox" formControlName="resettable" id="resettable" />
         </div>
         <div>
             <label for="limitSelection">limitSelection (0) : </label>
-            <input type="number"
-                   formControlName="limitSelection"
-                   id="limitSelection">
+            <input type="number" formControlName="limitSelection" id="limitSelection" />
         </div>
         <div [class.hide]="!ctrlForm?.value?.multiple">
             <label for="hideSelectedItems">hideSelectedItems : </label>
-            <input type="checkbox"
-                   formControlName="hideSelectedItems"
-                   id="hideSelectedItems">
+            <input type="checkbox" formControlName="hideSelectedItems" id="hideSelectedItems" />
         </div>
         <div>
             <label for="resultMaxHeight">resultMaxHeight ('200px') : </label>
-            <input type="text"
-                   formControlName="resultMaxHeight"
-                   id="resultMaxHeight">
+            <input type="text" formControlName="resultMaxHeight" id="resultMaxHeight" />
         </div>
         <div>
             <label for="listPosition">listPosition :</label>
-            <select formControlName="listPosition"
-                    id="listPosition">
+            <select formControlName="listPosition" id="listPosition">
                 <option></option>
                 <option value="below">below</option>
                 <option value="above">above</option>
@@ -125,149 +84,116 @@
         </div>
         <div>
             <label for="infiniteScroll">infiniteScroll : </label>
-            <input type="checkbox"
-                   formControlName="infiniteScroll"
-                   id="infiniteScroll">
+            <input type="checkbox" formControlName="infiniteScroll" id="infiniteScroll" />
         </div>
         <div [class.hide]="!ctrlForm?.value?.infiniteScrollDistance">
             <label for="infiniteScrollDistance">infiniteScrollDistance (1.5) : </label>
-            <input type="number"
-                   formControlName="infiniteScrollDistance"
-                   id="infiniteScrollDistance">
+            <input type="number" formControlName="infiniteScrollDistance" id="infiniteScrollDistance" />
         </div>
         <div [class.hide]="!ctrlForm?.value?.infiniteScroll">
             <label for="infiniteScrollThrottle">infiniteScrollThrottle (150) : </label>
-            <input type="number"
-                   formControlName="infiniteScrollThrottle"
-                   id="infiniteScrollThrottle">
+            <input type="number" formControlName="infiniteScrollThrottle" id="infiniteScrollThrottle" />
         </div>
         <div>
             <label for="styleMode">styleMode : </label>
-            <select formControlName="styleMode"
-                    id="listPstyleModeosition">
+            <select formControlName="styleMode" id="listPstyleModeosition">
                 <option value="">default</option>
                 <option value="material">material</option>
                 <option value="noStyle">noStyle</option>
             </select>
         </div>
-        <h4>
-            Templates
-        </h4>
+        <h4>Templates</h4>
         <div>
             <label for="template">template style :</label>
-            <select formControlName="template"
-                    id="template">
+            <select formControlName="template" id="template">
                 <option value="none">None</option>
                 <option value="ref">Unique template</option>
-                <option value="option-group">Template group & option </option>
+                <option value="option-group">Template group & option</option>
                 <option value="templateId">Template by templateId</option>
             </select>
         </div>
-        <h4>
-            Events
-        </h4>
+        <h4>Events</h4>
         <div>
             <label for="update">update : </label>
-            <input type="checkbox"
-                   formControlName="update"
-                   id="update">
+            <input type="checkbox" formControlName="update" id="update" />
         </div>
         <div>
             <label for="open">open : </label>
-            <input type="checkbox"
-                   formControlName="open"
-                   id="open">
+            <input type="checkbox" formControlName="open" id="open" />
         </div>
         <div>
             <label for="close">close : </label>
-            <input type="checkbox"
-                   formControlName="close"
-                   id="close">
+            <input type="checkbox" formControlName="close" id="close" />
         </div>
         <div>
             <label for="focus">focus : </label>
-            <input type="checkbox"
-                   formControlName="focus"
-                   id="focus">
+            <input type="checkbox" formControlName="focus" id="focus" />
         </div>
         <div>
             <label for="blur">blur : </label>
-            <input type="checkbox"
-                   formControlName="blur"
-                   id="blur">
+            <input type="checkbox" formControlName="blur" id="blur" />
         </div>
         <div>
             <label for="search">search : </label>
-            <input type="checkbox"
-                   formControlName="search"
-                   id="search">
+            <input type="checkbox" formControlName="search" id="search" />
         </div>
         <div>
             <label for="scroll">scroll : </label>
-            <input type="checkbox"
-                   formControlName="scroll"
-                   id="scroll">
+            <input type="checkbox" formControlName="scroll" id="scroll" />
         </div>
         <div>
             <label for="removeOption">removeOption : </label>
-            <input type="checkbox"
-                   formControlName="removeOption"
-                   id="removeOption">
+            <input type="checkbox" formControlName="removeOption" id="removeOption" />
         </div>
     </div>
     <div>
-        <h4>
-            HTML render
-        </h4>
-        <select2 *ngIf="ctrlForm.value"
-                 [data]="data"
-                 [overlay]="ctrlForm?.value?.overlay"
-                 [disabled]="ctrlForm?.value?.disabled"
-                 [minCharForSearch]="ctrlForm?.value?.minCharForSearch || 0"
-                 [minCountForSearch]="ctrlForm?.value?.minCountForSearch || 6"
-                 [displaySearchStatus]="ctrlForm?.value?.displaySearchStatus"
-                 [placeholder]="ctrlForm?.value?.placeholder"
-                 [customSearchEnabled]="ctrlForm?.value?.customSearchEnabled"
-                 [multiple]="ctrlForm?.value?.multiple"
-                 [resettable]="ctrlForm?.value?.resettable"
-                 [limitSelection]="ctrlForm?.value?.limitSelection || 0"
-                 [hideSelectedItems]="ctrlForm?.value?.hideSelectedItems"
-                 [resultMaxHeight]="ctrlForm?.value?.resultMaxHeight || '200px'"
-                 [listPosition]="ctrlForm?.value?.listPosition"
-                 [infiniteScroll]="ctrlForm?.value?.infiniteScroll"
-                 [infiniteScrollDistance]="ctrlForm?.value?.infiniteScrollDistance || 1.5"
-                 [infiniteScrollThrottle]="ctrlForm?.value?.infiniteScrollThrottle || 150"
-                 [styleMode]="ctrlForm?.value?.styleMode"
-                 [noResultMessage]="ctrlForm?.value?.noResultMessage"
-                 [templates]="getTemplate(template, option, group, template1, template2)"
-                 (update)="_event('update', $event)"
-                 (open)="_event('open', $event)"
-                 (close)="_event('close', $event)"
-                 (focus)="_event('focus', $event)"
-                 (blur)="_event('blur', $event)"
-                 (search)="_event('search', $event)"
-                 (scroll)="_event('scroll', $event)"
-                 (removeOption)="_event('removeOption', $event)">
+        <h4>HTML render</h4>
+        <select2
+            *ngIf="ctrlForm.value"
+            [data]="data"
+            [overlay]="ctrlForm?.value?.overlay"
+            [disabled]="ctrlForm?.value?.disabled"
+            [minCharForSearch]="ctrlForm?.value?.minCharForSearch || 0"
+            [minCountForSearch]="ctrlForm?.value?.minCountForSearch || 6"
+            [displaySearchStatus]="ctrlForm?.value?.displaySearchStatus"
+            [placeholder]="ctrlForm?.value?.placeholder"
+            [customSearchEnabled]="ctrlForm?.value?.customSearchEnabled"
+            [multiple]="ctrlForm?.value?.multiple"
+            [resettable]="ctrlForm?.value?.resettable"
+            [limitSelection]="ctrlForm?.value?.limitSelection || 0"
+            [hideSelectedItems]="ctrlForm?.value?.hideSelectedItems"
+            [resultMaxHeight]="ctrlForm?.value?.resultMaxHeight || '200px'"
+            [listPosition]="ctrlForm?.value?.listPosition"
+            [infiniteScroll]="ctrlForm?.value?.infiniteScroll"
+            [infiniteScrollDistance]="ctrlForm?.value?.infiniteScrollDistance || 1.5"
+            [infiniteScrollThrottle]="ctrlForm?.value?.infiniteScrollThrottle || 150"
+            [styleMode]="ctrlForm?.value?.styleMode"
+            [noResultMessage]="ctrlForm?.value?.noResultMessage"
+            [templates]="getTemplate(template, option, group, template1, template2)"
+            (update)="_event('update', $event)"
+            (open)="_event('open', $event)"
+            (close)="_event('close', $event)"
+            (focus)="_event('focus', $event)"
+            (blur)="_event('blur', $event)"
+            (search)="_event('search', $event)"
+            (scroll)="_event('scroll', $event)"
+            (removeOption)="_event('removeOption', $event)"
+        >
             <select2-label [innerHTML]="ctrlForm?.value?.label"></select2-label>
             <select2-hint [innerHTML]="ctrlForm?.value?.hint"></select2-hint>
-            <ng-template #template
-                         let-data="data">
-                <ng-container *ngIf="data?.color"> <strong>{{data?.color}}</strong>: </ng-container>{{data?.name}}
+            <ng-template #template let-data="data">
+                <ng-container *ngIf="data?.color">
+                    <strong>{{ data?.color }}</strong
+                    >: </ng-container
+                >{{ data?.name }}
             </ng-template>
-            <ng-template #option
-                         let-data="data">{{data?.name}}</ng-template>
-            <ng-template #group
-                         let-label="label">Group: {{label}}</ng-template>
-            <ng-template #template1
-                         let-data="data">{{data?.name}}</ng-template>
-            <ng-template #template2
-                         let-label="label"
-                         let-data="data">{{label}} : {{data?.color}}</ng-template>
+            <ng-template #option let-data="data">{{ data?.name }}</ng-template>
+            <ng-template #group let-label="label">Group: {{ label }}</ng-template>
+            <ng-template #template1 let-data="data">{{ data?.name }}</ng-template>
+            <ng-template #template2 let-label="label" let-data="data">{{ label }} : {{ data?.color }}</ng-template>
         </select2>
 
-        <h4>
-            HTML Code
-        </h4>
+        <h4>HTML Code</h4>
 
         <div class="code">
             <code><pre [highlight]="html"></pre></code>

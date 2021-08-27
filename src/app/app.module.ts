@@ -23,26 +23,22 @@ export function hljsLanguages() {
         { name: 'typescript', func: require('highlight.js/lib/languages/typescript') },
         { name: 'javascript', func: require('highlight.js/lib/languages/javascript') },
         { name: 'scss', func: require('highlight.js/lib/languages/scss') },
-        { name: 'xml', func: require('highlight.js/lib/languages/xml') }
+        { name: 'xml', func: require('highlight.js/lib/languages/xml') },
     ];
 }
 
 @NgModule({
-    declarations: [
-        AppComponent,
-        AppExamplesComponent,
-        AppGenComponent
-    ],
+    declarations: [AppComponent, AppExamplesComponent, AppGenComponent],
     imports: [
         BrowserModule,
         AppRoutingModule,
         FormsModule,
         Select2Module,
         HighlightModule.forRoot({
-            languages: hljsLanguages
-        })
+            languages: hljsLanguages,
+        }),
     ],
     providers: [],
-    bootstrap: [AppComponent]
+    bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

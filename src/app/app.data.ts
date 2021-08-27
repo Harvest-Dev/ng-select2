@@ -5,8 +5,8 @@ export const data1: Select2Data = [
         label: 'Alaskan/Hawaiian Time Zone',
         options: [
             { value: 'AK', label: 'Alaska' },
-            { value: 'HI', label: 'Hawaii', disabled: true }
-        ]
+            { value: 'HI', label: 'Hawaii', disabled: true },
+        ],
     },
     {
         label: 'Pacific Time Zone',
@@ -14,8 +14,8 @@ export const data1: Select2Data = [
             { value: 'CA', label: 'California' },
             { value: 'NV', label: 'Nevada' },
             { value: 'OR', label: 'Oregon' },
-            { value: 'WA', label: 'Washington' }
-        ]
+            { value: 'WA', label: 'Washington' },
+        ],
     },
     {
         label: 'Mountain Time Zone',
@@ -28,8 +28,8 @@ export const data1: Select2Data = [
             { value: 'NM', label: 'New Mexico' },
             { value: 'ND', label: 'North Dakota' },
             { value: 'UT', label: 'Utah' },
-            { value: 'WY', label: 'Wyoming' }
-        ]
+            { value: 'WY', label: 'Wyoming' },
+        ],
     },
     {
         label: 'Central Time Zone',
@@ -48,8 +48,8 @@ export const data1: Select2Data = [
             { value: 'SD', label: 'South Dakota' },
             { value: 'TX', label: 'Texas' },
             { value: 'TN', label: 'Tennessee' },
-            { value: 'WI', label: 'Wisconsin' }
-        ]
+            { value: 'WI', label: 'Wisconsin' },
+        ],
     },
     {
         label: 'Eastern Time Zone',
@@ -73,9 +73,9 @@ export const data1: Select2Data = [
             { value: 'SC', label: 'South Carolina' },
             { value: 'VT', label: 'Vermont' },
             { value: 'VA', label: 'Virginia' },
-            { value: 'WV', label: 'West Virginia' }
-        ]
-    }
+            { value: 'WV', label: 'West Virginia' },
+        ],
+    },
 ];
 
 export const data2: Select2Data = [
@@ -128,13 +128,13 @@ export const data2: Select2Data = [
     { value: 'SC', label: 'South Carolina' },
     { value: 'VT', label: 'Vermont' },
     { value: 'VA', label: 'Virginia', disabled: true },
-    { value: 'WV', label: 'West Virginia' }
+    { value: 'WV', label: 'West Virginia' },
 ];
 
 export const data3: Select2Data = [
     { value: 'foo', label: 'foo' },
     { value: 'bar', label: 'bar' },
-    { value: 'baz', label: 'baz' }
+    { value: 'baz', label: 'baz' },
 ];
 
 export const data5: Select2Data = [
@@ -144,7 +144,7 @@ export const data5: Select2Data = [
     { value: 3, label: '3' },
     { value: 4, label: '4' },
     { value: 5, label: '5' },
-    { value: 6, label: '6' }
+    { value: 6, label: '6' },
 ];
 
 export const data6: Select2Data = [
@@ -153,7 +153,7 @@ export const data6: Select2Data = [
     { value: 'foo3', label: 'foo3' },
     { value: 'foo4', label: 'foo4' },
     { value: 'foo5', label: 'foo5' },
-    { value: 'foo6', label: 'foo6' }
+    { value: 'foo6', label: 'foo6' },
 ];
 
 export const data18: Select2Data = [
@@ -172,20 +172,19 @@ export const data18: Select2Data = [
             { value: 'FR-NAQ', label: 'Nouvelle-Aquitaine' },
             { value: 'FR-OCC', label: 'Occitanie' },
             { value: 'FR-PDL', label: 'Pays de la Loire' },
-            { value: 'FR-PAC', label: 'Provence-Alpes-Côte d\'Azur' },
-        ]
+            { value: 'FR-PAC', label: "Provence-Alpes-Côte d'Azur" },
+        ],
     },
     {
         label: 'Overseas region',
         options: [
-
             { value: 'FR-GP', label: 'Guadeloupe' },
             { value: 'FR-MQ', label: 'Martinique' },
             { value: 'FR-GF', label: 'Guyane' },
             { value: 'FR-RE', label: 'La Réunion' },
-            { value: 'FR-YT', label: 'Mayotte' }
-        ]
-    }
+            { value: 'FR-YT', label: 'Mayotte' },
+        ],
+    },
 ];
 
 export const data19: Select2Data = [
@@ -197,12 +196,12 @@ export const data19: Select2Data = [
     { value: 'foo6', label: 'foo6' },
     { value: 'foo7', label: 'foo7' },
     { value: 'foo8', label: 'foo8' },
-    { value: 'foo9', label: 'foo9', hide: true }
+    { value: 'foo9', label: 'foo9', hide: true },
 ];
 
 export const data13: Select2Data = [
     { value: true, label: 'true' },
-    { value: false, label: 'false' }
+    { value: false, label: 'false' },
 ];
 
 export const data17: Select2Data = [
@@ -211,22 +210,22 @@ export const data17: Select2Data = [
         label: `<div class="select2-multiple-labels">
                     <div>France</div>
                     <div>Europe</div>
-                </div>`
+                </div>`,
     },
     {
         value: 'sp',
         label: `<div class="select2-multiple-labels">
                     <div>Spain</div>
                     <div>Europe</div>
-                </div>`
+                </div>`,
     },
     {
         value: 'ch',
         label: `<div class="select2-multiple-labels">
                     <div>China</div>
                     <div>Asia</div>
-                </div>`
-    }
+                </div>`,
+    },
 ];
 
 export const data22: Select2Data = [
@@ -235,34 +234,52 @@ export const data22: Select2Data = [
     { value: 'lily', label: 'Lily', classes: 'white flower', id: 'option-lily' },
     { value: 'marigold', label: 'Marigold', classes: 'red flower', id: 'option-marigold' },
     { value: 'petunia', label: 'Petunia', classes: 'white flower', id: 'option-petunia' },
-    { value: 'sunflower', label: 'Sunflower', classes: 'yellow flower', id: 'option-sunflower' }
+    { value: 'sunflower', label: 'Sunflower', classes: 'yellow flower', id: 'option-sunflower' },
 ];
 
 export const data23: Select2Data = [
     {
-        value: 'heliotrope', label: 'Heliotrope', data: { color: 'white', name: 'Heliotrope' },
-        templateId: 'template1', id: 'option-heliotrope'
+        value: 'heliotrope',
+        label: 'Heliotrope',
+        data: { color: 'white', name: 'Heliotrope' },
+        templateId: 'template1',
+        id: 'option-heliotrope',
     },
     {
-        value: 'hibiscus', label: 'Hibiscus', data: { color: 'red', name: 'Hibiscus' },
-        templateId: 'template1', id: 'option-hibiscus'
+        value: 'hibiscus',
+        label: 'Hibiscus',
+        data: { color: 'red', name: 'Hibiscus' },
+        templateId: 'template1',
+        id: 'option-hibiscus',
     },
     {
-        value: 'lily', label: 'Lily', data: { color: 'white', name: 'Lily' },
-        templateId: 'template2', id: 'option-lily'
+        value: 'lily',
+        label: 'Lily',
+        data: { color: 'white', name: 'Lily' },
+        templateId: 'template2',
+        id: 'option-lily',
     },
     {
-        value: 'marigold', label: 'Marigold', data: { color: 'red', name: 'Marigold' },
-        templateId: 'template2', id: 'option-marigold'
+        value: 'marigold',
+        label: 'Marigold',
+        data: { color: 'red', name: 'Marigold' },
+        templateId: 'template2',
+        id: 'option-marigold',
     },
     {
-        value: 'petunia', label: 'Petunia', data: { color: 'white', name: 'Petunia' },
-        templateId: 'template3', id: 'option-petunia'
+        value: 'petunia',
+        label: 'Petunia',
+        data: { color: 'white', name: 'Petunia' },
+        templateId: 'template3',
+        id: 'option-petunia',
     },
     {
-        value: 'sunflower', label: 'Sunflower', data: { color: 'yellow', name: 'Sunflower' },
-        templateId: 'template3', id: 'option-sunflower'
-    }
+        value: 'sunflower',
+        label: 'Sunflower',
+        data: { color: 'yellow', name: 'Sunflower' },
+        templateId: 'template3',
+        id: 'option-sunflower',
+    },
 ];
 
 export const data24: Select2Data = [
@@ -271,44 +288,61 @@ export const data24: Select2Data = [
         data: { name: '(Red)' },
         options: [
             {
-                value: 'hibiscus', label: 'Hibiscus', data: { color: 'red', name: 'Hibiscus' },
-                templateId: 'template1', id: 'option-hibiscus'
+                value: 'hibiscus',
+                label: 'Hibiscus',
+                data: { color: 'red', name: 'Hibiscus' },
+                templateId: 'template1',
+                id: 'option-hibiscus',
             },
             {
-                value: 'marigold', label: 'Marigold', data: { color: 'red', name: 'Marigold' },
-                templateId: 'template2', id: 'option-marigold'
+                value: 'marigold',
+                label: 'Marigold',
+                data: { color: 'red', name: 'Marigold' },
+                templateId: 'template2',
+                id: 'option-marigold',
             },
-        ]
+        ],
     },
     {
         label: 'Yellow',
         data: { name: '(Yellow)' },
         options: [
             {
-                value: 'sunflower', label: 'Sunflower', data: { color: 'yellow', name: 'Sunflower' },
-                templateId: 'template3', id: 'option-sunflower'
-            }
-        ]
+                value: 'sunflower',
+                label: 'Sunflower',
+                data: { color: 'yellow', name: 'Sunflower' },
+                templateId: 'template3',
+                id: 'option-sunflower',
+            },
+        ],
     },
     {
         label: 'White',
         data: { name: '(White)' },
         options: [
             {
-                value: 'heliotrope', label: 'Heliotrope', data: { color: 'white', name: 'Heliotrope' },
-                templateId: 'template1', id: 'option-heliotrope'
+                value: 'heliotrope',
+                label: 'Heliotrope',
+                data: { color: 'white', name: 'Heliotrope' },
+                templateId: 'template1',
+                id: 'option-heliotrope',
             },
             {
-                value: 'lily', label: 'Lily', data: { color: 'white', name: 'Lily' },
-                templateId: 'template2', id: 'option-lily'
+                value: 'lily',
+                label: 'Lily',
+                data: { color: 'white', name: 'Lily' },
+                templateId: 'template2',
+                id: 'option-lily',
             },
             {
-                value: 'petunia', label: 'Petunia', data: { color: 'white', name: 'Petunia' },
-                templateId: 'template3', id: 'option-petunia'
-            }
-        ]
-    }
-
+                value: 'petunia',
+                label: 'Petunia',
+                data: { color: 'white', name: 'Petunia' },
+                templateId: 'template3',
+                id: 'option-petunia',
+            },
+        ],
+    },
 ];
 
 export let data26: Select2Data = [];
