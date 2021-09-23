@@ -1,5 +1,15 @@
 # Changelog of ng-select2
 
+## V8.0.4 (2021-09-23)
+
+### Changes
+
+-   with `overlay` active, the value `auto` for `listPosition` is possible
+
+### Corrections
+
+-   Fix above position with overlay
+
 ## V8.0.3 (2021-07-02)
 
 ### Corrections
