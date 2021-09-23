@@ -76,7 +76,7 @@
     [cdkConnectedOverlayOrigin]="trigger"
     [cdkConnectedOverlayOpen]="this.isOpen && overlay"
     [cdkConnectedOverlayMinWidth]="overlayWidth"
-    [cdkConnectedOverlayHeight]="listPosition === 'auto' ? overlayHeight : 0"
+    [cdkConnectedOverlayHeight]="overlayHeight"
     [cdkConnectedOverlayPositions]="_positions"
     (backdropClick)="toggleOpenAndClose()"
 >

@@ -264,7 +264,6 @@ export class Select2 implements ControlValueAccessor, OnInit, OnDestroy, DoCheck
             return null;
         }
     }
-    3;
     private _minCountForSearch?: number | string;
 
     @ViewChild(CdkConnectedOverlay)
@@ -359,12 +358,14 @@ export class Select2 implements ControlValueAccessor, OnInit, OnDestroy, DoCheck
 
     ngAfterViewInit() {
         this.cdkConnectedOverlay.positionChange.subscribe((posChange: ConnectedOverlayPositionChange) => {
-            if (this.listPosition === 'auto') {
-                if (posChange.connectionPair?.originY && this._overlayPosition !== posChange.connectionPair.originY) {
-                    this.triggerRect();
-                    this._overlayPosition = posChange.connectionPair.originY;
-                    this._changeDetectorRef.detectChanges();
-                }
+            if (
+                this.listPosition === 'auto' &&
+                posChange.connectionPair?.originY &&
+                this._overlayPosition !== posChange.connectionPair.originY
+            ) {
+                this.triggerRect();
+                this._overlayPosition = posChange.connectionPair.originY;
+                this._changeDetectorRef.detectChanges();
             }
         });
 
@@ -380,7 +381,7 @@ export class Select2 implements ControlValueAccessor, OnInit, OnDestroy, DoCheck
                 this.overlayWidth = this._triggerRect.width;
             }
             if (this._dropdownRect?.height > 0 && this.overlayHeight !== this._dropdownRect.height) {
-                this.overlayHeight = this._dropdownRect.height;
+                this.overlayHeight = this.listPosition === 'auto' ? this._dropdownRect.height : 0;
             }
         }
     }
@@ -457,6 +458,7 @@ export class Select2 implements ControlValueAccessor, OnInit, OnDestroy, DoCheck
                 }
                 setTimeout(() => {
                     this.triggerRect();
+                    this.cdkConnectedOverlay?.overlayRef?.updatePosition();
                 }, 100);
             });
             this.open.emit(this);
