@@ -492,7 +492,7 @@ export class Select2 implements ControlValueAccessor, OnInit, OnDestroy, DoCheck
 
     triggerRect() {
         this._triggerRect = this.selectionElement.getBoundingClientRect();
-        this._dropdownRect = this.dropdown.nativeElement
+        this._dropdownRect = this.dropdown?.nativeElement
             ? this.dropdown.nativeElement.getBoundingClientRect()
             : undefined;
     }
