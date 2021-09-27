@@ -1,5 +1,11 @@
 # Changelog of ng-select2
 
+## V8.0.5 (2021-09-27)
+
+### Corrections
+
+-   Fix when `overlay` is `true` on start
+
 ## V8.0.4 (2021-09-23)
 
 ### Changes
