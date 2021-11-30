@@ -28,8 +28,13 @@ const displaySearchStatusList = ['default', 'hidden', 'always'];
     styleUrls: ['./select2.component.scss'],
 })
 export class Select2 implements ControlValueAccessor, OnInit, OnDestroy, DoCheck, AfterViewInit {
+    _data: Select2Data;
+
     /** data of options & optiongrps */
-    @Input() data!: Select2Data;
+    @Input() set data(data: Select2Data) {
+        this._data = data;
+        this.updateFilteredData();
+    }
     @Input() minCharForSearch = 0;
     @Input() displaySearchStatus: 'default' | 'hidden' | 'always';
     @Input() placeholder: string;
@@ -343,7 +348,7 @@ export class Select2 implements ControlValueAccessor, OnInit, OnDestroy, DoCheck
         });
 
         const option = Select2Utils.getOptionsByValue(
-            this.data,
+            this._data,
             this._control ? this._control.value : this.value,
             this.multiple,
         );
@@ -393,7 +398,7 @@ export class Select2 implements ControlValueAccessor, OnInit, OnDestroy, DoCheck
     updateSearchBox() {
         const hidden = this.customSearchEnabled
             ? false
-            : Select2Utils.isSearchboxHiddex(this.data, this._minCountForSearch);
+            : Select2Utils.isSearchboxHiddex(this._data, this._minCountForSearch);
         if (this.isSearchboxHidden !== hidden) {
             this.isSearchboxHidden = hidden;
         }
@@ -538,7 +543,7 @@ export class Select2 implements ControlValueAccessor, OnInit, OnDestroy, DoCheck
 
     private updateFilteredData() {
         setTimeout(() => {
-            let result = this.data;
+            let result = this._data;
             if (this.multiple && this.hideSelectedItems) {
                 result = Select2Utils.getFilteredSelectedData(result, this.option);
             }
@@ -647,7 +652,7 @@ export class Select2 implements ControlValueAccessor, OnInit, OnDestroy, DoCheck
 
     private selectByEnter() {
         if (this.hoveringValue) {
-            const option = Select2Utils.getOptionByValue(this.data, this.hoveringValue);
+            const option = Select2Utils.getOptionByValue(this._data, this.hoveringValue);
             this.select(option);
         }
     }
@@ -863,16 +868,16 @@ export class Select2 implements ControlValueAccessor, OnInit, OnDestroy, DoCheck
             const isArray = Array.isArray(value);
             if (this.multiple && value && !isArray) {
                 throw new Error('Non array value.');
-            } else if (this.data) {
+            } else if (this._data) {
                 if (this.multiple) {
                     this.option = []; // if value is null, then empty option and return
                     if (isArray) {
                         // value is not null. Preselect value
-                        const selectedValues: any = Select2Utils.getOptionsByValue(this.data, value, this.multiple);
+                        const selectedValues: any = Select2Utils.getOptionsByValue(this._data, value, this.multiple);
                         selectedValues.map(item => this.select(item));
                     }
                 } else {
-                    this.select(Select2Utils.getOptionByValue(this.data, value));
+                    this.select(Select2Utils.getOptionByValue(this._data, value));
                 }
             } else if (this._control) {
                 this._control.viewToModelUpdate(value);
