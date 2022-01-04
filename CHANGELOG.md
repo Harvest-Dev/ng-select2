@@ -1,5 +1,12 @@
 # Changelog of ng-select2
 
+## V8.0.6 (2021-02-04)
+
+### Corrections
+
+-   Remove `×` for disabled & readonly
+-   Update data when new sets come in.
+
 ## V8.0.5 (2021-09-27)
 
 ### Corrections
