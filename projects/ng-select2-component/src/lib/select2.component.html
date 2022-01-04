@@ -36,7 +36,7 @@
             </span>
             <span
                 (click)="reset($event)"
-                *ngIf="!multiple && resettable && select2Option"
+                *ngIf="!multiple && resettable && select2Option && !(disabled || readonly)"
                 class="select2-selection__reset"
                 role="presentation"
                 >×</span
@@ -50,6 +50,7 @@
                 >
                 <li *ngFor="let op of option; trackBy: trackBy" class="select2-selection__choice" [title]="op.label">
                     <span
+                        *ngIf="!(disabled || readonly)"
                         (click)="removeSelection($event, op)"
                         class="select2-selection__choice__remove"
                         role="presentation"
