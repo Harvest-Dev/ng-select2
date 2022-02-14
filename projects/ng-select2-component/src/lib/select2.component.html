@@ -203,6 +203,11 @@
                         *ngIf="!filteredData?.length && noResultMessage"
                         [innerHTML]="noResultMessage"
                     ></li>
+                    <li
+                        class="select2-too-much-result select2-results__option"
+                        *ngIf="maxResultsExceeded"
+                        [innerHTML]="maxResultsMessage"
+                    ></li>
                 </ul>
             </div>
         </div>

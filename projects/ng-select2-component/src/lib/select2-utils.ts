@@ -12,10 +12,8 @@ export class Select2Utils {
                             return option;
                         }
                     }
-                } else {
-                    if ((groupOrOption as Select2Option).value === value) {
-                        return groupOrOption as Select2Option;
-                    }
+                } else if ((groupOrOption as Select2Option).value === value) {
+                    return groupOrOption as Select2Option;
                 }
             }
         }
@@ -89,10 +87,8 @@ export class Select2Utils {
                         return false;
                     }
                 }
-            } else {
-                if ((groupOrOption as Select2Option).value === value) {
-                    return false;
-                }
+            } else if ((groupOrOption as Select2Option).value === value) {
+                return false;
             }
         }
         return true;
@@ -107,10 +103,8 @@ export class Select2Utils {
             if (options) {
                 for (let j = options.length - 1; j >= 0; j--) {
                     const option = options[j];
-                    if (findIt) {
-                        if (!option.disabled && !option.hide) {
-                            return option;
-                        }
+                    if (findIt && !option.disabled && !option.hide) {
+                        return option;
                     }
                     if (!findIt) {
                         findIt = option.value === hoveringValue;
@@ -118,10 +112,8 @@ export class Select2Utils {
                 }
             } else {
                 const option = groupOrOption as Select2Option;
-                if (findIt) {
-                    if (!option.disabled && !option.hide) {
-                        return option;
-                    }
+                if (findIt && !option.disabled && !option.hide) {
+                    return option;
                 }
                 if (!findIt) {
                     findIt = option.value === hoveringValue;
@@ -195,6 +187,41 @@ export class Select2Utils {
         return str;
     }
 
+    static getReduceData(data: Select2Data, maxResults: number = 0): { result: Select2Data; reduce: boolean } {
+        if (maxResults > 0) {
+            let counter = 0;
+            const result: Select2Data = [];
+            // debugger;
+
+            for (const groupOrOption of data) {
+                const options = (groupOrOption as Select2Group).options;
+                if (options) {
+                    const group = {
+                        ...groupOrOption,
+                        options: [],
+                    };
+                    result.push(group);
+                    for (const item of options) {
+                        group.options.push(item);
+                        counter++;
+                        if (counter === maxResults) {
+                            return { result, reduce: true };
+                        }
+                    }
+                } else {
+                    result.push(groupOrOption);
+                    counter++;
+                }
+                if (counter === maxResults) {
+                    return { result, reduce: true };
+                }
+            }
+            return { result, reduce: false };
+        } else {
+            return { result: data, reduce: false };
+        }
+    }
+
     static getFilteredData(
         data: Select2Data,
         searchText: string | null,
@@ -210,7 +237,7 @@ export class Select2Utils {
                             Select2Utils.containSearchText(group.label, searchText, editPattern),
                         );
                         result.push({
-                            label: groupOrOption.label,
+                            ...groupOrOption,
                             options: filteredOptions,
                         });
                     }
@@ -237,7 +264,7 @@ export class Select2Utils {
                 );
                 if (filteredOptions.length) {
                     result.push({
-                        label: groupOrOption.label,
+                        ...groupOrOption,
                         options: filteredOptions,
                     });
                 }

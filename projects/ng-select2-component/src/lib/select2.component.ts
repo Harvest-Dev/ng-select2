@@ -1,11 +1,28 @@
 import {
-    CdkConnectedOverlay, ConnectedOverlayPositionChange, ConnectedPosition, VerticalConnectionPos,
+    CdkConnectedOverlay,
+    ConnectedOverlayPositionChange,
+    ConnectedPosition,
+    VerticalConnectionPos,
 } from '@angular/cdk/overlay';
 import { ViewportRuler } from '@angular/cdk/scrolling';
 import type { ElementRef, QueryList } from '@angular/core';
 import {
-    AfterViewInit, Attribute, ChangeDetectorRef, Component, DoCheck, EventEmitter, HostBinding, Input, OnDestroy,
-    OnInit, Optional, Output, Self, TemplateRef, ViewChild, ViewChildren,
+    AfterViewInit,
+    Attribute,
+    ChangeDetectorRef,
+    Component,
+    DoCheck,
+    EventEmitter,
+    HostBinding,
+    Input,
+    OnDestroy,
+    OnInit,
+    Optional,
+    Output,
+    Self,
+    TemplateRef,
+    ViewChild,
+    ViewChildren,
 } from '@angular/core';
 import { ControlValueAccessor, FormGroupDirective, NgControl, NgForm } from '@angular/forms';
 
@@ -13,8 +30,15 @@ import { Subject } from 'rxjs';
 
 import { timeout } from './select2-const';
 import {
-    Select2Data, Select2Group, Select2Option, Select2RemoveEvent, Select2ScrollEvent, Select2SearchEvent,
-    Select2UpdateEvent, Select2UpdateValue, Select2Value,
+    Select2Data,
+    Select2Group,
+    Select2Option,
+    Select2RemoveEvent,
+    Select2ScrollEvent,
+    Select2SearchEvent,
+    Select2UpdateEvent,
+    Select2UpdateValue,
+    Select2Value,
 } from './select2-interfaces';
 import { Select2Utils } from './select2-utils';
 
@@ -65,6 +89,12 @@ export class Select2 implements ControlValueAccessor, OnInit, OnDestroy, DoCheck
 
     /** message when no result */
     @Input() noResultMessage: string;
+
+    /** maximum results limit (0 = no limit) */
+    @Input() maxResults = 0;
+
+    /** message when maximum results */
+    @Input() maxResultsMessage = 'Too much result…';
 
     /** infinite scroll distance */
     @Input() infiniteScrollDistance = 1.5;
@@ -246,8 +276,8 @@ export class Select2 implements ControlValueAccessor, OnInit, OnDestroy, DoCheck
 
     overlayWidth: number;
     overlayHeight: number;
-    _triggerRect: ClientRect;
-    _dropdownRect: ClientRect;
+    _triggerRect: DOMRect;
+    _dropdownRect: DOMRect;
 
     get _positions(): ConnectedPosition[] {
         if (this.listPosition === 'auto') {
@@ -270,6 +300,8 @@ export class Select2 implements ControlValueAccessor, OnInit, OnDestroy, DoCheck
         }
     }
     private _minCountForSearch?: number | string;
+
+    maxResultsExceeded: boolean;
 
     @ViewChild(CdkConnectedOverlay)
     private cdkConnectedOverlay: CdkConnectedOverlay;
@@ -550,6 +582,15 @@ export class Select2 implements ControlValueAccessor, OnInit, OnDestroy, DoCheck
 
             if (!this.customSearchEnabled && this.searchText && this.searchText.length >= +this.minCharForSearch) {
                 result = Select2Utils.getFilteredData(result, this.searchText, this.editPattern);
+            }
+
+            if (this.maxResults > 0) {
+                const data = Select2Utils.getReduceData(result, +this.maxResults);
+                console.log('data', data);
+                result = data.result;
+                this.maxResultsExceeded = data.reduce;
+            } else {
+                this.maxResultsExceeded = false;
             }
 
             if (Select2Utils.valueIsNotInFilteredData(result, this.hoveringValue)) {

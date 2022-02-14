@@ -75,6 +75,14 @@
             <input type="text" formControlName="resultMaxHeight" id="resultMaxHeight" />
         </div>
         <div>
+            <label for="maxResults">maxResults (0 = infinity) : </label>
+            <input type="text" formControlName="maxResults" id="maxResults" />
+        </div>
+        <div>
+            <label for="maxResultsMessage">maxResultsMessage ('Too much result...') : </label>
+            <input type="text" formControlName="maxResultsMessage" id="maxResultsMessage" />
+        </div>
+        <div>
             <label for="listPosition">listPosition :</label>
             <select formControlName="listPosition" id="listPosition">
                 <option></option>
@@ -163,6 +171,8 @@
             [limitSelection]="ctrlForm?.value?.limitSelection || 0"
             [hideSelectedItems]="ctrlForm?.value?.hideSelectedItems"
             [resultMaxHeight]="ctrlForm?.value?.resultMaxHeight || '200px'"
+            [maxResults]="ctrlForm?.value?.maxResults || 0"
+            [maxResultsMessage]="ctrlForm?.value?.maxResultsMessage || 'Too much result…'"
             [listPosition]="ctrlForm?.value?.listPosition"
             [infiniteScroll]="ctrlForm?.value?.infiniteScroll"
             [infiniteScrollDistance]="ctrlForm?.value?.infiniteScrollDistance || 1.5"

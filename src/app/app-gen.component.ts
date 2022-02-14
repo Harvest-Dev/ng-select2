@@ -46,6 +46,8 @@ export class AppGenComponent implements AfterContentInit {
             infiniteScrollThrottle: new FormControl(),
             styleMode: new FormControl(),
             noResultMessage: new FormControl(),
+            maxResults: new FormControl(),
+            maxResultsMessage: new FormControl(),
             // template
             template: new FormControl(),
             // event
@@ -171,6 +173,12 @@ export class AppGenComponent implements AfterContentInit {
         }
         if (value.noResultMessage) {
             attrs.noResultMessage = value.noResultMessage;
+        }
+        if (value.maxResultsMessage) {
+            attrs.maxResultsMessage = value.maxResultsMessage;
+        }
+        if (value.maxResults) {
+            attrs.maxResults = value.maxResults;
         }
 
         // template
