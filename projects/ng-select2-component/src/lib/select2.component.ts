@@ -656,10 +656,9 @@ export class Select2 implements ControlValueAccessor, OnInit, OnDestroy, DoCheck
     }
 
     focusin() {
-        if (this.disabled) {
-            return;
+        if (!this.disabled) {
+            this._focus(true);
         }
-        this._focus(true);
     }
 
     focusout() {
