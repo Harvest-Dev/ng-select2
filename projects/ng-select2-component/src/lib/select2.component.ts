@@ -223,7 +223,6 @@ export class Select2 implements ControlValueAccessor, OnInit, OnDestroy, DoCheck
     get value() {
         return this._value;
     }
-
     set value(value: Select2UpdateValue) {
         if (this.testValueChange(this._value, value)) {
             setTimeout(() => {
@@ -238,7 +237,6 @@ export class Select2 implements ControlValueAccessor, OnInit, OnDestroy, DoCheck
     get tabIndex(): number {
         return this.disabled ? -1 : this._tabIndex;
     }
-
     set tabIndex(value: number) {
         if (typeof value !== 'undefined') {
             this._tabIndex = value;
@@ -299,9 +297,10 @@ export class Select2 implements ControlValueAccessor, OnInit, OnDestroy, DoCheck
             return null;
         }
     }
-    private _minCountForSearch?: number | string;
 
     maxResultsExceeded: boolean;
+
+    private _minCountForSearch?: number | string;
 
     @ViewChild(CdkConnectedOverlay)
     private cdkConnectedOverlay: CdkConnectedOverlay;
@@ -670,34 +669,6 @@ export class Select2 implements ControlValueAccessor, OnInit, OnDestroy, DoCheck
         }
     }
 
-    private moveUp() {
-        this.updateScrollFromOption(Select2Utils.getPreviousOption(this.filteredData, this.hoveringValue));
-    }
-
-    private moveDown() {
-        this.updateScrollFromOption(Select2Utils.getNextOption(this.filteredData, this.hoveringValue));
-    }
-
-    private updateScrollFromOption(option: Select2Option) {
-        if (option) {
-            this.hoveringValue = option.value;
-            const domElement = this.results.find(r => r.nativeElement.innerText.trim() === option.label);
-            if (domElement && this.resultsElement) {
-                this.resultsElement.scrollTop = 0;
-                const listClientRect = this.resultsElement.getBoundingClientRect();
-                const optionClientRect = domElement.nativeElement.getBoundingClientRect();
-                this.resultsElement.scrollTop = optionClientRect.top - listClientRect.top;
-            }
-        }
-    }
-
-    private selectByEnter() {
-        if (this.hoveringValue) {
-            const option = Select2Utils.getOptionByValue(this._data, this.hoveringValue);
-            this.select(option);
-        }
-    }
-
     select(option: Select2Option | null) {
         let value: any;
         if (option !== null) {
@@ -874,6 +845,34 @@ export class Select2 implements ControlValueAccessor, OnInit, OnDestroy, DoCheck
             (this._parentForm && this._parentForm.submitted);
 
         return !!(isInvalid && (isTouched || isSubmitted));
+    }
+
+    private moveUp() {
+        this.updateScrollFromOption(Select2Utils.getPreviousOption(this.filteredData, this.hoveringValue));
+    }
+
+    private moveDown() {
+        this.updateScrollFromOption(Select2Utils.getNextOption(this.filteredData, this.hoveringValue));
+    }
+
+    private updateScrollFromOption(option: Select2Option) {
+        if (option) {
+            this.hoveringValue = option.value;
+            const domElement = this.results.find(r => r.nativeElement.innerText.trim() === option.label);
+            if (domElement && this.resultsElement) {
+                this.resultsElement.scrollTop = 0;
+                const listClientRect = this.resultsElement.getBoundingClientRect();
+                const optionClientRect = domElement.nativeElement.getBoundingClientRect();
+                this.resultsElement.scrollTop = optionClientRect.top - listClientRect.top;
+            }
+        }
+    }
+
+    private selectByEnter() {
+        if (this.hoveringValue) {
+            const option = Select2Utils.getOptionByValue(this._data, this.hoveringValue);
+            this.select(option);
+        }
     }
 
     private _testKey(event: KeyboardEvent, refs: (number | string)[] = []): boolean {

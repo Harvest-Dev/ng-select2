@@ -60,21 +60,6 @@ export class Select2Utils {
         return null;
     }
 
-    private static getOptionsCount(data: Select2Data) {
-        let count = 0;
-        if (Array.isArray(data)) {
-            for (const groupOrOption of data) {
-                const options = (groupOrOption as Select2Group).options;
-                if (options) {
-                    count += options.length;
-                } else {
-                    count++;
-                }
-            }
-        }
-        return count;
-    }
-
     static valueIsNotInFilteredData(filteredData: Select2Data, value: Select2Value | null | undefined) {
         if (Select2Utils.isNullOrUndefined(value)) {
             return true;
@@ -149,42 +134,6 @@ export class Select2Utils {
             }
         }
         return null;
-    }
-
-    private static isNullOrUndefined(value: any) {
-        return value === null || value === undefined;
-    }
-
-    private static containSearchText(
-        label: string,
-        searchText: string | null,
-        editPattern: ((str: string) => string) | undefined,
-    ): boolean {
-        return searchText
-            ? Select2Utils.formatSansUnicode(label).match(
-                  new RegExp(Select2Utils.formatPattern(searchText, editPattern), 'i'),
-              ) !== null
-            : true;
-    }
-
-    private static protectPattern(str: string): string {
-        return str.replace(protectRegexp, '\\$&');
-    }
-
-    private static formatSansUnicode(str: string): string {
-        for (const unicodePattern of unicodePatterns) {
-            str = str.replace(unicodePattern.s, unicodePattern.l);
-        }
-        return str;
-    }
-
-    private static formatPattern(str: string, editPattern: ((str: string) => string) | undefined): string {
-        str = Select2Utils.formatSansUnicode(Select2Utils.protectPattern(str));
-
-        if (editPattern && typeof editPattern === 'function') {
-            str = editPattern(str);
-        }
-        return str;
     }
 
     static getReduceData(data: Select2Data, maxResults: number = 0): { result: Select2Data; reduce: boolean } {
@@ -309,5 +258,56 @@ export class Select2Utils {
                 return;
             }
         }
+    }
+
+    private static getOptionsCount(data: Select2Data) {
+        let count = 0;
+        if (Array.isArray(data)) {
+            for (const groupOrOption of data) {
+                const options = (groupOrOption as Select2Group).options;
+                if (options) {
+                    count += options.length;
+                } else {
+                    count++;
+                }
+            }
+        }
+        return count;
+    }
+
+    private static isNullOrUndefined(value: any) {
+        return value === null || value === undefined;
+    }
+
+    private static containSearchText(
+        label: string,
+        searchText: string | null,
+        editPattern: ((str: string) => string) | undefined,
+    ): boolean {
+        return searchText
+            ? Select2Utils.formatSansUnicode(label).match(
+                  new RegExp(Select2Utils.formatPattern(searchText, editPattern), 'i'),
+              ) !== null
+            : true;
+    }
+
+    private static protectPattern(str: string): string {
+        return str.replace(protectRegexp, '\\$&');
+    }
+
+    private static formatSansUnicode(str: string): string {
+        for (const unicodePattern of unicodePatterns) {
+            str = str.replace(unicodePattern.s, unicodePattern.l);
+        }
+        return str;
+    }
+
+    private static formatPattern(str: string, editPattern: ((str: string) => string) | undefined): string {
+        str = Select2Utils.formatSansUnicode(Select2Utils.protectPattern(str));
+
+        if (editPattern && typeof editPattern === 'function') {
+            str = editPattern(str);
+        }
+        return str;
     }
 }
