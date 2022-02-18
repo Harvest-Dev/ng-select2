@@ -585,7 +585,6 @@ export class Select2 implements ControlValueAccessor, OnInit, OnDestroy, DoCheck
 
             if (this.maxResults > 0) {
                 const data = Select2Utils.getReduceData(result, +this.maxResults);
-                console.log('data', data);
                 result = data.result;
                 this.maxResultsExceeded = data.reduce;
             } else {
