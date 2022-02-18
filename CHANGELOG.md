@@ -9,7 +9,7 @@
 ### Changes
 
 -   add `maxResults` maximum results limit (`0` = no limit, by default : `0`).
--   add `maxResultsMessage` parameter, message when maximum results (by default : `'Too much result…'`)
+-   add `maxResultsMessage` parameter, message when maximum results (by default : `'Too many results…'`)
 -   add CSS variable `--select2-too-much-result-color` and `--select2-too-much-result-style`
 
 ### Corrections

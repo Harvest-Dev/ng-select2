@@ -94,7 +94,7 @@ export class Select2 implements ControlValueAccessor, OnInit, OnDestroy, DoCheck
     @Input() maxResults = 0;
 
     /** message when maximum results */
-    @Input() maxResultsMessage = 'Too much result…';
+    @Input() maxResultsMessage = 'Too many results…';
 
     /** infinite scroll distance */
     @Input() infiniteScrollDistance = 1.5;
