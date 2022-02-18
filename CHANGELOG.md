@@ -1,6 +1,6 @@
 # Changelog of ng-select2
 
-## V8.1.0 (2022-02-14)
+## V8.1.0 (2022-02-18)
 
 ### Breaking Changes
 
