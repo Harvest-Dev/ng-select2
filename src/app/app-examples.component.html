@@ -9,21 +9,23 @@
         [overlay]="overlay"
         [data]="data1"
         [value]="value1"
-        (update)="update1($event)"
-        (change)="change1($event)"
-        (blur)="blur1($event)"
-        (focus)="focus1($event)"
-        (open)="open1($event)"
-        (close)="close1($event)"
-        (search)="search1($event)"
+        (update)="update('value1', $event)"
+        (change)="change('change1', $event)"
+        (blur)="blur('blur1', $event)"
+        (focus)="focus('focus1', $event)"
+        (open)="open('open1', $event)"
+        (close)="close('close1', $event)"
+        (search)="search('search1', $event)"
         resettable
         id="selec2-1"
     >
     </select2>
     <h3>2. options ({{ value2 }})</h3>
-    <select2 [overlay]="overlay" [data]="data2" [value]="value2" (update)="update2($event)" id="selec2-2"> </select2>
+    <select2 [overlay]="overlay" [data]="data2" [value]="value2" (update)="update('value2', $event)" id="selec2-2">
+    </select2>
     <h3>3. less options ({{ value3 }})</h3>
-    <select2 [overlay]="overlay" [data]="data3" [value]="value3" (update)="update3($event)" id="selec2-3"> </select2>
+    <select2 [overlay]="overlay" [data]="data3" [value]="value3" (update)="update('value3', $event)" id="selec2-3">
+    </select2>
     <h3>4. disabled ({{ value4 }})</h3>
     <select2 [overlay]="overlay" [data]="data4" [value]="value4" [disabled]="true" id="selec2-4"> </select2>
     <h3>5. hide search box ({{ value5 }})</h3>
@@ -33,7 +35,7 @@
             [data]="data5"
             formControlName="test5"
             [minCountForSearch]="minCountForSearch"
-            (update)="update5($event)"
+            (update)="update('value5', $event)"
             id="selec2-5"
         >
         </select2>
@@ -57,7 +59,7 @@
         [value]="value6"
         [minCountForSearch]="limit.value"
         [displaySearchStatus]="status.value"
-        (update)="update6($event)"
+        (update)="update('value6', $event)"
         id="selec2-6"
     >
     </select2>
@@ -66,7 +68,7 @@
         [overlay]="overlay"
         [data]="data7"
         placeholder="select an item"
-        (update)="update7($event)"
+        (update)="update('value7', $event)"
         resettable
         id="selec2-7"
     >
@@ -80,7 +82,7 @@
         (open)="open8()"
         (close)="close8()"
         (search)="search8($event)"
-        (update)="update8($event)"
+        (update)="update('value8', $event)"
         id="selec2-8"
     >
         <select2-hint>value : {{ value8 }}</select2-hint>
@@ -92,12 +94,12 @@
         [value]="value9"
         multiple="true"
         [limitSelection]="limitSelection"
-        (update)="update9($event)"
-        (blur)="blur9($event)"
-        (focus)="focus9($event)"
-        (open)="open9($event)"
-        (close)="close9($event)"
-        (search)="search9($event)"
+        (update)="update('value9', $event)"
+        (blur)="blur('blur9', $event)"
+        (focus)="focus('focus9', $event)"
+        (open)="open('open9', $event)"
+        (close)="close('close9', $event)"
+        (search)="search('search9', $event)"
         id="selec2-9"
     >
     </select2>
@@ -107,7 +109,7 @@
         [data]="data10"
         [value]="value10"
         multiple="true"
-        (update)="update10($event)"
+        (update)="update('value10', $event)"
         hideSelectedItems="true"
         id="selec2-10"
     >
@@ -132,13 +134,13 @@
         [overlay]="overlay"
         [data]="data12"
         [value]="value12"
-        (update)="update12($event)"
+        (update)="update('value12', $event)"
         styleMode="material"
         id="selec2-12"
     >
     </select2>
     <h3>13. boolean value ({{ value13 }})</h3>
-    <select2 [overlay]="overlay" [data]="data13" [value]="value13" (update)="update13($event)" id="selec2-13">
+    <select2 [overlay]="overlay" [data]="data13" [value]="value13" (update)="update('value13', $event)" id="selec2-13">
     </select2>
     <h3>14. FormControl</h3>
     <form [formGroup]="fg">
@@ -147,22 +149,29 @@
         <button (click)="resetForm()">Reset Form</button>
     </form>
     <h3>15. with label ({{ value15 }})</h3>
-    <select2 [overlay]="overlay" [data]="data15" [value]="value15" (update)="update15($event)" id="selec2-15">
+    <select2 [overlay]="overlay" [data]="data15" [value]="value15" (update)="update('value15', $event)" id="selec2-15">
         <select2-label>Select a state</select2-label>
     </select2>
     <h3>16. required with label ({{ value16 }})</h3>
-    <select2 [overlay]="overlay" [data]="data16" [value]="value16" (update)="update16($event)" required id="selec2-16">
+    <select2
+        [overlay]="overlay"
+        [data]="data16"
+        [value]="value16"
+        (update)="update('value16', $event)"
+        required
+        id="selec2-16"
+    >
         <select2-label>Select a state</select2-label>
     </select2>
     <h3>17. with two option labels ({{ value17 }})</h3>
-    <select2 [overlay]="overlay" [data]="data17" [value]="value17" (update)="update17($event)" id="select2-17">
+    <select2 [overlay]="overlay" [data]="data17" [value]="value17" (update)="update('value17', $event)" id="select2-17">
     </select2>
     <h3>18. search starts with 3 chars</h3>
     <select2
         [overlay]="overlay"
         [data]="data18"
         [value]="value18"
-        (update)="update18($event)"
+        (update)="update('value18', $event)"
         minCharForSearch="3"
         id="selec2-18"
     >
@@ -172,7 +181,7 @@
         [overlay]="overlay"
         [data]="data19"
         [value]="value19"
-        (update)="update19($event)"
+        (update)="update('value19', $event)"
         listPosition="above"
         id="selec2-19"
     >
@@ -183,7 +192,7 @@
             [overlay]="overlay"
             [data]="data20"
             [value]="value20"
-            (update)="update20($event)"
+            (update)="update('value20', $event)"
             listPosition="above"
             styleMode="none"
             id="selec2-20"
@@ -195,7 +204,7 @@
         [overlay]="overlay"
         [data]="data21"
         [value]="value21"
-        (update)="update21($event)"
+        (update)="update('value21', $event)"
         listPosition="above"
         id="selec2-21"
     >
@@ -208,7 +217,7 @@
         [overlay]="overlay"
         [data]="data22"
         [value]="value22"
-        (update)="update22($event)"
+        (update)="update('value22', $event)"
         listPosition="auto"
         id="selec2-22"
         class="flower-list"
@@ -221,7 +230,7 @@
         [overlay]="overlay"
         [data]="data23"
         [value]="value23"
-        (update)="update23($event)"
+        (update)="update('value23', $event)"
         listPosition="above"
         [templates]="template"
         id="selec2-23"
@@ -239,7 +248,7 @@
         [overlay]="overlay"
         [data]="data24"
         [value]="value24"
-        (update)="update24($event)"
+        (update)="update('value24', $event)"
         listPosition="above"
         [templates]="{ option: templateOption, group: templateGroup }"
         id="selec2-24"
@@ -260,7 +269,7 @@
         [overlay]="overlay"
         [data]="data25"
         [value]="value25"
-        (update)="update25($event)"
+        (update)="update('value25', $event)"
         listPosition="above"
         [templates]="{ template1: template1, template2: template2, template3: template3 }"
         id="selec2-25"
@@ -280,7 +289,7 @@
         [overlay]="overlay"
         [data]="data26"
         [value]="value26"
-        (update)="update26($event)"
+        (update)="update('value26', $event)"
         listPosition="above"
         infiniteScroll
         infiniteScrollDistance="1.5"
@@ -288,13 +297,22 @@
         (scroll)="scroll26($event)"
         id="selec2-26"
     ></select2>
-    <h3>27. poistion ({{ value2 }})</h3>
+    <h3>27. position ({{ value2 }})</h3>
     <select2
         [overlay]="overlay"
         [data]="data2"
         [value]="value2"
         listPosition="auto"
-        (update)="update2($event)"
+        (update)="update('value2', $event)"
         id="selec2-27"
+    ></select2>
+    <h3>28. max results 50 ({{ value28 }})</h3>
+    <select2
+        [overlay]="overlay"
+        [data]="data28"
+        [value]="value28"
+        id="selec2-28"
+        maxResults="50"
+        maxResultsMessage="Too much results in this list."
     ></select2>
 </div>

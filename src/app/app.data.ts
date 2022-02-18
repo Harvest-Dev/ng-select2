@@ -349,3 +349,8 @@ export let data26: Select2Data = [];
 for (let i = 1; i <= 50; i++) {
     data26.push({ value: i, label: '>' + i });
 }
+
+export let data28: Select2Data = [];
+for (let i = 1; i <= 200; i++) {
+    data28.push({ value: i, label: 'item n° ' + i });
+}

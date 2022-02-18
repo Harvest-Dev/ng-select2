@@ -2,11 +2,27 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 
 import {
-    Select2Data, Select2Option, Select2ScrollEvent, Select2UpdateEvent,
+    Select2Data,
+    Select2Option,
+    Select2ScrollEvent,
+    Select2UpdateEvent,
 } from 'projects/ng-select2-component/src/public_api';
 
 import {
-    data1, data13, data17, data18, data19, data2, data22, data23, data24, data26, data3, data5, data6,
+    data1,
+    data13,
+    data17,
+    data18,
+    data19,
+    data2,
+    data22,
+    data23,
+    data24,
+    data26,
+    data28,
+    data3,
+    data5,
+    data6,
 } from './app.data';
 
 @Component({
@@ -40,6 +56,7 @@ export class AppExamplesComponent {
     data24 = data24;
     data25: Select2Data = JSON.parse(JSON.stringify(data23));
     data26 = data26;
+    data28 = data28;
 
     minCountForSearch = Infinity;
 
@@ -71,6 +88,7 @@ export class AppExamplesComponent {
     value24 = '';
     value25 = '';
     value26 = '';
+    value28 = '';
 
     limitSelection = 0;
 
@@ -92,55 +110,37 @@ export class AppExamplesComponent {
         this.fg.patchValue(this.formData());
     }
 
-    update1(event: Select2UpdateEvent<string>) {
-        this.value1 = event.value;
-        console.log('update1', event);
-    }
-    change1(event: Event) {
-        console.log('change1', event);
-    }
-    focus1(event: Event) {
-        console.log('focus1', event);
-    }
-    blur1(event: Event) {
-        console.log('blur1', event);
-    }
-    open1(event: Event) {
-        console.log('open1', event);
-    }
-    close1(event: Event) {
-        console.log('close1', event);
-    }
-    search1(event: Event) {
-        console.log('search1', event);
-    }
-
-    update2(event: Select2UpdateEvent<string>) {
-        this.value2 = event.value;
-    }
-
-    update3(event: Select2UpdateEvent<string>) {
-        this.value3 = event.value;
-    }
-
-    update5(event: Select2UpdateEvent<number>) {
-        this.value5 = event.value;
-    }
-
     addItem() {
         const count = this.data6.length + 1;
         this.data6.push({ value: 'foo' + count, label: 'foo' + count });
     }
+
     removeItem() {
         this.data6.pop();
     }
 
-    update6(event: Select2UpdateEvent<string>) {
-        this.value6 = event.value;
+    open(key: string, event: Event) {
+        console.log(key, event);
     }
 
-    update7(event: Select2UpdateEvent<string>) {
-        this.value7 = event.value;
+    close(key: string, event: Event) {
+        console.log(key, event);
+    }
+
+    focus(key: string, event: Event) {
+        console.log(key, event);
+    }
+
+    blur(key: string, event: Event) {
+        console.log(key, event);
+    }
+
+    change(key: string, event: Event) {
+        console.log(key, event);
+    }
+
+    search(key: string, event: Event) {
+        console.log(key, event);
     }
 
     open8() {
@@ -151,40 +151,12 @@ export class AppExamplesComponent {
         alert('close');
     }
 
-    update8(event: Select2UpdateEvent<string>) {
-        this.value8 = event.value;
-    }
-
     search8(text: string) {
         this.data8 = text
             ? (JSON.parse(JSON.stringify(data2)) as Select2Option[]).filter(
                   option => option.label.toLowerCase().indexOf(text.toLowerCase()) > -1,
               )
             : JSON.parse(JSON.stringify(data2));
-    }
-
-    update9(event: Select2UpdateEvent<string[]>) {
-        this.value9 = event.value;
-        console.log('update9', event);
-    }
-    focus9(event: Event) {
-        console.log('focus9', event);
-    }
-    blur9(event: Event) {
-        console.log('blur9', event);
-    }
-    open9(event: Event) {
-        console.log('open9', event);
-    }
-    close9(event: Event) {
-        console.log('close9', event);
-    }
-    search9(event: Event) {
-        console.log('search9', event);
-    }
-
-    update10(event: Select2UpdateEvent<string[]>) {
-        this.value10 = event.value;
     }
 
     reset11() {
@@ -201,62 +173,6 @@ export class AppExamplesComponent {
         }
     }
 
-    update12(event: Select2UpdateEvent<string>) {
-        this.value12 = event.value;
-    }
-
-    update13(event: Select2UpdateEvent<boolean>) {
-        this.value13 = event.value;
-    }
-
-    update15(event: Select2UpdateEvent<string>) {
-        this.value15 = event.value;
-    }
-
-    update16(event: Select2UpdateEvent<string>) {
-        this.value16 = event.value;
-    }
-
-    update17(event: Select2UpdateEvent<string>) {
-        this.value17 = event.value;
-    }
-
-    update18(event: Select2UpdateEvent<string>) {
-        this.value18 = event.value;
-    }
-
-    update19(event: Select2UpdateEvent<string>) {
-        this.value19 = event.value;
-    }
-
-    update20(event: Select2UpdateEvent<string>) {
-        this.value20 = event.value;
-    }
-
-    update21(event: Select2UpdateEvent<string>) {
-        this.value21 = event.value;
-    }
-
-    update22(event: Select2UpdateEvent<string>) {
-        this.value22 = event.value;
-    }
-
-    update23(event: Select2UpdateEvent<string>) {
-        this.value23 = event.value;
-    }
-
-    update24(event: Select2UpdateEvent<string>) {
-        this.value24 = event.value;
-    }
-
-    update25(event: Select2UpdateEvent<string>) {
-        this.value25 = event.value;
-    }
-
-    update26(event: Select2UpdateEvent<string>) {
-        this.value26 = event.value;
-    }
-
     scroll26(event: Select2ScrollEvent) {
         console.log('scroll26', event);
         if (event.way === 'down' && !event.search) {
@@ -267,9 +183,14 @@ export class AppExamplesComponent {
         }
     }
 
+    update(key: string, event: Select2UpdateEvent<any>) {
+        this[key] = event.value;
+    }
+
     resetForm() {
         this.fg.reset(this.formData());
     }
+
     print() {
         console.log('FormControl', this.fg.value);
     }
