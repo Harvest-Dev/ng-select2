@@ -27,7 +27,11 @@
 
     /* no result message */
     --select2-no-result-color: #888;
-    --select2-font-style-color: italic;
+    --select2-no-result-font-style: italic;
+
+    /* no result message */
+    --select2-too-much-result-color: #888;
+    --select2-too-much-result-style: italic;
 
     /* reset */
     --select2-reset-color: #999;

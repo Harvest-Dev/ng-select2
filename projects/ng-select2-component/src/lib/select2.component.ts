@@ -1,11 +1,28 @@
 import {
-    CdkConnectedOverlay, ConnectedOverlayPositionChange, ConnectedPosition, VerticalConnectionPos,
+    CdkConnectedOverlay,
+    ConnectedOverlayPositionChange,
+    ConnectedPosition,
+    VerticalConnectionPos,
 } from '@angular/cdk/overlay';
 import { ViewportRuler } from '@angular/cdk/scrolling';
 import type { ElementRef, QueryList } from '@angular/core';
 import {
-    AfterViewInit, Attribute, ChangeDetectorRef, Component, DoCheck, EventEmitter, HostBinding, Input, OnDestroy,
-    OnInit, Optional, Output, Self, TemplateRef, ViewChild, ViewChildren,
+    AfterViewInit,
+    Attribute,
+    ChangeDetectorRef,
+    Component,
+    DoCheck,
+    EventEmitter,
+    HostBinding,
+    Input,
+    OnDestroy,
+    OnInit,
+    Optional,
+    Output,
+    Self,
+    TemplateRef,
+    ViewChild,
+    ViewChildren,
 } from '@angular/core';
 import { ControlValueAccessor, FormGroupDirective, NgControl, NgForm } from '@angular/forms';
 
@@ -13,8 +30,15 @@ import { Subject } from 'rxjs';
 
 import { timeout } from './select2-const';
 import {
-    Select2Data, Select2Group, Select2Option, Select2RemoveEvent, Select2ScrollEvent, Select2SearchEvent,
-    Select2UpdateEvent, Select2UpdateValue, Select2Value,
+    Select2Data,
+    Select2Group,
+    Select2Option,
+    Select2RemoveEvent,
+    Select2ScrollEvent,
+    Select2SearchEvent,
+    Select2UpdateEvent,
+    Select2UpdateValue,
+    Select2Value,
 } from './select2-interfaces';
 import { Select2Utils } from './select2-utils';
 
@@ -65,6 +89,12 @@ export class Select2 implements ControlValueAccessor, OnInit, OnDestroy, DoCheck
 
     /** message when no result */
     @Input() noResultMessage: string;
+
+    /** maximum results limit (0 = no limit) */
+    @Input() maxResults = 0;
+
+    /** message when maximum results */
+    @Input() maxResultsMessage = 'Too many results…';
 
     /** infinite scroll distance */
     @Input() infiniteScrollDistance = 1.5;
@@ -193,7 +223,6 @@ export class Select2 implements ControlValueAccessor, OnInit, OnDestroy, DoCheck
     get value() {
         return this._value;
     }
-
     set value(value: Select2UpdateValue) {
         if (this.testValueChange(this._value, value)) {
             setTimeout(() => {
@@ -208,7 +237,6 @@ export class Select2 implements ControlValueAccessor, OnInit, OnDestroy, DoCheck
     get tabIndex(): number {
         return this.disabled ? -1 : this._tabIndex;
     }
-
     set tabIndex(value: number) {
         if (typeof value !== 'undefined') {
             this._tabIndex = value;
@@ -246,8 +274,8 @@ export class Select2 implements ControlValueAccessor, OnInit, OnDestroy, DoCheck
 
     overlayWidth: number;
     overlayHeight: number;
-    _triggerRect: ClientRect;
-    _dropdownRect: ClientRect;
+    _triggerRect: DOMRect;
+    _dropdownRect: DOMRect;
 
     get _positions(): ConnectedPosition[] {
         if (this.listPosition === 'auto') {
@@ -269,6 +297,9 @@ export class Select2 implements ControlValueAccessor, OnInit, OnDestroy, DoCheck
             return null;
         }
     }
+
+    maxResultsExceeded: boolean;
+
     private _minCountForSearch?: number | string;
 
     @ViewChild(CdkConnectedOverlay)
@@ -552,6 +583,14 @@ export class Select2 implements ControlValueAccessor, OnInit, OnDestroy, DoCheck
                 result = Select2Utils.getFilteredData(result, this.searchText, this.editPattern);
             }
 
+            if (this.maxResults > 0) {
+                const data = Select2Utils.getReduceData(result, +this.maxResults);
+                result = data.result;
+                this.maxResultsExceeded = data.reduce;
+            } else {
+                this.maxResultsExceeded = false;
+            }
+
             if (Select2Utils.valueIsNotInFilteredData(result, this.hoveringValue)) {
                 this.hoveringValue = Select2Utils.getFirstAvailableOption(result);
             }
@@ -616,44 +655,15 @@ export class Select2 implements ControlValueAccessor, OnInit, OnDestroy, DoCheck
     }
 
     focusin() {
-        if (this.disabled) {
-            return;
+        if (!this.disabled) {
+            this._focus(true);
         }
-        this._focus(true);
     }
 
     focusout() {
         if (this.selectionElement && !this.selectionElement.classList.contains('select2-focused')) {
             this._focus(false);
             this._onTouched();
-        }
-    }
-
-    private moveUp() {
-        this.updateScrollFromOption(Select2Utils.getPreviousOption(this.filteredData, this.hoveringValue));
-    }
-
-    private moveDown() {
-        this.updateScrollFromOption(Select2Utils.getNextOption(this.filteredData, this.hoveringValue));
-    }
-
-    private updateScrollFromOption(option: Select2Option) {
-        if (option) {
-            this.hoveringValue = option.value;
-            const domElement = this.results.find(r => r.nativeElement.innerText.trim() === option.label);
-            if (domElement && this.resultsElement) {
-                this.resultsElement.scrollTop = 0;
-                const listClientRect = this.resultsElement.getBoundingClientRect();
-                const optionClientRect = domElement.nativeElement.getBoundingClientRect();
-                this.resultsElement.scrollTop = optionClientRect.top - listClientRect.top;
-            }
-        }
-    }
-
-    private selectByEnter() {
-        if (this.hoveringValue) {
-            const option = Select2Utils.getOptionByValue(this._data, this.hoveringValue);
-            this.select(option);
         }
     }
 
@@ -833,6 +843,34 @@ export class Select2 implements ControlValueAccessor, OnInit, OnDestroy, DoCheck
             (this._parentForm && this._parentForm.submitted);
 
         return !!(isInvalid && (isTouched || isSubmitted));
+    }
+
+    private moveUp() {
+        this.updateScrollFromOption(Select2Utils.getPreviousOption(this.filteredData, this.hoveringValue));
+    }
+
+    private moveDown() {
+        this.updateScrollFromOption(Select2Utils.getNextOption(this.filteredData, this.hoveringValue));
+    }
+
+    private updateScrollFromOption(option: Select2Option) {
+        if (option) {
+            this.hoveringValue = option.value;
+            const domElement = this.results.find(r => r.nativeElement.innerText.trim() === option.label);
+            if (domElement && this.resultsElement) {
+                this.resultsElement.scrollTop = 0;
+                const listClientRect = this.resultsElement.getBoundingClientRect();
+                const optionClientRect = domElement.nativeElement.getBoundingClientRect();
+                this.resultsElement.scrollTop = optionClientRect.top - listClientRect.top;
+            }
+        }
+    }
+
+    private selectByEnter() {
+        if (this.hoveringValue) {
+            const option = Select2Utils.getOptionByValue(this._data, this.hoveringValue);
+            this.select(option);
+        }
     }
 
     private _testKey(event: KeyboardEvent, refs: (number | string)[] = []): boolean {

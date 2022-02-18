@@ -12,10 +12,8 @@ export class Select2Utils {
                             return option;
                         }
                     }
-                } else {
-                    if ((groupOrOption as Select2Option).value === value) {
-                        return groupOrOption as Select2Option;
-                    }
+                } else if ((groupOrOption as Select2Option).value === value) {
+                    return groupOrOption as Select2Option;
                 }
             }
         }
@@ -62,21 +60,6 @@ export class Select2Utils {
         return null;
     }
 
-    private static getOptionsCount(data: Select2Data) {
-        let count = 0;
-        if (Array.isArray(data)) {
-            for (const groupOrOption of data) {
-                const options = (groupOrOption as Select2Group).options;
-                if (options) {
-                    count += options.length;
-                } else {
-                    count++;
-                }
-            }
-        }
-        return count;
-    }
-
     static valueIsNotInFilteredData(filteredData: Select2Data, value: Select2Value | null | undefined) {
         if (Select2Utils.isNullOrUndefined(value)) {
             return true;
@@ -89,10 +72,8 @@ export class Select2Utils {
                         return false;
                     }
                 }
-            } else {
-                if ((groupOrOption as Select2Option).value === value) {
-                    return false;
-                }
+            } else if ((groupOrOption as Select2Option).value === value) {
+                return false;
             }
         }
         return true;
@@ -107,10 +88,8 @@ export class Select2Utils {
             if (options) {
                 for (let j = options.length - 1; j >= 0; j--) {
                     const option = options[j];
-                    if (findIt) {
-                        if (!option.disabled && !option.hide) {
-                            return option;
-                        }
+                    if (findIt && !option.disabled && !option.hide) {
+                        return option;
                     }
                     if (!findIt) {
                         findIt = option.value === hoveringValue;
@@ -118,10 +97,8 @@ export class Select2Utils {
                 }
             } else {
                 const option = groupOrOption as Select2Option;
-                if (findIt) {
-                    if (!option.disabled && !option.hide) {
-                        return option;
-                    }
+                if (findIt && !option.disabled && !option.hide) {
+                    return option;
                 }
                 if (!findIt) {
                     findIt = option.value === hoveringValue;
@@ -159,40 +136,39 @@ export class Select2Utils {
         return null;
     }
 
-    private static isNullOrUndefined(value: any) {
-        return value === null || value === undefined;
-    }
+    static getReduceData(data: Select2Data, maxResults: number = 0): { result: Select2Data; reduce: boolean } {
+        if (maxResults > 0) {
+            let counter = 0;
+            const result: Select2Data = [];
+            // debugger;
 
-    private static containSearchText(
-        label: string,
-        searchText: string | null,
-        editPattern: ((str: string) => string) | undefined,
-    ): boolean {
-        return searchText
-            ? Select2Utils.formatSansUnicode(label).match(
-                  new RegExp(Select2Utils.formatPattern(searchText, editPattern), 'i'),
-              ) !== null
-            : true;
-    }
-
-    private static protectPattern(str: string): string {
-        return str.replace(protectRegexp, '\\$&');
-    }
-
-    private static formatSansUnicode(str: string): string {
-        for (const unicodePattern of unicodePatterns) {
-            str = str.replace(unicodePattern.s, unicodePattern.l);
+            for (const groupOrOption of data) {
+                const options = (groupOrOption as Select2Group).options;
+                if (options) {
+                    const group = {
+                        ...groupOrOption,
+                        options: [],
+                    };
+                    result.push(group);
+                    for (const item of options) {
+                        group.options.push(item);
+                        counter++;
+                        if (counter === maxResults) {
+                            return { result, reduce: true };
+                        }
+                    }
+                } else {
+                    result.push(groupOrOption);
+                    counter++;
+                }
+                if (counter === maxResults) {
+                    return { result, reduce: true };
+                }
+            }
+            return { result, reduce: false };
+        } else {
+            return { result: data, reduce: false };
         }
-        return str;
-    }
-
-    private static formatPattern(str: string, editPattern: ((str: string) => string) | undefined): string {
-        str = Select2Utils.formatSansUnicode(Select2Utils.protectPattern(str));
-
-        if (editPattern && typeof editPattern === 'function') {
-            str = editPattern(str);
-        }
-        return str;
     }
 
     static getFilteredData(
@@ -210,7 +186,7 @@ export class Select2Utils {
                             Select2Utils.containSearchText(group.label, searchText, editPattern),
                         );
                         result.push({
-                            label: groupOrOption.label,
+                            ...groupOrOption,
                             options: filteredOptions,
                         });
                     }
@@ -237,7 +213,7 @@ export class Select2Utils {
                 );
                 if (filteredOptions.length) {
                     result.push({
-                        label: groupOrOption.label,
+                        ...groupOrOption,
                         options: filteredOptions,
                     });
                 }
@@ -282,5 +258,56 @@ export class Select2Utils {
                 return;
             }
         }
+    }
+
+    private static getOptionsCount(data: Select2Data) {
+        let count = 0;
+        if (Array.isArray(data)) {
+            for (const groupOrOption of data) {
+                const options = (groupOrOption as Select2Group).options;
+                if (options) {
+                    count += options.length;
+                } else {
+                    count++;
+                }
+            }
+        }
+        return count;
+    }
+
+    private static isNullOrUndefined(value: any) {
+        return value === null || value === undefined;
+    }
+
+    private static containSearchText(
+        label: string,
+        searchText: string | null,
+        editPattern: ((str: string) => string) | undefined,
+    ): boolean {
+        return searchText
+            ? Select2Utils.formatSansUnicode(label).match(
+                  new RegExp(Select2Utils.formatPattern(searchText, editPattern), 'i'),
+              ) !== null
+            : true;
+    }
+
+    private static protectPattern(str: string): string {
+        return str.replace(protectRegexp, '\\$&');
+    }
+
+    private static formatSansUnicode(str: string): string {
+        for (const unicodePattern of unicodePatterns) {
+            str = str.replace(unicodePattern.s, unicodePattern.l);
+        }
+        return str;
+    }
+
+    private static formatPattern(str: string, editPattern: ((str: string) => string) | undefined): string {
+        str = Select2Utils.formatSansUnicode(Select2Utils.protectPattern(str));
+
+        if (editPattern && typeof editPattern === 'function') {
+            str = editPattern(str);
+        }
+        return str;
     }
 }

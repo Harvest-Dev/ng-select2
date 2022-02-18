@@ -1,6 +1,22 @@
 # Changelog of ng-select2
 
-## V8.0.6 (2021-01-04)
+## V8.1.0 (2022-02-14)
+
+### Breaking Changes
+
+-   CSS variable `--select2-font-style-color` renamed in `--select2-too-much-font-style`
+
+### Changes
+
+-   add `maxResults` maximum results limit (`0` = no limit, by default : `0`).
+-   add `maxResultsMessage` parameter, message when maximum results (by default : `'Too many results…'`)
+-   add CSS variable `--select2-too-much-result-color` and `--select2-too-much-result-style`
+
+### Corrections
+
+-   filtered data for group is now correct
+
+## V8.0.6 (2022-01-04)
 
 ### Corrections
 

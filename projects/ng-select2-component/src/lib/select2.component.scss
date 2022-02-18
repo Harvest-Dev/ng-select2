@@ -508,7 +508,14 @@
     color: #888;
     color: var(--select2-no-result-color, #888);
     font-style: italic;
-    font-style: var(--select2-font-style-color, italic);
+    font-style: var(--select2-no-result-font-style, italic);
+}
+
+.select2-too-much-result {
+    color: #888;
+    color: var(--select2-too-much-result-color, #888);
+    font-style: italic;
+    font-style: var(--select2-too-much-font-style, italic);
 }
 
 :host.nostyle {
