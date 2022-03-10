@@ -28,9 +28,9 @@
     "@angular/router": "^13.2.6",
     "bowser": "2.11.0",
     "core-js": "^2.5.4",
-    "highlight.js": "9.15.6",
-    "json2html-lib": "0.0.6",
-    "ngx-highlightjs": "3.0.3",
+    "highlight.js": "11.4.0",
+    "json2html-lib": "0.1.0",
+    "ngx-highlightjs": "6.1.1",
     "ngx-infinite-scroll": "^10.0.1",
     "rxjs": "^6.6.7",
     "zone.js": "~0.11.4"
