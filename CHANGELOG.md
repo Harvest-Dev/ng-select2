@@ -5,6 +5,7 @@
 ### Breaking Changes
 
 -   minimum required support has been upgraded to Angular `13.2`.
+-   update ngx-infinite-scroll to `13.0.2`.
 
 ## V8.1.0 (2022-02-18)
 
