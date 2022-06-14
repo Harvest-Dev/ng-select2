@@ -31,7 +31,7 @@
     "highlight.js": "11.4.0",
     "json2html-lib": "0.1.0",
     "ngx-highlightjs": "6.1.1",
-    "ngx-infinite-scroll": "^10.0.1",
+    "ngx-infinite-scroll": "^13.0.2",
     "rxjs": "^6.6.7",
     "zone.js": "~0.11.4"
   },

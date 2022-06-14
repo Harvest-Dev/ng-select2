@@ -18,7 +18,7 @@ npm i ng-select2-component --save
     -   `angular/cdk` 13.2.0 and more
 
 -   dependencies (include):
-    -   `ngx-infinite-scroll@^10.0.1`
+    -   `ngx-infinite-scroll@^13.0.2`
 
 > **Note:**<br>
 > For `angular` 7, 8 and 9 : use version `7.3.1`.
