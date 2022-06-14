@@ -14,14 +14,16 @@ npm i ng-select2-component --save
 
 -   peerDependencies:
 
-    -   `angular` 10.0.0 and more
-    -   `angular/cdk` 10.0.0 and more
+    -   `angular` 13.2.0 and more
+    -   `angular/cdk` 13.2.0 and more
 
 -   dependencies (include):
     -   `ngx-infinite-scroll@^10.0.1`
 
 > **Note:**<br>
 > For `angular` 7, 8 and 9 : use version `7.3.1`.
+> For `angular` 10, 11 and 12 (View Engine) : use version `8.1.0`.
+> For `angular` 13 and more (Ivy) : use version `9.0.0`.
 
 ## Demo
 

@@ -1,5 +1,11 @@
 # Changelog of ng-select2
 
+## V9.0.0 (2002-03-10)
+
+### Breaking Changes
+
+-   minimum required support has been upgraded to Angular `13.2`.
+
 ## V8.1.0 (2022-02-18)
 
 ### Breaking Changes

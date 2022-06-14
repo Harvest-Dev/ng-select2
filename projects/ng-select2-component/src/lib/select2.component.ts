@@ -42,6 +42,7 @@ import {
 } from './select2-interfaces';
 import { Select2Utils } from './select2-utils';
 
+
 let nextUniqueId = 0;
 
 const displaySearchStatusList = ['default', 'hidden', 'always'];
@@ -351,6 +352,7 @@ export class Select2 implements ControlValueAccessor, OnInit, OnDestroy, DoCheck
         @Self() @Optional() public _control: NgControl,
         @Attribute('tabindex') tabIndex: string,
     ) {
+        // eslint-disable-next-line no-self-assign
         this.id = this.id;
         this._tabIndex = parseInt(tabIndex, 10) || 0;
 

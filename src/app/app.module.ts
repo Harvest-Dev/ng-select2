@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 
-import { HighlightModule } from 'ngx-highlightjs';
+import { HIGHLIGHT_OPTIONS, HighlightModule } from 'ngx-highlightjs';
 
 import { Select2Module } from 'projects/ng-select2-component/src/public_api';
 
@@ -29,16 +29,22 @@ export function hljsLanguages() {
 
 @NgModule({
     declarations: [AppComponent, AppExamplesComponent, AppGenComponent],
-    imports: [
-        BrowserModule,
-        AppRoutingModule,
-        FormsModule,
-        Select2Module,
-        HighlightModule.forRoot({
-            languages: hljsLanguages,
-        }),
+    imports: [BrowserModule, AppRoutingModule, FormsModule, Select2Module, HighlightModule],
+    providers: [
+        {
+            provide: HIGHLIGHT_OPTIONS,
+            useValue: {
+                coreLibraryLoader: () => import('highlight.js/lib/core'),
+                lineNumbersLoader: () => import('highlightjs-line-numbers.js'),
+                languages: {
+                    typescript: () => import('highlight.js/lib/languages/typescript'),
+                    javascript: () => import('highlight.js/lib/languages/javascript'),
+                    css: () => import('highlight.js/lib/languages/css'),
+                    xml: () => import('highlight.js/lib/languages/xml'),
+                },
+            },
+        },
     ],
-    providers: [],
     bootstrap: [AppComponent],
 })
 export class AppModule {}
