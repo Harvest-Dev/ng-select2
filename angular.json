@@ -133,12 +133,22 @@
             "tsConfig": "projects/ng-select2-component/tsconfig.spec.json",
             "karmaConfig": "projects/ng-select2-component/karma.conf.js"
           }
+        },
+        "lint": {
+          "builder": "@angular-eslint/builder:lint",
+          "options": {
+            "lintFilePatterns": [
+              "projects/ng-select2-component/**/*.ts",
+              "projects/ng-select2-component/**/*.html"
+            ]
+          }
         }
       }
     }
   },
   "defaultProject": "ng-select2",
   "cli": {
-    "analytics": false
+    "analytics": false,
+    "defaultCollection": "@angular-eslint/schematics"
   }
 }

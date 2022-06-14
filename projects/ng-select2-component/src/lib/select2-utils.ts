@@ -79,7 +79,7 @@ export class Select2Utils {
         return true;
     }
 
-    // tslint:disable-next-line:cognitive-complexity
+    // eslint-disable-next-line 
     static getPreviousOption(filteredData: Select2Data, hoveringValue: Select2Value | null | undefined) {
         let findIt = Select2Utils.isNullOrUndefined(hoveringValue);
         for (let i = filteredData.length - 1; i >= 0; i--) {
@@ -107,7 +107,7 @@ export class Select2Utils {
         }
         return null;
     }
-    // tslint:disable-next-line:cognitive-complexity
+    // eslint-disable-next-line
     static getNextOption(filteredData: Select2Data, hoveringValue: Select2Value | null | undefined) {
         let findIt = Select2Utils.isNullOrUndefined(hoveringValue);
         for (const groupOrOption of filteredData) {

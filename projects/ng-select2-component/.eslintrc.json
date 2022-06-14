@@ -1,0 +1,57 @@
+{
+  "extends": "../../.eslintrc.json",
+  "ignorePatterns": [
+    "!**/*"
+  ],
+  "overrides": [
+    {
+      "files": [
+        "*.ts"
+      ],
+      "parserOptions": {
+        "project": [
+          "projects/ng-select2-component/tsconfig.lib.json",
+          "projects/ng-select2-component/tsconfig.spec.json"
+        ],
+        "createDefaultProgram": true
+      },
+      "rules": {
+        "@angular-eslint/component-class-suffix": "off",
+        "@angular-eslint/component-selector": [
+          "error",
+          {
+            "type": "element",
+            "prefix": "",
+            "style": ""
+          }
+        ],
+        "@angular-eslint/directive-class-suffix": "off",
+        "@angular-eslint/directive-selector": "off",
+        "@typescript-eslint/consistent-type-definitions": "error",
+        "@typescript-eslint/dot-notation": "off",
+        "@typescript-eslint/explicit-member-accessibility": [
+          "off",
+          {
+            "accessibility": "explicit"
+          }
+        ],
+        "@typescript-eslint/no-non-null-assertion": "off",
+        "@typescript-eslint/no-unused-vars": "error",
+        "@typescript-eslint/no-use-before-define": "error",
+        "brace-style": [
+          "error",
+          "1tbs"
+        ],
+        "id-blacklist": "off",
+        "id-match": "off",
+        "no-underscore-dangle": "off"
+      }
+    },
+    {
+      "files": [
+        "*.html"
+      ],
+      "rules": {}
+    }
+  ]
+}
