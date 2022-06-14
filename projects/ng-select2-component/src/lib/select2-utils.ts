@@ -1,6 +1,7 @@
 import { defaultMinCountForSearch, protectRegexp, unicodePatterns } from './select2-const';
 import { Select2Data, Select2Group, Select2Option, Select2UpdateValue, Select2Value } from './select2-interfaces';
 
+
 export class Select2Utils {
     static getOptionByValue(data: Select2Data, value: Select2Value | null | undefined) {
         if (Array.isArray(data)) {
@@ -79,7 +80,7 @@ export class Select2Utils {
         return true;
     }
 
-    // eslint-disable-next-line 
+    // eslint-disable-next-line
     static getPreviousOption(filteredData: Select2Data, hoveringValue: Select2Value | null | undefined) {
         let findIt = Select2Utils.isNullOrUndefined(hoveringValue);
         for (let i = filteredData.length - 1; i >= 0; i--) {

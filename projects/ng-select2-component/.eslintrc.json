@@ -17,14 +17,6 @@
       },
       "rules": {
         "@angular-eslint/component-class-suffix": "off",
-        "@angular-eslint/component-selector": [
-          "error",
-          {
-            "type": "element",
-            "prefix": "",
-            "style": ""
-          }
-        ],
         "@angular-eslint/directive-class-suffix": "off",
         "@angular-eslint/directive-selector": "off",
         "@typescript-eslint/consistent-type-definitions": "error",
