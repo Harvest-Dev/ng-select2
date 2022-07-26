@@ -146,9 +146,10 @@
       }
     }
   },
-  "defaultProject": "ng-select2",
   "cli": {
     "analytics": false,
-    "defaultCollection": "@angular-eslint/schematics"
+    "schematicCollections": [
+      "@angular-eslint/schematics"
+    ]
   }
 }

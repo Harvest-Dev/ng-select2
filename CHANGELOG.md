@@ -1,5 +1,12 @@
 # Changelog of ng-select2
 
+## V10.0.0 (2002-07-27)
+
+### Breaking Changes
+
+-   minimum required support has been upgraded to Angular `14.0`.
+-   update ngx-infinite-scroll to `14.0.0`.
+
 ## V9.0.0 (2002-03-10)
 
 ### Breaking Changes
