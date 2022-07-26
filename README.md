@@ -332,8 +332,7 @@ For IE11, see [css-vars-ponyfill](https://github.com/jhildenbiddle/css-vars-pony
 
 ```
 npm run build:lib
-cd dist/ng-select2-component
-npm publish
+npm run publish:lib
 ```
 
 ## Update Demo

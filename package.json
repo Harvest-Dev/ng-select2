@@ -11,6 +11,7 @@
     "build": "ng build",
     "build:lib": "ng build ng-select2-component --configuration production && cp *.md dist/ng-select2-component",
     "build:demo": "ng build ng-select2",
+    "publish:lib": "npm publish dist/ng-select2-component",
     "test": "ng test",
     "lint": "ng lint ng-select2-component",
     "e2e": "ng e2e"
