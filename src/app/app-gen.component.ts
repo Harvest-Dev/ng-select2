@@ -1,5 +1,5 @@
 import { AfterContentInit, Component, TemplateRef } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 
 import * as Bowser from 'bowser';
 import { Json2html, Json2htmlRef } from 'json2html-lib';
@@ -18,47 +18,47 @@ export class AppGenComponent implements AfterContentInit {
 
     jsonError: string;
 
-    ctrlForm: FormGroup;
+    ctrlForm: UntypedFormGroup;
 
-    constructor(private fb: FormBuilder) {
+    constructor(private fb: UntypedFormBuilder) {
         this.ctrlForm = this.fb.group({
             // data
-            json: new FormControl(JSON.stringify(this.data, null, 2)),
+            json: new UntypedFormControl(JSON.stringify(this.data, null, 2)),
             // tags
-            label: new FormControl(),
-            hint: new FormControl(),
+            label: new UntypedFormControl(),
+            hint: new UntypedFormControl(),
             // parameters
-            disabled: new FormControl(),
-            overlay: new FormControl(),
-            minCharForSearch: new FormControl(),
-            minCountForSearch: new FormControl(),
-            displaySearchStatus: new FormControl(),
-            placeholder: new FormControl(),
-            customSearchEnabled: new FormControl(),
-            multiple: new FormControl(),
-            resettable: new FormControl(),
-            limitSelection: new FormControl(),
-            hideSelectedItems: new FormControl(),
-            resultMaxHeight: new FormControl(),
-            listPosition: new FormControl(),
-            infiniteScroll: new FormControl(),
-            infiniteScrollDistance: new FormControl(),
-            infiniteScrollThrottle: new FormControl(),
-            styleMode: new FormControl(),
-            noResultMessage: new FormControl(),
-            maxResults: new FormControl(),
-            maxResultsMessage: new FormControl(),
+            disabled: new UntypedFormControl(),
+            overlay: new UntypedFormControl(),
+            minCharForSearch: new UntypedFormControl(),
+            minCountForSearch: new UntypedFormControl(),
+            displaySearchStatus: new UntypedFormControl(),
+            placeholder: new UntypedFormControl(),
+            customSearchEnabled: new UntypedFormControl(),
+            multiple: new UntypedFormControl(),
+            resettable: new UntypedFormControl(),
+            limitSelection: new UntypedFormControl(),
+            hideSelectedItems: new UntypedFormControl(),
+            resultMaxHeight: new UntypedFormControl(),
+            listPosition: new UntypedFormControl(),
+            infiniteScroll: new UntypedFormControl(),
+            infiniteScrollDistance: new UntypedFormControl(),
+            infiniteScrollThrottle: new UntypedFormControl(),
+            styleMode: new UntypedFormControl(),
+            noResultMessage: new UntypedFormControl(),
+            maxResults: new UntypedFormControl(),
+            maxResultsMessage: new UntypedFormControl(),
             // template
-            template: new FormControl(),
+            template: new UntypedFormControl(),
             // event
-            update: new FormControl(),
-            open: new FormControl(),
-            close: new FormControl(),
-            focus: new FormControl(),
-            blur: new FormControl(),
-            search: new FormControl(),
-            scroll: new FormControl(),
-            removeOption: new FormControl(),
+            update: new UntypedFormControl(),
+            open: new UntypedFormControl(),
+            close: new UntypedFormControl(),
+            focus: new UntypedFormControl(),
+            blur: new UntypedFormControl(),
+            search: new UntypedFormControl(),
+            scroll: new UntypedFormControl(),
+            removeOption: new UntypedFormControl(),
         });
 
         this.ctrlForm.valueChanges.subscribe(() => {

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 
 import {
     Select2Data,
@@ -60,8 +60,8 @@ export class AppExamplesComponent {
 
     minCountForSearch = Infinity;
 
-    ctrlForm: FormGroup;
-    ctrlForm2: FormGroup;
+    ctrlForm: UntypedFormGroup;
+    ctrlForm2: UntypedFormGroup;
 
     value1 = 'CA';
     value2 = 'CA';
@@ -94,17 +94,17 @@ export class AppExamplesComponent {
 
     overlay = false;
 
-    fg: FormGroup = new FormGroup({
-        state: new FormControl(),
+    fg: UntypedFormGroup = new UntypedFormGroup({
+        state: new UntypedFormControl(),
     });
 
-    constructor(private fb: FormBuilder) {
+    constructor(private fb: UntypedFormBuilder) {
         this.ctrlForm = this.fb.group({
-            test11: new FormControl(null, Validators.required),
+            test11: new UntypedFormControl(null, Validators.required),
         });
 
         this.ctrlForm2 = this.fb.group({
-            test5: new FormControl(0, Validators.required),
+            test5: new UntypedFormControl(0, Validators.required),
         });
 
         this.fg.patchValue(this.formData());
