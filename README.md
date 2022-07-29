@@ -21,10 +21,10 @@ npm i ng-select2-component --save
     -   `ngx-infinite-scroll@^14.0.0`
 
 > **Note:**<br>
-> For `angular` 7, 8 and 9 : use version `7.3.1`.
-> For `angular` 10, 11 and 12 (View Engine) : use version `8.1.0`.
-> For `angular` 13 (Ivy) : use version `9.0.0`.
-> For `angular` 14 and more (Ivy) : use version `10.0.0`.
+> * For `angular` 7, 8 and 9 : use version `7.3.1`.
+> * For `angular` 10, 11 and 12 (View Engine) : use version `8.1.0`.
+> * For `angular` 13 (Ivy) : use version `9.0.0`.
+> * For `angular` 14 and more (Ivy) : use version `10.0.0`.
 
 ## Demo
 
