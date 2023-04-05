@@ -4,7 +4,7 @@
 <input type="checkbox" [(ngModel)]="overlay" />
 
 <div style="width: 500px">
-    <h3>1. options in group ({{ value1 }})</h3>
+    <h3 id="ex-1">1. options in group ({{ value1 }})</h3>
     <select2
         [overlay]="overlay"
         [data]="data1"
@@ -17,18 +17,19 @@
         (close)="close('close1', $event)"
         (search)="search('search1', $event)"
         resettable
+        customSearchEnabled
         id="selec2-1"
     >
     </select2>
-    <h3>2. options ({{ value2 }})</h3>
+    <h3 id="ex-2">2. options ({{ value2 }})</h3>
     <select2 [overlay]="overlay" [data]="data2" [value]="value2" (update)="update('value2', $event)" id="selec2-2">
     </select2>
-    <h3>3. less options ({{ value3 }})</h3>
+    <h3 id="ex-3">3. less options ({{ value3 }})</h3>
     <select2 [overlay]="overlay" [data]="data3" [value]="value3" (update)="update('value3', $event)" id="selec2-3">
     </select2>
-    <h3>4. disabled ({{ value4 }})</h3>
+    <h3 id="ex-4">4. disabled ({{ value4 }})</h3>
     <select2 [overlay]="overlay" [data]="data4" [value]="value4" [disabled]="true" id="selec2-4"> </select2>
-    <h3>5. hide search box ({{ value5 }})</h3>
+    <h3 id="ex-5">5. hide search box ({{ value5 }})</h3>
     <form [formGroup]="ctrlForm2">
         <select2
             [overlay]="overlay"
@@ -40,7 +41,7 @@
         >
         </select2>
     </form>
-    <h3>
+    <h3 id="ex-6">
         6. search limit to <input #limit size="3" value="7" /> / display status
         <select #status>
             <option selected>default</option>
@@ -63,7 +64,7 @@
         id="selec2-6"
     >
     </select2>
-    <h3>7. placeholder ({{ value7 }})</h3>
+    <h3 id="ex-7">7. placeholder ({{ value7 }})</h3>
     <select2
         [overlay]="overlay"
         [data]="data7"
@@ -73,7 +74,7 @@
         id="selec2-7"
     >
     </select2>
-    <h3>8. open, close and search event ({{ value8 }})</h3>
+    <h3 id="ex-8">8. open, close and search event ({{ value8 }})</h3>
     <select2
         [overlay]="overlay"
         [data]="data8"
@@ -87,7 +88,7 @@
     >
         <select2-hint>value : {{ value8 }}</select2-hint>
     </select2>
-    <h3>9. multiple + limite <input type="number" [(ngModel)]="limitSelection" /> ({{ value9 | json }})</h3>
+    <h3 id="ex-9">9. multiple + limite <input type="number" [(ngModel)]="limitSelection" /> ({{ value9 | json }})</h3>
     <select2
         [overlay]="overlay"
         [data]="data9"
@@ -100,10 +101,11 @@
         (open)="open('open9', $event)"
         (close)="close('close9', $event)"
         (search)="search('search9', $event)"
+        customSearchEnabled
         id="selec2-9"
     >
     </select2>
-    <h3>10. multiple + hide selected items ({{ value10 | json }})</h3>
+    <h3 id="ex-10">10. multiple + hide selected items ({{ value10 | json }})</h3>
     <select2
         [overlay]="overlay"
         [data]="data10"
@@ -114,7 +116,7 @@
         id="selec2-10"
     >
     </select2>
-    <h3>11. material style and form binding ({{ value11 }})</h3>
+    <h3 id="ex-11">11. material style and form binding ({{ value11 }})</h3>
     <form [formGroup]="ctrlForm">
         <select2
             [overlay]="overlay"
@@ -129,7 +131,7 @@
         <button (click)="change11()">Utah</button>
     </form>
 
-    <h3>12. material style ({{ value12 }})</h3>
+    <h3 id="ex-12">12. material style ({{ value12 }})</h3>
     <select2
         [overlay]="overlay"
         [data]="data12"
@@ -139,20 +141,20 @@
         id="selec2-12"
     >
     </select2>
-    <h3>13. boolean value ({{ value13 }})</h3>
+    <h3 id="ex-13">13. boolean value ({{ value13 }})</h3>
     <select2 [overlay]="overlay" [data]="data13" [value]="value13" (update)="update('value13', $event)" id="selec2-13">
     </select2>
-    <h3>14. FormControl</h3>
+    <h3 id="ex-14">14. FormControl</h3>
     <form [formGroup]="fg">
         <select2 [overlay]="overlay" [data]="data9" multiple="true" id="selec2-10" formControlName="state"> </select2>
         <button (click)="print()">Log Selected</button>
         <button (click)="resetForm()">Reset Form</button>
     </form>
-    <h3>15. with label ({{ value15 }})</h3>
+    <h3 id="ex-15">15. with label ({{ value15 }})</h3>
     <select2 [overlay]="overlay" [data]="data15" [value]="value15" (update)="update('value15', $event)" id="selec2-15">
         <select2-label>Select a state</select2-label>
     </select2>
-    <h3>16. required with label ({{ value16 }})</h3>
+    <h3 id="ex-16">16. required with label ({{ value16 }})</h3>
     <select2
         [overlay]="overlay"
         [data]="data16"
@@ -163,10 +165,10 @@
     >
         <select2-label>Select a state</select2-label>
     </select2>
-    <h3>17. with two option labels ({{ value17 }})</h3>
+    <h3 id="ex-17">17. with two option labels ({{ value17 }})</h3>
     <select2 [overlay]="overlay" [data]="data17" [value]="value17" (update)="update('value17', $event)" id="select2-17">
     </select2>
-    <h3>18. search starts with 3 chars</h3>
+    <h3 id="ex-18">18. search starts with 3 chars</h3>
     <select2
         [overlay]="overlay"
         [data]="data18"
@@ -176,7 +178,7 @@
         id="selec2-18"
     >
     </select2>
-    <h3>19. dropdown list position above ({{ value19 }})</h3>
+    <h3 id="ex-19">19. dropdown list position above ({{ value19 }})</h3>
     <select2
         [overlay]="overlay"
         [data]="data19"
@@ -187,7 +189,7 @@
     >
     </select2>
     <div class="noStyle">
-        <h3>20. nostyle ({{ value20 }})</h3>
+        <h3 id="ex-20">20. nostyle ({{ value20 }})</h3>
         <select2
             [overlay]="overlay"
             [data]="data20"
@@ -199,7 +201,7 @@
         >
         </select2>
     </div>
-    <h3>21. update to empty/null/undefined ({{ value21 }})</h3>
+    <h3 id="ex-21">21. update to empty/null/undefined ({{ value21 }})</h3>
     <select2
         [overlay]="overlay"
         [data]="data21"
@@ -212,7 +214,7 @@
     <button (click)="value21 = ''">Update value to empty string</button>
     <button (click)="value21 = null">Update value to null</button>
     <button (click)="value21 = undefined">Update value to undefined</button>
-    <h3>22. with item classes and id ({{ value22 }})</h3>
+    <h3 id="ex-22">22. with item classes and id ({{ value22 }})</h3>
     <select2
         [overlay]="overlay"
         [data]="data22"
@@ -224,7 +226,7 @@
     >
     </select2>
 
-    <h3>23 with template ({{ value23 }})</h3>
+    <h3 id="ex-23">23. with template ({{ value23 }})</h3>
 
     <select2
         [overlay]="overlay"
@@ -242,7 +244,7 @@
         >
     </select2>
 
-    <h3>24 with template (option / group) ({{ value24 }})</h3>
+    <h3 id="ex-24">24. with template (option / group) ({{ value24 }})</h3>
 
     <select2
         [overlay]="overlay"
@@ -263,7 +265,7 @@
         >
     </select2>
 
-    <h3>25 with templates Ids ({{ value25 }})</h3>
+    <h3 id="ex-25">25. with templates Ids ({{ value25 }})</h3>
 
     <select2
         [overlay]="overlay"
@@ -284,7 +286,7 @@
         >
         <ng-template #template3 let-data="data">{{ data | json }}</ng-template>
     </select2>
-    <h3>26. infiniteScroll({{ value26 }})</h3>
+    <h3 id="ex-26">26. infiniteScroll({{ value26 }})</h3>
     <select2
         [overlay]="overlay"
         [data]="data26"
@@ -297,7 +299,7 @@
         (scroll)="scroll26($event)"
         id="selec2-26"
     ></select2>
-    <h3>27. position ({{ value2 }})</h3>
+    <h3 id="ex-27">27. position ({{ value2 }})</h3>
     <select2
         [overlay]="overlay"
         [data]="data2"
@@ -306,7 +308,7 @@
         (update)="update('value2', $event)"
         id="selec2-27"
     ></select2>
-    <h3>28. max results 50 ({{ value28 }})</h3>
+    <h3 id="ex-28">28. max results 50 ({{ value28 }})</h3>
     <select2
         [overlay]="overlay"
         [data]="data28"
