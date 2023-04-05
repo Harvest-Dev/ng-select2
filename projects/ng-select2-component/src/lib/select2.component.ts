@@ -285,11 +285,8 @@ export class Select2 implements ControlValueAccessor, OnInit, OnDestroy, DoCheck
 
     private _minCountForSearch?: number | string;
 
-    @ViewChild(CdkConnectedOverlay)
-    private cdkConnectedOverlay: CdkConnectedOverlay;
-
-    @ViewChild('selection', { static: true })
-    private selection: ElementRef<HTMLElement>;
+    @ViewChild(CdkConnectedOverlay) private cdkConnectedOverlay: CdkConnectedOverlay;
+    @ViewChild('selection', { static: true }) private selection: ElementRef<HTMLElement>;
     @ViewChild('results') private resultContainer: ElementRef<HTMLElement>;
     @ViewChildren('result') private results: QueryList<ElementRef>;
     @ViewChild('searchInput') private searchInput: ElementRef<HTMLElement>;
