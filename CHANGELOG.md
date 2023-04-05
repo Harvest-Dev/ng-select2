@@ -1,5 +1,17 @@
 # Changelog of ng-select2
 
+## V11.0.0 (2023-04-06)
+
+### Breaking Changes
+
+-   minimum required support has been upgraded to Angular `15.0`.
+-   update ngx-infinite-scroll to `15.0.0`.
+
+### Changes
+
+-   fix class `select2-container--focus`
+-   add item keyboard remove (multiple)
+
 ## V10.0.0 (2022-07-27)
 
 ### Breaking Changes
