@@ -5,12 +5,12 @@
   "author": "York Yao, Célian Veyssière",
   "license": "MIT",
   "dependencies": {
-    "ngx-infinite-scroll": "^14.0.0"
+    "ngx-infinite-scroll": "^15.0.0"
   },
   "peerDependencies": {
-    "@angular/cdk": ">=14.0.0",
-    "@angular/common": ">=14.0.0",
-    "@angular/core": ">=14.0.0"
+    "@angular/cdk": ">=15.0.0",
+    "@angular/common": ">=15.0.0",
+    "@angular/core": ">=15.0.0"
   },
   "repository": {
     "type": "git",

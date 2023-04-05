@@ -1,8 +1,8 @@
 import { AfterContentInit, Component, TemplateRef } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 
+import { Json2html, Json2htmlRef } from '@ikilote/json2html';
 import * as Bowser from 'bowser';
-import { Json2html, Json2htmlRef } from 'json2html-lib';
 
 import { data24 } from './app.data';
 
