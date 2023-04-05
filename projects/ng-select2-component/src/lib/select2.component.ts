@@ -278,24 +278,7 @@ export class Select2 implements ControlValueAccessor, OnInit, OnDestroy, DoCheck
     _dropdownRect: DOMRect;
 
     get _positions(): ConnectedPosition[] {
-        if (this.listPosition === 'auto') {
-            [
-                {
-                    originX: 'start',
-                    originY: 'bottom',
-                    overlayX: 'start',
-                    overlayY: 'bottom',
-                },
-                {
-                    originX: 'start',
-                    originY: 'top',
-                    overlayX: 'start',
-                    overlayY: 'top',
-                },
-            ];
-        } else {
-            return null;
-        }
+        return this.listPosition === 'auto' ? undefined : null;
     }
 
     maxResultsExceeded: boolean;
