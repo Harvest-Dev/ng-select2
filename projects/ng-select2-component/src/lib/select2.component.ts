@@ -42,7 +42,6 @@ import {
 } from './select2-interfaces';
 import { Select2Utils } from './select2-utils';
 
-
 let nextUniqueId = 0;
 
 const displaySearchStatusList = ['default', 'hidden', 'always'];
@@ -756,7 +755,7 @@ export class Select2 implements ControlValueAccessor, OnInit, OnDestroy, DoCheck
         return option.disabled ? 'true' : 'false';
     }
 
-    removeSelection(e: MouseEvent, option: Select2Option) {
+    removeSelection(e: MouseEvent | KeyboardEvent, option: Select2Option) {
         Select2Utils.removeSelection(this.option, option);
 
         if (this.multiple && this.hideSelectedItems) {
