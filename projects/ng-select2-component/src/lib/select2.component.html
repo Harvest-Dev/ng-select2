@@ -45,6 +45,7 @@
             <span *ngIf="!multiple" class="select2-selection__arrow" role="presentation"> </span>
             <ul *ngIf="multiple" class="select2-selection__rendered">
                 <span
+                    *ngIf="!autoCreate"
                     [class.select2-selection__placeholder__option]="select2Options?.length > 0"
                     class="select2-selection__placeholder"
                     >{{ placeholder }}</span
@@ -64,6 +65,27 @@
                         >×</span
                     >
                     <span [innerHTML]="op.label"></span>
+                </li>
+                <li
+                    *ngIf="autoCreate"
+                    class="select2-selection__auto-create"
+                    (focus)="stopEvent($event)"
+                    (blur)="stopEvent($event)"
+                >
+                    <input
+                        [id]="id + '-create-field'"
+                        (click)="toggleOpenAndClose(false, true); stopEvent($event)"
+                        (keydown)="keyDown($event, true)"
+                        (keyup)="searchUpdate($event)"
+                        (change)="prevChange($event, true)"
+                        class="select2-create__field"
+                        type="search"
+                        role="textbox"
+                        autocomplete="off"
+                        autocorrect="off"
+                        autocapitalize="off"
+                        spellcheck="false"
+                    />
                 </li>
             </ul>
         </div>

@@ -58,9 +58,13 @@
             <label for="multiple">multiple : </label>
             <input type="checkbox" formControlName="multiple" id="multiple" />
         </div>
-        <div [class.hide]="ctrlForm?.value?.multiple">
+        <div [class.hide]="!ctrlForm?.value?.multiple">
             <label for="resettable">resettable : </label>
             <input type="checkbox" formControlName="resettable" id="resettable" />
+        </div>
+        <div [class.hide]="!ctrlForm?.value?.multiple">
+            <label for="autoCreate">autoCreate : </label>
+            <input type="checkbox" formControlName="autoCreate" id="autoCreate" />
         </div>
         <div>
             <label for="limitSelection">limitSelection (0) : </label>
@@ -169,6 +173,7 @@
             [customSearchEnabled]="ctrlForm?.value?.customSearchEnabled"
             [multiple]="ctrlForm?.value?.multiple"
             [resettable]="ctrlForm?.value?.resettable"
+            [autoCreate]="ctrlForm?.value?.autoCreate"
             [limitSelection]="ctrlForm?.value?.limitSelection || 0"
             [hideSelectedItems]="ctrlForm?.value?.hideSelectedItems"
             [resultMaxHeight]="ctrlForm?.value?.resultMaxHeight || '200px'"

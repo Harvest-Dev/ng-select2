@@ -36,6 +36,7 @@ export class AppGenComponent implements AfterContentInit {
             placeholder: new UntypedFormControl(),
             customSearchEnabled: new UntypedFormControl(),
             multiple: new UntypedFormControl(),
+            autoCreate: new UntypedFormControl(),
             resettable: new UntypedFormControl(),
             limitSelection: new UntypedFormControl(),
             hideSelectedItems: new UntypedFormControl(),
@@ -143,6 +144,9 @@ export class AppGenComponent implements AfterContentInit {
         }
         if (value.multiple) {
             attrs.multiple = this._testBoolean(value.multiple);
+        }
+        if (value.autoCreate) {
+            attrs.autoCreate = this._testBoolean(value.autoCreate);
         }
         if (value.resettable) {
             attrs.resettable = this._testBoolean(value.resettable);

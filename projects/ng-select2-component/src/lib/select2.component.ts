@@ -111,6 +111,15 @@ export class Select2 implements ControlValueAccessor, OnInit, OnDestroy, DoCheck
         this._infiniteScroll = this._coerceBooleanProperty(value);
     }
 
+    /** auto create if not existe */
+    @Input()
+    get autoCreate(): any {
+        return this._autoCreate;
+    }
+    set autoCreate(value: any) {
+        this._autoCreate = this._coerceBooleanProperty(value);
+    }
+
     /** use it for change the pattern of the filter search */
     @Input() editPattern: (str: string) => string;
 
@@ -321,6 +330,7 @@ export class Select2 implements ControlValueAccessor, OnInit, OnDestroy, DoCheck
     private _value: Select2UpdateValue;
     private _previousNativeValue: Select2UpdateValue;
     private _infiniteScroll = true;
+    private _autoCreate = true;
     private _overlayPosition: VerticalConnectionPos;
 
     constructor(
@@ -443,28 +453,31 @@ export class Select2 implements ControlValueAccessor, OnInit, OnDestroy, DoCheck
         }
     }
 
-    reset(e: MouseEvent) {
+    reset(event: MouseEvent) {
         this.select(null);
-
-        e.preventDefault();
-        e.stopPropagation();
+        this.stopEvent(event);
     }
 
     prevChange(event: Event) {
         event.stopPropagation();
     }
 
-    toggleOpenAndClose() {
+    stopEvent(event: Event) {
+        event.preventDefault();
+        event.stopPropagation();
+    }
+
+    toggleOpenAndClose(focus = true, open?: boolean) {
         if (this.disabled) {
             return;
         }
-        this._focus(true);
-        this.isOpen = !this.isOpen;
+        this._focus(focus);
+        this.isOpen = open ?? !this.isOpen;
 
         if (this.isOpen) {
             this.innerSearchText = '';
             this.updateFilteredData();
-            this._focusSearchboxOrResultsElement();
+            this._focusSearchboxOrResultsElement(focus);
 
             setTimeout(() => {
                 if (this.option) {
@@ -483,7 +496,7 @@ export class Select2 implements ControlValueAccessor, OnInit, OnDestroy, DoCheck
             this.close.emit(this);
         }
 
-        if (this.isOpen && !this._clickDetection) {
+        if (this.isOpen && !this._clickDetection && focus) {
             setTimeout(() => {
                 window.document.body.addEventListener('click', this._clickDetectionFc, false);
                 this._clickDetection = true;
@@ -692,7 +705,11 @@ export class Select2 implements ControlValueAccessor, OnInit, OnDestroy, DoCheck
         });
     }
 
-    keyDown(e: KeyboardEvent) {
+    keyDown(e: KeyboardEvent, create = false) {
+        if (create && this._testKey(e, ['Enter', 13])) {
+            this.createAndAdd(e);
+            return;
+        }
         if (this._testKey(e, ['ArrowDown', 40])) {
             this.moveDown();
             e.preventDefault();
@@ -708,7 +725,11 @@ export class Select2 implements ControlValueAccessor, OnInit, OnDestroy, DoCheck
         }
     }
 
-    openKey(e: KeyboardEvent) {
+    openKey(e: KeyboardEvent, create = false) {
+        if (create && this._testKey(e, ['Enter', 13])) {
+            this.createAndAdd(e);
+            return;
+        }
         if (this._testKey(e, ['ArrowDown', 'ArrowUp', 'Enter', 40, 38, 13])) {
             this.toggleOpenAndClose();
             e.preventDefault();
@@ -718,13 +739,13 @@ export class Select2 implements ControlValueAccessor, OnInit, OnDestroy, DoCheck
         }
     }
 
-    trackBy(_index: number, item: Select2Option): any {
-        return item.value;
-    }
-
     searchUpdate(e: Event) {
         this.searchText = (e.target as HTMLInputElement).value;
         this.updateFilteredData();
+    }
+
+    trackBy(_index: number, item: Select2Option): any {
+        return item.value;
     }
 
     isSelected(option: Select2Option) {
@@ -826,6 +847,28 @@ export class Select2 implements ControlValueAccessor, OnInit, OnDestroy, DoCheck
         return !!(isInvalid && (isTouched || isSubmitted));
     }
 
+    private addItem(value: string): Select2Option {
+        let item = Select2Utils.getOptionByValue(this._data, value);
+        if (!item) {
+            item = {
+                value,
+                label: value,
+            };
+            this._data.push(item);
+        }
+        return item;
+    }
+
+    private createAndAdd(e: KeyboardEvent) {
+        const value = (e.target as HTMLInputElement).value;
+        if (value.trim()) {
+            const item = this.addItem(value.trim());
+            this.click(item);
+            (e.target as HTMLInputElement).value = '';
+        }
+        this.stopEvent(e);
+    }
+
     private moveUp() {
         this.updateScrollFromOption(Select2Utils.getPreviousOption(this.filteredData, this.hoveringValue));
     }
@@ -920,10 +963,10 @@ export class Select2 implements ControlValueAccessor, OnInit, OnDestroy, DoCheck
         return value != null && `${value}` !== 'false';
     }
 
-    private _focusSearchboxOrResultsElement() {
+    private _focusSearchboxOrResultsElement(focus = true) {
         if (!this.isSearchboxHidden) {
             setTimeout(() => {
-                if (this.searchInput && this.searchInput.nativeElement) {
+                if (this.searchInput && this.searchInput.nativeElement && focus) {
                     this.searchInput.nativeElement.focus();
                 }
             });

@@ -57,6 +57,7 @@ export class AppExamplesComponent {
     data25: Select2Data = JSON.parse(JSON.stringify(data23));
     data26 = data26;
     data28 = data28;
+    data29: Select2Data = JSON.parse(JSON.stringify(data1));
 
     minCountForSearch = Infinity;
 
@@ -89,6 +90,7 @@ export class AppExamplesComponent {
     value25 = '';
     value26 = '';
     value28 = '';
+    value29: string[] = [];
 
     limitSelection = 0;
 
