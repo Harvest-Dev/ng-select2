@@ -1,5 +1,4 @@
 .select2-label {
-    color: #000;
     color: var(--select2-label-text-color, #000);
 }
 
@@ -52,7 +51,8 @@
             padding-bottom: 2px;
             text-overflow: ellipsis;
             white-space: nowrap;
-            flex-wrap: wrap;gap: 5px;
+            flex-wrap: wrap;
+            gap: 5px;
 
             .select2-selection__auto-create {
                 flex: 1 1 150px;
@@ -90,11 +90,8 @@
 }
 
 .select2-dropdown {
-    background: white;
     background: var(--select2-dropdown-background, white);
-    border: 1px solid #aaa;
     border: 1px solid var(--select2-dropdown-border-color, #aaa);
-    border-radius: 4px;
     border-radius: var(--select2-selection-border-radius, 4px);
     box-sizing: border-box;
     display: block;
@@ -123,7 +120,6 @@
 .select2-results__option {
     padding: 6px;
     user-select: none;
-    color: #000;
     color: var(--select2-option-text-color, #000);
 
     &[aria-selected] {
@@ -195,7 +191,6 @@
 
 .select2-required::before {
     content: '*';
-    color: red;
     color: var(--select2-required-color, red);
 }
 
@@ -212,16 +207,12 @@
 
 .select2-container--default {
     .select2-selection--single {
-        background: #fff;
         background: var(--select2-selection-background, #fff);
-        border: 1px solid #aaa;
         border: 1px solid var(--select2-selection-border-color, #aaa);
-        border-radius: 4px;
         border-radius: var(--select2-selection-border-radius, 4px);
         display: flex;
 
         .select2-selection__rendered {
-            color: #444;
             color: var(--select2-selection-text-color, #444);
             line-height: 28px;
         }
@@ -233,13 +224,11 @@
         }
 
         .select2-selection__placeholder {
-            color: #999;
             color: var(--select2-placeholder-color, #999);
 
             span {
                 overflow: hidden;
                 white-space: nowrap;
-                text-overflow: ellipsis;
                 text-overflow: var(--select2-placeholder-overflow, ellipsis);
             }
         }
@@ -258,7 +247,6 @@
 
         .select2-selection__arrow::before {
             content: ' ';
-            border-color: #888 transparent;
             border-color: var(--select2-arrow-color, #888) transparent;
             border-style: solid;
             border-width: 5px 4px 0;
@@ -267,14 +255,12 @@
         }
 
         .select2-selection__reset {
-            color: #999;
             color: var(--select2-reset-color, #999);
         }
     }
 
     &.select2-container--disabled {
         .select2-selection--single {
-            background: #eee;
             background: var(--select2-selection-disabled-background, #eee);
             cursor: default;
 
@@ -287,7 +273,6 @@
     &.select2-container--open {
         .select2-selection--single {
             .select2-selection__arrow::before {
-                border-color: transparent transparent #888;
                 border-color: transparent transparent var(--select2-arrow-color, #888);
                 border-width: 0 4px 5px;
             }
@@ -295,11 +280,8 @@
     }
 
     .select2-selection--multiple {
-        background: #fff;
         background: var(--select2-selection-background, #fff);
-        border: 1px solid #aaa;
         border: 1px solid var(--select2-selection-border-color, #aaa);
-        border-radius: 4px;
         border-radius: var(--select2-selection-border-radius, 4px);
         cursor: text;
 
@@ -319,13 +301,11 @@
         .select2-selection__placeholder {
             display: block;
             width: 100%;
-            color: #999;
             color: var(--select2-placeholder-color, #999);
             margin-top: 5px;
             float: left;
             overflow: hidden;
             white-space: nowrap;
-            text-overflow: ellipsis;
             text-overflow: var(--select2-placeholder-overflow, ellipsis);
         }
 
@@ -342,20 +322,15 @@
         }
 
         .select2-selection__choice {
-            color: #000;
             color: var(--select2-selection-choice-text-color, #000);
-            background: #e4e4e4;
             background: var(--select2-selection-choice-background, #e4e4e4);
-            border: 1px solid #aaa;
             border: 1px solid var(--select2-selection-choice-border-color, #aaa);
-            border-radius: 4px;
             border-radius: var(--select2-selection-border-radius, 4px);
             cursor: default;
             padding: 0 5px;
         }
 
         .select2-selection__choice__remove {
-            color: #999;
             color: var(--select2-selection-choice-close-color, #999);
             cursor: pointer;
             display: inline-block;
@@ -363,16 +338,13 @@
             margin-right: 2px;
 
             &:hover {
-                color: #333;
                 color: var(--select2-selection-choice-hover-close-color, #333);
             }
         }
-
     }
 
     &.select2-container--focused {
         .select2-selection--multiple {
-            border: solid #000 1px;
             border: solid var(--select2-selection-focus-border-color, #000) 1px;
             outline: none;
         }
@@ -381,7 +353,6 @@
     &:not(.select2-container--open) .select2-focused {
         .select2-selection--single,
         .select2-selection--multiple {
-            border: solid #000 1px;
             border: solid var(--select2-selection-focus-border-color, #000) 1px;
             outline: none;
         }
@@ -389,7 +360,6 @@
 
     &.select2-container--disabled {
         .select2-selection--multiple {
-            background: #eee;
             background: var(--select2-selection-disabled-background, #eee);
             cursor: default;
         }
@@ -417,11 +387,8 @@
 
     .select2-search--dropdown {
         .select2-search__field {
-            border: 1px solid #aaa;
             border: 1px solid var(--select2-search-border-color, #aaa);
-            background: #fff;
             background: 1px solid var(--select2-search-background, #fff);
-            border-radius: 0px;
             border-radius: var(--select2-search-border-radius, 0px);
         }
     }
@@ -446,16 +413,12 @@
         }
 
         &[aria-disabled='true'] {
-            color: #999;
             color: var(--select2-option-disabled-text-color, #999);
-            background: transparent;
             background: var(--select2-option-disabled-background, transparent);
         }
 
         &[aria-selected='true'] {
-            color: #000;
             color: var(--select2-option-selected-text-color, #000);
-            background: #ddd;
             background: var(--select2-option-selected-background, #ddd);
         }
 
@@ -494,9 +457,7 @@
     }
 
     .select2-results__option--highlighted[aria-selected] {
-        background: #5897fb;
         background: var(--select2-option-highlighted-background, #5897fb);
-        color: #fff;
         color: var(--select2-option-highlighted-text-color, #fff);
     }
 
@@ -508,24 +469,18 @@
         cursor: default;
         display: block;
         padding: 6px;
-        color: gray;
         color: var(--select2-option-group-text-color, gray);
-        background: transparent;
         background: var(--select2-option-group-background, transparent);
     }
 }
 
 .select2-no-result {
-    color: #888;
     color: var(--select2-no-result-color, #888);
-    font-style: italic;
     font-style: var(--select2-no-result-font-style, italic);
 }
 
 .select2-too-much-result {
-    color: #888;
     color: var(--select2-too-much-result-color, #888);
-    font-style: italic;
     font-style: var(--select2-too-much-font-style, italic);
 }
 
@@ -584,7 +539,6 @@
                 display: block;
                 position: absolute;
                 bottom: 1.65em;
-                background: #ddd;
                 background: var(--select2-material-underline, #ddd);
                 height: 1px;
                 width: 100%;
@@ -595,7 +549,6 @@
                 display: block;
                 position: absolute;
                 bottom: 1.63em;
-                background: #5a419e;
                 background: var(--select2-material-underline-active, #5a419e);
                 height: 2px;
                 width: 0%;
@@ -610,7 +563,6 @@
 
             .select2-selection__placeholder {
                 display: block;
-                color: rgba(0, 0, 0, 0.38);
                 color: var(--select2-material-placeholder-color, rgba(0, 0, 0, 0.38));
                 transition: transform 0.3s;
                 position: absolute;
@@ -652,14 +604,11 @@
 
         .select2-results__option[aria-selected='true'],
         .select2-results__option--highlighted[aria-selected] {
-            background: rgba(0, 0, 0, 0.04);
             background: var(--select2-material-option-selected-background, rgba(0, 0, 0, 0.04));
-            color: #000;
             color: var(--select2-material-option-highlighted-text-color, #000);
         }
 
         .select2-results__option[aria-selected='true'] {
-            color: #ff5722;
             color: var(--select2-material-option-selected-text-color, #ff5722);
         }
 
@@ -668,7 +617,6 @@
             background: transparent;
 
             &::before {
-                background: linear-gradient(to right, rgba(0, 0, 0, 0.26) 0, rgba(0, 0, 0, 0.26) 33%, transparent 0);
                 background: var(
                     --select2-material-underline-disabled,
                     linear-gradient(to right, rgba(0, 0, 0, 0.26) 0, rgba(0, 0, 0, 0.26) 33%, transparent 0)
@@ -684,7 +632,6 @@
     &.ng-invalid.ng-touched .select2-container--default .select2-selection--multiple {
         &::before,
         &::after {
-            background: red;
             background: var(--select2-material-underline-invalid, red);
         }
     }
@@ -700,14 +647,12 @@
         position: absolute;
         top: calc(100% - 1.72917em);
         font-size: 75%;
-        color: #888;
         color: var(--select2-hint-text-color, #888);
     }
 }
 
 ::ng-deep {
     .select2-overlay-backdrop {
-        background: rgba(0, 0, 0, 0.32);
         background: var(--select2-overlay-backdrop, transparent);
     }
     .cdk-overlay-container {
