@@ -93,6 +93,7 @@ class MainModule {}
 | `overlay`                                                                 | `boolean`                                                                                           |          | `false`              | active an overlay mode for dropdown list (with angular cdk). (See [Overlay](#overlay))             |
 | `styleMode`                                                               | `'default'`<br>`'material'`<br>`'noStyle'`                                                          |          | `'default'`          | change style for material style or remove border and background color                              |
 | `templates`                                                               | `TemplateRef`<br>`{option?: TemplateRef, group?: TemplateRef}`<br>`{templateId1: TemplateRef, ...}` |          |                      | use templates for formatting content (see [Templating](#templating))                               |
+| `noLabelTemplate`                                                         | `boolean`                                                                                           |          | `false`              | do not use the template in the selection, stay in text mode                                        |
 | `editPattern`                                                             | `(str: string) => string`                                                                           |          |                      | use it for change the pattern of the filter search                                                 |
 | `ngModel`<br>`id`<br>`required`<br>`disabled`<br>`readonly`<br>`tabIndex` |                                                                                                     |          |                      | just like a `select` control                                                                       |
 | `(update)`                                                                | `(event: `[`Select2UpdateEvent`](#select2-data-structure)`) => void`                                | event    |                      | triggered when user select an option                                                               |
@@ -248,7 +249,7 @@ It's possible to change different colors (and more) with CSS variables without h
 ```css
 :root {
     /* size */
-    --select2-single-height: 28px; 
+    --select2-single-height: 28px;
     --select2-multiple-height: 28px;
 
     /* label */

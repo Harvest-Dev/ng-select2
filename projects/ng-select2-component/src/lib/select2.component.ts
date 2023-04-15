@@ -120,6 +120,15 @@ export class Select2 implements ControlValueAccessor, OnInit, OnDestroy, DoCheck
         this._autoCreate = this._coerceBooleanProperty(value);
     }
 
+    /** no template for label selection */
+    @Input()
+    get noLabelTemplate(): any {
+        return this._noLabelTemplate;
+    }
+    set noLabelTemplate(value: any) {
+        this._noLabelTemplate = this._coerceBooleanProperty(value);
+    }
+
     /** use it for change the pattern of the filter search */
     @Input() editPattern: (str: string) => string;
 
@@ -331,6 +340,7 @@ export class Select2 implements ControlValueAccessor, OnInit, OnDestroy, DoCheck
     private _previousNativeValue: Select2UpdateValue;
     private _infiniteScroll = true;
     private _autoCreate = true;
+    private _noLabelTemplate = true;
     private _overlayPosition: VerticalConnectionPos;
 
     constructor(

@@ -30,7 +30,16 @@
         >
             <span *ngIf="!multiple" class="select2-selection__rendered" [title]="select2Option?.label || ''">
                 <span *ngIf="!select2Option">&nbsp;</span>
-                <span *ngIf="select2Option" [innerHTML]="select2Option.label"></span>
+                <ng-container *ngIf="select2Option">
+                    <span
+                        *ngIf="!hasTemplate(select2Option, 'option') || noLabelTemplate; else template"
+                        [innerHTML]="select2Option.label"
+                    ></span>
+                    <ng-template #template>
+                        <ng-container *ngTemplateOutlet="getTemplate(select2Option, 'option'); context: select2Option">
+                        </ng-container>
+                    </ng-template>
+                </ng-container>
                 <span [class.select2-selection__placeholder__option]="option" class="select2-selection__placeholder">{{
                     placeholder
                 }}</span>

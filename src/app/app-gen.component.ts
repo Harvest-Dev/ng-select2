@@ -51,6 +51,7 @@ export class AppGenComponent implements AfterContentInit {
             maxResultsMessage: new UntypedFormControl(),
             // template
             template: new UntypedFormControl(),
+            noLabelTemplate: new UntypedFormControl(),
             // event
             update: new UntypedFormControl(),
             open: new UntypedFormControl(),
@@ -183,6 +184,9 @@ export class AppGenComponent implements AfterContentInit {
         }
         if (value.maxResults) {
             attrs.maxResults = value.maxResults;
+        }
+        if (value.noLabelTemplate) {
+            attrs.noLabelTemplate = this._testBoolean(value.noLabelTemplate);
         }
 
         // template

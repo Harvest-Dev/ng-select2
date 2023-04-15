@@ -124,6 +124,11 @@
                 <option value="templateId">Template by templateId</option>
             </select>
         </div>
+        <div>
+            <label for="noLabelTemplate">noLabelTemplate : </label>
+            <input type="checkbox" formControlName="noLabelTemplate" id="noLabelTemplate" />
+        </div>
+
         <h4>Events</h4>
         <div>
             <label for="update">update: </label>
@@ -185,6 +190,7 @@
             [infiniteScrollThrottle]="ctrlForm?.value?.infiniteScrollThrottle || 150"
             [styleMode]="ctrlForm?.value?.styleMode"
             [noResultMessage]="ctrlForm?.value?.noResultMessage"
+            [noLabelTemplate]="ctrlForm?.value?.noLabelTemplate"
             [templates]="getTemplate(template, option, group, template1, template2)"
             (update)="_event('update', $event)"
             (open)="_event('open', $event)"
