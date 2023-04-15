@@ -1,5 +1,18 @@
 # Changelog of ng-select2
 
+## V11.1.0 (2023-04-15)
+
+### Breaking Changes
+
+-   By default the template is now used in the selection. To revert to previous behavior use `noLabelTemplate`.
+-   Code removal for IE11 and Edge
+
+### Changes
+
+-   add `noLabelTemplate`: do not use the template in the selection, stay in text mode.
+-   add `autoCreate`: gives the possibility to add elements not present in the list. #48
+-   add CSS variables : `--select2-single-height`, `--select2-multiple-height`
+
 ## V11.0.0 (2023-04-06)
 
 ### Breaking Changes
