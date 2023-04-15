@@ -21,11 +21,12 @@ npm i ng-select2-component --save
     -   `ngx-infinite-scroll@^15.0.0`
 
 > **Note:**<br>
-> * For `angular` 7, 8 and 9 (View Engine): use version `7.3.1`.
-> * For `angular` 10, 11 and 12 (View Engine): use version `8.1.0`.
-> * For `angular` 13 (Ivy): use version `9.0.0`.
-> * For `angular` 14 (Ivy): use version `10.0.0`.
-> * For `angular` 15 and more (Ivy): use version `11.0.0`.
+>
+> -   For `angular` 7, 8 and 9 (View Engine): use version `7.3.1`.
+> -   For `angular` 10, 11 and 12 (View Engine): use version `8.1.0`.
+> -   For `angular` 13 (Ivy): use version `9.0.0`.
+> -   For `angular` 14 (Ivy): use version `10.0.0`.
+> -   For `angular` 15 and more (Ivy): use version `11.0.0`.
 
 ## Demo
 
@@ -240,12 +241,16 @@ If the overlay mode is used / activated, add to the project root in CSS (with `V
 @import '~@angular/cdk/overlay-prebuilt.css';
 ```
 
-## CSS variables 
+## CSS variables
 
 It's possible to change different colors (and more) with CSS variables without having to modify them with `::ng-deep` or other CSS rules :
 
 ```css
 :root {
+    /* size */
+    --select2-single-height: 28px; 
+    --select2-multiple-height: 28px;
+
     /* label */
     --select2-label-text-color: #000;
     --select2-required-color: red;
@@ -256,7 +261,7 @@ It's possible to change different colors (and more) with CSS variables without h
     --select2-selection-disabled-background: #eee;
     --select2-selection-border-color: #aaa;
     --select2-selection-focus-border-color: #000;
-    --select2-selection-text-color: #444;
+    --select2-selection-text-color: #111;
 
     /* selection: choice item (multiple) */
     --select2-selection-choice-background: #e4e4e4;
@@ -326,7 +331,6 @@ It's possible to change different colors (and more) with CSS variables without h
     --select2-material-option-selected-text-color: #ff5722;
 }
 ```
-
 
 ## Publishing the library
 

@@ -20,7 +20,7 @@
         box-sizing: border-box;
         cursor: pointer;
         display: block;
-        height: 28px;
+        height: var(--select2-single-height, 28px);
         user-select: none;
 
         .select2-selection__rendered {
@@ -41,7 +41,7 @@
         box-sizing: border-box;
         cursor: pointer;
         display: block;
-        min-height: 28px;
+        min-height: var(--select2-multiple-height, 28px);
         user-select: none;
 
         .select2-selection__rendered {
@@ -213,7 +213,7 @@
         display: flex;
 
         .select2-selection__rendered {
-            color: var(--select2-selection-text-color, #444);
+            color: var(--select2-selection-text-color, #111);
             line-height: 28px;
         }
 
