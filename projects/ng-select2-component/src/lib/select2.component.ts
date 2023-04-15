@@ -532,14 +532,11 @@ export class Select2 implements ControlValueAccessor, OnInit, OnDestroy, DoCheck
             return false;
         }
 
-        if (
+        return (
             !this.multiple ||
             !this.limitSelection ||
             (Array.isArray(this._value) && this._value.length < this.limitSelection)
-        ) {
-            return true;
-        }
-        return false;
+        );
     }
 
     private testValueChange(value1: Select2UpdateValue, value2: Select2UpdateValue) {
@@ -623,17 +620,19 @@ export class Select2 implements ControlValueAccessor, OnInit, OnDestroy, DoCheck
     }
 
     private getParentElementByClass(element: HTMLElement, cssClass: string): HTMLElement | null {
-        if (this.containClasses(element, cssClass.trim().split(/\s+/))) {
-            return element;
-        }
-        return element.parentElement ? this.getParentElementByClass(element.parentElement, cssClass) : null;
+        return this.containClasses(element, cssClass.trim().split(/\s+/))
+            ? element
+            : element.parentElement
+            ? this.getParentElementByClass(element.parentElement, cssClass)
+            : null;
     }
 
     private getParentElementById(element: HTMLElement, id: string): HTMLElement | null {
-        if (element.id === id) {
-            return element;
-        }
-        return element.parentElement ? this.getParentElementById(element.parentElement, id) : null;
+        return element.id === id
+            ? element
+            : element.parentElement
+            ? this.getParentElementById(element.parentElement, id)
+            : null;
     }
 
     private containClasses(element: HTMLElement, cssClasses: string[]): boolean {
@@ -678,9 +677,7 @@ export class Select2 implements ControlValueAccessor, OnInit, OnDestroy, DoCheck
                 if (this.isOpen) {
                     this.isOpen = false;
                     this.close.emit(this);
-                    if (this.selectionElement) {
-                        this.selectionElement.focus();
-                    }
+                    this.selectionElement?.focus();
                 }
                 value = this.option.value;
             }
@@ -838,12 +835,9 @@ export class Select2 implements ControlValueAccessor, OnInit, OnDestroy, DoCheck
     }
 
     _isErrorState(): boolean {
-        const isInvalid = this._control && this._control.invalid;
-        const isTouched = this._control && this._control.touched;
-        const isSubmitted =
-            (this._parentFormGroup && this._parentFormGroup.submitted) ||
-            (this._parentForm && this._parentForm.submitted);
-
+        const isInvalid = this._control?.invalid;
+        const isTouched = this._control?.touched;
+        const isSubmitted = this._parentFormGroup?.submitted || this._parentForm?.submitted;
         return !!(isInvalid && (isTouched || isSubmitted));
     }
 
