@@ -678,12 +678,3 @@
         height: 26px;
     }
 }
-
-// material fix (ms edge)
-
-@supports (-ms-scroll-limit: 0) {
-    select2.material .select2-container--default .select2-selection--single,
-    select2.material .select2-container--default .select2-selection--multiple {
-        height: 25px;
-    }
-}
