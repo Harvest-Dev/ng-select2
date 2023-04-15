@@ -58,7 +58,7 @@
             <label for="multiple">multiple : </label>
             <input type="checkbox" formControlName="multiple" id="multiple" />
         </div>
-        <div [class.hide]="!ctrlForm?.value?.multiple">
+        <div [class.hide]="ctrlForm?.value?.multiple">
             <label for="resettable">resettable : </label>
             <input type="checkbox" formControlName="resettable" id="resettable" />
         </div>
