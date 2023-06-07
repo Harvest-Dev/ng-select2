@@ -5,7 +5,6 @@
   "author": "York Yao, Célian Veyssière",
   "license": "MIT",
   "scripts": {
-    "postinstall": "ngcc",
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
@@ -30,9 +29,9 @@
     "@ikilote/json2html": "0.4.1",
     "bowser": "2.11.0",
     "core-js": "^2.5.4",
-    "highlight.js": "11.7.0",
-    "ngx-highlightjs": "6.1.3",
-    "ngx-infinite-scroll": "^15.0.0",
+    "highlight.js": "11.8.0",
+    "ngx-highlightjs": "9.0.0",
+    "ngx-infinite-scroll": "^16.0.0",
     "rxjs": "^6.6.7",
     "zone.js": "~0.13.0"
   },

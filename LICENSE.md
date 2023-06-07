@@ -1,6 +1,6 @@
 MIT License
 
-Copyright (c) 2017 York Yao, 2018-2020 Célian Veyssière
+Copyright (c) 2017 York Yao, 2018 Célian Veyssière
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
