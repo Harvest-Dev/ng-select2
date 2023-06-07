@@ -1,16 +1,16 @@
 {
   "name": "ng-select2-component",
-  "version": "11.1.0",
+  "version": "12.0.0",
   "description": "An Angular select2 component.",
   "author": "York Yao, Célian Veyssière",
   "license": "MIT",
   "dependencies": {
-    "ngx-infinite-scroll": "^15.0.0"
+    "ngx-infinite-scroll": ">=16.0.0"
   },
   "peerDependencies": {
-    "@angular/cdk": ">=15.0.0",
-    "@angular/common": ">=15.0.0",
-    "@angular/core": ">=15.0.0"
+    "@angular/cdk": ">=16.0.0",
+    "@angular/common": ">=16.0.0",
+    "@angular/core": ">=16.0.0"
   },
   "repository": {
     "type": "git",
