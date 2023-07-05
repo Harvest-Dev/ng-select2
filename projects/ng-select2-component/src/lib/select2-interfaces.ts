@@ -40,25 +40,27 @@ export type Select2UpdateValue = Select2Value | Select2Value[];
 export type Select2Data = (Select2Group | Select2Option)[];
 
 export interface Select2UpdateEvent<U extends Select2UpdateValue = Select2Value> {
-    component: Select2;
-    value: U;
-    options: Select2Option[];
+    readonly component: Select2;
+    readonly value: U;
+    readonly options: Select2Option[];
 }
 
 export interface Select2SearchEvent<U extends Select2UpdateValue = Select2Value> {
-    component: Select2;
-    value: U;
-    search: string;
+    readonly component: Select2;
+    readonly value: U;
+    readonly search: string;
+    readonly data: Select2Data;
+    readonly filteredData: (data: Select2Data) => void;
 }
 
 export interface Select2RemoveEvent<U extends Select2UpdateValue = Select2Value> {
-    component: Select2;
-    value: U;
-    removedOption: Select2Option;
+    readonly component: Select2;
+    readonly value: U;
+    readonly removedOption: Select2Option;
 }
 
 export interface Select2ScrollEvent {
-    component: Select2;
-    way: 'up' | 'down';
-    search: string;
+    readonly component: Select2;
+    readonly way: 'up' | 'down';
+    readonly search: string;
 }

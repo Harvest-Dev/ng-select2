@@ -156,6 +156,28 @@ export const data6: Select2Data = [
     { value: 'foo6', label: 'foo6' },
 ];
 
+
+export const data8: Select2Data = [
+    { value: 'FR-ARA', label: 'Auvergne-Rhône-Alpes' },
+    { value: 'FR-BFC', label: 'Bourgogne-Franche-Comté' },
+    { value: 'FR-BRE', label: 'Bretagne' },
+    { value: 'FR-CVL', label: 'Centre-Val de Loire' },
+    { value: 'FR-COR', label: 'Corse' },
+    { value: 'FR-GES', label: 'Grand Est' },
+    { value: 'FR-HDF', label: 'Hauts-de-France' },
+    { value: 'FR-IDF', label: 'Île-de-France' },
+    { value: 'FR-NOR', label: 'Normandie' },
+    { value: 'FR-NAQ', label: 'Nouvelle-Aquitaine' },
+    { value: 'FR-OCC', label: 'Occitanie' },
+    { value: 'FR-PDL', label: 'Pays de la Loire' },
+    { value: 'FR-PAC', label: "Provence-Alpes-Côte d'Azur" },
+    { value: 'FR-GP', label: 'Guadeloupe' },
+    { value: 'FR-MQ', label: 'Martinique' },
+    { value: 'FR-GF', label: 'Guyane' },
+    { value: 'FR-RE', label: 'La Réunion' },
+    { value: 'FR-YT', label: 'Mayotte' },
+];
+
 export const data18: Select2Data = [
     {
         label: 'Mainland region',

@@ -3,8 +3,8 @@ import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } 
 
 import {
     Select2Data,
-    Select2Option,
     Select2ScrollEvent,
+    Select2SearchEvent,
     Select2UpdateEvent,
 } from 'projects/ng-select2-component/src/public_api';
 
@@ -23,6 +23,7 @@ import {
     data3,
     data5,
     data6,
+    data8,
 } from './app.data';
 
 @Component({
@@ -38,7 +39,7 @@ export class AppExamplesComponent {
     data5 = data5;
     data6 = data6;
     data7: Select2Data = JSON.parse(JSON.stringify(data3));
-    data8: Select2Option[] = [];
+    data8: Select2Data = [];
     data9: Select2Data = JSON.parse(JSON.stringify(data1));
     data10: Select2Data = JSON.parse(JSON.stringify(data1));
     data11: Select2Data = JSON.parse(JSON.stringify(data1));
@@ -141,24 +142,24 @@ export class AppExamplesComponent {
         console.log(key, event);
     }
 
-    search(key: string, event: Event) {
+    search(key: string, event: Select2SearchEvent) {
         console.log(key, event);
     }
 
     open8() {
-        this.data8 = JSON.parse(JSON.stringify(data2));
+        this.data8 = data8;
     }
 
     close8() {
         alert('close');
     }
 
-    search8(text: string) {
-        this.data8 = text
-            ? (JSON.parse(JSON.stringify(data2)) as Select2Option[]).filter(
-                  option => option.label.toLowerCase().indexOf(text.toLowerCase()) > -1,
-              )
-            : JSON.parse(JSON.stringify(data2));
+    search8(event: Select2SearchEvent) {
+        event.filteredData(
+            event.search
+                ? event.data.filter(option => option.label.toLowerCase().includes(event.search.toLowerCase()))
+                : event.data,
+        );
     }
 
     reset11() {
