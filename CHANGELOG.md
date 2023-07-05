@@ -1,5 +1,12 @@
 # Changelog of ng-select2
 
+## V12.1.0 (2023-07-05)
+
+### Changes
+
+-   improve `search` event (see `Select2ScrollEvent`)
+-   add data on `Select2ScrollEvent`
+
 ## V12.0.0 (2023-06-07)
 
 ### Breaking Changes
