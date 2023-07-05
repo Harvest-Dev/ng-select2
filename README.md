@@ -111,7 +111,6 @@ class MainModule {}
 ### select2 data structure
 
 ```ts
-type Select2Data = (Select2Group | Select2Option)[];
 
 export interface Select2Group {
     /** label of group */
@@ -145,32 +144,52 @@ export interface Select2Option {
     hide?: boolean;
 }
 
-type Select2Value = string | number | boolean | object;
+export type Select2Value = string | number | boolean | object;
 
-type Select2UpdateValue = Select2Value | Select2Value[];
+export type Select2UpdateValue = Select2Value | Select2Value[];
+
+export type Select2Data = (Select2Group | Select2Option)[];
 
 export interface Select2UpdateEvent<U extends Select2UpdateValue = Select2Value> {
-    component: Select2;
-    value: U;
-    options: Select2Option[];
+    /** component */
+    readonly component: Select2;
+    /** current selected value */
+    readonly value: U;
+    /** selected option */
+    readonly options: Select2Option[];
 }
 
 export interface Select2SearchEvent<U extends Select2UpdateValue = Select2Value> {
-    component: Select2;
-    value: U;
-    search: string;
+    /** component */
+    readonly component: Select2;
+    /** current selected value */
+    readonly value: U;
+    /** search text */
+    readonly search: string;
+    /** current data source */
+    readonly data: Select2Data;
+    /** method to call to update the data */
+    readonly filteredData: (data: Select2Data) => void;
 }
 
 export interface Select2RemoveEvent<U extends Select2UpdateValue = Select2Value> {
-    component: Select2;
-    value: U;
-    removedOption: Select2Option;
+    /** component */
+    readonly component: Select2;
+    /** current selected value */
+    readonly value: U;
+    /** remove */
+    readonly removedOption: Select2Option;
 }
 
 export interface Select2ScrollEvent {
-    component: Select2;
-    way: 'up' | 'down';
-    search: string;
+    /** component */
+    readonly component: Select2;
+    /** scroll way */
+    readonly way: 'up' | 'down';
+    /** search text */
+    readonly search: string;
+    /** current data */
+    readonly data: Select2Data;
 }
 ```
 

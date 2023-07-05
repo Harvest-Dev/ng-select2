@@ -858,6 +858,7 @@ export class Select2 implements ControlValueAccessor, OnInit, OnDestroy, DoCheck
             component: this,
             way,
             search: this.innerSearchText,
+            data: this._data,
         });
     }
 
