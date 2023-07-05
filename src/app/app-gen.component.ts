@@ -34,7 +34,6 @@ export class AppGenComponent implements AfterContentInit {
             minCountForSearch: new UntypedFormControl(),
             displaySearchStatus: new UntypedFormControl(),
             placeholder: new UntypedFormControl(),
-            customSearchEnabled: new UntypedFormControl(),
             multiple: new UntypedFormControl(),
             autoCreate: new UntypedFormControl(),
             resettable: new UntypedFormControl(),
@@ -140,8 +139,8 @@ export class AppGenComponent implements AfterContentInit {
         if (value.placeholder) {
             attrs.placeholder = value.placeholder;
         }
-        if (value.customSearchEnabled) {
-            attrs.customSearchEnabled = this._testBoolean(value.customSearchEnabled);
+        if (value.search) {
+            attrs.customSearchEnabled = this._testBoolean(value.search);
         }
         if (value.multiple) {
             attrs.multiple = this._testBoolean(value.multiple);

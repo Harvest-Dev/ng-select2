@@ -51,10 +51,6 @@
             <input type="text" formControlName="noResultMessage" id="noResultMessage" />
         </div>
         <div>
-            <label for="customSearchEnabled">customSearchEnabled : </label>
-            <input type="checkbox" formControlName="customSearchEnabled" id="customSearchEnabled" />
-        </div>
-        <div>
             <label for="multiple">multiple : </label>
             <input type="checkbox" formControlName="multiple" id="multiple" />
         </div>
@@ -175,7 +171,7 @@
             [minCountForSearch]="ctrlForm?.value?.minCountForSearch || 6"
             [displaySearchStatus]="ctrlForm?.value?.displaySearchStatus"
             [placeholder]="ctrlForm?.value?.placeholder"
-            [customSearchEnabled]="ctrlForm?.value?.customSearchEnabled"
+            [customSearchEnabled]="ctrlForm?.value?.search"
             [multiple]="ctrlForm?.value?.multiple"
             [resettable]="ctrlForm?.value?.resettable"
             [autoCreate]="ctrlForm?.value?.autoCreate"
