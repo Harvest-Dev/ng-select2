@@ -73,7 +73,13 @@
                         role="presentation"
                         >×</span
                     >
-                    <span [innerHTML]="op.label"></span>
+                    <span
+                        *ngIf="!hasTemplate(op, 'option') || noLabelTemplate; else templateMultiple"
+                        [innerHTML]="op.label"
+                    ></span>
+                    <ng-template #templateMultiple>
+                        <ng-container *ngTemplateOutlet="getTemplate(op, 'option'); context: op"></ng-container>
+                    </ng-template>
                 </li>
                 <li
                     *ngIf="autoCreate"
