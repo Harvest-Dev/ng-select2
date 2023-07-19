@@ -1,5 +1,17 @@
 # Changelog of ng-select2
 
+## V13.0.0 (2023-07-20)
+
+### Breaking Changes
+
+-   minimum required support has been upgraded to Angular `16.1`.
+
+### Changes
+
+-   rewrite `clickDetection`
+-   fix template with `multiple`
+-   refacto with `numberAttribute` & `booleanAttribute` (Angular `16.1`)
+
 ## V12.1.0 (2023-07-05)
 
 ### Changes
