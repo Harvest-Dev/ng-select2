@@ -14,8 +14,8 @@ import {
     DoCheck,
     EventEmitter,
     HostBinding,
+    HostListener,
     Input,
-    OnDestroy,
     OnInit,
     Optional,
     Output,
@@ -29,7 +29,6 @@ import { ControlValueAccessor, FormGroupDirective, NgControl, NgForm } from '@an
 import { Subject } from 'rxjs';
 
 import { coerceBooleanProperty, coerceNumberProperty } from '@angular/cdk/coercion';
-import { timeout } from './select2-const';
 import {
     Select2Data,
     Select2Group,
@@ -52,7 +51,7 @@ const displaySearchStatusList = ['default', 'hidden', 'always'];
     templateUrl: './select2.component.html',
     styleUrls: ['./select2.component.scss'],
 })
-export class Select2 implements ControlValueAccessor, OnInit, OnDestroy, DoCheck, AfterViewInit {
+export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterViewInit {
     _data: Select2Data;
 
     /** data of options & optiongrps */
@@ -336,8 +335,6 @@ export class Select2 implements ControlValueAccessor, OnInit, OnDestroy, DoCheck
     private _overlay = false;
     private _resettable = false;
     private _hideSelectedItems = false;
-    private _clickDetection = false;
-    private _clickDetectionFc: (e: MouseEvent) => void;
     private _id: string;
     private _uid = `select2-${nextUniqueId++}`;
     private _value: Select2UpdateValue;
@@ -362,8 +359,24 @@ export class Select2 implements ControlValueAccessor, OnInit, OnDestroy, DoCheck
         if (this._control) {
             this._control.valueAccessor = this;
         }
+    }
 
-        this._clickDetectionFc = this.clickDetection.bind(this);
+    @HostListener('document:click', ['$event'])
+    clickDetection(e: MouseEvent) {
+        if (this.isOpen && focus) {
+            const target = e.target as HTMLElement;
+            if (!this.ifParentContainsClass(target, 'selection')) {
+                if (!this.ifParentContainsClass(target, 'select2-dropdown')) {
+                    this.toggleOpenAndClose();
+                }
+                if (!this.ifParentContainsId(target, this._id)) {
+                    this.clickExit();
+                }
+            } else if (!this.ifParentContainsId(target, this._id)) {
+                this.toggleOpenAndClose();
+                this.clickExit();
+            }
+        }
     }
 
     /** View -> model callback called when select has been touched */
@@ -425,10 +438,6 @@ export class Select2 implements ControlValueAccessor, OnInit, OnDestroy, DoCheck
                 this.overlayHeight = this.listPosition === 'auto' ? this._dropdownRect.height : 0;
             }
         }
-    }
-
-    ngOnDestroy() {
-        window.document.body.removeEventListener('click', this._clickDetectionFc);
     }
 
     updateSearchBox() {
@@ -508,13 +517,6 @@ export class Select2 implements ControlValueAccessor, OnInit, OnDestroy, DoCheck
             this.open.emit(this);
         } else {
             this.close.emit(this);
-        }
-
-        if (this.isOpen && !this._clickDetection && focus) {
-            setTimeout(() => {
-                window.document.body.addEventListener('click', this._clickDetectionFc, false);
-                this._clickDetection = true;
-            }, timeout);
         }
 
         this._changeDetectorRef.markForCheck();
@@ -605,24 +607,8 @@ export class Select2 implements ControlValueAccessor, OnInit, OnDestroy, DoCheck
         });
     }
 
-    private clickDetection(e: MouseEvent) {
-        if (!this.ifParentContainsClass(e.target as HTMLElement, 'selection')) {
-            if (this.isOpen && !this.ifParentContainsClass(e.target as HTMLElement, 'select2-dropdown')) {
-                this.toggleOpenAndClose();
-            }
-            if (!this.ifParentContainsId(e.target as HTMLElement, this._id)) {
-                this.clickExit();
-            }
-        } else if (this.isOpen && !this.ifParentContainsId(e.target as HTMLElement, this._id)) {
-            this.toggleOpenAndClose();
-            this.clickExit();
-        }
-    }
-
     private clickExit() {
         this._focus(false);
-        window.document.body.removeEventListener('click', this._clickDetectionFc);
-        this._clickDetection = false;
     }
 
     private ifParentContainsClass(element: HTMLElement, cssClass: string): boolean {
