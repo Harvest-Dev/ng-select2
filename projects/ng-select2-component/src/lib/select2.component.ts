@@ -23,12 +23,14 @@ import {
     TemplateRef,
     ViewChild,
     ViewChildren,
+    booleanAttribute,
+    numberAttribute,
 } from '@angular/core';
 import { ControlValueAccessor, FormGroupDirective, NgControl, NgForm } from '@angular/forms';
 
 import { Subject } from 'rxjs';
 
-import { coerceBooleanProperty, coerceNumberProperty } from '@angular/cdk/coercion';
+import { coerceBooleanProperty } from '@angular/cdk/coercion';
 import {
     Select2Data,
     Select2Group,
@@ -59,11 +61,11 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
         this._data = data;
         this.updateFilteredData();
     }
-    @Input() minCharForSearch = 0;
+    @Input({ transform: numberAttribute }) minCharForSearch = 0;
     @Input() displaySearchStatus: 'default' | 'hidden' | 'always';
     @Input() placeholder: string;
 
-    @Input() limitSelection = 0;
+    @Input({ transform: numberAttribute }) limitSelection = 0;
     @Input() listPosition: 'above' | 'below' | 'auto' = 'below';
 
     @Input()
@@ -76,13 +78,8 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
     }
 
     /** use the material style */
-    @Input()
-    get overlay(): any {
-        return this._overlay;
-    }
-    set overlay(value: any) {
-        this._overlay = coerceBooleanProperty(value);
-    }
+    @Input({ transform: booleanAttribute })
+    overlay = false;
 
     /** use the material style */
     @Input() styleMode: 'material' | 'noStyle' | 'default' = 'default';
@@ -91,43 +88,25 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
     @Input() noResultMessage: string;
 
     /** maximum results limit (0 = no limit) */
-    @Input() maxResults = 0;
+    @Input({ transform: numberAttribute }) maxResults = 0;
 
     /** message when maximum results */
     @Input() maxResultsMessage = 'Too many results…';
 
     /** infinite scroll distance */
-    @Input() infiniteScrollDistance = 1.5;
+    @Input({ transform: numberAttribute }) infiniteScrollDistance = 1.5;
 
     /** infinite scroll distance */
-    @Input() infiniteScrollThrottle = 150;
+    @Input({ transform: numberAttribute }) infiniteScrollThrottle = 150;
 
     /** infinite scroll activated */
-    @Input()
-    get infiniteScroll(): any {
-        return this._infiniteScroll;
-    }
-    set infiniteScroll(value: any) {
-        this._infiniteScroll = coerceBooleanProperty(value);
-    }
+    @Input({ transform: booleanAttribute }) infiniteScroll = false;
 
     /** auto create if not existe */
-    @Input()
-    get autoCreate(): any {
-        return this._autoCreate;
-    }
-    set autoCreate(value: any) {
-        this._autoCreate = coerceBooleanProperty(value);
-    }
+    @Input({ transform: booleanAttribute }) autoCreate = false;
 
     /** no template for label selection */
-    @Input()
-    get noLabelTemplate(): any {
-        return this._noLabelTemplate;
-    }
-    set noLabelTemplate(value: any) {
-        this._noLabelTemplate = coerceBooleanProperty(value);
-    }
+    @Input({ transform: booleanAttribute }) noLabelTemplate = false;
 
     /** use it for change the pattern of the filter search */
     @Input() editPattern: (str: string) => string;
@@ -137,6 +116,75 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
 
     /** the max height of the results container when opening the select */
     @Input() resultMaxHeight = '200px';
+
+    /** Active Search event */
+    @Input({ transform: booleanAttribute }) customSearchEnabled = false;
+
+    /** minimal data of show the search field */
+    @Input({ transform: numberAttribute })
+    get minCountForSearch(): number {
+        return this._minCountForSearch;
+    }
+
+    set minCountForSearch(value: number) {
+        this._minCountForSearch = value;
+        this.updateSearchBox();
+    }
+
+    /** Unique id of the element. */
+    @Input()
+    @HostBinding('id')
+    get id() {
+        return this._id;
+    }
+    set id(value: string) {
+        this._id = value || this._uid;
+    }
+
+    /** Whether the element is required. */
+    @Input({ transform: booleanAttribute }) required = false;
+
+    /** Whether selected items should be hidden. */
+    @Input({ transform: booleanAttribute })
+    get disabled() {
+        return this._control ? this._control.disabled : this._disabled;
+    }
+    set disabled(value: boolean) {
+        this._disabled = value;
+    }
+
+    /** Whether items are hidden when has. */
+    @Input({ transform: booleanAttribute }) hideSelectedItems = false;
+
+    /** Whether the element is readonly. */
+    @Input({ transform: booleanAttribute }) readonly = false;
+
+    /** The input element's value. */
+    @Input()
+    get value() {
+        return this._value;
+    }
+    set value(value: Select2UpdateValue) {
+        if (this.testValueChange(this._value, value)) {
+            setTimeout(() => {
+                this._value = value;
+                this.writeValue(value);
+            }, 10);
+        }
+    }
+
+    /** Tab index for the select2 element. */
+    @Input({ transform: numberAttribute })
+    get tabIndex(): number {
+        return this.disabled ? -1 : this._tabIndex;
+    }
+    set tabIndex(value: number) {
+        this._tabIndex = value;
+    }
+
+    /** reset with no selected value */
+    @Input({ transform: booleanAttribute })
+    resettable = false;
 
     @Output() update = new EventEmitter<Select2UpdateEvent<Select2UpdateValue>>();
     @Output() open = new EventEmitter<Select2>();
@@ -172,106 +220,6 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
         this.innerSearchText = text;
     }
 
-    /** Active Search event */
-    @Input()
-    public get customSearchEnabled(): boolean {
-        return this._customSearchEnabled;
-    }
-    public set customSearchEnabled(value: boolean) {
-        this._customSearchEnabled = coerceBooleanProperty(value);
-    }
-
-    /** minimal data of show the search field */
-    @Input()
-    get minCountForSearch(): number | string {
-        return this._minCountForSearch;
-    }
-
-    set minCountForSearch(value: number | string) {
-        this._minCountForSearch = coerceNumberProperty(value);
-        this.updateSearchBox();
-    }
-
-    /** Unique id of the element. */
-    @Input()
-    @HostBinding('id')
-    get id() {
-        return this._id;
-    }
-    set id(value: string) {
-        this._id = value || this._uid;
-    }
-
-    /** Whether the element is required. */
-    @Input()
-    get required() {
-        return this._required;
-    }
-    set required(value: any) {
-        this._required = coerceBooleanProperty(value);
-    }
-
-    /** Whether selected items should be hidden. */
-    @Input()
-    get disabled() {
-        return this._control ? this._control.disabled : this._disabled;
-    }
-    set disabled(value: any) {
-        this._disabled = coerceBooleanProperty(value);
-    }
-
-    /** Whether items are hidden when has. */
-    @Input()
-    get hideSelectedItems() {
-        return this._hideSelectedItems;
-    }
-    set hideSelectedItems(value: any) {
-        this._hideSelectedItems = coerceBooleanProperty(value);
-    }
-
-    /** Whether the element is readonly. */
-    @Input()
-    get readonly() {
-        return this._readonly;
-    }
-    set readonly(value: any) {
-        this._readonly = coerceBooleanProperty(value);
-    }
-
-    /** The input element's value. */
-    @Input()
-    get value() {
-        return this._value;
-    }
-    set value(value: Select2UpdateValue) {
-        if (this.testValueChange(this._value, value)) {
-            setTimeout(() => {
-                this._value = value;
-                this.writeValue(value);
-            }, 10);
-        }
-    }
-
-    /** Tab index for the select2 element. */
-    @Input()
-    get tabIndex(): number {
-        return this.disabled ? -1 : this._tabIndex;
-    }
-    set tabIndex(value: number) {
-        if (typeof value !== 'undefined') {
-            this._tabIndex = value;
-        }
-    }
-
-    /** reset with no selected value */
-    @Input()
-    get resettable() {
-        return this._resettable;
-    }
-    set resettable(value: any) {
-        this._resettable = coerceBooleanProperty(value);
-    }
-
     @HostBinding('attr.aria-invalid')
     get ariaInvalid(): boolean {
         return this._isErrorState();
@@ -304,7 +252,7 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
     maxResultsExceeded: boolean;
 
     private _customSearchEnabled: boolean;
-    private _minCountForSearch?: number | string;
+    private _minCountForSearch?: number;
 
     @ViewChild(CdkConnectedOverlay) private cdkConnectedOverlay: CdkConnectedOverlay;
     @ViewChild('selection', { static: true }) private selection: ElementRef<HTMLElement>;
@@ -329,19 +277,11 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
     private _tabIndex: number;
 
     private _disabled = false;
-    private _required = false;
-    private _readonly = false;
     private _multiple = false;
-    private _overlay = false;
-    private _resettable = false;
-    private _hideSelectedItems = false;
     private _id: string;
     private _uid = `select2-${nextUniqueId++}`;
     private _value: Select2UpdateValue;
     private _previousNativeValue: Select2UpdateValue;
-    private _infiniteScroll = true;
-    private _autoCreate = true;
-    private _noLabelTemplate = true;
     private _overlayPosition: VerticalConnectionPos;
 
     constructor(
