@@ -14,8 +14,8 @@ npm i ng-select2-component --save
 
 -   peerDependencies:
 
-    -   `angular` 16.0.0 and more
-    -   `angular/cdk` 16.0.0 and more
+    -   `angular` 16.1.0 and more
+    -   `angular/cdk` 16.1.0 and more
 
 -   dependencies (include):
     -   `ngx-infinite-scroll` 16.0.0 and more
