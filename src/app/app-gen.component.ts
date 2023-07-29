@@ -37,6 +37,7 @@ export class AppGenComponent implements AfterContentInit {
             multiple: new UntypedFormControl(),
             autoCreate: new UntypedFormControl(),
             resettable: new UntypedFormControl(),
+            resetSelectedValue: new UntypedFormControl(),
             limitSelection: new UntypedFormControl(),
             hideSelectedItems: new UntypedFormControl(),
             resultMaxHeight: new UntypedFormControl(),
@@ -144,13 +145,19 @@ export class AppGenComponent implements AfterContentInit {
         }
         if (value.multiple) {
             attrs.multiple = this._testBoolean(value.multiple);
+
+            if (value.autoCreate) {
+                attrs.autoCreate = this._testBoolean(value.autoCreate);
+            }
+        } else {
+            if (value.resettable) {
+                attrs.resettable = this._testBoolean(value.resettable);
+            }
+            if (value.resetSelectedValue) {
+                attrs.resetSelectedValue = value.resetSelectedValue;
+            }
         }
-        if (value.autoCreate) {
-            attrs.autoCreate = this._testBoolean(value.autoCreate);
-        }
-        if (value.resettable) {
-            attrs.resettable = this._testBoolean(value.resettable);
-        }
+
         if (value.limitSelection) {
             attrs.limitSelection = value.limitSelection;
         }

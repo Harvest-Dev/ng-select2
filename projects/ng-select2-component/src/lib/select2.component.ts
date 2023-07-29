@@ -186,6 +186,9 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
     @Input({ transform: booleanAttribute })
     resettable = false;
 
+    /** selected value when × is clicked */
+    @Input() resetSelectedValue: any;
+
     @Output() update = new EventEmitter<Select2UpdateEvent<Select2UpdateValue>>();
     @Output() open = new EventEmitter<Select2>();
     @Output() close = new EventEmitter<Select2>();
@@ -417,7 +420,14 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
     }
 
     reset(event: MouseEvent) {
-        this.select(null);
+        // const test = Select2Utils.getOptionByValue(this._data, this.resetSelectedValue);
+        // debugger;
+        this.select(
+            this.resetSelectedValue !== undefined
+                ? Select2Utils.getOptionByValue(this._data, this.resetSelectedValue) ?? null
+                : null,
+        );
+
         this.stopEvent(event);
     }
 

@@ -156,7 +156,6 @@ export const data6: Select2Data = [
     { value: 'foo6', label: 'foo6' },
 ];
 
-
 export const data8: Select2Data = [
     { value: 'FR-ARA', label: 'Auvergne-Rhône-Alpes' },
     { value: 'FR-BFC', label: 'Bourgogne-Franche-Comté' },
@@ -367,12 +366,12 @@ export const data24: Select2Data = [
     },
 ];
 
-export let data26: Select2Data = [];
+export const data26: Select2Data = [];
 for (let i = 1; i <= 50; i++) {
     data26.push({ value: i, label: '>' + i });
 }
 
-export let data28: Select2Data = [];
+export const data28: Select2Data = [];
 for (let i = 1; i <= 200; i++) {
     data28.push({ value: i, label: 'item n° ' + i });
 }

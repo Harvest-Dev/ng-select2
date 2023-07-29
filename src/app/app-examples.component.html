@@ -331,4 +331,16 @@
         (update)="update('value29', $event)"
     >
     </select2>
+
+    <h3 id="ex-1">30. selected option when × is clicked ({{ value30 }})</h3>
+    <select2
+        [overlay]="overlay"
+        [data]="data30"
+        [value]="value30"
+        resettable
+        [resetSelectedValue]="'CA'"
+        id="selec2-30"
+        (update)="update('value30', $event)"
+    >
+    </select2>
 </div>

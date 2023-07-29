@@ -46,7 +46,9 @@
             </span>
             <span
                 (click)="reset($event)"
-                *ngIf="!multiple && resettable && select2Option && !(disabled || readonly)"
+                *ngIf="
+                    !multiple && resettable && resetSelectedValue !== value && select2Option && !(disabled || readonly)
+                "
                 class="select2-selection__reset"
                 role="presentation"
                 >×</span

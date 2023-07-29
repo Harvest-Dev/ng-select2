@@ -1,7 +1,6 @@
 import { defaultMinCountForSearch, protectRegexp, unicodePatterns } from './select2-const';
 import { Select2Data, Select2Group, Select2Option, Select2UpdateValue, Select2Value } from './select2-interfaces';
 
-
 export class Select2Utils {
     static getOptionByValue(data: Select2Data, value: Select2Value | null | undefined) {
         if (Array.isArray(data)) {
@@ -18,7 +17,7 @@ export class Select2Utils {
                 }
             }
         }
-        return null;
+        return undefined;
     }
 
     static getOptionsByValue(
@@ -137,7 +136,7 @@ export class Select2Utils {
         return null;
     }
 
-    static getReduceData(data: Select2Data, maxResults: number = 0): { result: Select2Data; reduce: boolean } {
+    static getReduceData(data: Select2Data, maxResults = 0): { result: Select2Data; reduce: boolean } {
         if (maxResults > 0) {
             let counter = 0;
             const result: Select2Data = [];

@@ -58,6 +58,19 @@
             <label for="resettable">resettable : </label>
             <input type="checkbox" formControlName="resettable" id="resettable" />
         </div>
+        <div [class.hide]="ctrlForm?.value?.multiple">
+            <label for="resetSelectedValue">resetSelectedValue : </label>
+            <select formControlName="resetSelectedValue" id="resetSelectedValue">
+                <option [value]="undefined">undefined</option>
+                <option [value]="null">null</option>
+                <option value="hibiscus">hibiscus</option>
+                <option value="marigold">marigold</option>
+                <option value="sunflower">sunflower</option>
+                <option value="heliotrope">heliotrope</option>
+                <option value="lily">lily</option>
+                <option value="petunia">petunia</option>
+            </select>
+        </div>
         <div [class.hide]="!ctrlForm?.value?.multiple">
             <label for="autoCreate">autoCreate : </label>
             <input type="checkbox" formControlName="autoCreate" id="autoCreate" />
@@ -174,6 +187,7 @@
             [customSearchEnabled]="ctrlForm?.value?.search"
             [multiple]="ctrlForm?.value?.multiple"
             [resettable]="ctrlForm?.value?.resettable"
+            [resetSelectedValue]="ctrlForm?.value?.resetSelectedValue"
             [autoCreate]="ctrlForm?.value?.autoCreate"
             [limitSelection]="ctrlForm?.value?.limitSelection || 0"
             [hideSelectedItems]="ctrlForm?.value?.hideSelectedItems"
