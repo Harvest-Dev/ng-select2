@@ -320,7 +320,7 @@
         maxResultsMessage="Too much results in this list."
     ></select2>
 
-    <h3 id="ex-1">29. option autocreate ({{ value29 }})</h3>
+    <h3 id="ex-29">29. option autocreate ({{ value29 }})</h3>
     <select2
         [overlay]="overlay"
         [data]="data29"
@@ -332,7 +332,19 @@
     >
     </select2>
 
-    <h3 id="ex-1">30. selected option when × is clicked ({{ value30 }})</h3>
+    <h3 id="ex-29b">29b. option autocreate search search ({{ value29b }})</h3>
+    <select2
+        [overlay]="overlay"
+        [data]="data29b"
+        [value]="value29b"
+        multiple
+        autoCreate
+        id="selec2-29b"
+        (update)="update('value29b', $event)"
+    >
+    </select2>
+
+    <h3 id="ex-30">30. selected option when × is clicked ({{ value30 }})</h3>
     <select2
         [overlay]="overlay"
         [data]="data30"

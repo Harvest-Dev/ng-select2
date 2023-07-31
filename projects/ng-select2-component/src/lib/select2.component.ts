@@ -612,7 +612,7 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
 
     select(option: Select2Option | null) {
         let value: any;
-        if (option !== null) {
+        if (option !== null && option !== undefined) {
             if (this.multiple) {
                 const options = this.option as Select2Option[];
                 const index = options.findIndex(op => op.value === option.value);
@@ -924,8 +924,9 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
                     this.searchInput.nativeElement.focus();
                 }
             });
-        } else if (this.resultsElement) {
-            this.resultsElement.focus();
+            if (this.resultsElement && focus) {
+                this.resultsElement.focus();
+            }
         }
     }
 
