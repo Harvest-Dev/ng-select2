@@ -254,7 +254,6 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
 
     maxResultsExceeded: boolean;
 
-    private _customSearchEnabled: boolean;
     private _minCountForSearch?: number;
 
     @ViewChild(CdkConnectedOverlay) private cdkConnectedOverlay: CdkConnectedOverlay;
@@ -688,7 +687,7 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
 
     searchUpdate(e: Event) {
         this.searchText = (e.target as HTMLInputElement).value;
-        if (!this._customSearchEnabled) {
+        if (!this.customSearchEnabled) {
             this.updateFilteredData();
         } else {
             this.search.emit({
