@@ -1,12 +1,18 @@
 # Changelog of ng-select2
 
+## V13.0.2 (2023-08-15)
+
+### Changes
+
+Fix customSearchEnabled
+
 ## V13.0.1 (2023-07-31)
 
 ### Changes
- 
+
 -   add `resetSelectedValue` parameter #42
 -   fix `autoCreate` with no search input #49
- 
+
 ## V13.0.0 (2023-07-20)
 
 ### Breaking Changes
