@@ -439,32 +439,42 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
         event.stopPropagation();
     }
 
-    toggleOpenAndClose(focus = true, open?: boolean) {
+    toggleOpenAndClose(focus = true, open?: boolean, event?: KeyboardEvent) {
         if (this.disabled) {
             return;
         }
         this._focus(focus);
+
+        const changeEmit = this.isOpen !== (open ?? !this.isOpen);
         this.isOpen = open ?? !this.isOpen;
 
         if (this.isOpen) {
-            this.innerSearchText = '';
-            this.updateFilteredData();
-            this._focusSearchboxOrResultsElement(focus);
+            if (!this.isSearchboxHidden) {
+                this.innerSearchText = '';
+                this.updateFilteredData();
+                this._focusSearchboxOrResultsElement(focus);
+            }
 
-            setTimeout(() => {
-                if (this.option) {
-                    const option: Select2Option = this.option instanceof Array ? this.option[0] : this.option;
-                    this.updateScrollFromOption(option);
-                } else if (this.resultsElement) {
-                    this.resultsElement.scrollTop = 0;
-                }
+            if (this.isSearchboxHidden && !changeEmit && event) {
+                this.keyDown(event);
+            } else {
                 setTimeout(() => {
-                    this.triggerRect();
-                    this.cdkConnectedOverlay?.overlayRef?.updatePosition();
-                }, 100);
-            });
-            this.open.emit(this);
-        } else {
+                    if (this.option) {
+                        const option = Array.isArray(this.option) ? this.option[0] : this.option;
+                        this.updateScrollFromOption(option);
+                    } else if (this.resultsElement) {
+                        this.resultsElement.scrollTop = 0;
+                    }
+                    setTimeout(() => {
+                        this.triggerRect();
+                        this.cdkConnectedOverlay?.overlayRef?.updatePosition();
+                    }, 100);
+                });
+            }
+            if (changeEmit) {
+                this.open.emit(this);
+            }
+        } else if (changeEmit) {
             this.close.emit(this);
         }
 
@@ -651,36 +661,35 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
         });
     }
 
-    keyDown(e: KeyboardEvent, create = false) {
-        if (create && this._testKey(e, ['Enter', 13])) {
-            this.createAndAdd(e);
-            return;
-        }
-        if (this._testKey(e, ['ArrowDown', 40])) {
+    keyDown(event: KeyboardEvent, create = false) {
+        if (create && this._testKey(event, ['Enter', 13])) {
+            this.createAndAdd(event);
+        } else if (this._testKey(event, ['ArrowDown', 40])) {
             this.moveDown();
-            e.preventDefault();
-        } else if (this._testKey(e, ['ArrowUp', 38])) {
+            event.preventDefault();
+        } else if (this._testKey(event, ['ArrowUp', 38])) {
             this.moveUp();
-            e.preventDefault();
-        } else if (this._testKey(e, ['Enter', 13])) {
+            event.preventDefault();
+        } else if (this._testKey(event, ['Enter', 13])) {
             this.selectByEnter();
-            e.preventDefault();
-        } else if (this._testKey(e, ['Escape', 'Tab', 9, 27]) && this.isOpen) {
+            event.preventDefault();
+        } else if (this._testKey(event, ['Escape', 'Tab', 9, 27]) && this.isOpen) {
             this.toggleOpenAndClose();
             this._focus(false);
         }
     }
 
-    openKey(e: KeyboardEvent, create = false) {
-        if (create && this._testKey(e, ['Enter', 13])) {
-            this.createAndAdd(e);
-            return;
-        }
-        if (this._testKey(e, ['ArrowDown', 'ArrowUp', 'Enter', 40, 38, 13])) {
-            this.toggleOpenAndClose();
-            e.preventDefault();
-        } else if (this._testKey(e, ['Escape', 'Tab', 9, 27])) {
-            this._focus(false);
+    openKey(event: KeyboardEvent, create = false) {
+        if (create && this._testKey(event, ['Enter', 13])) {
+            this.createAndAdd(event);
+        } else if (this._testKey(event, ['ArrowDown', 'ArrowUp', 'Enter', 40, 38, 13])) {
+            this.toggleOpenAndClose(true, true, event);
+            event.preventDefault();
+        } else if (this._testKey(event, ['Escape', 'Tab', 9, 27])) {
+            this.toggleOpenAndClose(false);
+            if (this.isOpen) {
+                event.preventDefault();
+            }
             this._onTouched();
         }
     }
@@ -775,7 +784,7 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
      *
      * @param fn Callback to be triggered when the component has been touched.
      */
-    registerOnTouched(fn: () => {}): void {
+    registerOnTouched(fn: () => void): void {
         this._onTouched = fn;
     }
 
