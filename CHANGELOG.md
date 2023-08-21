@@ -1,10 +1,24 @@
 # Changelog of ng-select2
 
+## V13.0.4 (2023-08-22)
+
+### Changes
+
+-   improve keyboard navigation
+    -   fixed arrow navigation when there is no search field
+    -   improve tab and input actions (fix when unfocus)
+-   add CSS variables:
+    -   `--select2-selection-line-height`
+    -   `--select2-selection-padding`
+    -   `--select2-selection-multiple-gap`
+    -   `--select2-selection-multiple-padding`
+    -   `--select2-option-padding`
+
 ## V13.0.2 (2023-08-15)
 
 ### Changes
 
-Fix customSearchEnabled
+-   fix customSearchEnabled
 
 ## V13.0.1 (2023-07-31)
 
@@ -50,7 +64,9 @@ Fix customSearchEnabled
 
 -   add `noLabelTemplate`: do not use the template in the selection, stay in text mode.
 -   add `autoCreate`: gives the possibility to add elements not present in the list. #48
--   add CSS variables : `--select2-single-height`, `--select2-multiple-height`
+-   add CSS variables :
+    -   `--select2-single-height`
+    -   `--select2-multiple-height`
 
 ## V11.0.0 (2023-04-06)
 
@@ -88,7 +104,9 @@ Fix customSearchEnabled
 
 -   add `maxResults` maximum results limit (`0` = no limit, by default : `0`).
 -   add `maxResultsMessage` parameter, message when maximum results (by default : `'Too many results…'`)
--   add CSS variable `--select2-too-much-result-color` and `--select2-too-much-result-style`
+-   add CSS variables:
+    -   `--select2-too-much-result-color`
+    -   `--select2-too-much-result-style`
 
 ### Corrections
 
