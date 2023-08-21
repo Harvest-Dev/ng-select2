@@ -25,7 +25,7 @@
 
         .select2-selection__rendered {
             display: block;
-            padding: 0 0 0 8px;
+            padding: var(--select2-selection-padding, 0 0 0 8px);
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
@@ -52,7 +52,7 @@
             text-overflow: ellipsis;
             white-space: nowrap;
             flex-wrap: wrap;
-            gap: 5px;
+            gap: var(--select2-selection-multiple-gap, 2px 5px);
 
             .select2-selection__auto-create {
                 flex: 1 1 150px;
@@ -118,7 +118,7 @@
 }
 
 .select2-results__option {
-    padding: 6px;
+    padding: var(--select2-option-padding, 6px);
     user-select: none;
     color: var(--select2-option-text-color, #000);
 
@@ -214,7 +214,7 @@
 
         .select2-selection__rendered {
             color: var(--select2-selection-text-color, #111);
-            line-height: 28px;
+            line-height: var(--select2-selection-line-height, 28px);
         }
 
         .select2-selection__clear {
@@ -284,17 +284,21 @@
         border: 1px solid var(--select2-selection-border-color, #aaa);
         border-radius: var(--select2-selection-border-radius, 4px);
         cursor: text;
+        display: flex;
 
         .select2-selection__rendered {
             flex: 1 1 auto;
             box-sizing: border-box;
             list-style: none;
             margin: 0;
-            padding: 0 5px;
+            padding: var(--select2-selection-multiple-padding, 2px 5px);
             width: 100%;
+            min-height: 1em;
+            align-items: center;
 
             li {
                 list-style: none;
+                line-height: var(--select2-selection-choice-line-height, 20px);
             }
         }
 

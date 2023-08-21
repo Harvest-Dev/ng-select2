@@ -286,6 +286,12 @@ It's possible to change different colors (and more) with CSS variables without h
     --select2-selection-border-color: #aaa;
     --select2-selection-focus-border-color: #000;
     --select2-selection-text-color: #111;
+    --select2-selection-line-height: 28px;
+    --select2-selection-padding: 0 0 0 8px;
+
+    /* selection (multiple) */
+    --select2-selection-multiple-gap: 2px 5px;
+    --select2-selection-multiple-padding: 2px 5px;
 
     /* selection: choice item (multiple) */
     --select2-selection-choice-background: #e4e4e4;
@@ -334,6 +340,7 @@ It's possible to change different colors (and more) with CSS variables without h
     --select2-option-highlighted-background: #5897fb;
     --select2-option-group-text-color: gray;
     --select2-option-group-background: transparent;
+    --select2-option-padding: 6px;
 
     /* hint */
     --select2-hint-text-color: #888;
