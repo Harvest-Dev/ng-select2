@@ -1,5 +1,9 @@
 # Changelog of ng-select2
 
+## V13.0.5 (2023-08-23)
+
+-   update current value when data changes
+
 ## V13.0.4 (2023-08-22)
 
 ### Changes
