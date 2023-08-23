@@ -355,4 +355,14 @@
         (update)="update('value30', $event)"
     >
     </select2>
+
+    <h3 id="ex-31">31. change list ({{ value31 }})</h3>
+    <select #select (change)="changeData31(select.value)">
+        <option>english</option>
+        <option>french</option>
+        <option>japanese</option>
+    </select>
+
+    <select2 [overlay]="overlay" [data]="data31" [value]="value31" id="selec2-31" (update)="update('value31', $event)">
+    </select2>
 </div>

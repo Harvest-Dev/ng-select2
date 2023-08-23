@@ -59,7 +59,7 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
     /** data of options & optiongrps */
     @Input({ required: true }) set data(data: Select2Data) {
         this._data = data;
-        this.updateFilteredData();
+        this.updateFilteredData(true);
     }
     @Input({ transform: numberAttribute }) minCharForSearch = 0;
     @Input() displaySearchStatus: 'default' | 'hidden' | 'always';
@@ -440,6 +440,7 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
     }
 
     toggleOpenAndClose(focus = true, open?: boolean, event?: KeyboardEvent) {
+        console.error();
         if (this.disabled) {
             return;
         }
@@ -538,7 +539,7 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
         return true;
     }
 
-    private updateFilteredData() {
+    private updateFilteredData(writeValue = false) {
         setTimeout(() => {
             let result = this._data;
             if (this.multiple && this.hideSelectedItems) {
@@ -559,6 +560,11 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
 
             if (Select2Utils.valueIsNotInFilteredData(result, this.hoveringValue)) {
                 this.hoveringValue = Select2Utils.getFirstAvailableOption(result);
+            }
+
+            if (writeValue) {
+                // refresh current selected value
+                this.writeValue(this.value);
             }
 
             this.filteredData = result;
@@ -636,6 +642,7 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
                 if (this.isOpen) {
                     this.isOpen = false;
                     this.close.emit(this);
+                    console.error();
                     this.selectionElement?.focus();
                 }
                 value = this.option.value;

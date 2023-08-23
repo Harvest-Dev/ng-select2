@@ -375,3 +375,19 @@ export const data28: Select2Data = [];
 for (let i = 1; i <= 200; i++) {
     data28.push({ value: i, label: 'item n° ' + i });
 }
+
+export const data31en: Select2Data = [
+    { value: 'english', label: 'English' },
+    { value: 'french', label: 'French' },
+    { value: 'japanese', label: 'Japanese' },
+];
+export const data31fr: Select2Data = [
+    { value: 'english', label: 'Anglais' },
+    { value: 'french', label: 'Français' },
+    { value: 'japanese', label: 'Japonais' },
+];
+export const data31ja: Select2Data = [
+    { value: 'english', label: '英語' },
+    { value: 'french', label: 'フランス語' },
+    { value: 'japanese', label: '日本語' },
+];

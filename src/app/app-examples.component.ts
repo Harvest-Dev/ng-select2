@@ -21,6 +21,9 @@ import {
     data26,
     data28,
     data3,
+    data31en,
+    data31fr,
+    data31ja,
     data5,
     data6,
     data8,
@@ -61,6 +64,7 @@ export class AppExamplesComponent {
     data29: Select2Data = JSON.parse(JSON.stringify(data3));
     data29b: Select2Data = JSON.parse(JSON.stringify(data1));
     data30: Select2Data = JSON.parse(JSON.stringify(data1));
+    data31 = data31en;
 
     minCountForSearch = Infinity;
 
@@ -96,6 +100,7 @@ export class AppExamplesComponent {
     value29: string[] = [];
     value29b: string[] = [];
     value30 = 'CA';
+    value31 = '';
 
     limitSelection = 0;
 
@@ -206,5 +211,19 @@ export class AppExamplesComponent {
         return {
             state: ['CA', 'NV'],
         };
+    }
+
+    changeData31(event: string) {
+        switch (event) {
+            case 'english':
+                this.data31 = data31en;
+                break;
+            case 'french':
+                this.data31 = data31fr;
+                break;
+            case 'japanese':
+                this.data31 = data31ja;
+                break;
+        }
     }
 }
