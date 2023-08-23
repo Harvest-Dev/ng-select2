@@ -30,7 +30,6 @@ import { ControlValueAccessor, FormGroupDirective, NgControl, NgForm } from '@an
 
 import { Subject } from 'rxjs';
 
-import { coerceBooleanProperty } from '@angular/cdk/coercion';
 import {
     Select2Data,
     Select2Group,
@@ -68,12 +67,12 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
     @Input({ transform: numberAttribute }) limitSelection = 0;
     @Input() listPosition: 'above' | 'below' | 'auto' = 'below';
 
-    @Input()
-    get multiple(): any {
+    @Input({ transform: booleanAttribute })
+    get multiple(): boolean {
         return this._multiple;
     }
-    set multiple(value: any) {
-        this._multiple = coerceBooleanProperty(value);
+    set multiple(value: boolean) {
+        this._multiple = value;
         this.ngOnInit();
     }
 
@@ -125,7 +124,6 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
     get minCountForSearch(): number {
         return this._minCountForSearch;
     }
-
     set minCountForSearch(value: number) {
         this._minCountForSearch = value;
         this.updateSearchBox();
@@ -440,7 +438,6 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
     }
 
     toggleOpenAndClose(focus = true, open?: boolean, event?: KeyboardEvent) {
-        console.error();
         if (this.disabled) {
             return;
         }
@@ -564,7 +561,7 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
 
             if (writeValue) {
                 // refresh current selected value
-                this.writeValue(this.value);
+                this.writeValue(this._control ? this._control.value : this.value);
             }
 
             this.filteredData = result;
@@ -642,7 +639,6 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
                 if (this.isOpen) {
                     this.isOpen = false;
                     this.close.emit(this);
-                    console.error();
                     this.selectionElement?.focus();
                 }
                 value = this.option.value;

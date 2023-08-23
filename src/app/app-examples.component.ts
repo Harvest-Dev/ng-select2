@@ -101,6 +101,7 @@ export class AppExamplesComponent {
     value29b: string[] = [];
     value30 = 'CA';
     value31 = '';
+    value31b = '';
 
     limitSelection = 0;
 

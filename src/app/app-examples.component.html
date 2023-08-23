@@ -360,9 +360,20 @@
     <select #select (change)="changeData31(select.value)">
         <option>english</option>
         <option>french</option>
-        <option>japanese</option>
-    </select>
+        <option>japanese</option></select
+    ><br />
 
+    Value :
     <select2 [overlay]="overlay" [data]="data31" [value]="value31" id="selec2-31" (update)="update('value31', $event)">
     </select2>
+    <br />
+
+    NgModel :
+    <select2
+        [overlay]="overlay"
+        [data]="data31"
+        [(ngModel)]="value31b"
+        id="selec2-31b"
+        (update)="update('value31b', $event)"
+    ></select2>
 </div>
