@@ -2,7 +2,7 @@
 
 ## V13.0.6 (2023-08-23)
 
--   update current value when data changes
+-   fix value when data changes with NgControl
 
 ## V13.0.5 (2023-08-23)
 
