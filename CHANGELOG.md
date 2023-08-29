@@ -1,5 +1,9 @@
 # Changelog of ng-select2
 
+## V13.0.7 (2023-08-29)
+
+-   fix tab navigation (don't open dropdown with tab)
+
 ## V13.0.6 (2023-08-23)
 
 -   fix value when data changes with NgControl
