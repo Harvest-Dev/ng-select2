@@ -1,5 +1,9 @@
 # Changelog of ng-select2
 
+## V13.0.8 (2023-08-29)
+
+-   fix focus on blur
+
 ## V13.0.7 (2023-08-29)
 
 -   fix tab navigation (don't open dropdown with tab)
