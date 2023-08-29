@@ -688,11 +688,9 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
         } else if (this._testKey(event, ['ArrowDown', 'ArrowUp', 'Enter', 40, 38, 13])) {
             this.toggleOpenAndClose(true, true, event);
             event.preventDefault();
-        } else if (this._testKey(event, ['Escape', 'Tab', 9, 27])) {
+        } else if (this._testKey(event, ['Escape', 'Tab', 9, 27]) && this.isOpen) {
             this.toggleOpenAndClose(false);
-            if (this.isOpen) {
-                event.preventDefault();
-            }
+            event.preventDefault();
             this._onTouched();
         }
     }
