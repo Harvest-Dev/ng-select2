@@ -1,5 +1,10 @@
 # Changelog of ng-select2
 
+## V13.0.9 (2023-09-24)
+
+-   add `autoCreate` for single mode #56 (thanks @majora2007)
+-   add `autoCreateItem` event #56 (thanks @majora2007)
+
 ## V13.0.8 (2023-08-29)
 
 -   fix focus on blur

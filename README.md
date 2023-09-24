@@ -85,7 +85,7 @@ class MainModule {}
 | `multiple`                                                                | `boolean`                                                                                           |          | `false`              | select multiple options                                                                |                                      |
 | `resettable`                                                              | `boolean`                                                                                           |          | `false`              | add a button to reset value                                                            | not `multiple`                       |
 | `resetSelectedValue`                                                      | `any`                                                                                               |          | `undefined`          | selected option when × is clicked                                                      | not `multiple` and with `resettable` |
-| `autoCreate`                                                              | `boolean`                                                                                           |          | `false`              | gives the possibility to add elements not present in the list.                         | with `multiple`                      |
+| `autoCreate`                                                              | `boolean`                                                                                           |          | `false`              | gives the possibility to add elements not present in the list.                         |                                      |
 | `limitSelection`                                                          | `number`                                                                                            |          | `0`                  | to limit multiple selection (`0` = unlimited)                                          |                                      |
 | `hideSelectedItems`                                                       | `boolean`                                                                                           |          | `false`              | remove selected values                                                                 | with `multiple`                      |
 | `resultMaxHeight`                                                         | `string`                                                                                            |          | `'200px'`            | change the height size of results                                                      |                                      |
@@ -109,6 +109,7 @@ class MainModule {}
 | `(search)`                                                                | `(event: `[`Select2SearchEvent`](#select2-data-structure)`) => void`                                | event    |                      | triggered when search text changed                                                     | with `customSearchEnabled`           |
 | `(scroll)`                                                                | `(event: `[`Select2ScrollEvent`](#select2-data-structure)`) => void`                                | event    |                      | triggered when infiniteScroll is on `up` or `down` position                            | with `ngx-infinite-scroll`           |
 | `(removedOption)`                                                         | `(event: `[`Select2RemoveEvent`](#select2-data-structure)`) => void`                                | event    |                      | triggered when an option is removed from the list of selected options options list     | with `multiple`                      |
+| `(autoCreateItem)`                                                        | `(event: `[`Select2AutoCreateEvent`](#select2-data-structure)`) => void`                            | event    |                      | triggered when a new item has been added                                               | with `autoCreate`                    |
 
 ### select2 data structure
 
@@ -152,6 +153,15 @@ export type Select2UpdateValue = Select2Value | Select2Value[];
 export type Select2Data = (Select2Group | Select2Option)[];
 
 export interface Select2UpdateEvent<U extends Select2UpdateValue = Select2Value> {
+    /** component */
+    readonly component: Select2;
+    /** current selected value */
+    readonly value: U;
+    /** selected option */
+    readonly options: Select2Option[];
+}
+
+export interface Select2AutoCreateEvent<U extends Select2UpdateValue = Select2Value> {
     /** component */
     readonly component: Select2;
     /** current selected value */

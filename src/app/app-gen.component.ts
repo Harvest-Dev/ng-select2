@@ -145,10 +145,6 @@ export class AppGenComponent implements AfterContentInit {
         }
         if (value.multiple) {
             attrs.multiple = this._testBoolean(value.multiple);
-
-            if (value.autoCreate) {
-                attrs.autoCreate = this._testBoolean(value.autoCreate);
-            }
         } else {
             if (value.resettable) {
                 attrs.resettable = this._testBoolean(value.resettable);
@@ -157,7 +153,9 @@ export class AppGenComponent implements AfterContentInit {
                 attrs.resetSelectedValue = value.resetSelectedValue;
             }
         }
-
+        if (value.autoCreate) {
+            attrs.autoCreate = this._testBoolean(value.autoCreate);
+        }
         if (value.limitSelection) {
             attrs.limitSelection = value.limitSelection;
         }

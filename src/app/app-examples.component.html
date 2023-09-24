@@ -350,7 +350,7 @@
         [data]="data30"
         [value]="value30"
         resettable
-        [resetSelectedValue]="'CA'"
+        resetSelectedValue="CA"
         id="selec2-30"
         (update)="update('value30', $event)"
     >
@@ -379,14 +379,13 @@
 
     <h3 id="ex-32">32. auto create when ({{ value30 }})</h3>
     <select2
-            [overlay]="overlay"
-            [data]="data30"
-            [value]="value30"
-            resettable
-            [autoCreate]="true"
-            [resetSelectedValue]="'CA'"
-            id="selec2-32"
-            (autoCreateItem)="update('value32', $event)"
-    >
-    </select2>
+        [overlay]="overlay"
+        [data]="data30"
+        [value]="value30"
+        resettable
+        autoCreat
+        resetSelectedValue="CA"
+        id="selec2-32"
+        (autoCreateItem)="update('value32', $event)"
+    ></select2>
 </div>

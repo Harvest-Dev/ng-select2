@@ -14,3 +14,4 @@ Thanks for your contributions:
 -   Varun Nambiar
 -   Khanh Ngo
 -   Johan Compagner
+-   majora2007
