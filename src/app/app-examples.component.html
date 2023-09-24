@@ -1,7 +1,7 @@
 <h2>Examples</h2>
 
 <label for="disabled">overlay : </label>
-<input type="checkbox" [(ngModel)]="overlay" />
+<input id="disabled" type="checkbox" [(ngModel)]="overlay" />
 
 <div class="block">
     <h3 id="ex-1">1. options in group ({{ value1 }})</h3>
@@ -376,4 +376,17 @@
         id="selec2-31b"
         (update)="update('value31b', $event)"
     ></select2>
+
+    <h3 id="ex-32">32. auto create when ({{ value30 }})</h3>
+    <select2
+            [overlay]="overlay"
+            [data]="data30"
+            [value]="value30"
+            resettable
+            [autoCreate]="true"
+            [resetSelectedValue]="'CA'"
+            id="selec2-32"
+            (autoCreateItem)="update('value32', $event)"
+    >
+    </select2>
 </div>

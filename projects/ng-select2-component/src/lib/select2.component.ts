@@ -31,6 +31,7 @@ import { ControlValueAccessor, FormGroupDirective, NgControl, NgForm } from '@an
 import { Subject } from 'rxjs';
 
 import {
+    Select2AutoCreateEvent,
     Select2Data,
     Select2Group,
     Select2Option,
@@ -101,7 +102,7 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
     /** infinite scroll activated */
     @Input({ transform: booleanAttribute }) infiniteScroll = false;
 
-    /** auto create if not existe */
+    /** auto create if not exist */
     @Input({ transform: booleanAttribute }) autoCreate = false;
 
     /** no template for label selection */
@@ -110,7 +111,7 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
     /** use it for change the pattern of the filter search */
     @Input() editPattern: (str: string) => string;
 
-    /** template for formating */
+    /** template for formatting */
     @Input() templates: TemplateRef<any> | { [key: string]: TemplateRef<any> };
 
     /** the max height of the results container when opening the select */
@@ -188,6 +189,7 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
     @Input() resetSelectedValue: any;
 
     @Output() update = new EventEmitter<Select2UpdateEvent<Select2UpdateValue>>();
+    @Output() autoCreateItem = new EventEmitter<Select2AutoCreateEvent<Select2UpdateValue>>();
     @Output() open = new EventEmitter<Select2>();
     @Output() close = new EventEmitter<Select2>();
     @Output() focus = new EventEmitter<Select2>();
@@ -836,6 +838,11 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
             const item = this.addItem(value.trim());
             this.click(item);
             (e.target as HTMLInputElement).value = '';
+            this.autoCreateItem.emit({
+                value: item,
+                component: this,
+                options: Array.isArray(this.option) ? this.option : this.option ? [this.option] : null
+            });
         }
         this.stopEvent(e);
     }

@@ -48,6 +48,15 @@ export interface Select2UpdateEvent<U extends Select2UpdateValue = Select2Value>
     readonly options: Select2Option[];
 }
 
+export interface Select2AutoCreateEvent<U extends Select2UpdateValue = Select2Value> {
+    /** component */
+    readonly component: Select2;
+    /** current selected value */
+    readonly value: U;
+    /** selected option */
+    readonly options: Select2Option[];
+}
+
 export interface Select2SearchEvent<U extends Select2UpdateValue = Select2Value> {
     /** component */
     readonly component: Select2;

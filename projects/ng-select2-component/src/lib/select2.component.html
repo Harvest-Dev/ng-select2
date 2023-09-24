@@ -149,7 +149,7 @@
                     #searchInput
                     [id]="id + '-search-field'"
                     [value]="searchText"
-                    (keydown)="keyDown($event)"
+                    (keydown)="keyDown($event, autoCreate)"
                     (keyup)="searchUpdate($event)"
                     (change)="prevChange($event)"
                     class="select2-search__field"
