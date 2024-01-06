@@ -66,18 +66,18 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "ng-select2:build"
+            "buildTarget": "ng-select2:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "ng-select2:build:production"
+              "buildTarget": "ng-select2:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "ng-select2:build"
+            "buildTarget": "ng-select2:build"
           }
         },
         "test": {
