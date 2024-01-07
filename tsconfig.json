@@ -11,10 +11,7 @@
     "typeRoots": [
       "node_modules/@types"
     ],
-    "lib": [
-      "es2017",
-      "dom"
-    ],
+    "lib": ["es2022", "dom"],
     "paths": {
       "ng-select2-component": [
         "dist/ng-select2-component"
