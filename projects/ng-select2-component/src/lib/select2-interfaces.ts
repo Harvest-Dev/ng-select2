@@ -1,6 +1,5 @@
 import { Select2 } from './select2.component';
 
-
 export interface Select2Group {
     /** label of group */
     label: string;

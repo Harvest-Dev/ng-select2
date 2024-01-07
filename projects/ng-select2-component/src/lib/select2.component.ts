@@ -587,16 +587,16 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
         return this.containClasses(element, cssClass.trim().split(/\s+/))
             ? element
             : element.parentElement
-            ? this.getParentElementByClass(element.parentElement, cssClass)
-            : null;
+              ? this.getParentElementByClass(element.parentElement, cssClass)
+              : null;
     }
 
     private getParentElementById(element: HTMLElement, id: string): HTMLElement | null {
         return element.id === id
             ? element
             : element.parentElement
-            ? this.getParentElementById(element.parentElement, id)
-            : null;
+              ? this.getParentElementById(element.parentElement, id)
+              : null;
     }
 
     private containClasses(element: HTMLElement, cssClasses: string[]): boolean {
@@ -841,7 +841,7 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
             this.autoCreateItem.emit({
                 value: item,
                 component: this,
-                options: Array.isArray(this.option) ? this.option : this.option ? [this.option] : null
+                options: Array.isArray(this.option) ? this.option : this.option ? [this.option] : null,
             });
         }
         this.stopEvent(e);

@@ -79,7 +79,6 @@ export class Select2Utils {
         return true;
     }
 
-    // eslint-disable-next-line
     static getPreviousOption(filteredData: Select2Data, hoveringValue: Select2Value | null | undefined) {
         let findIt = Select2Utils.isNullOrUndefined(hoveringValue);
         for (let i = filteredData.length - 1; i >= 0; i--) {
@@ -107,7 +106,7 @@ export class Select2Utils {
         }
         return null;
     }
-    // eslint-disable-next-line
+
     static getNextOption(filteredData: Select2Data, hoveringValue: Select2Value | null | undefined) {
         let findIt = Select2Utils.isNullOrUndefined(hoveringValue);
         for (const groupOrOption of filteredData) {
@@ -247,8 +246,8 @@ export class Select2Utils {
                 ? 'true'
                 : 'false'
             : options && option.value === (options as Select2Option).value
-            ? 'true'
-            : 'false';
+              ? 'true'
+              : 'false';
     }
 
     static removeSelection(options: Select2Option | Select2Option[] | null, option: Select2Option) {
@@ -265,11 +264,7 @@ export class Select2Utils {
         if (Array.isArray(data)) {
             for (const groupOrOption of data) {
                 const options = (groupOrOption as Select2Group).options;
-                if (options) {
-                    count += options.length;
-                } else {
-                    count++;
-                }
+                count += options ? options.length : 1;
             }
         }
         return count;

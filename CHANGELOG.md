@@ -1,5 +1,11 @@
 # Changelog of ng-select2
 
+## V14.0.0 (2024-01-XX)
+
+### Breaking Changes
+
+-   minimum required support has been upgraded to Angular `17.0`.
+
 ## V13.0.9 (2023-09-24)
 
 -   add `autoCreate` for single mode #56 (thanks @majora2007)
