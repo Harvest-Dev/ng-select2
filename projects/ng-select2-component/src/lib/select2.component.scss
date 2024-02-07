@@ -139,7 +139,7 @@
     }
 
     .select2-dropdown--above {
-        border-bottom-color: var(--select2-dropdown-above-border-bottom-color, transparent);
+        border-bottom: var(--select2-dropdown-above-border-bottom, none);
         border-bottom-left-radius: var(--select2-dropdown-above-border-bottom-left-radius, 0);
         border-bottom-right-radius: var(--select2-dropdown-above-border-bottom-right-radius, 0);
         bottom: 27px;
@@ -148,7 +148,7 @@
     }
 
     .select2-dropdown--below {
-        border-top-color: var(--select2-dropdown-below-border-top-color, transparent);
+        border-top: var(--select2-dropdown-below-border-top, none);
         border-top-left-radius: var(--select2-dropdown-below-border-top-left-radius, 0);
         border-top-right-radius: var(--select2-dropdown-below-border-top-right-radius, 0);
     }
@@ -511,10 +511,10 @@
     }
 
     &.borderless {
-        --select2-dropdown-above-border-bottom-color: var(--select2-dropdown-border-color, #aaa);
+        --select2-dropdown-above-border-bottom: 1px solid var(--select2-dropdown-border-color, #aaa);
         --select2-dropdown-above-border-bottom-left-radius: var(--select2-selection-border-radius, 4px);
         --select2-dropdown-above-border-bottom-right-radius: var(--select2-selection-border-radius, 4px);
-        --select2-dropdown-below-border-top-color: var(--select2-dropdown-border-color, #aaa);
+        --select2-dropdown-below-border-top: 1px solid var(--select2-dropdown-border-color, #aaa);
         --select2-dropdown-below-border-top-left-radius: var(--select2-selection-border-radius, 4px);
         --select2-dropdown-below-border-top-right-radius: var(--select2-selection-border-radius, 4px);
 
@@ -703,10 +703,10 @@
         }
 
         .select2-style-borderless {
-            --select2-dropdown-above-border-bottom-color: var(--select2-dropdown-border-color, #aaa);
+            --select2-dropdown-above-border-bottom: 1px solid var(--select2-dropdown-border-color, #aaa);
             --select2-dropdown-above-border-bottom-left-radius: var(--select2-selection-border-radius, 4px);
             --select2-dropdown-above-border-bottom-right-radius: var(--select2-selection-border-radius, 4px);
-            --select2-dropdown-below-border-top-color: var(--select2-dropdown-border-color, #aaa);
+            --select2-dropdown-below-border-top: 1px solid var(--select2-dropdown-border-color, #aaa);
             --select2-dropdown-below-border-top-left-radius: var(--select2-selection-border-radius, 4px);
             --select2-dropdown-below-border-top-right-radius: var(--select2-selection-border-radius, 4px);
         }
