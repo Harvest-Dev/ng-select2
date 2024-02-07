@@ -353,6 +353,14 @@ It's possible to change different colors (and more) with CSS variables without h
     --select2-option-group-background: transparent;
     --select2-option-padding: 6px;
 
+    /* dropdown border */
+    --select2-dropdown-above-border-bottom-color: #aaa;
+    --select2-dropdown-above-border-bottom-left-radius: 4px;
+    --select2-dropdown-above-border-bottom-right-radius: 4px;
+    --select2-dropdown-below-border-top-color: #aaa;
+    --select2-dropdown-below-border-top-left-radius: 4px;
+    --select2-dropdown-below-border-top-right-radius: 4px;
+
     /* hint */
     --select2-hint-text-color: #888;
 
