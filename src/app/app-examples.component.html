@@ -388,4 +388,16 @@
         id="selec2-32"
         (autoCreateItem)="update('value32', $event)"
     ></select2>
+
+    <div class="borderless">
+        <h3 id="ex-33">33. borderless style ({{ value33 }})</h3>
+        <select2
+            [overlay]="overlay"
+            [data]="data33"
+            [value]="value33"
+            styleMode="borderless"
+            id="selec2-33"
+            (update)="update('value33', $event)"
+        ></select2>
+    </div>
 </div>
