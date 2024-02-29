@@ -82,7 +82,7 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
     overlay = false;
 
     /** use the material style */
-    @Input() styleMode: 'material' | 'noStyle' | 'default' = 'default';
+    @Input() styleMode: 'material' | 'noStyle' | 'borderless' | 'default' = 'default';
 
     /** message when no result */
     @Input() noResultMessage: string;
@@ -236,6 +236,11 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
     @HostBinding('class.nostyle')
     get classNostyle(): boolean {
         return this.styleMode === 'noStyle';
+    }
+
+    @HostBinding('class.borderless')
+    get classBorderless(): boolean {
+        return this.styleMode === 'borderless';
     }
 
     @HostBinding('class.select2-above')
