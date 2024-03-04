@@ -1,10 +1,18 @@
 # Changelog of ng-select2
 
-## V14.0.0 (2024-01-XX)
+## V14.0.1 (2024-03-04)
+
+-   add `borderless` style
+
+## V14.0.0 (2024-01-07)
 
 ### Breaking Changes
 
 -   minimum required support has been upgraded to Angular `17.0`.
+
+## V13.0.10 (2024-03-04)
+
+-   add `borderless` style
 
 ## V13.0.9 (2023-09-24)
 
