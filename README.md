@@ -97,7 +97,7 @@ class MainModule {}
 | `infiniteScrollDistance`                                                  | `number`                                                                                            |          | `1.5`                | infiniteScroll distance                                                                | with `ngx-infinite-scroll`           |
 | `infiniteScrollThrottle`                                                  | `number`                                                                                            |          | `150`                | infiniteScroll throttle                                                                |                                      |
 | `overlay`                                                                 | `boolean`                                                                                           |          | `false`              | active an overlay mode for dropdown list (with angular cdk). (See [Overlay](#overlay)) |                                      |
-| `styleMode`                                                               | `'default'`<br>`'material'`<br>`'noStyle'`                                                          |          | `'default'`          | change style for material style or remove border and background color                  |                                      |
+| `styleMode`                                                               | `'default'`<br>`'material'`<br>`'noStyle'`<br>`'borderless'`                                        |          | `'default'`          | change style for material style or remove border and background color                  |                                      |
 | `templates`                                                               | `TemplateRef`<br>`{option?: TemplateRef, group?: TemplateRef}`<br>`{templateId1: TemplateRef, ...}` |          |                      | use templates for formatting content (see [Templating](#templating))                   |                                      |
 | `noLabelTemplate`                                                         | `boolean`                                                                                           |          | `false`              | do not use the template in the selection, stay in text mode                            |                                      |
 | `editPattern`                                                             | `(str: string) => string`                                                                           |          |                      | use it for change the pattern of the filter search                                     |                                      |
@@ -109,7 +109,7 @@ class MainModule {}
 | `(blur)`                                                                  | `(event: Select2) => void`                                                                          | event    |                      | triggered when user leaves the component                                               |                                      |
 | `(search)`                                                                | `(event: `[`Select2SearchEvent`](#select2-data-structure)`) => void`                                | event    |                      | triggered when search text changed                                                     | with `customSearchEnabled`           |
 | `(scroll)`                                                                | `(event: `[`Select2ScrollEvent`](#select2-data-structure)`) => void`                                | event    |                      | triggered when infiniteScroll is on `up` or `down` position                            | with `ngx-infinite-scroll`           |
-| `(removeOption)`                                                         | `(event: `[`Select2RemoveEvent`](#select2-data-structure)`) => void`                                | event    |                      | triggered when an option is removed from the list of selected options options list     | with `multiple`                      |
+| `(removeOption)`                                                          | `(event: `[`Select2RemoveEvent`](#select2-data-structure)`) => void`                                | event    |                      | triggered when an option is removed from the list of selected options options list     | with `multiple`                      |
 | `(autoCreateItem)`                                                        | `(event: `[`Select2AutoCreateEvent`](#select2-data-structure)`) => void`                            | event    |                      | triggered when a new item has been added                                               | with `autoCreate`                    |
 
 ### select2 data structure
@@ -332,6 +332,12 @@ It's possible to change different colors (and more) with CSS variables without h
     /* dropdown panel */
     --select2-dropdown-background: #fff;
     --select2-dropdown-border-color: #aaa;
+    --select2-dropdown-above-border-bottom: none;
+    --select2-dropdown-above-border-bottom-left-radius: 0;
+    --select2-dropdown-above-border-bottom-right-radius: 0;
+    --select2-dropdown-below-border-top: none;
+    --select2-dropdown-below-border-top-left-radius: 0;
+    --select2-dropdown-below-border-top-right-radius: 0;
 
     /* overlay */
     --select2-overlay-backdrop: transparent;
