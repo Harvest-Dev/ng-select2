@@ -190,13 +190,19 @@
     </select2>
     <div class="noStyle">
         <h3 id="ex-20">20. nostyle ({{ value20 }})</h3>
+
+        <select #select20>
+            <option selected>noStyle</option>
+            <option>borderless</option></select
+        ><br />
+
         <select2
             [overlay]="overlay"
             [data]="data20"
             [value]="value20"
             (update)="update('value20', $event)"
             listPosition="above"
-            styleMode="noStyle"
+            [styleMode]="select20?.value || 'noStyle'"
             id="selec2-20"
         >
         </select2>
@@ -357,7 +363,7 @@
     </select2>
 
     <h3 id="ex-31">31. change list ({{ value31 }})</h3>
-    <select #select (change)="changeData31(select.value)">
+    <select #select31 (change)="changeData31(select31.value)">
         <option>english</option>
         <option>french</option>
         <option>japanese</option></select
