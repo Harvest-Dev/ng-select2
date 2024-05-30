@@ -316,13 +316,16 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
                 if (!this.ifParentContainsClass(target, 'select2-dropdown')) {
                     this.toggleOpenAndClose();
                 }
-                if (!this.ifParentContainsId(target, this._id)) {
+                if (!this.overlay && !this.ifParentContainsId(target, this._id)) {
                     this.clickExit();
                 }
             } else if (!this.ifParentContainsId(target, this._id)) {
                 this.toggleOpenAndClose();
                 this.clickExit();
             }
+        } else if (this.focused) {
+            const target = e.target as HTMLElement;
+            this._focus(this.clickOnSelect2Element(target));
         }
     }
 
@@ -608,12 +611,38 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
         if (!element.classList) {
             return false;
         }
+
         for (const cssClass of cssClasses) {
             if (!element.classList.contains(cssClass)) {
                 return false;
             }
         }
+
         return true;
+    }
+
+    private containAlmostOneClasses(element: HTMLElement, cssClasses: string[]): boolean {
+        if (!element.classList) {
+            return false;
+        }
+
+        let containAlmostOne = false;
+        for (const cssClass of cssClasses) {
+            if (element.classList.contains(cssClass)) {
+                containAlmostOne = true;
+            }
+        }
+
+        return containAlmostOne;
+    }
+
+    private clickOnSelect2Element(element: HTMLElement): boolean {
+        return this.containAlmostOneClasses(element, [
+            'select2-overlay-backdrop',
+            'select2-label-content',
+            'select2-selection__rendered',
+            'select2-results__option',
+        ]);
     }
 
     focusin() {
