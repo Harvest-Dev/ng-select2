@@ -14,7 +14,7 @@ import { data24 } from './app.data';
 export class AppGenComponent implements AfterContentInit {
     data = data24;
 
-    html: string;
+    html = '';
 
     jsonError: string;
 

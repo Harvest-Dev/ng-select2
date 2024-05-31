@@ -35,7 +35,7 @@ export function hljsLanguages() {
             provide: HIGHLIGHT_OPTIONS,
             useValue: {
                 coreLibraryLoader: () => import('highlight.js/lib/core'),
-                lineNumbersLoader: () => import('highlightjs-line-numbers.js'),
+                lineNumbersLoader: () => import('ngx-highlightjs/line-numbers'),
                 languages: {
                     typescript: () => import('highlight.js/lib/languages/typescript'),
                     javascript: () => import('highlight.js/lib/languages/javascript'),
