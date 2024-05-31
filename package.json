@@ -51,7 +51,7 @@
     "@types/node": "8.9.5",
     "@typescript-eslint/eslint-plugin": "^6.10.0",
     "@typescript-eslint/parser": "^6.10.0",
-    "eslint": "^8.53.0",
+    "eslint": "^9.3.0",
     "eslint-config-prettier": "^8.8.0",
     "eslint-plugin-import": "latest",
     "eslint-plugin-jsdoc": "latest",
