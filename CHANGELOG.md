@@ -1,5 +1,15 @@
 # Changelog of ng-select2
 
+## V15.0.0 (2024-05-31)
+
+### Breaking Changes
+
+-   minimum required support has been upgraded to Angular `18.0`.
+
+### Changes
+
+-   manage blur event (overlay, click on option)
+
 ## V14.0.1 (2024-03-04)
 
 -   add `borderless` style
