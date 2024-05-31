@@ -31,7 +31,7 @@
     "core-js": "^2.5.4",
     "highlight.js": "11.8.0",
     "ngx-highlightjs": "9.0.0",
-    "ngx-infinite-scroll": ">=17.0.0",
+    "ngx-infinite-scroll": ">=18.0.0",
     "rxjs": "^6.6.7",
     "zone.js": "~0.14.2"
   },
