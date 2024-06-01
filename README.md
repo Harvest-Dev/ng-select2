@@ -34,7 +34,7 @@ npm i ng-select2-component --save
 
 ## Demo
 
-[See a demo](https://harvest-dev.github.io/ng-select2/dist/ng-select2/).
+[See a demo](https://harvest-dev.github.io/ng-select2/dist/ng-select2/browser).
 
 ## Features
 
