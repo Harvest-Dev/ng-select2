@@ -1,5 +1,13 @@
 # Changelog of ng-select2
 
+## V13.0.11 (2024-06-14)
+
+-   manage blur event (overlay, click on option)
+
+## V13.0.10 (2024-03-04)
+
+-   add `borderless` style
+
 ## V13.0.9 (2023-09-24)
 
 -   add `autoCreate` for single mode #56 (thanks @majora2007)
