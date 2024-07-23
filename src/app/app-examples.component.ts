@@ -65,11 +65,13 @@ export class AppExamplesComponent {
     data29b: Select2Data = JSON.parse(JSON.stringify(data1));
     data30: Select2Data = JSON.parse(JSON.stringify(data1));
     data31 = data31en;
+    data32: Select2Data = JSON.parse(JSON.stringify(data3));
 
     minCountForSearch = Infinity;
 
     ctrlForm: UntypedFormGroup;
     ctrlForm2: UntypedFormGroup;
+    ctrlForm3: UntypedFormGroup;
 
     value1 = 'CA';
     value2 = 'CA';
@@ -120,6 +122,10 @@ export class AppExamplesComponent {
             test5: new UntypedFormControl(0, Validators.required),
         });
 
+        this.ctrlForm3 = this.fb.group({
+            test33: new UntypedFormControl(null),
+        });
+
         this.fg.patchValue(this.formData());
     }
 
@@ -130,6 +136,10 @@ export class AppExamplesComponent {
 
     removeItem() {
         this.data6.pop();
+    }
+
+    reset() {
+        this.ctrlForm3.reset();
     }
 
     open(key: string, event: Event) {
