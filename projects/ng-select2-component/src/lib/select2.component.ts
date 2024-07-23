@@ -426,7 +426,7 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
         }
     }
 
-    reset(event: MouseEvent) {
+    reset(event?: MouseEvent) {
         // const test = Select2Utils.getOptionByValue(this._data, this.resetSelectedValue);
         // debugger;
         this.select(
@@ -435,7 +435,9 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
                 : null,
         );
 
-        this.stopEvent(event);
+        if (event) {
+            this.stopEvent(event);
+        }
     }
 
     prevChange(event: Event) {
@@ -949,6 +951,10 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
                         // value is not null. Preselect value
                         const selectedValues: any = Select2Utils.getOptionsByValue(this._data, value, this.multiple);
                         selectedValues.map(item => this.select(item));
+                    } else if (value === null) {
+                        // fix if value is null
+                        this.value = [];
+                        this.reset();
                     }
                 } else {
                     this.select(Select2Utils.getOptionByValue(this._data, value));

@@ -394,4 +394,19 @@
         id="selec2-32"
         (autoCreateItem)="update('value32', $event)"
     ></select2>
+
+    <h3 id="ex-33">33. reset form multiple({{ ctrlForm3.get('test33')?.value }})</h3>
+    <form [formGroup]="ctrlForm3">
+        <select2
+            [data]="data32"
+            placeholder="Select Name"
+            formControlName="test33"
+            multiple="true"
+            hideSelectedItems="true"
+        ></select2>
+
+        <button  (click)="reset()">Reset</button>
+    </form>
+
+
 </div>
