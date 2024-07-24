@@ -26,11 +26,11 @@ npm i ng-select2-component --save
 > -   For `angular` 10, 11 and 12 (View Engine): use version `8.1.0`.
 > -   For `angular` 13 (Ivy): use version `9.0.0`.
 > -   For `angular` 14 (Ivy): use version `10.0.0`.
-> -   For `angular` 15 (Ivy): use version `11.0.0`.
-> -   For `angular` 16 (Ivy): use version `12.0.0`.
-> -   For `angular` 16.1 (Ivy): use version `13.0.0`.
-> -   For `angular` 17 (Ivy): use version `14.0.0`.
-> -   For `angular` 18 and more (Ivy): use version `15.0.0`.
+> -   For `angular` 15 (Ivy): use version `11.1.0`.
+> -   For `angular` 16 (Ivy): use version `12.1.0`.
+> -   For `angular` 16.1 (Ivy): use version `13.0.10`.
+> -   For `angular` 17 (Ivy): use version `14.0.1`.
+> -   For `angular` 18 and more (Ivy): use version `15.0.1`.
 
 ## Demo
 

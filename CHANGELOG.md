@@ -1,5 +1,12 @@
 # Changelog of ng-select2
 
+## V15.0.1 (2024-07-24)
+
+### Changes
+
+-   Fix reset with multiple #69
+-   Rewrite update event #69
+
 ## V15.0.0 (2024-05-31)
 
 ### Breaking Changes
