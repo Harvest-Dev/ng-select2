@@ -166,8 +166,10 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
     set value(value: Select2UpdateValue) {
         if (this.testValueChange(this._value, value)) {
             setTimeout(() => {
-                this._value = value;
-                this.writeValue(value);
+                if (this._value === undefined) {
+                    this._value = value ?? null;
+                }
+                this.writeValue(value ?? null);
             }, 10);
         }
     }
@@ -287,7 +289,7 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
     private _multiple = false;
     private _id: string;
     private _uid = `select2-${nextUniqueId++}`;
-    private _value: Select2UpdateValue;
+    private _value: Select2UpdateValue = null;
     private _previousNativeValue: Select2UpdateValue;
     private _overlayPosition: VerticalConnectionPos;
 
@@ -660,7 +662,7 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
         }
     }
 
-    select(option: Select2Option | null) {
+    select(option: Select2Option | null, emit: boolean = true) {
         let value: any;
         if (option !== null && option !== undefined) {
             if (this.multiple) {
@@ -671,6 +673,7 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
                 } else {
                     options.splice(index, 1);
                 }
+
                 value = (this.option as Select2Option[]).map(op => op.value);
             } else {
                 this.option = option;
@@ -680,8 +683,15 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
                     this.selectionElement?.focus();
                 }
                 value = this.option.value;
+                if (!option && this._value === null) {
+                    this._value = value ?? null;
+                }
             }
         } else {
+            // when remove value
+            if (Array.isArray(this.option) ? this.option?.length : this.option) {
+                value = '';
+            }
             this.option = null;
         }
 
@@ -689,17 +699,24 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
             this.updateFilteredData();
         }
 
+        emit &&= value !== undefined && this.testDiffValue(this._value, value);
+
         if (this._control) {
             this._onChange(value);
-        } else {
-            this._value = value;
         }
 
-        this.update.emit({
-            component: this,
-            value: value,
-            options: Array.isArray(this.option) ? this.option : this.option ? [this.option] : null,
-        });
+        if (emit) {
+            this._value = value ?? null;
+            this.update.emit({
+                component: this,
+                value: this._value,
+                options: Array.isArray(this.option) ? this.option : this.option ? [this.option] : null,
+            });
+        }
+    }
+
+    private testDiffValue(val1: Select2UpdateValue, val2: any) {
+        return Array.isArray(val1) ? (val1 as [])?.length !== val2?.length : val1 !== val2;
     }
 
     keyDown(event: KeyboardEvent, create = false) {
@@ -779,7 +796,7 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
         if (this._control) {
             this._onChange(value);
         } else {
-            this._value = value;
+            this._value = value ?? null;
         }
 
         this.update.emit({
@@ -950,13 +967,32 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
                     if (isArray) {
                         // value is not null. Preselect value
                         const selectedValues: any = Select2Utils.getOptionsByValue(this._data, value, this.multiple);
-                        selectedValues.map(item => this.select(item));
+                        selectedValues.map(item => this.select(item, false));
+                        this._value ??= value;
+                        if (this.testDiffValue(this._value, value)) {
+                            this.update.emit({
+                                component: this,
+                                value: this._value,
+                                options: Array.isArray(this.option) ? this.option : this.option ? [this.option] : null,
+                            });
+                        }
                     } else if (value === null) {
                         // fix if value is null
                         this.value = [];
                         this.reset();
+                        this.select(null, false);
+
+                        if (this.testDiffValue(this._value, value)) {
+                            this._value = [];
+                            this.update.emit({
+                                component: this,
+                                value: this._value,
+                                options: Array.isArray(this.option) ? this.option : this.option ? [this.option] : null,
+                            });
+                        }
                     }
                 } else {
+                    this._value ??= value;
                     this.select(Select2Utils.getOptionByValue(this._data, value));
                 }
             } else if (this._control) {

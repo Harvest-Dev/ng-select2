@@ -104,6 +104,7 @@ export class AppExamplesComponent {
     value30 = 'CA';
     value31 = '';
     value31b = '';
+    value33 = '';
 
     limitSelection = 0;
 
@@ -207,6 +208,7 @@ export class AppExamplesComponent {
     }
 
     update(key: string, event: Select2UpdateEvent<any>) {
+        console.log('update', event.component.id, event.value);
         this[key] = event.value;
     }
 

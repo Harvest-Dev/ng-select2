@@ -146,7 +146,15 @@
     </select2>
     <h3 id="ex-14">14. FormControl</h3>
     <form [formGroup]="fg">
-        <select2 [overlay]="overlay" [data]="data9" multiple="true" id="selec2-10" formControlName="state"> </select2>
+        <select2
+            [overlay]="overlay"
+            [data]="data9"
+            multiple="true"
+            id="selec2-10"
+            formControlName="state"
+            (update)="update('value14', $event)"
+        >
+        </select2>
         <button (click)="print()">Log Selected</button>
         <button (click)="resetForm()">Reset Form</button>
     </form>
@@ -393,6 +401,7 @@
         resetSelectedValue="CA"
         id="selec2-32"
         (autoCreateItem)="update('value32', $event)"
+        (update)="update('value32', $event)"
     ></select2>
 
     <h3 id="ex-33">33. reset form multiple({{ ctrlForm3.get('test33')?.value }})</h3>
@@ -403,10 +412,10 @@
             formControlName="test33"
             multiple="true"
             hideSelectedItems="true"
+            (update)="update('value33', $event)"
+            id="selec2-33"
         ></select2>
 
-        <button  (click)="reset()">Reset</button>
+        <button (click)="reset()">Reset</button>
     </form>
-
-
 </div>
