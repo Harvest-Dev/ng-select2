@@ -49,6 +49,7 @@ export class AppGenComponent implements AfterContentInit {
             noResultMessage: new UntypedFormControl(),
             maxResults: new UntypedFormControl(),
             maxResultsMessage: new UntypedFormControl(),
+            grid: new UntypedFormControl(),
             // template
             template: new UntypedFormControl(),
             noLabelTemplate: new UntypedFormControl(),
@@ -176,6 +177,9 @@ export class AppGenComponent implements AfterContentInit {
         }
         if (value.infiniteScrollThrottle) {
             attrs.infiniteScrollThrottle = value.infiniteScrollThrottle;
+        }
+        if (value.grid) {
+            attrs.grid = value.grid;
         }
         if (value.styleMode) {
             attrs.styleMode = value.styleMode;

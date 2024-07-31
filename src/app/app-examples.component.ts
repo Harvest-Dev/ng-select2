@@ -105,6 +105,8 @@ export class AppExamplesComponent {
     value31 = '';
     value31b = '';
     value33 = '';
+    value34 = '';
+    value34b = '';
 
     limitSelection = 0;
 

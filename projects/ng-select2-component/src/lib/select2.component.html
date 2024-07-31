@@ -175,7 +175,10 @@
                 <ul
                     #results
                     class="select2-results__options"
+                    [class.select2-grid]="grid && isNumber(grid)"
+                    [class.select2-grid-auto]="grid && !isNumber(grid)"
                     [style.max-height]="resultMaxHeight"
+                    [style.--grid-size]="grid || null"
                     role="tree"
                     tabindex="-1"
                     infiniteScroll

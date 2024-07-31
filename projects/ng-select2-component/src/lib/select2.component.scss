@@ -414,6 +414,7 @@
     .select2-results__option {
         &[role='group'] {
             padding: 0;
+            grid-column: col-start / col-end;
         }
 
         &[aria-disabled='true'] {
@@ -486,6 +487,18 @@
 .select2-too-much-result {
     color: var(--select2-too-much-result-color, #888);
     font-style: var(--select2-too-much-font-style, italic);
+}
+
+.select2-grid,
+.select2-grid ul {
+    display: grid;
+    grid-template-columns: [col-start] repeat(var(--grid-size), var(--select2-grid-option-width, 1fr)) [col-end];
+}
+
+.select2-grid-auto,
+.select2-grid-auto ul {
+    display: grid;
+    grid-template-columns: [col-start] repeat(auto-fill, minmax(var(--grid-size, 100px), 1fr)) [col-end];
 }
 
 :host {

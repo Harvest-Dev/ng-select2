@@ -418,4 +418,51 @@
 
         <button (click)="reset()">Reset</button>
     </form>
+
+
+    <h3 id="ex-34">34. grid ({{ value34 }})</h3>
+    <select2
+        [overlay]="overlay"
+        [data]="data2"
+        [value]="value34"
+        id="selec2-34"
+        grid="4"
+        (autoCreateItem)="update('value34', $event)"
+        (update)="update('value34', $event)"
+    ></select2>
+
+    <h3 id="ex-34b">34b. grid sub-group ({{ value34b }})</h3>
+    <select2
+        [overlay]="overlay"
+        [data]="data1"
+        [value]="value34b"
+        grid="4"
+        id="selec2-34b"
+        (autoCreateItem)="update('value34b', $event)"
+        (update)="update('value34b', $event)"
+    ></select2>
+
+    <h3 id="ex-35">35. grid-auto ({{ value34 }})</h3>
+    <select2
+        [overlay]="overlay"
+        [data]="data2"
+        [value]="value34"
+        id="selec2-35"
+        grid="125px"
+        (autoCreateItem)="update('value35', $event)"
+        (update)="update('value35', $event)"
+    ></select2>
+
+
+    <h3 id="ex-35b">35b. grid-auto sub-group ({{ value34 }})</h3>
+    <select2
+        [overlay]="overlay"
+        [data]="data1"
+        [value]="value34"
+        id="selec2-35b"
+        grid="125px"
+        (autoCreateItem)="update('value35b', $event)"
+        (update)="update('value35b', $event)"
+    ></select2>
+
 </div>

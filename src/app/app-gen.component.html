@@ -79,6 +79,10 @@
             <label for="limitSelection">limitSelection (0) : </label>
             <input type="number" formControlName="limitSelection" id="limitSelection" />
         </div>
+        <div>
+            <label for="grid">grid (4 or '100px') : </label>
+            <input type="string" formControlName="grid" id="grid" />
+        </div>
         <div [class.hide]="!ctrlForm?.value?.multiple">
             <label for="hideSelectedItems">hideSelectedItems : </label>
             <input type="checkbox" formControlName="hideSelectedItems" id="hideSelectedItems" />
@@ -202,6 +206,7 @@
                     [infiniteScrollThrottle]="ctrlForm?.value?.infiniteScrollThrottle || 150"
                     [styleMode]="ctrlForm?.value?.styleMode"
                     [noResultMessage]="ctrlForm?.value?.noResultMessage"
+                    [grid]="ctrlForm?.value?.grid"
                     [noLabelTemplate]="ctrlForm?.value?.noLabelTemplate"
                     [templates]="getTemplate(template, option, group, template1, template2)"
                     (update)="_event('update', $event)"

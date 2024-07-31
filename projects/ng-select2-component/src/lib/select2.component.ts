@@ -190,6 +190,13 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
     /** selected value when × is clicked */
     @Input() resetSelectedValue: any;
 
+    /** grid: item by line
+     * * 0 = no grid
+     * * number = item by line (4)
+     * * string = minimal size item (100px)
+     */
+    @Input() grid = '';
+
     @Output() update = new EventEmitter<Select2UpdateEvent<Select2UpdateValue>>();
     @Output() autoCreateItem = new EventEmitter<Select2AutoCreateEvent<Select2UpdateValue>>();
     @Output() open = new EventEmitter<Select2>();
@@ -433,7 +440,7 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
         // debugger;
         this.select(
             this.resetSelectedValue !== undefined
-                ? Select2Utils.getOptionByValue(this._data, this.resetSelectedValue) ?? null
+                ? (Select2Utils.getOptionByValue(this._data, this.resetSelectedValue) ?? null)
                 : null,
         );
 
@@ -512,6 +519,10 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
         this._dropdownRect = this.dropdown?.nativeElement
             ? this.dropdown.nativeElement.getBoundingClientRect()
             : undefined;
+    }
+
+    isNumber(o: any): boolean {
+        return !isNaN(o - 0) && o !== null && o !== '' && o !== false;
     }
 
     private testSelection(option: Select2Option) {
