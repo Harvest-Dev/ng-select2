@@ -360,10 +360,7 @@ It's possible to change different colors (and more) with CSS variables without h
     --select2-option-group-text-color: gray;
     --select2-option-group-background: transparent;
     --select2-option-padding: 6px;
-
-    /* dropdown option (grid) */
-    --select2-grid-option-width: 1fr;
-
+ 
     /* hint */
     --select2-hint-text-color: #888;
 

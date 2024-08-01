@@ -492,13 +492,44 @@
 .select2-grid,
 .select2-grid ul {
     display: grid;
-    grid-template-columns: [col-start] repeat(var(--grid-size), var(--select2-grid-option-width, 1fr)) [col-end];
+    grid-template-columns: [col-start] repeat(var(--grid-size), 1fr) [col-end];
 }
 
 .select2-grid-auto,
 .select2-grid-auto ul {
     display: grid;
     grid-template-columns: [col-start] repeat(auto-fill, minmax(var(--grid-size, 100px), 1fr)) [col-end];
+}
+
+.select2-container--default {
+    .select2-grid ul,
+    .select2-grid-auto ul {
+        padding-left:  var(--select2-option-padding, 6px);
+
+        .select2-results__group {
+            padding-left: 0;
+        }
+
+        .select2-results__option {
+            padding-left:  var(--select2-option-padding, 6px);
+
+            .select2-results__option {
+                padding-left:  var(--select2-option-padding, 6px);
+
+                .select2-results__option {
+                    padding-left:  var(--select2-option-padding, 6px);
+
+                    .select2-results__option {
+                        padding-left:  var(--select2-option-padding, 6px);
+
+                        .select2-results__option {
+                            padding-left:  var(--select2-option-padding, 6px);
+                        }
+                    }
+                }
+            }
+        }
+    }
 }
 
 :host {
