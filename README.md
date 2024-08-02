@@ -101,6 +101,7 @@ class MainModule {}
 | `overlay`                                                                 | `boolean`                                                                                           |          | `false`              | active an overlay mode for dropdown list (with angular cdk). (See [Overlay](#overlay))                              |                                      |
 | `styleMode`                                                               | `'default'`<br>`'material'`<br>`'noStyle'`<br>`'borderless'`                                        |          | `'default'`          | change style for material style or remove border and background color                                               |                                      |
 | `templates`                                                               | `TemplateRef`<br>`{option?: TemplateRef, group?: TemplateRef}`<br>`{templateId1: TemplateRef, ...}` |          |                      | use templates for formatting content (see [Templating](#templating))                                                |                                      |
+| `templateSelect`                                                          | `TemplateRef`                                                                                       |          |                      | use templates for formatting content (see [Templating](#templating))                                                |                                      |
 | `noLabelTemplate`                                                         | `boolean`                                                                                           |          | `false`              | do not use the template in the selection, stay in text mode                                                         |                                      |
 | `editPattern`                                                             | `(str: string) => string`                                                                           |          |                      | use it for change the pattern of the filter search                                                                  |                                      |
 | `ngModel`<br>`id`<br>`required`<br>`disabled`<br>`readonly`<br>`tabIndex` |                                                                                                     |          |                      | just like a `select` control                                                                                        |                                      |
@@ -360,7 +361,7 @@ It's possible to change different colors (and more) with CSS variables without h
     --select2-option-group-text-color: gray;
     --select2-option-group-background: transparent;
     --select2-option-padding: 6px;
- 
+
     /* hint */
     --select2-hint-text-color: #888;
 

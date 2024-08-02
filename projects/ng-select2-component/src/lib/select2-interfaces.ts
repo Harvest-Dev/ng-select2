@@ -7,7 +7,7 @@ export interface Select2Group {
     options: Select2Option[];
     /** add classes  */
     classes?: string;
-    /** template id  */
+    /** template id dropdown & selection if no templateSelectionId */
     templateId?: string;
     /** template data  */
     data?: any;
@@ -24,8 +24,10 @@ export interface Select2Option {
     id?: string;
     /** add classes  */
     classes?: string;
-    /** template id  */
+    /** template id dropdown & selection if no templateSelectionId */
     templateId?: string;
+    /** template id for selection */
+    templateSelectionId?: string;
     /** template data  */
     data?: any;
     /** hide this option */
