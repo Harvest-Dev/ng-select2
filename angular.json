@@ -27,7 +27,7 @@
             "optimization": false,
             "namedChunks": true,
             "browser": "src/main.ts",
-            "allowedCommonJsDependencies": ["bowser", "highlight.js"]
+            "allowedCommonJsDependencies": ["bowser", "highlight.js", "graphemer"]
           },
           "configurations": {
             "production": {
