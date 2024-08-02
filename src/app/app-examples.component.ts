@@ -24,6 +24,8 @@ import {
     data31en,
     data31fr,
     data31ja,
+    data35,
+    data35b,
     data5,
     data6,
     data8,
@@ -66,6 +68,10 @@ export class AppExamplesComponent {
     data30: Select2Data = JSON.parse(JSON.stringify(data1));
     data31 = data31en;
     data32: Select2Data = JSON.parse(JSON.stringify(data3));
+    data34 = data2;
+    data34b = data1;
+    data35 = data35;
+    data35b = data35b;
 
     minCountForSearch = Infinity;
 
@@ -105,6 +111,10 @@ export class AppExamplesComponent {
     value31 = '';
     value31b = '';
     value33 = '';
+    value34 = '';
+    value34b = '';
+    value35 = '';
+    value35b = '';
 
     limitSelection = 0;
 
