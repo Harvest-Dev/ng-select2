@@ -144,7 +144,7 @@
     <h3 id="ex-13">13. boolean value ({{ value13 }})</h3>
     <select2 [overlay]="overlay" [data]="data13" [value]="value13" (update)="update('value13', $event)" id="selec2-13">
     </select2>
-    <h3 id="ex-14">14. FormControl</h3>
+    <h3 id="ex-14">14. FormControl ({{ fg.get('state').value }})</h3>
     <form [formGroup]="fg">
         <select2
             [overlay]="overlay"
@@ -391,11 +391,11 @@
         (update)="update('value31b', $event)"
     ></select2>
 
-    <h3 id="ex-32">32. auto create when ({{ value30 }})</h3>
+    <h3 id="ex-32">32. auto create when ({{ value32 }})</h3>
     <select2
         [overlay]="overlay"
-        [data]="data30"
-        [value]="value30"
+        [data]="data32"
+        [value]="value32"
         resettable
         autoCreate
         resetSelectedValue="CA"
@@ -418,7 +418,6 @@
 
         <button (click)="reset()">Reset</button>
     </form>
-
 
     <h3 id="ex-34">34. grid ({{ value34 }})</h3>
     <select2

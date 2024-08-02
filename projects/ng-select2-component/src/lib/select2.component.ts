@@ -584,9 +584,9 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
                 this.hoveringValue = Select2Utils.getFirstAvailableOption(result);
             }
 
-            if (writeValue) {
+            if (writeValue && this._previousNativeValue !== this._value) {
                 // refresh current selected value
-                this.writeValue(this._control ? this._control.value : this.value);
+                this.writeValue(this._control ? this._control.value : this._value);
             }
 
             this.filteredData = result;
@@ -718,10 +718,12 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
 
         if (emit) {
             this._value = value ?? null;
-            this.update.emit({
-                component: this,
-                value: this._value,
-                options: Array.isArray(this.option) ? this.option : this.option ? [this.option] : null,
+            setTimeout(() => {
+                this.update.emit({
+                    component: this,
+                    value: this._value,
+                    options: Array.isArray(this.option) ? this.option : this.option ? [this.option] : null,
+                });
             });
         }
     }
@@ -980,10 +982,12 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
                         const selectedValues: any = Select2Utils.getOptionsByValue(this._data, value, this.multiple);
                         selectedValues.map(item => this.select(item, false));
                         this._value ??= value;
+
                         if (this.testDiffValue(this._value, value)) {
+                            console.error(this.id, this._value, value);
                             this.update.emit({
                                 component: this,
-                                value: this._value,
+                                value: value,
                                 options: Array.isArray(this.option) ? this.option : this.option ? [this.option] : null,
                             });
                         }

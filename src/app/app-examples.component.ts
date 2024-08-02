@@ -88,7 +88,7 @@ export class AppExamplesComponent {
     value7 = '';
     value8 = '';
     value9: string[] = [];
-    value10: string[] = [];
+    value10: string[] = ['CA', 'OR'];
     value11 = 'CA';
     value12 = 'CA';
     value13 = true;
@@ -110,6 +110,7 @@ export class AppExamplesComponent {
     value30 = 'CA';
     value31 = '';
     value31b = '';
+    value32 = '';
     value33 = '';
     value34 = '';
     value34b = '';
