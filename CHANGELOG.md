@@ -1,5 +1,13 @@
 # Changelog of ng-select2
 
+## V15.1.0 (2024-08-02)
+
+### Changes
+
+-   Add grid layout mode in dropdown #72
+-   Fix init value in multiple mode #73
+-   Fix reset value
+
 ## V15.0.1 (2024-07-24)
 
 ### Changes
