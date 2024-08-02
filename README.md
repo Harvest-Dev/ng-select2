@@ -39,7 +39,7 @@ npm i ng-select2-component --save
 ## Features
 
 -   select one
--   options or groups
+-   options or groups (list or grid)
 -   scroll
 -   local search
 -   select by keyboard

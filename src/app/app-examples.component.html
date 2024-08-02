@@ -441,7 +441,7 @@
         (update)="update('value34b', $event)"
     ></select2>
 
-    <h3 id="ex-35">35. grid-auto ({{ value34 }})</h3>
+    <h3 id="ex-35">35. grid-auto ({{ value35 }})</h3>
     <select2
         [overlay]="overlay"
         [data]="data35"
@@ -452,16 +452,15 @@
         (update)="update('value35', $event)"
     ></select2>
 
-
-    <h3 id="ex-35b">35b. grid-auto sub-group ({{ value34 }})</h3>
+    <h3 id="ex-35b">35b. grid-auto sub-group + multiple ({{ value35b }})</h3>
     <select2
         [overlay]="overlay"
         [data]="data35b"
         [value]="value35b"
+        multiple
         id="selec2-35b"
         grid="35px"
         (autoCreateItem)="update('value35b', $event)"
         (update)="update('value35b', $event)"
     ></select2>
-
 </div>
