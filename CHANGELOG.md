@@ -1,5 +1,11 @@
 # Changelog of ng-select2
 
+## V15.2.0 (2024-08-03)
+
+### Changes
+
+-   Add templates for selection (see readme or code generator) #74
+
 ## V15.1.0 (2024-08-02)
 
 ### Changes
