@@ -249,6 +249,7 @@
         (update)="update('value23', $event)"
         listPosition="above"
         [templates]="template"
+        [templateSelection]="templateSelection"
         id="selec2-23"
         class="flower-list"
     >
@@ -256,6 +257,10 @@
             ><strong>{{ data?.color }}</strong
             >: {{ data?.name }}</ng-template
         >
+        <ng-template #templateSelection let-data="data"
+        ><strong>{{ data?.color }}</strong
+        > ({{ data?.name }})</ng-template
+    >
     </select2>
 
     <h3 id="ex-24">24. with template (option / group) ({{ value24 }})</h3>

@@ -52,6 +52,7 @@ export class AppGenComponent implements AfterContentInit {
             grid: new UntypedFormControl(),
             // template
             template: new UntypedFormControl(),
+            templateSelection: new UntypedFormControl(),
             noLabelTemplate: new UntypedFormControl(),
             // event
             update: new UntypedFormControl(),
@@ -83,14 +84,63 @@ export class AppGenComponent implements AfterContentInit {
         group: TemplateRef<any>,
         template1: TemplateRef<any>,
         template2: TemplateRef<any>,
+        optionSelection: TemplateRef<any>,
+        template2Selection: TemplateRef<any>,
+        template3Selection: TemplateRef<any>,
     ) {
         switch (this.ctrlForm.value.template) {
             case 'ref':
-                return template;
+                if (this.ctrlForm.value.templateSelection === 'option') {
+                    return { template: template, optionSelection: optionSelection };
+                } else if (this.ctrlForm.value.templateSelection === 'templateId') {
+                    return {
+                        template: template,
+                        template2Selection: template2Selection,
+                        template3Selection: template3Selection,
+                    };
+                } else {
+                    return template;
+                }
             case 'option-group':
-                return { option: option, group: group };
+                if (this.ctrlForm.value.templateSelection === 'option') {
+                    return { option: option, group: group, optionSelection: optionSelection };
+                } else if (this.ctrlForm.value.templateSelection === 'templateId') {
+                    return {
+                        option: option,
+                        group: group,
+                        template2Selection: template2Selection,
+                        template3Selection: template3Selection,
+                    };
+                } else {
+                    return { option: option, group: group };
+                }
             case 'templateId':
-                return { template1: template1, template2: template2 };
+                if (this.ctrlForm.value.templateSelection === 'option') {
+                    return { template1: template1, template2: template2, optionSelection: optionSelection };
+                } else if (this.ctrlForm.value.templateSelection === 'templateId') {
+                    return {
+                        template1: template1,
+                        template2: template2,
+                        template2Selection: template2Selection,
+                        template3Selection: template3Selection,
+                    };
+                } else {
+                    return { template1: template1, template2: template2 };
+                }
+            default:
+                if (this.ctrlForm.value.templateSelection === 'option') {
+                    return { optionSelection: optionSelection };
+                } else if (this.ctrlForm.value.templateSelection === 'templateId') {
+                    return { template2Selection: template2Selection, template3Selection: template3Selection };
+                }
+        }
+        return undefined;
+    }
+
+    getTemplateSelection(template: TemplateRef<any>) {
+        switch (this.ctrlForm.value.templateSelection) {
+            case 'ref':
+                return template;
         }
     }
 
@@ -199,22 +249,29 @@ export class AppGenComponent implements AfterContentInit {
 
         // template
 
+        let templates: string = '';
+        let templatesSelection: string = '';
+
         switch (value.template) {
             case 'ref':
                 attrs['[templates]'] = 'template';
                 body.push({
                     tag: 'ng-template',
                     attrs: { '#template': null, 'let-data': 'data' },
-                    body: '<ng-container *ngIf="data?.color"> <strong>{{data?.color}}</strong>: </ng-container>{{data?.name}}',
+                    body: `
+        @if (data?.color) {
+            <strong>{{ data?.color }}</strong>:
+        }
+        {{ data?.name }}`,
                 });
                 break;
             case 'option-group':
-                attrs['[templates]'] = '{option : option, group: group}';
+                templates += 'option: option, group: group';
                 body.push(
                     {
                         tag: 'ng-template',
                         attrs: { '#option': null, 'let-data': 'data' },
-                        body: '{{data?.name}}',
+                        body: 'Option: {{data?.name}}',
                     },
                     {
                         tag: 'ng-template',
@@ -224,7 +281,7 @@ export class AppGenComponent implements AfterContentInit {
                 );
                 break;
             case 'templateId':
-                attrs['[templates]'] = '{template1 : template1, template2: template2}';
+                templates += 'template1 : template1, template2: template2';
                 body.push(
                     {
                         tag: 'ng-template',
@@ -234,10 +291,58 @@ export class AppGenComponent implements AfterContentInit {
                     {
                         tag: 'ng-template',
                         attrs: { '#template2': null, 'let-label': 'label', 'let-data': 'data' },
-                        body: '{{label}} : {{data?.color}}',
+                        body: '{{ label }} ~ <strong>{{ data?.color }}</strong>',
                     },
                 );
                 break;
+        }
+
+        switch (value.templateSelection) {
+            case 'ref':
+                attrs['[templateSelection]'] = 'templateSelection';
+                body.push({
+                    tag: 'ng-template',
+                    attrs: { '#templateSelection': null, 'let-label': 'label' },
+                    body: `
+        @if (data?.color) {
+            <em>{{ data?.color }}</em>
+        }
+        #{{ data?.name }}`,
+                });
+                break;
+            case 'option':
+                templatesSelection += 'optionSelection : optionSelection';
+                body.push({
+                    tag: 'ng-template',
+                    attrs: { '#optionSelection': null, 'let-data': 'data' },
+                    body: '[{{ data?.name }}]',
+                });
+                break;
+            case 'templateId':
+                templatesSelection += 'template2Selection : template2Selection, template3Selection: template3Selection';
+                body.push(
+                    {
+                        tag: 'ng-template',
+                        attrs: { '#template2Selection': null, 'let-data': 'data' },
+                        body: '{{ label }} * <em>{{ data?.color }}</em>',
+                    },
+                    {
+                        tag: 'ng-template',
+                        attrs: { '#template3Selection': null, 'let-data': 'data' },
+                        body: '{{ label }} = <em>{{ data?.color }}</em>',
+                    },
+                );
+                break;
+        }
+
+        if (attrs['[templates]'] && templatesSelection) {
+            attrs['[templates]'] = `{template: template, ${templatesSelection}}`;
+        } else if (templatesSelection && templates) {
+            attrs['[templates]'] = `{${templates}, ${templatesSelection}}`;
+        } else if (templates) {
+            attrs['[templates]'] = `{${templates}}`;
+        } else if (templatesSelection) {
+            attrs['[templates]'] = `{${templatesSelection}}`;
         }
 
         // event

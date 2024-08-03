@@ -37,13 +37,12 @@
                         <span>&nbsp;</span>
                     }
                     @if (select2Option) {
-                        @if (!hasTemplate(select2Option, 'option') || noLabelTemplate) {
+                        @if (!hasTemplate(select2Option, 'option', true) || noLabelTemplate) {
                             <span [innerHTML]="select2Option.label"></span>
                         } @else {
                             <ng-container
-                                *ngTemplateOutlet="getTemplate(select2Option, 'option'); context: select2Option"
-                            >
-                            </ng-container>
+                                *ngTemplateOutlet="getTemplate(select2Option, 'option', true); context: select2Option"
+                            ></ng-container>
                         }
                     }
                     <span
@@ -83,10 +82,12 @@
                                     >×</span
                                 >
                             }
-                            @if (!hasTemplate(op, 'option') || noLabelTemplate) {
+                            @if (!hasTemplate(op, 'option', true) || noLabelTemplate) {
                                 <span [innerHTML]="op.label"></span>
                             } @else {
-                                <ng-container *ngTemplateOutlet="getTemplate(op, 'option'); context: op"></ng-container>
+                                <ng-container
+                                    *ngTemplateOutlet="getTemplate(op, 'option', true); context: op"
+                                ></ng-container>
                             }
                         </li>
                     }

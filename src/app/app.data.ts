@@ -315,6 +315,7 @@ export const data24: Select2Data = [
                 label: 'Hibiscus',
                 data: { color: 'red', name: 'Hibiscus' },
                 templateId: 'template1',
+                templateSelectionId: 'template1Selection',
                 id: 'option-hibiscus',
             },
             {
@@ -322,6 +323,7 @@ export const data24: Select2Data = [
                 label: 'Marigold',
                 data: { color: 'red', name: 'Marigold' },
                 templateId: 'template2',
+                templateSelectionId: 'template2Selection',
                 id: 'option-marigold',
             },
         ],
@@ -335,6 +337,7 @@ export const data24: Select2Data = [
                 label: 'Sunflower',
                 data: { color: 'yellow', name: 'Sunflower' },
                 templateId: 'template3',
+                templateSelectionId: 'template3Selection',
                 id: 'option-sunflower',
             },
         ],
@@ -348,6 +351,7 @@ export const data24: Select2Data = [
                 label: 'Heliotrope',
                 data: { color: 'white', name: 'Heliotrope' },
                 templateId: 'template1',
+                templateSelectionId: 'template1Selection',
                 id: 'option-heliotrope',
             },
             {
@@ -355,6 +359,7 @@ export const data24: Select2Data = [
                 label: 'Lily',
                 data: { color: 'white', name: 'Lily' },
                 templateId: 'template2',
+                templateSelectionId: 'template2Selection',
                 id: 'option-lily',
             },
             {
@@ -362,6 +367,7 @@ export const data24: Select2Data = [
                 label: 'Petunia',
                 data: { color: 'white', name: 'Petunia' },
                 templateId: 'template3',
+                templateSelectionId: 'template3Selection',
                 id: 'option-petunia',
             },
         ],

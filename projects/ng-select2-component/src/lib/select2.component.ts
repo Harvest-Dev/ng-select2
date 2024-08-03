@@ -111,8 +111,11 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
     /** use it for change the pattern of the filter search */
     @Input() editPattern: (str: string) => string;
 
-    /** template for formatting */
+    /** template(s) for formatting */
     @Input() templates: TemplateRef<any> | { [key: string]: TemplateRef<any> };
+
+    /** template for formatting selected option */
+    @Input() templateSelection: TemplateRef<any>;
 
     /** the max height of the results container when opening the select */
     @Input() resultMaxHeight = '200px';
@@ -500,17 +503,34 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
         this._changeDetectorRef.markForCheck();
     }
 
-    hasTemplate(option: Select2Option | Select2Group, defaut: string) {
+    hasTemplate(option: Select2Option | Select2Group, defaultValue: string, select: boolean = false) {
         return (
-            this.templates instanceof TemplateRef ||
+            (select
+                ? this.templates?.[(option as Select2Option).templateSelectionId] instanceof TemplateRef ||
+                  this.templates?.[`${defaultValue}Selection`] instanceof TemplateRef ||
+                  this.templates?.[`templateSelection`] instanceof TemplateRef ||
+                  this.templateSelection instanceof TemplateRef
+                : false) ||
             this.templates?.[option.templateId] instanceof TemplateRef ||
-            this.templates?.[defaut] instanceof TemplateRef
+            this.templates?.[defaultValue] instanceof TemplateRef ||
+            this.templates?.['template'] instanceof TemplateRef ||
+            this.templates instanceof TemplateRef ||
+            false
         );
     }
 
-    getTemplate(option: Select2Option | Select2Group, defaut: string) {
-        return this.hasTemplate(option, defaut)
-            ? this.templates[option.templateId] || this.templates[defaut] || this.templates
+    getTemplate(option: Select2Option | Select2Group, defaultValue: string, select: boolean = false) {
+        return this.hasTemplate(option, defaultValue, select)
+            ? (select
+                  ? this.templates?.[(option as Select2Option).templateSelectionId] ||
+                    this.templates?.[`${defaultValue}Selection`] ||
+                    this.templates?.[`templateSelection`] ||
+                    this.templateSelection
+                  : undefined) ||
+                  this.templates?.[option.templateId] ||
+                  this.templates?.[defaultValue] ||
+                  this.templates?.['template'] ||
+                  this.templates
             : undefined;
     }
 

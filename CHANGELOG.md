@@ -340,7 +340,7 @@
 
 ### Changes
 
--   add `limitSelection` attribute to limit multiple selection. (By defaut `0` for no limit)
+-   add `limitSelection` attribute to limit multiple selection. (By default `0` for no limit)
 
 ## V7.1.3 (2020-05-07)
 
@@ -407,8 +407,8 @@
 
 -   with label and required is true, add a red `*` after the label
 -   add new @input parameters :
-    -   `hideSelectedItems` : for `multiple`, remove selected values (by defaut : `false`)
-    -   `resultMaxHeight` : change the height size of results (by defaut : `200px`);
+    -   `hideSelectedItems` : for `multiple`, remove selected values (by default : `false`)
+    -   `resultMaxHeight` : change the height size of results (by default : `200px`);
 
 ### Corrections
 
