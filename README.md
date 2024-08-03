@@ -283,6 +283,28 @@ In addition to the rendering templates of options and groups, in addition to goi
 -   `{templateSelection: TemplateRef}`
 -   `{optionSelection: TemplateRef}`
 
+#### Priority order
+
+For group or option:
+
+-   `'id'` (from attribute `templateId`)
+-   `'group'` or `'option'`
+-   `'template'`
+-   `TemplateRef` (from attribute `templates`)
+-   Default render
+
+For the selection:
+
+-   `'id'` (from attribute `templateSelectionId`)
+-   `'optionSelection'`
+-   `'templateSelection'`
+-   `TemplateRef` (from attribute `templateSelection`)
+-   `'id'` (from attribute `templateId`)
+-   `'option'`
+-   `'template'`
+-   `TemplateRef` (from attribute `templates`)
+-   Default render
+
 ### Overlay
 
 If the overlay mode is used / activated, add to the project root in CSS (with `ViewEncapsulation.None`)

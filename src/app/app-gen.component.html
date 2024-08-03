@@ -143,7 +143,7 @@
             <select formControlName="templateSelection" id="templateSelection">
                 <option value="none">None</option>
                 <option value="ref">Unique template</option>
-                <option value="option-group">Template group & option</option>
+                <option value="option">Template option</option>
                 <option value="templateId">Template by templateId</option>
             </select>
         </div>
@@ -225,6 +225,7 @@
                             template1,
                             template2,
                             optionSelection,
+                            template2Selection,
                             template3Selection
                         )
                     "
@@ -259,6 +260,9 @@
                     <ng-template #template1 let-data="data">{{ data?.name }}</ng-template>
                     <ng-template #template2 let-label="label" let-data="data">
                         {{ label }} ~ <strong>{{ data?.color }}</strong>
+                    </ng-template>
+                    <ng-template #template2Selection let-label="label" let-data="data">
+                        {{ label }} * <em>{{ data?.color }}</em>
                     </ng-template>
                     <ng-template #template3Selection let-label="label" let-data="data">
                         {{ label }} = <em>{{ data?.color }}</em>
