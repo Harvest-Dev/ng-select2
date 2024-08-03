@@ -287,22 +287,22 @@ In addition to the rendering templates of options and groups, in addition to goi
 
 For group or option:
 
--   `'id'` (from attribute `templateId`)
+-   `'id'` (from item data `templateId`)
 -   `'group'` or `'option'`
 -   `'template'`
--   `TemplateRef` (from attribute `templates`)
+-   `TemplateRef` (from html attribute `templates`)
 -   Default render
 
 For the selection:
 
--   `'id'` (from attribute `templateSelectionId`)
+-   `'id'` (from item data `templateSelectionId`)
 -   `'optionSelection'`
 -   `'templateSelection'`
--   `TemplateRef` (from attribute `templateSelection`)
--   `'id'` (from attribute `templateId`)
+-   `TemplateRef` (from html attribute `templateSelection`)
+-   `'id'` (from item data `templateId`)
 -   `'option'`
 -   `'template'`
--   `TemplateRef` (from attribute `templates`)
+-   `TemplateRef` (from html attribute `templates`)
 -   Default render
 
 ### Overlay
