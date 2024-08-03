@@ -249,7 +249,7 @@
         (update)="update('value23', $event)"
         listPosition="above"
         [templates]="template"
-        [templateSelect]="templateSelect"
+        [templateSelection]="templateSelection"
         id="selec2-23"
         class="flower-list"
     >
@@ -257,7 +257,7 @@
             ><strong>{{ data?.color }}</strong
             >: {{ data?.name }}</ng-template
         >
-        <ng-template #templateSelect let-data="data"
+        <ng-template #templateSelection let-data="data"
         ><strong>{{ data?.color }}</strong
         > ({{ data?.name }})</ng-template
     >

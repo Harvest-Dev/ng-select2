@@ -115,7 +115,7 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
     @Input() templates: TemplateRef<any> | { [key: string]: TemplateRef<any> };
 
     /** template for formatting selected option */
-    @Input() templateSelect: TemplateRef<any>;
+    @Input() templateSelection: TemplateRef<any>;
 
     /** the max height of the results container when opening the select */
     @Input() resultMaxHeight = '200px';
@@ -508,10 +508,12 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
             (select
                 ? this.templates?.[(option as Select2Option).templateSelectionId] instanceof TemplateRef ||
                   this.templates?.[`${defaultValue}Selection`] instanceof TemplateRef ||
-                  this.templateSelect instanceof TemplateRef
+                  this.templates?.[`templateSelection`] instanceof TemplateRef ||
+                  this.templateSelection instanceof TemplateRef
                 : false) ||
             this.templates?.[option.templateId] instanceof TemplateRef ||
             this.templates?.[defaultValue] instanceof TemplateRef ||
+            this.templates?.['template'] instanceof TemplateRef ||
             this.templates instanceof TemplateRef ||
             false
         );
@@ -522,10 +524,12 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
             ? (select
                   ? this.templates?.[(option as Select2Option).templateSelectionId] ||
                     this.templates?.[`${defaultValue}Selection`] ||
-                    this.templateSelect
+                    this.templates?.[`templateSelection`] ||
+                    this.templateSelection
                   : undefined) ||
-                  this.templates[option.templateId] ||
-                  this.templates[defaultValue] ||
+                  this.templates?.[option.templateId] ||
+                  this.templates?.[defaultValue] ||
+                  this.templates?.['template'] ||
                   this.templates
             : undefined;
     }

@@ -139,6 +139,15 @@
             </select>
         </div>
         <div>
+            <label for="templateSelection">template selection style :</label>
+            <select formControlName="templateSelection" id="templateSelection">
+                <option value="none">None</option>
+                <option value="ref">Unique template</option>
+                <option value="option-group">Template group & option</option>
+                <option value="templateId">Template by templateId</option>
+            </select>
+        </div>
+        <div>
             <label for="noLabelTemplate">noLabelTemplate : </label>
             <input type="checkbox" formControlName="noLabelTemplate" id="noLabelTemplate" />
         </div>
@@ -208,7 +217,18 @@
                     [noResultMessage]="ctrlForm?.value?.noResultMessage"
                     [grid]="ctrlForm?.value?.grid"
                     [noLabelTemplate]="ctrlForm?.value?.noLabelTemplate"
-                    [templates]="getTemplate(template, option, group, template1, template2)"
+                    [templates]="
+                        getTemplate(
+                            template,
+                            option,
+                            group,
+                            template1,
+                            template2,
+                            optionSelection,
+                            template3Selection
+                        )
+                    "
+                    [templateSelection]="getTemplateSelection(templateSelection)"
                     (update)="_event('update', $event)"
                     (open)="_event('open', $event)"
                     (close)="_event('close', $event)"
@@ -227,11 +247,21 @@
                         }
                         {{ data?.name }}
                     </ng-template>
-                    <ng-template #option let-data="data">{{ data?.name }}</ng-template>
+                    <ng-template #templateSelection let-data="data">
+                        @if (data?.color) {
+                            <em>{{ data?.color }}</em>
+                        }
+                        #{{ data?.name }}
+                    </ng-template>
+                    <ng-template #option let-data="data">Option: {{ data?.name }}</ng-template>
                     <ng-template #group let-label="label">Group: {{ label }}</ng-template>
+                    <ng-template #optionSelection let-data="data">[{{ data?.name }}]</ng-template>
                     <ng-template #template1 let-data="data">{{ data?.name }}</ng-template>
                     <ng-template #template2 let-label="label" let-data="data">
-                        {{ label }} : <strong>{{ data?.color }}</strong>
+                        {{ label }} ~ <strong>{{ data?.color }}</strong>
+                    </ng-template>
+                    <ng-template #template3Selection let-label="label" let-data="data">
+                        {{ label }} = <em>{{ data?.color }}</em>
                     </ng-template>
                 </select2>
             }
