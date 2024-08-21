@@ -1,5 +1,11 @@
 # Changelog of ng-select2
 
+## V15.2.1 (2024-08-22)
+
+### Changes
+
+-   Delete a forgotten logger #75
+
 ## V15.2.0 (2024-08-03)
 
 ### Changes
