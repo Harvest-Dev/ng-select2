@@ -1004,7 +1004,6 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
                         this._value ??= value;
 
                         if (this.testDiffValue(this._value, value)) {
-                            console.error(this.id, this._value, value);
                             this.update.emit({
                                 component: this,
                                 value: value,
