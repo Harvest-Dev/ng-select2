@@ -5,6 +5,7 @@ import {
     Select2Data,
     Select2ScrollEvent,
     Select2SearchEvent,
+    Select2SelectionOverride,
     Select2UpdateEvent,
 } from 'projects/ng-select2-component/src/public_api';
 
@@ -72,6 +73,9 @@ export class AppExamplesComponent {
     data34b = data1;
     data35 = data35;
     data35b = data35b;
+    data36 = data1;
+    data36m = data1;
+    data36mf = data1;
 
     minCountForSearch = Infinity;
 
@@ -88,7 +92,7 @@ export class AppExamplesComponent {
     value7 = '';
     value8 = '';
     value9: string[] = [];
-    value10: string[] = ['CA', 'OR'];
+    value10: string[] = ['CA', 'OR', 'RI', 'WV', 'VT', 'VA', 'AR', 'IA'];
     value11 = 'CA';
     value12 = 'CA';
     value13 = true;
@@ -117,10 +121,18 @@ export class AppExamplesComponent {
     value34b = '';
     value35 = '';
     value35b = '';
+    value36 = '';
+    value36m = ['NY', 'NC', 'RI', 'WV', 'VT', 'VA', 'AR', 'IA'];
+    value36mf = ['NY', 'NC', 'RI', 'WV', 'VT', 'VA', 'AR', 'IA'];
+
+    selectionOverride: Select2SelectionOverride = params => {
+        return `Selection (${params.size}${params.options.length > 0 ? ': ' + params.options.map(e => e.label).join(', ') : ''}) `;
+    };
 
     limitSelection = 0;
 
     overlay = false;
+    selectionNoWrap = false;
 
     fg: UntypedFormGroup = new UntypedFormGroup({
         state: new UntypedFormControl(),

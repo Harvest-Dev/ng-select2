@@ -4,6 +4,7 @@ import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup } from '@angul
 import { Json2html, Json2htmlRef } from '@ikilote/json2html';
 import * as Bowser from 'bowser';
 
+import { Select2SelectionOverride } from 'projects/ng-select2-component/src/public_api';
 import { data24 } from './app.data';
 
 @Component({
@@ -50,6 +51,9 @@ export class AppGenComponent implements AfterContentInit {
             maxResults: new UntypedFormControl(),
             maxResultsMessage: new UntypedFormControl(),
             grid: new UntypedFormControl(),
+            selectionOverrideString: new UntypedFormControl(),
+            selectionOverrideFunction: new UntypedFormControl(),
+            selectionNoWrap: new UntypedFormControl(),
             // template
             template: new UntypedFormControl(),
             templateSelection: new UntypedFormControl(),
@@ -77,6 +81,10 @@ export class AppGenComponent implements AfterContentInit {
     ngAfterContentInit() {
         this.codeGeneration();
     }
+
+    selectionOverride: Select2SelectionOverride = params => {
+        return `Selection (${params.size}${params.options.length > 0 ? ': ' + params.options.map(e => e.label).join(', ') : ''}) `;
+    };
 
     getTemplate(
         template: TemplateRef<any>,
@@ -245,6 +253,17 @@ export class AppGenComponent implements AfterContentInit {
         }
         if (value.noLabelTemplate) {
             attrs.noLabelTemplate = this._testBoolean(value.noLabelTemplate);
+        }
+        if (value.noLabelTemplate) {
+            attrs.noLabelTemplate = this._testBoolean(value.noLabelTemplate);
+        }
+        if (value.selectionOverrideFunction) {
+            attrs['[selectionOverride]'] = 'selectionOverride';
+        } else if (value.selectionOverrideString) {
+            attrs.selectionOverride = value.selectionOverrideString;
+        }
+        if (value.selectionNoWrap) {
+            attrs.selectionNoWrap = this._testBoolean(value.selectionNoWrap);
         }
 
         // template

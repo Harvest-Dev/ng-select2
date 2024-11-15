@@ -39,6 +39,7 @@ import {
     Select2RemoveEvent,
     Select2ScrollEvent,
     Select2SearchEvent,
+    Select2SelectionOverride,
     Select2UpdateEvent,
     Select2UpdateValue,
     Select2Value,
@@ -200,6 +201,18 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
      * * string = minimal size item (100px)
      */
     @Input() grid = '';
+
+    /**
+     * Replace selection by a text
+     * * if string: `%size%` = total selected options
+     * * if function: juste show the string
+     */
+    @Input() selectionOverride: Select2SelectionOverride;
+
+    /** force selection on one line */
+    @HostBinding('class.select2-selection-nowrap')
+    @Input({ transform: booleanAttribute })
+    selectionNoWrap = false;
 
     @Output() update = new EventEmitter<Select2UpdateEvent<Select2UpdateValue>>();
     @Output() autoCreateItem = new EventEmitter<Select2AutoCreateEvent<Select2UpdateValue>>();
@@ -939,6 +952,21 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
         const isTouched = this._control?.touched;
         const isSubmitted = this._parentFormGroup?.submitted || this._parentForm?.submitted;
         return !!(isInvalid && (isTouched || isSubmitted));
+    }
+
+    _selectionOverrideLabel() {
+        if (typeof this.selectionOverride === 'function') {
+            return this.selectionOverride({
+                size: this.optionsSize(),
+                options: Array.isArray(this.option) ? this.option : this.option ? [this.option] : null,
+            });
+        } else if (typeof this.selectionOverride === 'string') {
+            return this.selectionOverride.replaceAll('%size%', `${this.optionsSize()}`);
+        }
+    }
+
+    private optionsSize() {
+        return Array.isArray(this.option) ? this.option.length : this.option ? 1 : 0;
     }
 
     private addItem(value: string): Select2Option {

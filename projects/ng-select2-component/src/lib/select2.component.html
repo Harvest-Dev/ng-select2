@@ -31,7 +31,12 @@
             [class.select2-selection--single]="!multiple"
             role="combobox"
         >
-            @if (!multiple) {
+            @if (selectionOverride) {
+                 <span class="select2-selection__override" [innerHTML]="_selectionOverrideLabel()"></span>
+                 @if (!multiple && resettable && resetSelectedValue !== value && select2Option && !(disabled || readonly)) {
+                    <span (click)="reset($event)" class="select2-selection__reset" role="presentation">×</span>
+                }
+            } @else if (!multiple) {
                 <span class="select2-selection__rendered" [title]="select2Option?.label || ''">
                     @if (!select2Option) {
                         <span>&nbsp;</span>
@@ -51,14 +56,11 @@
                         >{{ placeholder }}</span
                     >
                 </span>
-            }
-            @if (!multiple && resettable && resetSelectedValue !== value && select2Option && !(disabled || readonly)) {
-                <span (click)="reset($event)" class="select2-selection__reset" role="presentation">×</span>
-            }
-            @if (!multiple) {
+                @if (resettable && resetSelectedValue !== value && select2Option && !(disabled || readonly)) {
+                    <span (click)="reset($event)" class="select2-selection__reset" role="presentation">×</span>
+                }
                 <span class="select2-selection__arrow" role="presentation"> </span>
-            }
-            @if (multiple) {
+            } @else {
                 <ul class="select2-selection__rendered">
                     @if (!autoCreate) {
                         <span

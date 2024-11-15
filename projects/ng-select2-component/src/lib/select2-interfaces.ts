@@ -90,3 +90,5 @@ export interface Select2ScrollEvent {
     /** current data */
     readonly data: Select2Data;
 }
+
+export type Select2SelectionOverride = string | ((params: { size: number; options: Select2Option[] | null }) => string);

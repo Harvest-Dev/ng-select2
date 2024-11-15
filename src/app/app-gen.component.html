@@ -128,7 +128,30 @@
                 <option value="borderless">borderless</option>
             </select>
         </div>
-        <h4>Templates</h4>
+
+        <h5>Selection</h5>
+        <div>selectionOverride:</div>
+        <div>
+            <label for="selectionOverrideFunction"> - function : </label>
+            <input type="checkbox" formControlName="selectionOverrideFunction" id="selectionOverrideFunction" />
+        </div>
+        <div>
+            <label for="selectionOverrideString">
+                - string: <br /><small><code>%size%</code> = selected item count </small></label
+            >
+            <input
+                type="text"
+                formControlName="selectionOverrideString"
+                id="selectionOverrideString"
+                [attr.disabled]="ctrlForm?.value?.selectionOverrideFunction === true ? 'disabled' : null"
+            />
+        </div>
+        <div>
+            <label for="selectionNoWrap">selectionOverride : </label>
+            <input type="checkbox" formControlName="selectionNoWrap" id="selectionNoWrap" />
+        </div>
+
+        <h5>Templates</h5>
         <div>
             <label for="template">template style :</label>
             <select formControlName="template" id="template">
@@ -155,7 +178,7 @@
         <h4>Events</h4>
         <div>
             <label for="update">update: </label>
-            <input type="checkbox" formControlName="update" id="update" />
+            <input type="checkbox" formControlName="selectionOverride" id="update" />
         </div>
         <div>
             <label for="open">open: </label>
@@ -217,6 +240,12 @@
                     [noResultMessage]="ctrlForm?.value?.noResultMessage"
                     [grid]="ctrlForm?.value?.grid"
                     [noLabelTemplate]="ctrlForm?.value?.noLabelTemplate"
+                    [selectionOverride]="
+                        ctrlForm?.value?.selectionOverrideFunction
+                            ? selectionOverride
+                            : ctrlForm?.value?.selectionOverrideString
+                    "
+                    [selectionNoWrap]="ctrlForm?.value?.selectionNoWrap"
                     [templates]="
                         getTemplate(
                             template,
