@@ -109,6 +109,7 @@ export class AppExamplesComponent {
     value29b: string[] = [];
     value30 = 'CA';
     value31 = '';
+    value31m = [];
     value31b = '';
     value32 = '';
     value33 = '';

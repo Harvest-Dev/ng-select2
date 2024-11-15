@@ -25,6 +25,7 @@ import {
     ViewChildren,
     booleanAttribute,
     numberAttribute,
+    signal,
 } from '@angular/core';
 import { ControlValueAccessor, FormGroupDirective, NgControl, NgForm } from '@angular/forms';
 
@@ -217,7 +218,7 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
     /** Whether the element is focused or not. */
     focused = false;
 
-    filteredData: Select2Data;
+    filteredData = signal<Select2Data | undefined>(undefined);
 
     get select2Options() {
         return this.multiple ? (this.option as Select2Option[]) : null;
@@ -609,8 +610,42 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
                 this.writeValue(this._control ? this._control.value : this._value);
             }
 
-            this.filteredData = result;
-            this._changeDetectorRef.markForCheck();
+            this.filteredData.set(result);
+
+            // replace selected options when data change
+
+            if (this.multiple && Array.isArray(this.option) && this.option.length) {
+                const options: Select2Option[] = [];
+                const value = this.option.map(e => e.value);
+                this._data.forEach(e => {
+                    if ((e as Select2Group).options) {
+                        (e as Select2Group).options.forEach(f => {
+                            if (value.includes(f.value)) {
+                                options.push(f);
+                            }
+                        });
+                    } else if (value.includes((e as Select2Option).value)) {
+                        options.push(e as Select2Option);
+                    }
+                });
+                // preserve selection order
+                this.option = this.option.map(e => options.find(f => f.value === e.value));
+            } else if (!Array.isArray(this.option) && this.option) {
+                let option: Select2Option = undefined;
+                this._data.forEach(e => {
+                    if ((e as Select2Group).options) {
+                        (e as Select2Group).options.forEach(f => {
+                            if ((this.option as Select2Option).value === f.value) {
+                                option = f;
+                            }
+                        });
+                    } else if ((this.option as Select2Option).value === (e as Select2Option).value) {
+                        option = e as Select2Option;
+                    }
+                });
+                this.option = option;
+            }
+            this._changeDetectorRef.detectChanges();
         });
     }
 
@@ -798,7 +833,7 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
                 search: this.searchText,
                 data: this._data,
                 filteredData: (data: Select2Data) => {
-                    this.filteredData = data;
+                    this.filteredData.set(data);
                     this._changeDetectorRef.markForCheck();
                 },
             });
@@ -934,11 +969,11 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
     }
 
     private moveUp() {
-        this.updateScrollFromOption(Select2Utils.getPreviousOption(this.filteredData, this.hoveringValue));
+        this.updateScrollFromOption(Select2Utils.getPreviousOption(this.filteredData(), this.hoveringValue));
     }
 
     private moveDown() {
-        this.updateScrollFromOption(Select2Utils.getNextOption(this.filteredData, this.hoveringValue));
+        this.updateScrollFromOption(Select2Utils.getNextOption(this.filteredData(), this.hoveringValue));
     }
 
     private updateScrollFromOption(option: Select2Option) {

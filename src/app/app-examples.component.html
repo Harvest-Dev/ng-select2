@@ -258,9 +258,8 @@
             >: {{ data?.name }}</ng-template
         >
         <ng-template #templateSelection let-data="data"
-        ><strong>{{ data?.color }}</strong
-        > ({{ data?.name }})</ng-template
-    >
+            ><strong>{{ data?.color }}</strong> ({{ data?.name }})</ng-template
+        >
     </select2>
 
     <h3 id="ex-24">24. with template (option / group) ({{ value24 }})</h3>
@@ -384,6 +383,18 @@
 
     Value :
     <select2 [overlay]="overlay" [data]="data31" [value]="value31" id="selec2-31" (update)="update('value31', $event)">
+    </select2>
+    <br />
+
+    Value multiple :
+    <select2
+        [overlay]="overlay"
+        [data]="data31"
+        [value]="value31m"
+        id="selec2-31-m"
+        (update)="update('value31m', $event)"
+        multiple
+    >
     </select2>
     <br />
 
