@@ -525,4 +525,17 @@
         multiple
     >
     </select2>
+
+    <h3 id="ex-37">37. select all option ({{ value37 | json }})</h3>
+
+    <select2
+        showSelectAll
+        [overlay]="overlay"
+        [data]="data37"
+        [value]="value37"
+        id="selec2-37"
+        (update)="update('value37', $event)"
+        multiple
+    >
+    </select2>
 </div>

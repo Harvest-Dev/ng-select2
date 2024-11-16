@@ -54,6 +54,9 @@ export class AppGenComponent implements AfterContentInit {
             selectionOverrideString: new UntypedFormControl(),
             selectionOverrideFunction: new UntypedFormControl(),
             selectionNoWrap: new UntypedFormControl(),
+            showSelectAll: new UntypedFormControl(),
+            removeAllText: new UntypedFormControl(),
+            selectAllText: new UntypedFormControl(),
             // template
             template: new UntypedFormControl(),
             templateSelection: new UntypedFormControl(),
@@ -265,6 +268,17 @@ export class AppGenComponent implements AfterContentInit {
         if (value.selectionNoWrap) {
             attrs.selectionNoWrap = this._testBoolean(value.selectionNoWrap);
         }
+        if (value.showSelectAll) {
+            attrs.showSelectAll = this._testBoolean(value.showSelectAll);
+
+            if (value.removeAllText) {
+                attrs.removeAllText = this._testBoolean(value.removeAllText);
+            }
+            if (value.removeAllText) {
+                attrs.selectAllText = this._testBoolean(value.selectAllText);
+            }
+        }
+
 
         // template
 

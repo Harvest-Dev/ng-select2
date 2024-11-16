@@ -151,6 +151,24 @@
             <input type="checkbox" formControlName="selectionNoWrap" id="selectionNoWrap" />
         </div>
 
+        @if (ctrlForm?.value?.multiple) {
+            <h5>Select all</h5>
+            <div>
+                <label for="showSelectAll">showSelectAll : </label>
+                <input type="checkbox" formControlName="showSelectAll" id="showSelectAll" />
+            </div>
+            @if (ctrlForm?.value?.showSelectAll) {
+                <div>
+                    <label for="selectAllText">selectAllText</label>
+                    <input type="text" formControlName="selectAllText" id="selectAllText" />
+                </div>
+                <div>
+                    <label for="removeAllText">removeAllText</label>
+                    <input type="text" formControlName="removeAllText" id="removeAllText" />
+                </div>
+            }
+        }
+
         <h5>Templates</h5>
         <div>
             <label for="template">template style :</label>
@@ -246,6 +264,9 @@
                             : ctrlForm?.value?.selectionOverrideString
                     "
                     [selectionNoWrap]="ctrlForm?.value?.selectionNoWrap"
+                    [showSelectAll]="ctrlForm?.value?.showSelectAll"
+                    [removeAllText]="ctrlForm?.value?.removeAllText || 'Remove all'"
+                    [selectAllText]="ctrlForm?.value?.selectAllText || 'Select all'"
                     [templates]="
                         getTemplate(
                             template,

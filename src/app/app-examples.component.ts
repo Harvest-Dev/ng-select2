@@ -76,6 +76,7 @@ export class AppExamplesComponent {
     data36 = data1;
     data36m = data1;
     data36mf = data1;
+    data37 = data1;
 
     minCountForSearch = Infinity;
 
@@ -124,6 +125,7 @@ export class AppExamplesComponent {
     value36 = '';
     value36m = ['NY', 'NC', 'RI', 'WV', 'VT', 'VA', 'AR', 'IA'];
     value36mf = ['NY', 'NC', 'RI', 'WV', 'VT', 'VA', 'AR', 'IA'];
+    value37 = ['AK', 'NY', 'NC', 'RI'];
 
     selectionOverride: Select2SelectionOverride = params => {
         return `Selection (${params.size}${params.options.length > 0 ? ': ' + params.options.map(e => e.label).join(', ') : ''}) `;

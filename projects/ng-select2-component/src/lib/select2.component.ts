@@ -214,6 +214,18 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
     @Input({ transform: booleanAttribute })
     selectionNoWrap = false;
 
+    /** Add an option to select or remove all (if all is selected) */
+    @Input({ transform: booleanAttribute })
+    showSelectAll = false;
+
+    /** Text for remove all options */
+    @Input()
+    removeAllText = 'Remove all';
+
+    /** Text for select all options */
+    @Input()
+    selectAllText = 'Select all';
+
     @Output() update = new EventEmitter<Select2UpdateEvent<Select2UpdateValue>>();
     @Output() autoCreateItem = new EventEmitter<Select2AutoCreateEvent<Select2UpdateValue>>();
     @Output() open = new EventEmitter<Select2>();
@@ -557,6 +569,52 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
 
     isNumber(o: any): boolean {
         return !isNaN(o - 0) && o !== null && o !== '' && o !== false;
+    }
+
+    selectAll() {
+        if (this.multiple) {
+            if (!this.selectAllTest()) {
+                const options: Select2Option[] = [];
+                this._data.forEach(e => {
+                    if ((e as Select2Group).options) {
+                        (e as Select2Group).options.forEach(f => {
+                            if (!f.disabled && !f.hide) {
+                                options.push(f);
+                            }
+                        });
+                    } else if (!(e as Select2Option).disabled && !(e as Select2Option).hide) {
+                        options.push(e as Select2Option);
+                    }
+                });
+                this.option = options;
+                this.value = options.map(e => e.value);
+            } else {
+                this.option = [];
+                this.value = [];
+            }
+
+            this.isOpen = false;
+            this.close.emit(this);
+        }
+    }
+
+    selectAllTest() {
+        if (this.multiple && Array.isArray(this.option) && this.option.length) {
+            let options = 0;
+            this._data.forEach(e => {
+                if ((e as Select2Group).options) {
+                    (e as Select2Group).options.forEach(f => {
+                        if (!f.disabled && !f.hide) {
+                            options++;
+                        }
+                    });
+                } else if (!(e as Select2Option).disabled && !(e as Select2Option).hide) {
+                    options++;
+                }
+            });
+            return this.option.length === options;
+        }
+        return false;
     }
 
     private testSelection(option: Select2Option) {

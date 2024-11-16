@@ -32,8 +32,10 @@
             role="combobox"
         >
             @if (selectionOverride) {
-                 <span class="select2-selection__override" [innerHTML]="_selectionOverrideLabel()"></span>
-                 @if (!multiple && resettable && resetSelectedValue !== value && select2Option && !(disabled || readonly)) {
+                <span class="select2-selection__override" [innerHTML]="_selectionOverrideLabel()"></span>
+                @if (
+                    !multiple && resettable && resetSelectedValue !== value && select2Option && !(disabled || readonly)
+                ) {
                     <span (click)="reset($event)" class="select2-selection__reset" role="presentation">×</span>
                 }
             } @else if (!multiple) {
@@ -174,6 +176,7 @@
                     [attr.tabindex]="this.isOpen ? tabIndex : '-1'"
                 />
             </div>
+
             <div class="select2-results">
                 <ul
                     #results
@@ -193,6 +196,19 @@
                     (scrolledUp)="onScroll('up')"
                     (keydown)="keyDown($event)"
                 >
+                    @if (showSelectAll && multiple) {
+                        <li
+                            class="select2-results__option select2-selectall"
+                            (click)="selectAll()"
+                            tabindex="1"
+                            aria-selected
+                        >
+                            <div class="select2-label-content">
+                                {{ selectAllTest() ? removeAllText : selectAllText }}
+                            </div>
+                        </li>
+                    }
+
                     @for (groupOrOption of filteredData(); track trackBy(i, groupOrOption); let i = $index) {
                         @if (groupOrOption.options !== undefined) {
                             <li class="select2-results__option" role="group">
