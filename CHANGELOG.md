@@ -1,5 +1,17 @@
 # Changelog of ng-select2
 
+## V15.3.0 (2024-11-16)
+
+### Changes
+
+-   Add properties:
+    -   `selectionOverride`: Change what is displayed in the selection area #79
+    -   `selectionNoWrap`: Force selection on one line #79
+    -   `showSelectAll`: Add an option to select all options c #80
+    -   `selectAllText`: Text when all options as not selected #80
+    -   `removeAllText`: Text when all options as selected #80
+-   Fix labels of selected options #81
+
 ## V15.2.1 (2024-08-22)
 
 ### Changes
