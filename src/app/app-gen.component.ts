@@ -11,6 +11,7 @@ import { data24 } from './app.data';
     selector: 'app-root',
     templateUrl: './app-gen.component.html',
     styleUrls: ['./app-gen.component.scss'],
+    standalone: false
 })
 export class AppGenComponent implements AfterContentInit {
     data = data24;

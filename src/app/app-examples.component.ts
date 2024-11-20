@@ -36,6 +36,7 @@ import {
     selector: 'app-root',
     templateUrl: './app-examples.component.html',
     styleUrls: ['./app-examples.component.scss'],
+    standalone: false
 })
 export class AppExamplesComponent {
     data1 = data1;

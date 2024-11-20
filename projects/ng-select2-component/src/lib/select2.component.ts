@@ -54,6 +54,7 @@ const displaySearchStatusList = ['default', 'hidden', 'always'];
     selector: 'select2',
     templateUrl: './select2.component.html',
     styleUrls: ['./select2.component.scss'],
+    standalone: false
 })
 export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterViewInit {
     _data: Select2Data;
