@@ -1,5 +1,13 @@
+import { JsonPipe } from '@angular/common';
 import { Component } from '@angular/core';
-import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import {
+    FormsModule,
+    ReactiveFormsModule,
+    UntypedFormBuilder,
+    UntypedFormControl,
+    UntypedFormGroup,
+    Validators,
+} from '@angular/forms';
 
 import {
     Select2Data,
@@ -11,32 +19,36 @@ import {
 
 import {
     data1,
+    data2,
+    data3,
+    data5,
+    data6,
+    data8,
     data13,
     data17,
     data18,
     data19,
-    data2,
     data22,
     data23,
     data24,
     data26,
     data28,
-    data3,
     data31en,
     data31fr,
     data31ja,
     data35,
     data35b,
-    data5,
-    data6,
-    data8,
 } from './app.data';
+
+import { Select2Hint } from '../../projects/ng-select2-component/src/lib/select2-hint.component';
+import { Select2Label } from '../../projects/ng-select2-component/src/lib/select2-label.component';
+import { Select2 } from '../../projects/ng-select2-component/src/lib/select2.component';
 
 @Component({
     selector: 'app-root',
     templateUrl: './app-examples.component.html',
     styleUrls: ['./app-examples.component.scss'],
-    standalone: false
+    imports: [FormsModule, ReactiveFormsModule, Select2, Select2Hint, Select2Label, JsonPipe],
 })
 export class AppExamplesComponent {
     data1 = data1;

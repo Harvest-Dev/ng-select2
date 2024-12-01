@@ -1,13 +1,9 @@
 {
   "extends": "../../.eslintrc.json",
-  "ignorePatterns": [
-    "!**/*"
-  ],
+  "ignorePatterns": ["!**/*"],
   "overrides": [
     {
-      "files": [
-        "*.ts"
-      ],
+      "files": ["*.ts"],
       "parserOptions": {
         "project": [
           "projects/ng-select2-component/tsconfig.lib.json",
@@ -30,19 +26,14 @@
         "@typescript-eslint/no-non-null-assertion": "off",
         "@typescript-eslint/no-unused-vars": "error",
         "@typescript-eslint/no-use-before-define": "error",
-        "brace-style": [
-          "error",
-          "1tbs"
-        ],
+        "brace-style": ["error", "1tbs"],
         "id-blacklist": "off",
         "id-match": "off",
         "no-underscore-dangle": "off"
       }
     },
     {
-      "files": [
-        "*.html"
-      ],
+      "files": ["*.html"],
       "rules": {}
     }
   ]

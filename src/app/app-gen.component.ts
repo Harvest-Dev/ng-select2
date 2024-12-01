@@ -1,17 +1,29 @@
 import { AfterContentInit, Component, TemplateRef } from '@angular/core';
-import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup } from '@angular/forms';
+import {
+    FormsModule,
+    ReactiveFormsModule,
+    UntypedFormBuilder,
+    UntypedFormControl,
+    UntypedFormGroup,
+} from '@angular/forms';
 
 import { Json2html, Json2htmlRef } from '@ikilote/json2html';
-import * as Bowser from 'bowser';
 
+import * as Bowser from 'bowser';
+import { Highlight } from 'ngx-highlightjs';
 import { Select2SelectionOverride } from 'projects/ng-select2-component/src/public_api';
+
 import { data24 } from './app.data';
 
+import { Select2Hint } from '../../projects/ng-select2-component/src/lib/select2-hint.component';
+import { Select2Label } from '../../projects/ng-select2-component/src/lib/select2-label.component';
+import { Select2 } from '../../projects/ng-select2-component/src/lib/select2.component';
+
 @Component({
-    selector: 'app-root',
+    selector: 'app-gen',
     templateUrl: './app-gen.component.html',
     styleUrls: ['./app-gen.component.scss'],
-    standalone: false
+    imports: [FormsModule, ReactiveFormsModule, Select2, Select2Label, Select2Hint, Highlight],
 })
 export class AppGenComponent implements AfterContentInit {
     data = data24;
@@ -279,7 +291,6 @@ export class AppGenComponent implements AfterContentInit {
                 attrs.selectAllText = this._testBoolean(value.selectAllText);
             }
         }
-
 
         // template
 

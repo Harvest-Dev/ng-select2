@@ -1,5 +1,4 @@
 import Graphemer from 'graphemer';
-
 import { Select2Data } from 'projects/ng-select2-component/src/public_api';
 
 export const data1: Select2Data = [

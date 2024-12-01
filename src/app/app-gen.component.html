@@ -1,330 +1,328 @@
 <h2>Generator</h2>
 
 <div class="cols">
-    <div [formGroup]="ctrlForm">
-        <h4>data</h4>
-        <div>
-            <label for="json">json (for <code>[data]</code>) : </label>
-            <textarea formControlName="json" id="json"></textarea>
-            <div class="error" [innerHTML]="jsonError"></div>
-        </div>
-        <h4>tags</h4>
-        <div>
-            <label for="label">label : </label>
-            <input type="text" formControlName="label" id="label" />
-        </div>
-        <div>
-            <label for="hint">hint : </label>
-            <input type="text" formControlName="hint" id="hint" />
-        </div>
-        <h4>parameters</h4>
-        <div>
-            <label for="disabled">disabled : </label>
-            <input type="checkbox" formControlName="disabled" id="disabled" />
-        </div>
-        <div>
-            <label for="overlay">overlay : </label>
-            <input type="checkbox" formControlName="overlay" id="overlay" />
-        </div>
-        <div>
-            <label for="minCharForSearch">minCharForSearch (0) : </label>
-            <input type="number" formControlName="minCharForSearch" id="minCharForSearch" />
-        </div>
-        <div>
-            <label for="minCountForSearch">minCountForSearch (6) : </label>
-            <input type="number" formControlName="minCountForSearch" id="minCountForSearch" />
-        </div>
-        <div>
-            <label for="displaySearchStatus">displaySearchStatus :</label>
-            <select formControlName="displaySearchStatus" id="displaySearchStatus">
-                <option value="default">default</option>
-                <option value="hidden">hidden</option>
-                <option value="always">always</option>
-            </select>
-        </div>
-        <div>
-            <label for="placeholder">placeholder : </label>
-            <input type="text" formControlName="placeholder" id="placeholder" />
-        </div>
-        <div>
-            <label for="noResultMessage">noResultMessage : </label>
-            <input type="text" formControlName="noResultMessage" id="noResultMessage" />
-        </div>
-        <div>
-            <label for="multiple">multiple : </label>
-            <input type="checkbox" formControlName="multiple" id="multiple" />
-        </div>
-        <div [class.hide]="ctrlForm?.value?.multiple">
-            <label for="resettable">resettable : </label>
-            <input type="checkbox" formControlName="resettable" id="resettable" />
-        </div>
-        <div [class.hide]="ctrlForm?.value?.multiple">
-            <label for="resetSelectedValue">resetSelectedValue : </label>
-            <select formControlName="resetSelectedValue" id="resetSelectedValue">
-                <option [value]="undefined">undefined</option>
-                <option [value]="null">null</option>
-                <option value="hibiscus">hibiscus</option>
-                <option value="marigold">marigold</option>
-                <option value="sunflower">sunflower</option>
-                <option value="heliotrope">heliotrope</option>
-                <option value="lily">lily</option>
-                <option value="petunia">petunia</option>
-            </select>
-        </div>
-        <div>
-            <label for="autoCreate">autoCreate : </label>
-            <input type="checkbox" formControlName="autoCreate" id="autoCreate" />
-        </div>
-        <div>
-            <label for="limitSelection">limitSelection (0) : </label>
-            <input type="number" formControlName="limitSelection" id="limitSelection" />
-        </div>
-        <div>
-            <label for="grid">grid (4 or '100px') : </label>
-            <input type="string" formControlName="grid" id="grid" />
-        </div>
-        <div [class.hide]="!ctrlForm?.value?.multiple">
-            <label for="hideSelectedItems">hideSelectedItems : </label>
-            <input type="checkbox" formControlName="hideSelectedItems" id="hideSelectedItems" />
-        </div>
-        <div>
-            <label for="resultMaxHeight">resultMaxHeight ('200px') : </label>
-            <input type="text" formControlName="resultMaxHeight" id="resultMaxHeight" />
-        </div>
-        <div>
-            <label for="maxResults">maxResults (0 = infinity) : </label>
-            <input type="text" formControlName="maxResults" id="maxResults" />
-        </div>
-        <div>
-            <label for="maxResultsMessage">maxResultsMessage ('Too much result...') : </label>
-            <input type="text" formControlName="maxResultsMessage" id="maxResultsMessage" />
-        </div>
-        <div>
-            <label for="listPosition">listPosition :</label>
-            <select formControlName="listPosition" id="listPosition">
-                <option></option>
-                <option value="below">below</option>
-                <option value="above">above</option>
-            </select>
-        </div>
-        <div>
-            <label for="infiniteScroll">infiniteScroll : </label>
-            <input type="checkbox" formControlName="infiniteScroll" id="infiniteScroll" />
-        </div>
-        <div [class.hide]="!ctrlForm?.value?.infiniteScrollDistance">
-            <label for="infiniteScrollDistance">infiniteScrollDistance (1.5) : </label>
-            <input type="number" formControlName="infiniteScrollDistance" id="infiniteScrollDistance" />
-        </div>
-        <div [class.hide]="!ctrlForm?.value?.infiniteScroll">
-            <label for="infiniteScrollThrottle">infiniteScrollThrottle (150) : </label>
-            <input type="number" formControlName="infiniteScrollThrottle" id="infiniteScrollThrottle" />
-        </div>
-        <div>
-            <label for="styleMode">styleMode : </label>
-            <select formControlName="styleMode" id="listPstyleModeosition">
-                <option value="">default</option>
-                <option value="material">material</option>
-                <option value="noStyle">noStyle</option>
-                <option value="borderless">borderless</option>
-            </select>
-        </div>
-
-        <h5>Selection</h5>
-        <div>selectionOverride:</div>
-        <div>
-            <label for="selectionOverrideFunction"> - function : </label>
-            <input type="checkbox" formControlName="selectionOverrideFunction" id="selectionOverrideFunction" />
-        </div>
-        <div>
-            <label for="selectionOverrideString">
-                - string: <br /><small><code>%size%</code> = selected item count </small></label
-            >
-            <input
-                type="text"
-                formControlName="selectionOverrideString"
-                id="selectionOverrideString"
-                [attr.disabled]="ctrlForm?.value?.selectionOverrideFunction === true ? 'disabled' : null"
-            />
-        </div>
-        <div>
-            <label for="selectionNoWrap">selectionOverride : </label>
-            <input type="checkbox" formControlName="selectionNoWrap" id="selectionNoWrap" />
-        </div>
-
-        @if (ctrlForm?.value?.multiple) {
-            <h5>Select all</h5>
-            <div>
-                <label for="showSelectAll">showSelectAll : </label>
-                <input type="checkbox" formControlName="showSelectAll" id="showSelectAll" />
-            </div>
-            @if (ctrlForm?.value?.showSelectAll) {
-                <div>
-                    <label for="selectAllText">selectAllText</label>
-                    <input type="text" formControlName="selectAllText" id="selectAllText" />
-                </div>
-                <div>
-                    <label for="removeAllText">removeAllText</label>
-                    <input type="text" formControlName="removeAllText" id="removeAllText" />
-                </div>
-            }
-        }
-
-        <h5>Templates</h5>
-        <div>
-            <label for="template">template style :</label>
-            <select formControlName="template" id="template">
-                <option value="none">None</option>
-                <option value="ref">Unique template</option>
-                <option value="option-group">Template group & option</option>
-                <option value="templateId">Template by templateId</option>
-            </select>
-        </div>
-        <div>
-            <label for="templateSelection">template selection style :</label>
-            <select formControlName="templateSelection" id="templateSelection">
-                <option value="none">None</option>
-                <option value="ref">Unique template</option>
-                <option value="option">Template option</option>
-                <option value="templateId">Template by templateId</option>
-            </select>
-        </div>
-        <div>
-            <label for="noLabelTemplate">noLabelTemplate : </label>
-            <input type="checkbox" formControlName="noLabelTemplate" id="noLabelTemplate" />
-        </div>
-
-        <h4>Events</h4>
-        <div>
-            <label for="update">update: </label>
-            <input type="checkbox" formControlName="selectionOverride" id="update" />
-        </div>
-        <div>
-            <label for="open">open: </label>
-            <input type="checkbox" formControlName="open" id="open" />
-        </div>
-        <div>
-            <label for="close">close: </label>
-            <input type="checkbox" formControlName="close" id="close" />
-        </div>
-        <div>
-            <label for="focus">focus: </label>
-            <input type="checkbox" formControlName="focus" id="focus" />
-        </div>
-        <div>
-            <label for="blur">blur: </label>
-            <input type="checkbox" formControlName="blur" id="blur" />
-        </div>
-        <div>
-            <label for="search">search: </label>
-            <input type="checkbox" formControlName="search" id="search" />
-            (Required: <code>customSearchEnabled</code>)
-        </div>
-        <div>
-            <label for="scroll">scroll: </label>
-            <input type="checkbox" formControlName="scroll" id="scroll" />
-        </div>
-        <div>
-            <label for="removeOption">removeOption: </label>
-            <input type="checkbox" formControlName="removeOption" id="removeOption" />
-        </div>
+  <div [formGroup]="ctrlForm">
+    <h4>data</h4>
+    <div>
+      <label for="json">json (for <code>[data]</code>) : </label>
+      <textarea formControlName="json" id="json"></textarea>
+      <div class="error" [innerHTML]="jsonError"></div>
+    </div>
+    <h4>tags</h4>
+    <div>
+      <label for="label">label : </label>
+      <input type="text" formControlName="label" id="label" />
     </div>
     <div>
-        <div class="result">
-            <h4>HTML render</h4>
-            @if (ctrlForm.value) {
-                <select2
-                    [data]="data"
-                    [overlay]="ctrlForm?.value?.overlay"
-                    [disabled]="ctrlForm?.value?.disabled"
-                    [minCharForSearch]="ctrlForm?.value?.minCharForSearch || 0"
-                    [minCountForSearch]="ctrlForm?.value?.minCountForSearch || 6"
-                    [displaySearchStatus]="ctrlForm?.value?.displaySearchStatus"
-                    [placeholder]="ctrlForm?.value?.placeholder"
-                    [customSearchEnabled]="ctrlForm?.value?.search"
-                    [multiple]="ctrlForm?.value?.multiple"
-                    [resettable]="ctrlForm?.value?.resettable"
-                    [resetSelectedValue]="ctrlForm?.value?.resetSelectedValue"
-                    [autoCreate]="ctrlForm?.value?.autoCreate"
-                    [limitSelection]="ctrlForm?.value?.limitSelection || 0"
-                    [hideSelectedItems]="ctrlForm?.value?.hideSelectedItems"
-                    [resultMaxHeight]="ctrlForm?.value?.resultMaxHeight || '200px'"
-                    [maxResults]="ctrlForm?.value?.maxResults || 0"
-                    [maxResultsMessage]="ctrlForm?.value?.maxResultsMessage || 'Too many results…'"
-                    [listPosition]="ctrlForm?.value?.listPosition"
-                    [infiniteScroll]="ctrlForm?.value?.infiniteScroll"
-                    [infiniteScrollDistance]="ctrlForm?.value?.infiniteScrollDistance || 1.5"
-                    [infiniteScrollThrottle]="ctrlForm?.value?.infiniteScrollThrottle || 150"
-                    [styleMode]="ctrlForm?.value?.styleMode"
-                    [noResultMessage]="ctrlForm?.value?.noResultMessage"
-                    [grid]="ctrlForm?.value?.grid"
-                    [noLabelTemplate]="ctrlForm?.value?.noLabelTemplate"
-                    [selectionOverride]="
-                        ctrlForm?.value?.selectionOverrideFunction
-                            ? selectionOverride
-                            : ctrlForm?.value?.selectionOverrideString
-                    "
-                    [selectionNoWrap]="ctrlForm?.value?.selectionNoWrap"
-                    [showSelectAll]="ctrlForm?.value?.showSelectAll"
-                    [removeAllText]="ctrlForm?.value?.removeAllText || 'Remove all'"
-                    [selectAllText]="ctrlForm?.value?.selectAllText || 'Select all'"
-                    [templates]="
-                        getTemplate(
-                            template,
-                            option,
-                            group,
-                            template1,
-                            template2,
-                            optionSelection,
-                            template2Selection,
-                            template3Selection
-                        )
-                    "
-                    [templateSelection]="getTemplateSelection(templateSelection)"
-                    (update)="_event('update', $event)"
-                    (open)="_event('open', $event)"
-                    (close)="_event('close', $event)"
-                    (focus)="_event('focus', $event)"
-                    (blur)="_event('blur', $event)"
-                    (search)="_event('search', $event)"
-                    (scroll)="_event('scroll', $event)"
-                    (removeOption)="_event('removeOption', $event)"
-                >
-                    <select2-label [innerHTML]="ctrlForm?.value?.label"></select2-label>
-                    <select2-hint [innerHTML]="ctrlForm?.value?.hint"></select2-hint>
-                    <ng-template #template let-data="data">
-                        @if (data?.color) {
-                            <strong>{{ data?.color }}</strong
-                            >:
-                        }
-                        {{ data?.name }}
-                    </ng-template>
-                    <ng-template #templateSelection let-data="data">
-                        @if (data?.color) {
-                            <em>{{ data?.color }}</em>
-                        }
-                        #{{ data?.name }}
-                    </ng-template>
-                    <ng-template #option let-data="data">Option: {{ data?.name }}</ng-template>
-                    <ng-template #group let-label="label">Group: {{ label }}</ng-template>
-                    <ng-template #optionSelection let-data="data">[{{ data?.name }}]</ng-template>
-                    <ng-template #template1 let-data="data">{{ data?.name }}</ng-template>
-                    <ng-template #template2 let-label="label" let-data="data">
-                        {{ label }} ~ <strong>{{ data?.color }}</strong>
-                    </ng-template>
-                    <ng-template #template2Selection let-label="label" let-data="data">
-                        {{ label }} * <em>{{ data?.color }}</em>
-                    </ng-template>
-                    <ng-template #template3Selection let-label="label" let-data="data">
-                        {{ label }} = <em>{{ data?.color }}</em>
-                    </ng-template>
-                </select2>
-            }
-
-            <h4>HTML Code</h4>
-
-            <div class="code">
-                <code><pre [highlight]="html" language="html"></pre></code>
-            </div>
-        </div>
+      <label for="hint">hint : </label>
+      <input type="text" formControlName="hint" id="hint" />
     </div>
+    <h4>parameters</h4>
+    <div>
+      <label for="disabled">disabled : </label>
+      <input type="checkbox" formControlName="disabled" id="disabled" />
+    </div>
+    <div>
+      <label for="overlay">overlay : </label>
+      <input type="checkbox" formControlName="overlay" id="overlay" />
+    </div>
+    <div>
+      <label for="minCharForSearch">minCharForSearch (0) : </label>
+      <input type="number" formControlName="minCharForSearch" id="minCharForSearch" />
+    </div>
+    <div>
+      <label for="minCountForSearch">minCountForSearch (6) : </label>
+      <input type="number" formControlName="minCountForSearch" id="minCountForSearch" />
+    </div>
+    <div>
+      <label for="displaySearchStatus">displaySearchStatus :</label>
+      <select formControlName="displaySearchStatus" id="displaySearchStatus">
+        <option value="default">default</option>
+        <option value="hidden">hidden</option>
+        <option value="always">always</option>
+      </select>
+    </div>
+    <div>
+      <label for="placeholder">placeholder : </label>
+      <input type="text" formControlName="placeholder" id="placeholder" />
+    </div>
+    <div>
+      <label for="noResultMessage">noResultMessage : </label>
+      <input type="text" formControlName="noResultMessage" id="noResultMessage" />
+    </div>
+    <div>
+      <label for="multiple">multiple : </label>
+      <input type="checkbox" formControlName="multiple" id="multiple" />
+    </div>
+    <div [class.hide]="ctrlForm?.value?.multiple">
+      <label for="resettable">resettable : </label>
+      <input type="checkbox" formControlName="resettable" id="resettable" />
+    </div>
+    <div [class.hide]="ctrlForm?.value?.multiple">
+      <label for="resetSelectedValue">resetSelectedValue : </label>
+      <select formControlName="resetSelectedValue" id="resetSelectedValue">
+        <option [value]="undefined">undefined</option>
+        <option [value]="null">null</option>
+        <option value="hibiscus">hibiscus</option>
+        <option value="marigold">marigold</option>
+        <option value="sunflower">sunflower</option>
+        <option value="heliotrope">heliotrope</option>
+        <option value="lily">lily</option>
+        <option value="petunia">petunia</option>
+      </select>
+    </div>
+    <div>
+      <label for="autoCreate">autoCreate : </label>
+      <input type="checkbox" formControlName="autoCreate" id="autoCreate" />
+    </div>
+    <div>
+      <label for="limitSelection">limitSelection (0) : </label>
+      <input type="number" formControlName="limitSelection" id="limitSelection" />
+    </div>
+    <div>
+      <label for="grid">grid (4 or '100px') : </label>
+      <input type="string" formControlName="grid" id="grid" />
+    </div>
+    <div [class.hide]="!ctrlForm?.value?.multiple">
+      <label for="hideSelectedItems">hideSelectedItems : </label>
+      <input type="checkbox" formControlName="hideSelectedItems" id="hideSelectedItems" />
+    </div>
+    <div>
+      <label for="resultMaxHeight">resultMaxHeight ('200px') : </label>
+      <input type="text" formControlName="resultMaxHeight" id="resultMaxHeight" />
+    </div>
+    <div>
+      <label for="maxResults">maxResults (0 = infinity) : </label>
+      <input type="text" formControlName="maxResults" id="maxResults" />
+    </div>
+    <div>
+      <label for="maxResultsMessage">maxResultsMessage ('Too much result...') : </label>
+      <input type="text" formControlName="maxResultsMessage" id="maxResultsMessage" />
+    </div>
+    <div>
+      <label for="listPosition">listPosition :</label>
+      <select formControlName="listPosition" id="listPosition">
+        <option></option>
+        <option value="below">below</option>
+        <option value="above">above</option>
+      </select>
+    </div>
+    <div>
+      <label for="infiniteScroll">infiniteScroll : </label>
+      <input type="checkbox" formControlName="infiniteScroll" id="infiniteScroll" />
+    </div>
+    <div [class.hide]="!ctrlForm?.value?.infiniteScrollDistance">
+      <label for="infiniteScrollDistance">infiniteScrollDistance (1.5) : </label>
+      <input type="number" formControlName="infiniteScrollDistance" id="infiniteScrollDistance" />
+    </div>
+    <div [class.hide]="!ctrlForm?.value?.infiniteScroll">
+      <label for="infiniteScrollThrottle">infiniteScrollThrottle (150) : </label>
+      <input type="number" formControlName="infiniteScrollThrottle" id="infiniteScrollThrottle" />
+    </div>
+    <div>
+      <label for="styleMode">styleMode : </label>
+      <select formControlName="styleMode" id="listPstyleModeosition">
+        <option value="">default</option>
+        <option value="material">material</option>
+        <option value="noStyle">noStyle</option>
+        <option value="borderless">borderless</option>
+      </select>
+    </div>
+
+    <h5>Selection</h5>
+    <div>selectionOverride:</div>
+    <div>
+      <label for="selectionOverrideFunction"> - function : </label>
+      <input type="checkbox" formControlName="selectionOverrideFunction" id="selectionOverrideFunction" />
+    </div>
+    <div>
+      <label for="selectionOverrideString">
+        - string: <br /><small><code>%size%</code> = selected item count </small></label
+      >
+      <input
+        type="text"
+        formControlName="selectionOverrideString"
+        id="selectionOverrideString"
+        [attr.disabled]="ctrlForm?.value?.selectionOverrideFunction === true ? 'disabled' : null"
+      />
+    </div>
+    <div>
+      <label for="selectionNoWrap">selectionOverride : </label>
+      <input type="checkbox" formControlName="selectionNoWrap" id="selectionNoWrap" />
+    </div>
+
+    @if (ctrlForm?.value?.multiple) {
+      <h5>Select all</h5>
+      <div>
+        <label for="showSelectAll">showSelectAll : </label>
+        <input type="checkbox" formControlName="showSelectAll" id="showSelectAll" />
+      </div>
+      @if (ctrlForm?.value?.showSelectAll) {
+        <div>
+          <label for="selectAllText">selectAllText</label>
+          <input type="text" formControlName="selectAllText" id="selectAllText" />
+        </div>
+        <div>
+          <label for="removeAllText">removeAllText</label>
+          <input type="text" formControlName="removeAllText" id="removeAllText" />
+        </div>
+      }
+    }
+
+    <h5>Templates</h5>
+    <div>
+      <label for="template">template style :</label>
+      <select formControlName="template" id="template">
+        <option value="none">None</option>
+        <option value="ref">Unique template</option>
+        <option value="option-group">Template group & option</option>
+        <option value="templateId">Template by templateId</option>
+      </select>
+    </div>
+    <div>
+      <label for="templateSelection">template selection style :</label>
+      <select formControlName="templateSelection" id="templateSelection">
+        <option value="none">None</option>
+        <option value="ref">Unique template</option>
+        <option value="option">Template option</option>
+        <option value="templateId">Template by templateId</option>
+      </select>
+    </div>
+    <div>
+      <label for="noLabelTemplate">noLabelTemplate : </label>
+      <input type="checkbox" formControlName="noLabelTemplate" id="noLabelTemplate" />
+    </div>
+
+    <h4>Events</h4>
+    <div>
+      <label for="update">update: </label>
+      <input type="checkbox" formControlName="selectionOverride" id="update" />
+    </div>
+    <div>
+      <label for="open">open: </label>
+      <input type="checkbox" formControlName="open" id="open" />
+    </div>
+    <div>
+      <label for="close">close: </label>
+      <input type="checkbox" formControlName="close" id="close" />
+    </div>
+    <div>
+      <label for="focus">focus: </label>
+      <input type="checkbox" formControlName="focus" id="focus" />
+    </div>
+    <div>
+      <label for="blur">blur: </label>
+      <input type="checkbox" formControlName="blur" id="blur" />
+    </div>
+    <div>
+      <label for="search">search: </label>
+      <input type="checkbox" formControlName="search" id="search" />
+      (Required: <code>customSearchEnabled</code>)
+    </div>
+    <div>
+      <label for="scroll">scroll: </label>
+      <input type="checkbox" formControlName="scroll" id="scroll" />
+    </div>
+    <div>
+      <label for="removeOption">removeOption: </label>
+      <input type="checkbox" formControlName="removeOption" id="removeOption" />
+    </div>
+  </div>
+  <div>
+    <div class="result">
+      <h4>HTML render</h4>
+      @if (ctrlForm.value) {
+        <select2
+          [data]="data"
+          [overlay]="ctrlForm?.value?.overlay"
+          [disabled]="ctrlForm?.value?.disabled"
+          [minCharForSearch]="ctrlForm?.value?.minCharForSearch || 0"
+          [minCountForSearch]="ctrlForm?.value?.minCountForSearch || 6"
+          [displaySearchStatus]="ctrlForm?.value?.displaySearchStatus"
+          [placeholder]="ctrlForm?.value?.placeholder"
+          [customSearchEnabled]="ctrlForm?.value?.search"
+          [multiple]="ctrlForm?.value?.multiple"
+          [resettable]="ctrlForm?.value?.resettable"
+          [resetSelectedValue]="ctrlForm?.value?.resetSelectedValue"
+          [autoCreate]="ctrlForm?.value?.autoCreate"
+          [limitSelection]="ctrlForm?.value?.limitSelection || 0"
+          [hideSelectedItems]="ctrlForm?.value?.hideSelectedItems"
+          [resultMaxHeight]="ctrlForm?.value?.resultMaxHeight || '200px'"
+          [maxResults]="ctrlForm?.value?.maxResults || 0"
+          [maxResultsMessage]="ctrlForm?.value?.maxResultsMessage || 'Too many results…'"
+          [listPosition]="ctrlForm?.value?.listPosition"
+          [infiniteScroll]="ctrlForm?.value?.infiniteScroll"
+          [infiniteScrollDistance]="ctrlForm?.value?.infiniteScrollDistance || 1.5"
+          [infiniteScrollThrottle]="ctrlForm?.value?.infiniteScrollThrottle || 150"
+          [styleMode]="ctrlForm?.value?.styleMode"
+          [noResultMessage]="ctrlForm?.value?.noResultMessage"
+          [grid]="ctrlForm?.value?.grid"
+          [noLabelTemplate]="ctrlForm?.value?.noLabelTemplate"
+          [selectionOverride]="
+            ctrlForm?.value?.selectionOverrideFunction ? selectionOverride : ctrlForm?.value?.selectionOverrideString
+          "
+          [selectionNoWrap]="ctrlForm?.value?.selectionNoWrap"
+          [showSelectAll]="ctrlForm?.value?.showSelectAll"
+          [removeAllText]="ctrlForm?.value?.removeAllText || 'Remove all'"
+          [selectAllText]="ctrlForm?.value?.selectAllText || 'Select all'"
+          [templates]="
+            getTemplate(
+              template,
+              option,
+              group,
+              template1,
+              template2,
+              optionSelection,
+              template2Selection,
+              template3Selection
+            )
+          "
+          [templateSelection]="getTemplateSelection(templateSelection)"
+          (update)="_event('update', $event)"
+          (open)="_event('open', $event)"
+          (close)="_event('close', $event)"
+          (focus)="_event('focus', $event)"
+          (blur)="_event('blur', $event)"
+          (search)="_event('search', $event)"
+          (scroll)="_event('scroll', $event)"
+          (removeOption)="_event('removeOption', $event)"
+        >
+          <select2-label [innerHTML]="ctrlForm?.value?.label"></select2-label>
+          <select2-hint [innerHTML]="ctrlForm?.value?.hint"></select2-hint>
+          <ng-template #template let-data="data">
+            @if (data?.color) {
+              <strong>{{ data?.color }}</strong
+              >:
+            }
+            {{ data?.name }}
+          </ng-template>
+          <ng-template #templateSelection let-data="data">
+            @if (data?.color) {
+              <em>{{ data?.color }}</em>
+            }
+            #{{ data?.name }}
+          </ng-template>
+          <ng-template #option let-data="data">Option: {{ data?.name }}</ng-template>
+          <ng-template #group let-label="label">Group: {{ label }}</ng-template>
+          <ng-template #optionSelection let-data="data">[{{ data?.name }}]</ng-template>
+          <ng-template #template1 let-data="data">{{ data?.name }}</ng-template>
+          <ng-template #template2 let-label="label" let-data="data">
+            {{ label }} ~ <strong>{{ data?.color }}</strong>
+          </ng-template>
+          <ng-template #template2Selection let-label="label" let-data="data">
+            {{ label }} * <em>{{ data?.color }}</em>
+          </ng-template>
+          <ng-template #template3Selection let-label="label" let-data="data">
+            {{ label }} = <em>{{ data?.color }}</em>
+          </ng-template>
+        </select2>
+      }
+
+      <h4>HTML Code</h4>
+
+      <div class="code">
+        <code><pre [highlight]="html" language="html"></pre></code>
+      </div>
+    </div>
+  </div>
 </div>

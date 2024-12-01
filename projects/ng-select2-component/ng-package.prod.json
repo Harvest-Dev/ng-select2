@@ -1,6 +1,6 @@
 {
   "dest": "../../dist/ng-select2-component",
-  "allowedNonPeerDependencies" : [ "ngx-infinite-scroll" ],
+  "allowedNonPeerDependencies": ["ngx-infinite-scroll"],
   "lib": {
     "entryFile": "src/public_api.ts"
   }

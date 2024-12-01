@@ -12,26 +12,27 @@ npm i ng-select2-component --save
 
 ## Requirements
 
--   peerDependencies:
+- peerDependencies:
 
-    -   `angular` 19.0.0 and more
-    -   `angular/cdk` 19.0.0 and more
+    - `angular` 19.0.0 and more
+    - `angular/cdk` 19.0.0 and more
 
--   dependencies (include):
-    -   `ngx-infinite-scroll` 19.0.0 and more
+- dependencies (include):
+    - `ngx-infinite-scroll` 19.0.0 and more
 
 > **Note:**<br>
 >
-> -   For `angular` 7, 8 and 9 (View Engine): use version `7.3.1`.
-> -   For `angular` 10, 11 and 12 (View Engine): use version `8.1.0`.
-> -   For `angular` 13 (Ivy): use version `9.0.0`.
-> -   For `angular` 14 (Ivy): use version `10.0.0`.
-> -   For `angular` 15 (Ivy): use version `11.1.0`.
-> -   For `angular` 16 (Ivy): use version `12.1.0`.
-> -   For `angular` 16.1 (Ivy): use version `13.0.12`.
-> -   For `angular` 17 (Ivy): use version `14.0.1`.
-> -   For `angular` 18 (Ivy): use version `15.3.0`.
-> -   For `angular` 19 and more (Ivy): use version `16.0.0`.
+> - For `angular` 7, 8 and 9 (View Engine): use version `7.3.1`.
+> - For `angular` 10, 11 and 12 (View Engine): use version `8.1.0`.
+> - For `angular` 13 (Ivy): use version `9.0.0`.
+> - For `angular` 14 (Ivy): use version `10.0.0`.
+> - For `angular` 15 (Ivy): use version `11.1.0`.
+> - For `angular` 16 (Ivy): use version `12.1.0`.
+> - For `angular` 16.1 (Ivy): use version `13.0.12`.
+> - For `angular` 17 (Ivy): use version `14.0.1`.
+> - For `angular` 18 (Ivy): use version `15.3.0`.
+> - For `angular` 19 (Ivy / Module): use version `16.0.0`.
+> - For `angular` 19 and more (Ivy / Stand-alone): use version `17.0.0`.
 
 ## Demo
 
@@ -39,34 +40,37 @@ npm i ng-select2-component --save
 
 ## Features
 
--   select one
--   options or groups (list or grid)
--   scroll
--   local search
--   select by keyboard
--   disabled option
--   disabled component
--   hide search box
--   placeholder
--   multiple selection
--   add items not found in multiple
--   material style
--   form binding
--   templating
+- select one
+- options or groups (list or grid)
+- scroll
+- local search
+- select by keyboard
+- disabled option
+- disabled component
+- hide search box
+- placeholder
+- multiple selection
+- add items not found in multiple
+- material style
+- form binding
+- templating
 
 ## Usage
 
 ### example
 
 ```ts
-import { Select2Module } from 'ng-select2-component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
-@NgModule({
-    imports: [BrowserModule, FormsModule, Select2Module],
-    declarations: [MainComponent],
-    bootstrap: [MainComponent],
+import { Select2, Select2Hint, Select2Label } from 'ng-select2-component';
+
+@Component({
+    selector: 'my-component',
+    templateUrl: './my-component.component.html',
+    styleUrls: ['./my-component.component.scss'],
+    imports: [FormsModule, ReactiveFormsModule, Select2, Select2Hint, Select2Label],
 })
-class MainModule {}
+class MyComponent {}
 ```
 
 ```html
@@ -108,7 +112,7 @@ class MainModule {}
 | `selectionNoWrap`                                                         | `boolean`                                                                                                                      |          | `false`              | Force selection on one line                                                                                             |                                      |
 | `showSelectAll`                                                           | `boolean`                                                                                                                      |          | `false`              | Add an option to select all options                                                                                     | with `multiple`                      |
 | `selectAllText`                                                           | `string`                                                                                                                       |          | `'Select all'`       | Text when all options as not selected                                                                                   | with `multiple`                      |
-| `removeAllText`                                                           | `string`                                                                                                                       |          | `'Remove all'`       | Text when all options as selected                                                                                        | with `multiple`                      |
+| `removeAllText`                                                           | `string`                                                                                                                       |          | `'Remove all'`       | Text when all options as selected                                                                                       | with `multiple`                      |
 | `editPattern`                                                             | `(str: string) => string`                                                                                                      |          |                      | use it for change the pattern of the filter search                                                                      |                                      |
 | `ngModel`<br>`id`<br>`required`<br>`disabled`<br>`readonly`<br>`tabIndex` |                                                                                                                                |          |                      | just like a `select` control                                                                                            |                                      |
 | `(update)`                                                                | `(event: `[`Select2UpdateEvent`](#select2-data-structure)`) => void`                                                           | event    |                      | triggered when user select an option                                                                                    |                                      |
@@ -288,37 +292,37 @@ const data: Select2Data = [
 
 #### Possible object
 
--   `TemplateRef`
--   `{template: TemplateRef}`
--   `{option?: TemplateRef, group?: TemplateRef}`
--   `{templateId1: TemplateRef, ...}`
+- `TemplateRef`
+- `{template: TemplateRef}`
+- `{option?: TemplateRef, group?: TemplateRef}`
+- `{templateId1: TemplateRef, ...}`
 
 In addition to the rendering templates of options and groups, in addition to going through the `templateSelection` attribute, it is possible to define that of the selection :
 
--   `{templateSelection: TemplateRef}`
--   `{optionSelection: TemplateRef}`
+- `{templateSelection: TemplateRef}`
+- `{optionSelection: TemplateRef}`
 
 #### Priority order
 
 For group or option:
 
--   `'id'` (from item data `templateId`)
--   `'group'` or `'option'`
--   `'template'`
--   `TemplateRef` (from html attribute `templates`)
--   Default render
+- `'id'` (from item data `templateId`)
+- `'group'` or `'option'`
+- `'template'`
+- `TemplateRef` (from html attribute `templates`)
+- Default render
 
 For the selection:
 
--   `'id'` (from item data `templateSelectionId`)
--   `'optionSelection'`
--   `'templateSelection'`
--   `TemplateRef` (from html attribute `templateSelection`)
--   `'id'` (from item data `templateId`)
--   `'option'`
--   `'template'`
--   `TemplateRef` (from html attribute `templates`)
--   Default render
+- `'id'` (from item data `templateSelectionId`)
+- `'optionSelection'`
+- `'templateSelection'`
+- `TemplateRef` (from html attribute `templateSelection`)
+- `'id'` (from item data `templateId`)
+- `'option'`
+- `'template'`
+- `TemplateRef` (from html attribute `templates`)
+- Default render
 
 ### Overlay
 

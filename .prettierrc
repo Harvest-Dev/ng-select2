@@ -6,6 +6,7 @@
     "arrowParens": "avoid",
     "trailingComma": "all",
     "bracketSpacing": true,
+    "plugins": ["@trivago/prettier-plugin-sort-imports", "prettier-plugin-css-order"],
     "importOrderParserPlugins": ["typescript", "decorators-legacy"],
     "importOrder": ["^@angular/", "^[@]", "^(?!src|[.])", "^[^.]", "^[.]/", "^[..]/", ".*"],
     "importOrderSeparation": true,
@@ -13,6 +14,12 @@
     "overrides": [
         {
             "files": "*.json",
+            "options": {
+                "tabWidth": 2
+            }
+        },
+        {
+            "files": "*.html",
             "options": {
                 "tabWidth": 2
             }

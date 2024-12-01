@@ -22,10 +22,10 @@ label {
 }
 
 textarea#json {
-    width: calc(100% - 15px);
-    resize: vertical;
     box-sizing: border-box;
+    width: calc(100% - 15px);
     height: 200px;
+    resize: vertical;
 }
 
 .hide {

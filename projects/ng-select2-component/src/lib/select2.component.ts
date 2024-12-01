@@ -1,10 +1,12 @@
 import {
     CdkConnectedOverlay,
+    CdkOverlayOrigin,
     ConnectedOverlayPositionChange,
     ConnectedPosition,
     VerticalConnectionPos,
 } from '@angular/cdk/overlay';
 import { ViewportRuler } from '@angular/cdk/scrolling';
+import { NgTemplateOutlet } from '@angular/common';
 import type { ElementRef, QueryList } from '@angular/core';
 import {
     AfterViewInit,
@@ -29,6 +31,7 @@ import {
 } from '@angular/core';
 import { ControlValueAccessor, FormGroupDirective, NgControl, NgForm } from '@angular/forms';
 
+import { InfiniteScrollDirective } from 'ngx-infinite-scroll';
 import { Subject } from 'rxjs';
 
 import {
@@ -54,7 +57,7 @@ const displaySearchStatusList = ['default', 'hidden', 'always'];
     selector: 'select2',
     templateUrl: './select2.component.html',
     styleUrls: ['./select2.component.scss'],
-    standalone: false
+    imports: [CdkOverlayOrigin, NgTemplateOutlet, CdkConnectedOverlay, InfiniteScrollDirective],
 })
 export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterViewInit {
     _data: Select2Data;

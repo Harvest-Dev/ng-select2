@@ -1,295 +1,266 @@
 <div class="select2-label" (click)="toggleOpenAndClose()">
-    <ng-content select="select2-label"></ng-content>
-    @if (required) {
-        <span class="select2-required"></span>
-    }
+  <ng-content select="select2-label"></ng-content>
+  @if (required) {
+    <span class="select2-required"></span>
+  }
 </div>
 
 <div
-    class="select2 select2-container select2-container--default"
-    [class.select2-container--focus]="focused"
-    [class.select2-container--below]="!select2above"
-    [class.select2-container--above]="select2above"
-    [class.select2-container--open]="isOpen"
-    [class.select2-container--disabled]="disabled"
+  class="select2 select2-container select2-container--default"
+  [class.select2-container--focus]="focused"
+  [class.select2-container--below]="!select2above"
+  [class.select2-container--above]="select2above"
+  [class.select2-container--open]="isOpen"
+  [class.select2-container--disabled]="disabled"
 >
+  <div
+    class="selection"
+    #selection
+    #trigger="cdkOverlayOrigin"
+    [tabindex]="!this.isOpen ? tabIndex : '-1'"
+    (click)="toggleOpenAndClose()"
+    (focus)="focusin()"
+    (blur)="focusout()"
+    (keydown)="openKey($event)"
+    cdkOverlayOrigin
+    [class.select2-focused]="focused"
+  >
     <div
-        class="selection"
-        #selection
-        #trigger="cdkOverlayOrigin"
-        [tabindex]="!this.isOpen ? tabIndex : '-1'"
-        (click)="toggleOpenAndClose()"
-        (focus)="focusin()"
-        (blur)="focusout()"
-        (keydown)="openKey($event)"
-        cdkOverlayOrigin
-        [class.select2-focused]="focused"
+      class="select2-selection"
+      [class.select2-selection--multiple]="multiple"
+      [class.select2-selection--single]="!multiple"
+      role="combobox"
     >
-        <div
-            class="select2-selection"
-            [class.select2-selection--multiple]="multiple"
-            [class.select2-selection--single]="!multiple"
-            role="combobox"
-        >
-            @if (selectionOverride) {
-                <span class="select2-selection__override" [innerHTML]="_selectionOverrideLabel()"></span>
-                @if (
-                    !multiple && resettable && resetSelectedValue !== value && select2Option && !(disabled || readonly)
-                ) {
-                    <span (click)="reset($event)" class="select2-selection__reset" role="presentation">×</span>
-                }
-            } @else if (!multiple) {
-                <span class="select2-selection__rendered" [title]="select2Option?.label || ''">
-                    @if (!select2Option) {
-                        <span>&nbsp;</span>
-                    }
-                    @if (select2Option) {
-                        @if (!hasTemplate(select2Option, 'option', true) || noLabelTemplate) {
-                            <span [innerHTML]="select2Option.label"></span>
-                        } @else {
-                            <ng-container
-                                *ngTemplateOutlet="getTemplate(select2Option, 'option', true); context: select2Option"
-                            ></ng-container>
-                        }
-                    }
-                    <span
-                        [class.select2-selection__placeholder__option]="option"
-                        class="select2-selection__placeholder"
-                        >{{ placeholder }}</span
-                    >
-                </span>
-                @if (resettable && resetSelectedValue !== value && select2Option && !(disabled || readonly)) {
-                    <span (click)="reset($event)" class="select2-selection__reset" role="presentation">×</span>
-                }
-                <span class="select2-selection__arrow" role="presentation"> </span>
+      @if (selectionOverride) {
+        <span class="select2-selection__override" [innerHTML]="_selectionOverrideLabel()"></span>
+        @if (!multiple && resettable && resetSelectedValue !== value && select2Option && !(disabled || readonly)) {
+          <span (click)="reset($event)" class="select2-selection__reset" role="presentation">×</span>
+        }
+      } @else if (!multiple) {
+        <span class="select2-selection__rendered" [title]="select2Option?.label || ''">
+          @if (!select2Option) {
+            <span>&nbsp;</span>
+          }
+          @if (select2Option) {
+            @if (!hasTemplate(select2Option, 'option', true) || noLabelTemplate) {
+              <span [innerHTML]="select2Option.label"></span>
             } @else {
-                <ul class="select2-selection__rendered">
-                    @if (!autoCreate) {
-                        <span
-                            [class.select2-selection__placeholder__option]="select2Options?.length > 0"
-                            class="select2-selection__placeholder"
-                            >{{ placeholder }}</span
-                        >
-                    }
-                    @for (op of option || []; track trackBy($index, op)) {
-                        <li
-                            class="select2-selection__choice"
-                            [title]="op.label"
-                            tabindex="0"
-                            (keydown.enter)="removeSelection($event, op)"
-                        >
-                            @if (!(disabled || readonly)) {
-                                <span
-                                    (click)="removeSelection($event, op)"
-                                    class="select2-selection__choice__remove"
-                                    role="presentation"
-                                    >×</span
-                                >
-                            }
-                            @if (!hasTemplate(op, 'option', true) || noLabelTemplate) {
-                                <span [innerHTML]="op.label"></span>
-                            } @else {
-                                <ng-container
-                                    *ngTemplateOutlet="getTemplate(op, 'option', true); context: op"
-                                ></ng-container>
-                            }
-                        </li>
-                    }
-                    @if (autoCreate) {
-                        <li
-                            class="select2-selection__auto-create"
-                            (focus)="stopEvent($event)"
-                            (blur)="stopEvent($event)"
-                        >
-                            <input
-                                [id]="id + '-create-field'"
-                                (click)="toggleOpenAndClose(false, true); stopEvent($event)"
-                                (keydown)="keyDown($event, true)"
-                                (keyup)="searchUpdate($event)"
-                                (change)="prevChange($event)"
-                                class="select2-create__field"
-                                type="search"
-                                role="textbox"
-                                autocomplete="off"
-                                autocorrect="off"
-                                autocapitalize="off"
-                                spellcheck="false"
-                            />
-                        </li>
-                    }
-                </ul>
+              <ng-container
+                *ngTemplateOutlet="getTemplate(select2Option, 'option', true); context: select2Option"
+              ></ng-container>
             }
-        </div>
+          }
+          <span [class.select2-selection__placeholder__option]="option" class="select2-selection__placeholder">{{
+            placeholder
+          }}</span>
+        </span>
+        @if (resettable && resetSelectedValue !== value && select2Option && !(disabled || readonly)) {
+          <span (click)="reset($event)" class="select2-selection__reset" role="presentation">×</span>
+        }
+        <span class="select2-selection__arrow" role="presentation"> </span>
+      } @else {
+        <ul class="select2-selection__rendered">
+          @if (!autoCreate) {
+            <span
+              [class.select2-selection__placeholder__option]="select2Options?.length > 0"
+              class="select2-selection__placeholder"
+              >{{ placeholder }}</span
+            >
+          }
+          @for (op of option || []; track trackBy($index, op)) {
+            <li
+              class="select2-selection__choice"
+              [title]="op.label"
+              tabindex="0"
+              (keydown.enter)="removeSelection($event, op)"
+            >
+              @if (!(disabled || readonly)) {
+                <span
+                  (click)="removeSelection($event, op)"
+                  class="select2-selection__choice__remove"
+                  role="presentation"
+                  >×</span
+                >
+              }
+              @if (!hasTemplate(op, 'option', true) || noLabelTemplate) {
+                <span [innerHTML]="op.label"></span>
+              } @else {
+                <ng-container *ngTemplateOutlet="getTemplate(op, 'option', true); context: op"></ng-container>
+              }
+            </li>
+          }
+          @if (autoCreate) {
+            <li class="select2-selection__auto-create" (focus)="stopEvent($event)" (blur)="stopEvent($event)">
+              <input
+                [id]="id + '-create-field'"
+                (click)="toggleOpenAndClose(false, true); stopEvent($event)"
+                (keydown)="keyDown($event, true)"
+                (keyup)="searchUpdate($event)"
+                (change)="prevChange($event)"
+                class="select2-create__field"
+                type="search"
+                role="textbox"
+                autocomplete="off"
+                autocorrect="off"
+                autocapitalize="off"
+                spellcheck="false"
+              />
+            </li>
+          }
+        </ul>
+      }
     </div>
-    @if (!overlay) {
-        <ng-container *ngTemplateOutlet="containerTemplate"></ng-container>
-    }
+  </div>
+  @if (!overlay) {
+    <ng-container *ngTemplateOutlet="containerTemplate"></ng-container>
+  }
 
-    <div class="select2-subscript-wrapper">
-        <ng-content select="select2-hint"></ng-content>
-    </div>
+  <div class="select2-subscript-wrapper">
+    <ng-content select="select2-hint"></ng-content>
+  </div>
 </div>
 
 <ng-template
-    cdkConnectedOverlay
-    cdkConnectedOverlayHasBackdrop
-    cdkConnectedOverlayBackdropClass="select2-overlay-backdrop"
-    [cdkConnectedOverlayOrigin]="trigger"
-    [cdkConnectedOverlayOpen]="this.isOpen && overlay"
-    [cdkConnectedOverlayMinWidth]="overlayWidth"
-    [cdkConnectedOverlayHeight]="overlayHeight"
-    [cdkConnectedOverlayPositions]="_positions"
-    (backdropClick)="toggleOpenAndClose()"
+  cdkConnectedOverlay
+  cdkConnectedOverlayHasBackdrop
+  cdkConnectedOverlayBackdropClass="select2-overlay-backdrop"
+  [cdkConnectedOverlayOrigin]="trigger"
+  [cdkConnectedOverlayOpen]="this.isOpen && overlay"
+  [cdkConnectedOverlayMinWidth]="overlayWidth"
+  [cdkConnectedOverlayHeight]="overlayHeight"
+  [cdkConnectedOverlayPositions]="_positions"
+  (backdropClick)="toggleOpenAndClose()"
 >
-    <ng-container *ngTemplateOutlet="containerTemplate"></ng-container>
+  <ng-container *ngTemplateOutlet="containerTemplate"></ng-container>
 </ng-template>
 
 <ng-template #containerTemplate>
+  <div
+    class="select2-container select2-container--default select2-container-dropdown"
+    [class.select2-container--open]="isOpen"
+    [class.select2-overlay]="overlay"
+    [class.select2-position-auto]="listPosition === 'auto'"
+    [class.select2-style-borderless]="styleMode === 'borderless'"
+  >
     <div
-        class="select2-container select2-container--default select2-container-dropdown"
-        [class.select2-container--open]="isOpen"
-        [class.select2-overlay]="overlay"
-        [class.select2-position-auto]="listPosition === 'auto'"
-        [class.select2-style-borderless]="styleMode === 'borderless'"
+      #dropdown
+      class="select2-dropdown"
+      [class.select2-dropdown--below]="!select2above"
+      [class.select2-dropdown--above]="select2above"
     >
-        <div
-            #dropdown
-            class="select2-dropdown"
-            [class.select2-dropdown--below]="!select2above"
-            [class.select2-dropdown--above]="select2above"
+      <div class="select2-search select2-search--dropdown" [class.select2-search--hide]="hideSearch()">
+        <input
+          #searchInput
+          [id]="id + '-search-field'"
+          [value]="searchText"
+          (keydown)="keyDown($event, autoCreate)"
+          (keyup)="searchUpdate($event)"
+          (change)="prevChange($event)"
+          class="select2-search__field"
+          type="search"
+          role="textbox"
+          autocomplete="off"
+          autocorrect="off"
+          autocapitalize="off"
+          spellcheck="false"
+          [attr.tabindex]="this.isOpen ? tabIndex : '-1'"
+        />
+      </div>
+
+      <div class="select2-results">
+        <ul
+          #results
+          class="select2-results__options"
+          [class.select2-grid]="grid && isNumber(grid)"
+          [class.select2-grid-auto]="grid && !isNumber(grid)"
+          [style.max-height]="resultMaxHeight"
+          [style.--grid-size]="grid || null"
+          role="tree"
+          tabindex="-1"
+          infiniteScroll
+          [infiniteScrollDisabled]="!infiniteScroll && !isOpen"
+          [infiniteScrollDistance]="infiniteScrollDistance"
+          [infiniteScrollThrottle]="infiniteScrollThrottle"
+          [infiniteScrollContainer]="results"
+          (scrolled)="onScroll('down')"
+          (scrolledUp)="onScroll('up')"
+          (keydown)="keyDown($event)"
         >
-            <div class="select2-search select2-search--dropdown" [class.select2-search--hide]="hideSearch()">
-                <input
-                    #searchInput
-                    [id]="id + '-search-field'"
-                    [value]="searchText"
-                    (keydown)="keyDown($event, autoCreate)"
-                    (keyup)="searchUpdate($event)"
-                    (change)="prevChange($event)"
-                    class="select2-search__field"
-                    type="search"
-                    role="textbox"
-                    autocomplete="off"
-                    autocorrect="off"
-                    autocapitalize="off"
-                    spellcheck="false"
-                    [attr.tabindex]="this.isOpen ? tabIndex : '-1'"
-                />
-            </div>
+          @if (showSelectAll && multiple) {
+            <li class="select2-results__option select2-selectall" (click)="selectAll()" tabindex="1" aria-selected>
+              <div class="select2-label-content">
+                {{ selectAllTest() ? removeAllText : selectAllText }}
+              </div>
+            </li>
+          }
 
-            <div class="select2-results">
-                <ul
-                    #results
-                    class="select2-results__options"
-                    [class.select2-grid]="grid && isNumber(grid)"
-                    [class.select2-grid-auto]="grid && !isNumber(grid)"
-                    [style.max-height]="resultMaxHeight"
-                    [style.--grid-size]="grid || null"
-                    role="tree"
-                    tabindex="-1"
-                    infiniteScroll
-                    [infiniteScrollDisabled]="!infiniteScroll && !isOpen"
-                    [infiniteScrollDistance]="infiniteScrollDistance"
-                    [infiniteScrollThrottle]="infiniteScrollThrottle"
-                    [infiniteScrollContainer]="results"
-                    (scrolled)="onScroll('down')"
-                    (scrolledUp)="onScroll('up')"
-                    (keydown)="keyDown($event)"
-                >
-                    @if (showSelectAll && multiple) {
-                        <li
-                            class="select2-results__option select2-selectall"
-                            (click)="selectAll()"
-                            tabindex="1"
-                            aria-selected
-                        >
-                            <div class="select2-label-content">
-                                {{ selectAllTest() ? removeAllText : selectAllText }}
-                            </div>
-                        </li>
-                    }
-
-                    @for (groupOrOption of filteredData(); track trackBy(i, groupOrOption); let i = $index) {
-                        @if (groupOrOption.options !== undefined) {
-                            <li class="select2-results__option" role="group">
-                                @if (!hasTemplate(groupOrOption, 'group')) {
-                                    <strong
-                                        [attr.class]="
-                                            'select2-results__group' +
-                                            (groupOrOption.classes ? ' ' + groupOrOption.classes : '')
-                                        "
-                                        [innerHTML]="groupOrOption.label"
-                                    ></strong>
-                                } @else {
-                                    <ng-container
-                                        *ngTemplateOutlet="getTemplate(groupOrOption, 'group'); context: groupOrOption"
-                                    >
-                                    </ng-container>
-                                }
-                                <ul class="select2-results__options select2-results__options--nested">
-                                    @for (option of groupOrOption.options; track trackBy(j, option); let j = $index) {
-                                        <li
-                                            #result
-                                            [id]="option.id || id + '-option-' + i + '-' + j"
-                                            [class]="getOptionStyle(option)"
-                                            role="treeitem"
-                                            [attr.aria-selected]="isSelected(option)"
-                                            [attr.aria-disabled]="isDisabled(option)"
-                                            (mouseenter)="mouseenter(option)"
-                                            (click)="click(option)"
-                                        >
-                                            @if (!hasTemplate(option, 'option')) {
-                                                <div class="select2-label-content" [innerHTML]="option.label"></div>
-                                            } @else {
-                                                <ng-container
-                                                    *ngTemplateOutlet="getTemplate(option, 'option'); context: option"
-                                                >
-                                                </ng-container>
-                                            }
-                                        </li>
-                                    }
-                                </ul>
-                            </li>
-                        } @else {
-                            <li
-                                #result
-                                [id]="groupOrOption.id || id + '-option-' + i"
-                                [class]="getOptionStyle(groupOrOption)"
-                                role="treeitem"
-                                [attr.aria-selected]="isSelected(groupOrOption)"
-                                [attr.aria-disabled]="isDisabled(groupOrOption)"
-                                (mouseenter)="mouseenter(groupOrOption)"
-                                (click)="click(groupOrOption)"
-                            >
-                                @if (!hasTemplate(groupOrOption, 'option')) {
-                                    <div [innerHTML]="groupOrOption.label" class="select2-label-content"></div>
-                                } @else {
-                                    <ng-container
-                                        *ngTemplateOutlet="getTemplate(groupOrOption, 'option'); context: groupOrOption"
-                                    >
-                                    </ng-container>
-                                }
-                            </li>
-
-                            <ng-template #li>
-                                <ng-container
-                                    *ngTemplateOutlet="getTemplate(groupOrOption, 'option'); context: groupOrOption"
-                                >
-                                </ng-container>
-                            </ng-template>
-                        }
-                    }
-                    @if (!filteredData()?.length && noResultMessage) {
-                        <li class="select2-no-result select2-results__option" [innerHTML]="noResultMessage"></li>
-                    }
-                    @if (maxResultsExceeded) {
-                        <li
-                            class="select2-too-much-result select2-results__option"
-                            [innerHTML]="maxResultsMessage"
-                        ></li>
-                    }
+          @for (groupOrOption of filteredData(); track trackBy(i, groupOrOption); let i = $index) {
+            @if (groupOrOption.options !== undefined) {
+              <li class="select2-results__option" role="group">
+                @if (!hasTemplate(groupOrOption, 'group')) {
+                  <strong
+                    [attr.class]="'select2-results__group' + (groupOrOption.classes ? ' ' + groupOrOption.classes : '')"
+                    [innerHTML]="groupOrOption.label"
+                  ></strong>
+                } @else {
+                  <ng-container *ngTemplateOutlet="getTemplate(groupOrOption, 'group'); context: groupOrOption">
+                  </ng-container>
+                }
+                <ul class="select2-results__options select2-results__options--nested">
+                  @for (option of groupOrOption.options; track trackBy(j, option); let j = $index) {
+                    <li
+                      #result
+                      [id]="option.id || id + '-option-' + i + '-' + j"
+                      [class]="getOptionStyle(option)"
+                      role="treeitem"
+                      [attr.aria-selected]="isSelected(option)"
+                      [attr.aria-disabled]="isDisabled(option)"
+                      (mouseenter)="mouseenter(option)"
+                      (click)="click(option)"
+                    >
+                      @if (!hasTemplate(option, 'option')) {
+                        <div class="select2-label-content" [innerHTML]="option.label"></div>
+                      } @else {
+                        <ng-container *ngTemplateOutlet="getTemplate(option, 'option'); context: option">
+                        </ng-container>
+                      }
+                    </li>
+                  }
                 </ul>
-            </div>
-        </div>
+              </li>
+            } @else {
+              <li
+                #result
+                [id]="groupOrOption.id || id + '-option-' + i"
+                [class]="getOptionStyle(groupOrOption)"
+                role="treeitem"
+                [attr.aria-selected]="isSelected(groupOrOption)"
+                [attr.aria-disabled]="isDisabled(groupOrOption)"
+                (mouseenter)="mouseenter(groupOrOption)"
+                (click)="click(groupOrOption)"
+              >
+                @if (!hasTemplate(groupOrOption, 'option')) {
+                  <div [innerHTML]="groupOrOption.label" class="select2-label-content"></div>
+                } @else {
+                  <ng-container *ngTemplateOutlet="getTemplate(groupOrOption, 'option'); context: groupOrOption">
+                  </ng-container>
+                }
+              </li>
+
+              <ng-template #li>
+                <ng-container *ngTemplateOutlet="getTemplate(groupOrOption, 'option'); context: groupOrOption">
+                </ng-container>
+              </ng-template>
+            }
+          }
+          @if (!filteredData()?.length && noResultMessage) {
+            <li class="select2-no-result select2-results__option" [innerHTML]="noResultMessage"></li>
+          }
+          @if (maxResultsExceeded) {
+            <li class="select2-too-much-result select2-results__option" [innerHTML]="maxResultsMessage"></li>
+          }
+        </ul>
+      </div>
     </div>
+  </div>
 </ng-template>
