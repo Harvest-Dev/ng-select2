@@ -1,3 +1,5 @@
+import { TemplateRef } from '@angular/core';
+
 import { Select2 } from './select2.component';
 
 export interface Select2Group {
@@ -92,3 +94,5 @@ export interface Select2ScrollEvent {
 }
 
 export type Select2SelectionOverride = string | ((params: { size: number; options: Select2Option[] | null }) => string);
+
+export type Select2Template = TemplateRef<any> | { [key: string]: TemplateRef<any> };

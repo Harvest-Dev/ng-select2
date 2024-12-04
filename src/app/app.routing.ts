@@ -1,13 +1,11 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-import { AppExamplesComponent } from './app-examples.component';
-import { AppGenComponent } from './app-gen.component';
 
 const routes: Routes = [
-    { path: 'examples', component: AppExamplesComponent },
-    { path: 'generator', component: AppGenComponent },
-    { path: '**', component: AppExamplesComponent },
+    { path: 'examples', loadComponent: () => import('./app-examples.component').then(m => m.AppExamplesComponent) },
+    { path: 'generator', loadComponent: () => import('./app-gen.component').then(m => m.AppGenComponent) },
+    { path: '**', loadComponent: () => import('./app-examples.component').then(m => m.AppExamplesComponent) },
 ];
 
 @NgModule({

@@ -7,27 +7,27 @@ import {
 } from '@angular/cdk/overlay';
 import { ViewportRuler } from '@angular/cdk/scrolling';
 import { NgTemplateOutlet } from '@angular/common';
-import type { ElementRef, QueryList } from '@angular/core';
+import type { ElementRef } from '@angular/core';
 import {
-  AfterViewInit,
-  Attribute,
-  ChangeDetectorRef,
-  Component,
-  DoCheck,
-  HostBinding,
-  HostListener,
-  Input,
-  OnInit,
-  Optional,
-  Self,
-  TemplateRef,
-  ViewChild,
-  ViewChildren,
-  booleanAttribute,
-  numberAttribute,
-  signal,
-  input,
-  output
+    AfterViewInit,
+    Attribute,
+    ChangeDetectorRef,
+    Component,
+    DoCheck,
+    HostBinding,
+    HostListener,
+    Input,
+    OnInit,
+    Optional,
+    Self,
+    TemplateRef,
+    booleanAttribute,
+    input,
+    numberAttribute,
+    output,
+    signal,
+    viewChild,
+    viewChildren,
 } from '@angular/core';
 import { ControlValueAccessor, FormGroupDirective, NgControl, NgForm } from '@angular/forms';
 
@@ -43,6 +43,7 @@ import {
     Select2ScrollEvent,
     Select2SearchEvent,
     Select2SelectionOverride,
+    Select2Template,
     Select2UpdateEvent,
     Select2UpdateValue,
     Select2Value,
@@ -117,9 +118,7 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
     readonly editPattern = input<(str: string) => string>(undefined);
 
     /** template(s) for formatting */
-    readonly templates = input<TemplateRef<any> | {
-    [key: string]: TemplateRef<any>;
-}>(undefined);
+    readonly templates = input<Select2Template>(undefined);
 
     /** template for formatting selected option */
     readonly templateSelection = input<TemplateRef<any>>(undefined);
@@ -300,12 +299,12 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
 
     private _minCountForSearch?: number;
 
-    @ViewChild(CdkConnectedOverlay) private cdkConnectedOverlay: CdkConnectedOverlay;
-    @ViewChild('selection', { static: true }) private selection: ElementRef<HTMLElement>;
-    @ViewChild('results') private resultContainer: ElementRef<HTMLElement>;
-    @ViewChildren('result') private results: QueryList<ElementRef>;
-    @ViewChild('searchInput') private searchInput: ElementRef<HTMLElement>;
-    @ViewChild('dropdown') private dropdown: ElementRef<HTMLElement>;
+    readonly cdkConnectedOverlay = viewChild(CdkConnectedOverlay);
+    readonly selection = viewChild<ElementRef<HTMLElement>>('selection');
+    readonly resultContainer = viewChild<ElementRef<HTMLElement>>('results');
+    readonly results = viewChildren<ElementRef>('result');
+    readonly searchInput = viewChild<ElementRef<HTMLElement>>('searchInput');
+    readonly dropdown = viewChild<ElementRef<HTMLElement>>('dropdown');
 
     private hoveringValue: Select2Value | null | undefined = null;
     private innerSearchText = '';
@@ -314,7 +313,7 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
     private selectionElement: HTMLElement;
 
     private get resultsElement(): HTMLElement {
-        return this.resultContainer?.nativeElement;
+        return this.resultContainer()?.nativeElement;
     }
 
     private _stateChanges = new Subject<void>();
@@ -400,7 +399,7 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
     }
 
     ngAfterViewInit() {
-        this.cdkConnectedOverlay.positionChange.subscribe((posChange: ConnectedOverlayPositionChange) => {
+        this.cdkConnectedOverlay().positionChange.subscribe((posChange: ConnectedOverlayPositionChange) => {
             if (
                 this.listPosition() === 'auto' &&
                 posChange.connectionPair?.originY &&
@@ -412,7 +411,7 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
             }
         });
 
-        this.selectionElement = this.selection.nativeElement;
+        this.selectionElement = this.selection().nativeElement;
         this.triggerRect();
     }
 
@@ -517,7 +516,7 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
                     }
                     setTimeout(() => {
                         this.triggerRect();
-                        this.cdkConnectedOverlay?.overlayRef?.updatePosition();
+                        this.cdkConnectedOverlay()?.overlayRef?.updatePosition();
                     }, 100);
                 });
             }
@@ -568,9 +567,8 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
 
     triggerRect() {
         this._triggerRect = this.selectionElement.getBoundingClientRect();
-        this._dropdownRect = this.dropdown?.nativeElement
-            ? this.dropdown.nativeElement.getBoundingClientRect()
-            : undefined;
+        const dropdown = this.dropdown();
+        this._dropdownRect = dropdown?.nativeElement ? dropdown.nativeElement.getBoundingClientRect() : undefined;
     }
 
     isNumber(o: any): boolean {
@@ -629,11 +627,7 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
         }
 
         const limitSelection = this.limitSelection();
-        return (
-            !this.multiple ||
-            !limitSelection ||
-            (Array.isArray(this._value) && this._value.length < limitSelection)
-        );
+        return !this.multiple || !limitSelection || (Array.isArray(this._value) && this._value.length < limitSelection);
     }
 
     private testValueChange(value1: Select2UpdateValue, value2: Select2UpdateValue) {
@@ -1073,7 +1067,7 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
     private updateScrollFromOption(option: Select2Option) {
         if (option) {
             this.hoveringValue = option.value;
-            const domElement = this.results.find(r => r.nativeElement.innerText.trim() === option.label);
+            const domElement = this.results().find(r => r.nativeElement.innerText.trim() === option.label);
             if (domElement && this.resultsElement) {
                 this.resultsElement.scrollTop = 0;
                 const listClientRect = this.resultsElement.getBoundingClientRect();
@@ -1179,8 +1173,9 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
     private _focusSearchboxOrResultsElement(focus = true) {
         if (!this.isSearchboxHidden) {
             setTimeout(() => {
-                if (this.searchInput && this.searchInput.nativeElement && focus) {
-                    this.searchInput.nativeElement.focus();
+                const searchInput = this.searchInput();
+                if (searchInput && searchInput.nativeElement && focus) {
+                    searchInput.nativeElement.focus();
                 }
             });
             if (this.resultsElement && focus) {
