@@ -1,54 +1,21 @@
-import {
-    CdkConnectedOverlay,
-    CdkOverlayOrigin,
-    ConnectedOverlayPositionChange,
-    ConnectedPosition,
-    VerticalConnectionPos,
-} from '@angular/cdk/overlay';
+import { CdkConnectedOverlay, CdkOverlayOrigin, ConnectedOverlayPositionChange, ConnectedPosition, VerticalConnectionPos } from '@angular/cdk/overlay';
 import { ViewportRuler } from '@angular/cdk/scrolling';
 import { NgTemplateOutlet } from '@angular/common';
-import type { ElementRef } from '@angular/core';
-import {
-    AfterViewInit,
-    Attribute,
-    ChangeDetectorRef,
-    Component,
-    DoCheck,
-    HostBinding,
-    HostListener,
-    Input,
-    OnInit,
-    Optional,
-    Self,
-    TemplateRef,
-    booleanAttribute,
-    input,
-    numberAttribute,
-    output,
-    signal,
-    viewChild,
-    viewChildren,
-} from '@angular/core';
+import type { ElementRef, OnDestroy } from '@angular/core';
+import { AfterViewInit, Attribute, ChangeDetectorRef, Component, DoCheck, HostBinding, HostListener, OnInit, Optional, Self, TemplateRef, booleanAttribute, input, numberAttribute, output, signal, viewChild, viewChildren } from '@angular/core';
+import { toObservable } from '@angular/core/rxjs-interop';
 import { ControlValueAccessor, FormGroupDirective, NgControl, NgForm } from '@angular/forms';
 
-import { InfiniteScrollDirective } from 'ngx-infinite-scroll';
-import { Subject } from 'rxjs';
 
-import {
-    Select2AutoCreateEvent,
-    Select2Data,
-    Select2Group,
-    Select2Option,
-    Select2RemoveEvent,
-    Select2ScrollEvent,
-    Select2SearchEvent,
-    Select2SelectionOverride,
-    Select2Template,
-    Select2UpdateEvent,
-    Select2UpdateValue,
-    Select2Value,
-} from './select2-interfaces';
+
+import { InfiniteScrollDirective } from 'ngx-infinite-scroll';
+import { Subject, Subscription } from 'rxjs';
+
+
+
+import { Select2AutoCreateEvent, Select2Data, Select2Group, Select2Option, Select2RemoveEvent, Select2ScrollEvent, Select2SearchEvent, Select2SelectionOverride, Select2Template, Select2UpdateEvent, Select2UpdateValue, Select2Value } from './select2-interfaces';
 import { Select2Utils } from './select2-utils';
+
 
 let nextUniqueId = 0;
 
@@ -59,39 +26,37 @@ const displaySearchStatusList = ['default', 'hidden', 'always'];
     templateUrl: './select2.component.html',
     styleUrls: ['./select2.component.scss'],
     imports: [CdkOverlayOrigin, NgTemplateOutlet, CdkConnectedOverlay, InfiniteScrollDirective],
+    host: {
+        '[id]': 'id()',
+        '[class.select2-selection-nowrap]': 'selectionNoWrap()',
+    },
 })
-export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterViewInit {
-    _data: Select2Data;
+export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterViewInit, OnDestroy {
+    // ----------------------- signal-input
 
-    /** data of options & optiongrps */
-    @Input({ required: true }) set data(data: Select2Data) {
-        this._data = data;
-        this.updateFilteredData(true);
-    }
+    /** data of options & optionGrps */
+    readonly data = input.required<Select2Data>();
+
     readonly minCharForSearch = input(0, { transform: numberAttribute });
+
     readonly displaySearchStatus = input<'default' | 'hidden' | 'always'>(undefined);
+
     readonly placeholder = input<string>(undefined);
 
     readonly limitSelection = input(0, { transform: numberAttribute });
+
     readonly listPosition = input<'above' | 'below' | 'auto'>('below');
 
-    @Input({ transform: booleanAttribute })
-    get multiple(): boolean {
-        return this._multiple;
-    }
-    set multiple(value: boolean) {
-        this._multiple = value;
-        this.ngOnInit();
-    }
+    readonly overlay = input(false, { transform: booleanAttribute });
 
     /** use the material style */
-    readonly overlay = input(false, { transform: booleanAttribute });
+    readonly multiple = input(false, { transform: booleanAttribute });
 
     /** use the material style */
     readonly styleMode = input<'material' | 'noStyle' | 'borderless' | 'default'>('default');
 
     /** message when no result */
-    @Input() noResultMessage: string;
+    readonly noResultMessage = input<string>();
 
     /** maximum results limit (0 = no limit) */
     readonly maxResults = input(0, { transform: numberAttribute });
@@ -130,36 +95,16 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
     readonly customSearchEnabled = input(false, { transform: booleanAttribute });
 
     /** minimal data of show the search field */
-    @Input({ transform: numberAttribute })
-    get minCountForSearch(): number {
-        return this._minCountForSearch;
-    }
-    set minCountForSearch(value: number) {
-        this._minCountForSearch = value;
-        this.updateSearchBox();
-    }
+    readonly minCountForSearch = input(0, { transform: numberAttribute });
 
     /** Unique id of the element. */
-    @Input()
-    @HostBinding('id')
-    get id() {
-        return this._id;
-    }
-    set id(value: string) {
-        this._id = value || this._uid;
-    }
+    readonly id = input<string>();
 
     /** Whether the element is required. */
     readonly required = input(false, { transform: booleanAttribute });
 
     /** Whether selected items should be hidden. */
-    @Input({ transform: booleanAttribute })
-    get disabled() {
-        return this._control ? this._control.disabled : this._disabled;
-    }
-    set disabled(value: boolean) {
-        this._disabled = value;
-    }
+    readonly disabled = input(false, { transform: booleanAttribute });
 
     /** Whether items are hidden when has. */
     readonly hideSelectedItems = input(false, { transform: booleanAttribute });
@@ -168,29 +113,10 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
     readonly readonly = input(false, { transform: booleanAttribute });
 
     /** The input element's value. */
-    @Input()
-    get value() {
-        return this._value;
-    }
-    set value(value: Select2UpdateValue) {
-        if (this.testValueChange(this._value, value)) {
-            setTimeout(() => {
-                if (this._value === undefined) {
-                    this._value = value ?? null;
-                }
-                this.writeValue(value ?? null);
-            }, 10);
-        }
-    }
+    readonly value = input<Select2UpdateValue>();
 
     /** Tab index for the select2 element. */
-    @Input({ transform: numberAttribute })
-    get tabIndex(): number {
-        return this.disabled ? -1 : this._tabIndex;
-    }
-    set tabIndex(value: number) {
-        this._tabIndex = value;
-    }
+    readonly tabIndex = input(0, { transform: numberAttribute });
 
     /** reset with no selected value */
     readonly resettable = input(false, { transform: booleanAttribute });
@@ -213,9 +139,7 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
     readonly selectionOverride = input<Select2SelectionOverride>(undefined);
 
     /** force selection on one line */
-    @HostBinding('class.select2-selection-nowrap')
-    @Input({ transform: booleanAttribute })
-    selectionNoWrap = false;
+    readonly selectionNoWrap = input(false, { transform: booleanAttribute });
 
     /** Add an option to select or remove all (if all is selected) */
     readonly showSelectAll = input(false, { transform: booleanAttribute });
@@ -225,6 +149,8 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
 
     /** Text for select all options */
     readonly selectAllText = input('Select all');
+
+    // ----------------------- signal-output
 
     readonly update = output<Select2UpdateEvent<Select2UpdateValue>>();
     readonly autoCreateItem = output<Select2AutoCreateEvent<Select2UpdateValue>>();
@@ -236,30 +162,16 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
     readonly scroll = output<Select2ScrollEvent>();
     readonly removeOption = output<Select2RemoveEvent<Select2UpdateValue>>();
 
-    option: Select2Option | Select2Option[] | null = null;
-    isOpen = false;
-    searchStyle: string;
+    // ----------------------- signal-input
 
-    /** Whether the element is focused or not. */
-    focused = false;
+    readonly cdkConnectedOverlay = viewChild(CdkConnectedOverlay);
+    readonly selection = viewChild<ElementRef<HTMLElement>>('selection');
+    readonly resultContainer = viewChild<ElementRef<HTMLElement>>('results');
+    readonly results = viewChildren<ElementRef>('result');
+    readonly searchInput = viewChild<ElementRef<HTMLElement>>('searchInput');
+    readonly dropdown = viewChild<ElementRef<HTMLElement>>('dropdown');
 
-    filteredData = signal<Select2Data | undefined>(undefined);
-
-    get select2Options() {
-        return this.multiple ? (this.option as Select2Option[]) : null;
-    }
-
-    get select2Option() {
-        return this.multiple ? null : (this.option as Select2Option);
-    }
-
-    get searchText() {
-        return this.innerSearchText;
-    }
-
-    set searchText(text: string) {
-        this.innerSearchText = text;
-    }
+    // ----------------------- HostBinding
 
     @HostBinding('attr.aria-invalid')
     get ariaInvalid(): boolean {
@@ -286,6 +198,37 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
         return !this.overlay() ? this.listPosition() === 'above' : this._isAbobeOverlay();
     }
 
+    // ----------------------- internal var
+
+    option: Select2Option | Select2Option[] | null = null;
+    isOpen = false;
+    searchStyle: string;
+
+    /** Whether the element is focused or not. */
+    focused = false;
+
+    filteredData = signal<Select2Data | undefined>(undefined);
+
+    get select2Options() {
+        return this.multiple() ? (this.option as Select2Option[]) : null;
+    }
+
+    get select2Option() {
+        return this.multiple() ? null : (this.option as Select2Option);
+    }
+
+    get searchText() {
+        return this.innerSearchText;
+    }
+
+    set searchText(text: string) {
+        this.innerSearchText = text;
+    }
+
+    get disabledState() {
+        return this._control?.disabled ?? this._disabled;
+    }
+
     overlayWidth: number;
     overlayHeight: number;
     _triggerRect: DOMRect;
@@ -298,13 +241,6 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
     maxResultsExceeded: boolean;
 
     private _minCountForSearch?: number;
-
-    readonly cdkConnectedOverlay = viewChild(CdkConnectedOverlay);
-    readonly selection = viewChild<ElementRef<HTMLElement>>('selection');
-    readonly resultContainer = viewChild<ElementRef<HTMLElement>>('results');
-    readonly results = viewChildren<ElementRef>('result');
-    readonly searchInput = viewChild<ElementRef<HTMLElement>>('searchInput');
-    readonly dropdown = viewChild<ElementRef<HTMLElement>>('dropdown');
 
     private hoveringValue: Select2Value | null | undefined = null;
     private innerSearchText = '';
@@ -319,15 +255,17 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
     private _stateChanges = new Subject<void>();
 
     /** Tab index for the element. */
-    private _tabIndex: number;
+    protected get _tabIndex(): number {
+        return this.disabledState ? -1 : this.tabIndex();
+    }
 
     private _disabled = false;
-    private _multiple = false;
     private _id: string;
     private _uid = `select2-${nextUniqueId++}`;
     private _value: Select2UpdateValue = null;
     private _previousNativeValue: Select2UpdateValue;
     private _overlayPosition: VerticalConnectionPos;
+    private toObservable = new Subscription();
 
     constructor(
         protected _viewportRuler: ViewportRuler,
@@ -339,16 +277,53 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
     ) {
         // eslint-disable-next-line no-self-assign
         this.id = this.id;
-        this._tabIndex = parseInt(tabIndex, 10) || 0;
 
         if (this._control) {
             this._control.valueAccessor = this;
         }
+
+        this.toObservable.add(
+            toObservable(this.multiple).subscribe(_multiple => {
+                this.ngOnInit();
+            }),
+        );
+        this.toObservable.add(
+            toObservable(this.data).subscribe(_data => {
+                this.updateFilteredData(true);
+            }),
+        );
+        this.toObservable.add(
+            toObservable(this.minCountForSearch).subscribe(_minCountForSearch => {
+                this.updateSearchBox();
+            }),
+        );
+        this.toObservable.add(
+            toObservable(this.id).subscribe(id => {
+                this._id = id || this._uid;
+            }),
+        );
+        this.toObservable.add(
+            toObservable(this.disabled).subscribe(disabled => {
+                this._disabled = disabled;
+            }),
+        );
+        this.toObservable.add(
+            toObservable(this.value).subscribe(value => {
+                if (this.testValueChange(this._value, value)) {
+                    setTimeout(() => {
+                        if (this._value === undefined) {
+                            this._value = value ?? null;
+                        }
+                        this.writeValue(value ?? null);
+                    }, 10);
+                }
+            }),
+        );
     }
 
     @HostListener('document:click', ['$event'])
     clickDetection(e: MouseEvent) {
-        if (this.isOpen && focus) {
+        if (this.isOpen) {
             const target = e.target as HTMLElement;
             if (!this.ifParentContainsClass(target, 'selection')) {
                 if (!this.ifParentContainsClass(target, 'select2-dropdown')) {
@@ -385,15 +360,15 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
         });
 
         const option = Select2Utils.getOptionsByValue(
-            this._data,
+            this.data(),
             this._control ? this._control.value : this.value,
-            this.multiple,
+            this.multiple(),
         );
         if (option !== null) {
             this.option = option;
         }
         if (!Array.isArray(option)) {
-            this.hoveringValue = this.value as string | undefined;
+            this.hoveringValue = this.value() as string | undefined;
         }
         this.updateSearchBox();
     }
@@ -428,10 +403,14 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
         }
     }
 
+    ngOnDestroy(): void {
+        this.toObservable.unsubscribe();
+    }
+
     updateSearchBox() {
         const hidden = this.customSearchEnabled()
             ? false
-            : Select2Utils.isSearchboxHiddex(this._data, this._minCountForSearch);
+            : Select2Utils.isSearchboxHiddex(this.data(), this._minCountForSearch);
         if (this.isSearchboxHidden !== hidden) {
             this.isSearchboxHidden = hidden;
         }
@@ -465,12 +444,12 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
     }
 
     reset(event?: MouseEvent) {
-        // const test = Select2Utils.getOptionByValue(this._data, this.resetSelectedValue);
+        // const test = Select2Utils.getOptionByValue(this.data(), this.resetSelectedValue);
         // debugger;
         const resetSelectedValue = this.resetSelectedValue();
         this.select(
             resetSelectedValue !== undefined
-                ? (Select2Utils.getOptionByValue(this._data, resetSelectedValue) ?? null)
+                ? (Select2Utils.getOptionByValue(this.data(), resetSelectedValue) ?? null)
                 : null,
         );
 
@@ -489,14 +468,13 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
     }
 
     toggleOpenAndClose(focus = true, open?: boolean, event?: KeyboardEvent) {
-        if (this.disabled) {
+        if (this.disabledState) {
             return;
         }
         this._focus(focus);
 
         const changeEmit = this.isOpen !== (open ?? !this.isOpen);
         this.isOpen = open ?? !this.isOpen;
-
         if (this.isOpen) {
             if (!this.isSearchboxHidden) {
                 this.innerSearchText = '';
@@ -576,10 +554,10 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
     }
 
     selectAll() {
-        if (this.multiple) {
+        if (this.multiple()) {
             if (!this.selectAllTest()) {
                 const options: Select2Option[] = [];
-                this._data.forEach(e => {
+                this.data().forEach(e => {
                     if ((e as Select2Group).options) {
                         (e as Select2Group).options.forEach(f => {
                             if (!f.disabled && !f.hide) {
@@ -591,10 +569,10 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
                     }
                 });
                 this.option = options;
-                this.value = options.map(e => e.value);
+                this._value = options.map(e => e.value);
             } else {
                 this.option = [];
-                this.value = [];
+                this._value = [];
             }
 
             this.isOpen = false;
@@ -603,9 +581,9 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
     }
 
     selectAllTest() {
-        if (this.multiple && Array.isArray(this.option) && this.option.length) {
+        if (this.multiple() && Array.isArray(this.option) && this.option.length) {
             let options = 0;
-            this._data.forEach(e => {
+            this.data().forEach(e => {
                 if ((e as Select2Group).options) {
                     (e as Select2Group).options.forEach(f => {
                         if (!f.disabled && !f.hide) {
@@ -627,7 +605,9 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
         }
 
         const limitSelection = this.limitSelection();
-        return !this.multiple || !limitSelection || (Array.isArray(this._value) && this._value.length < limitSelection);
+        return (
+            !this.multiple() || !limitSelection || (Array.isArray(this._value) && this._value.length < limitSelection)
+        );
     }
 
     private testValueChange(value1: Select2UpdateValue, value2: Select2UpdateValue) {
@@ -638,7 +618,7 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
             return false;
         }
         if (
-            this.multiple &&
+            this.multiple() &&
             (value1 as Select2Value[])?.length &&
             (value2 as Select2Value[])?.length &&
             (value1 as Select2Value[]).length === (value2 as Select2Value[]).length
@@ -656,8 +636,8 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
 
     private updateFilteredData(writeValue = false) {
         setTimeout(() => {
-            let result = this._data;
-            if (this.multiple && this.hideSelectedItems()) {
+            let result = this.data();
+            if (this.multiple() && this.hideSelectedItems()) {
                 result = Select2Utils.getFilteredSelectedData(result, this.option);
             }
 
@@ -686,10 +666,10 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
 
             // replace selected options when data change
 
-            if (this.multiple && Array.isArray(this.option) && this.option.length) {
+            if (this.multiple() && Array.isArray(this.option) && this.option.length) {
                 const options: Select2Option[] = [];
                 const value = this.option.map(e => e.value);
-                this._data.forEach(e => {
+                this.data().forEach(e => {
                     if ((e as Select2Group).options) {
                         (e as Select2Group).options.forEach(f => {
                             if (value.includes(f.value)) {
@@ -704,7 +684,7 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
                 this.option = this.option.map(e => options.find(f => f.value === e.value));
             } else if (!Array.isArray(this.option) && this.option) {
                 let option: Select2Option = undefined;
-                this._data.forEach(e => {
+                this.data().forEach(e => {
                     if ((e as Select2Group).options) {
                         (e as Select2Group).options.forEach(f => {
                             if ((this.option as Select2Option).value === f.value) {
@@ -788,7 +768,7 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
     }
 
     focusin() {
-        if (!this.disabled) {
+        if (!this.disabledState) {
             this._focus(true);
         }
     }
@@ -803,7 +783,7 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
     select(option: Select2Option | null, emit: boolean = true) {
         let value: any;
         if (option !== null && option !== undefined) {
-            if (this.multiple) {
+            if (this.multiple()) {
                 const options = this.option as Select2Option[];
                 const index = options.findIndex(op => op.value === option.value);
                 if (index === -1) {
@@ -903,7 +883,7 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
                 component: this,
                 value: this._value,
                 search: this.searchText,
-                data: this._data,
+                data: this.data(),
                 filteredData: (data: Select2Data) => {
                     this.filteredData.set(data);
                     this._changeDetectorRef.markForCheck();
@@ -917,7 +897,7 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
     }
 
     isSelected(option: Select2Option) {
-        return Select2Utils.isSelected(this.option, option, this.multiple);
+        return Select2Utils.isSelected(this.option, option, this.multiple());
     }
 
     isDisabled(option: Select2Option) {
@@ -927,7 +907,7 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
     removeSelection(e: MouseEvent | KeyboardEvent, option: Select2Option) {
         Select2Utils.removeSelection(this.option, option);
 
-        if (this.multiple && this.hideSelectedItems()) {
+        if (this.multiple() && this.hideSelectedItems()) {
             this.updateFilteredData();
         }
 
@@ -964,6 +944,7 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
      */
     writeValue(value: any) {
         this._setSelectionByValue(value);
+        this._value = value;
     }
 
     /**
@@ -994,7 +975,7 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
      * @param isDisabled
      */
     setDisabledState(isDisabled: boolean) {
-        this.disabled = isDisabled;
+        this._disabled = isDisabled;
     }
 
     onScroll(way: 'up' | 'down') {
@@ -1002,7 +983,7 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
             component: this,
             way,
             search: this.innerSearchText,
-            data: this._data,
+            data: this.data(),
         });
     }
 
@@ -1030,13 +1011,13 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
     }
 
     private addItem(value: string): Select2Option {
-        let item = Select2Utils.getOptionByValue(this._data, value);
+        let item = Select2Utils.getOptionByValue(this.data(), value);
         if (!item) {
             item = {
                 value,
                 label: value,
             };
-            this._data.push(item);
+            this.data().push(item);
         }
         return item;
     }
@@ -1079,7 +1060,7 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
 
     private selectByEnter() {
         if (this.hoveringValue) {
-            const option = Select2Utils.getOptionByValue(this._data, this.hoveringValue);
+            const option = Select2Utils.getOptionByValue(this.data(), this.hoveringValue);
             this.select(option);
         }
     }
@@ -1115,14 +1096,14 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
     private _setSelectionByValue(value: any | any[]): void {
         if (this.option || (value !== undefined && value !== null)) {
             const isArray = Array.isArray(value);
-            if (this.multiple && value && !isArray) {
+            if (this.multiple() && value && !isArray) {
                 throw new Error('Non array value.');
-            } else if (this._data) {
-                if (this.multiple) {
+            } else if (this.data()) {
+                if (this.multiple()) {
                     this.option = []; // if value is null, then empty option and return
                     if (isArray) {
                         // value is not null. Preselect value
-                        const selectedValues: any = Select2Utils.getOptionsByValue(this._data, value, this.multiple);
+                        const selectedValues: any = Select2Utils.getOptionsByValue(this.data(), value, this.multiple());
                         selectedValues.map(item => this.select(item, false));
                         this._value ??= value;
 
@@ -1135,7 +1116,7 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
                         }
                     } else if (value === null) {
                         // fix if value is null
-                        this.value = [];
+                        this._value = [];
                         this.reset();
                         this.select(null, false);
 
@@ -1150,7 +1131,7 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
                     }
                 } else {
                     this._value ??= value;
-                    this.select(Select2Utils.getOptionByValue(this._data, value));
+                    this.select(Select2Utils.getOptionByValue(this.data(), value));
                 }
             } else if (this._control) {
                 this._control.viewToModelUpdate(value);

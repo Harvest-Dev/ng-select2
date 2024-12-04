@@ -11,14 +11,14 @@
   [class.select2-container--below]="!select2above"
   [class.select2-container--above]="select2above"
   [class.select2-container--open]="isOpen"
-  [class.select2-container--disabled]="disabled"
+  [class.select2-container--disabled]="disabled()"
 >
   <div
     class="selection"
     #selection
     #trigger="cdkOverlayOrigin"
-    [tabindex]="!this.isOpen ? tabIndex : '-1'"
-    (click)="toggleOpenAndClose()"
+    [tabindex]="!this.isOpen ? _tabIndex : '-1'"
+    (click)="toggleOpenAndClose(); $event.stopPropagation()"
     (focus)="focusin()"
     (blur)="focusout()"
     (keydown)="openKey($event)"
@@ -27,16 +27,18 @@
   >
     <div
       class="select2-selection"
-      [class.select2-selection--multiple]="multiple"
-      [class.select2-selection--single]="!multiple"
+      [class.select2-selection--multiple]="multiple()"
+      [class.select2-selection--single]="!multiple()"
       role="combobox"
     >
       @if (selectionOverride()) {
         <span class="select2-selection__override" [innerHTML]="_selectionOverrideLabel()"></span>
-        @if (!multiple && resettable() && resetSelectedValue() !== value && select2Option && !(disabled || readonly())) {
+        @if (
+          !multiple() && resettable() && resetSelectedValue() !== value() && select2Option && !(disabled || readonly())
+        ) {
           <span (click)="reset($event)" class="select2-selection__reset" role="presentation">×</span>
         }
-      } @else if (!multiple) {
+      } @else if (!multiple()) {
         <span class="select2-selection__rendered" [title]="select2Option?.label || ''">
           @if (!select2Option) {
             <span>&nbsp;</span>
@@ -54,7 +56,7 @@
             placeholder()
           }}</span>
         </span>
-        @if (resettable() && resetSelectedValue() !== value && select2Option && !(disabled || readonly())) {
+        @if (resettable() && resetSelectedValue() !== value() && select2Option && !(disabled || readonly())) {
           <span (click)="reset($event)" class="select2-selection__reset" role="presentation">×</span>
         }
         <span class="select2-selection__arrow" role="presentation"> </span>
@@ -163,7 +165,7 @@
           autocorrect="off"
           autocapitalize="off"
           spellcheck="false"
-          [attr.tabindex]="this.isOpen ? tabIndex : '-1'"
+          [attr.tabindex]="this.isOpen ? _tabIndex : '-1'"
         />
       </div>
 
@@ -253,8 +255,8 @@
               </ng-template>
             }
           }
-          @if (!filteredData()?.length && noResultMessage) {
-            <li class="select2-no-result select2-results__option" [innerHTML]="noResultMessage"></li>
+          @if (!filteredData()?.length && noResultMessage()) {
+            <li class="select2-no-result select2-results__option" [innerHTML]="noResultMessage()"></li>
           }
           @if (maxResultsExceeded) {
             <li class="select2-too-much-result select2-results__option" [innerHTML]="maxResultsMessage()"></li>
