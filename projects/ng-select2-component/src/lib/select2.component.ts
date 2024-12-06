@@ -911,8 +911,8 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
         }
     }
 
-    trackBy(_index: number, item: Select2Option): any {
-        return item.value;
+    trackBy(_index: number, item: Select2Group | Select2Option): any {
+        return (item as Select2Option).value ?? item;
     }
 
     isSelected(option: Select2Option) {
