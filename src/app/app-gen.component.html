@@ -28,11 +28,11 @@
     </div>
     <div>
       <label for="minCharForSearch">minCharForSearch (0) : </label>
-      <input type="number" formControlName="minCharForSearch" id="minCharForSearch" />
+      <input type="number" formControlName="minCharForSearch" id="minCharForSearch" min="0" />
     </div>
     <div>
       <label for="minCountForSearch">minCountForSearch (6) : </label>
-      <input type="number" formControlName="minCountForSearch" id="minCountForSearch" />
+      <input type="number" formControlName="minCountForSearch" id="minCountForSearch" min="0" />
     </div>
     <div>
       <label for="displaySearchStatus">displaySearchStatus :</label>
@@ -232,39 +232,38 @@
     <div class="result">
       <h4>HTML render</h4>
       @if (ctrlForm.value) {
+        @let value = ctrlForm.value;
         <select2
           [data]="data"
-          [overlay]="ctrlForm?.value?.overlay"
-          [disabled]="ctrlForm?.value?.disabled"
-          [minCharForSearch]="ctrlForm?.value?.minCharForSearch || 0"
-          [minCountForSearch]="ctrlForm?.value?.minCountForSearch || 6"
-          [displaySearchStatus]="ctrlForm?.value?.displaySearchStatus"
-          [placeholder]="ctrlForm?.value?.placeholder"
-          [customSearchEnabled]="ctrlForm?.value?.search"
-          [multiple]="ctrlForm?.value?.multiple"
-          [resettable]="ctrlForm?.value?.resettable"
-          [resetSelectedValue]="ctrlForm?.value?.resetSelectedValue"
-          [autoCreate]="ctrlForm?.value?.autoCreate"
-          [limitSelection]="ctrlForm?.value?.limitSelection || 0"
-          [hideSelectedItems]="ctrlForm?.value?.hideSelectedItems"
-          [resultMaxHeight]="ctrlForm?.value?.resultMaxHeight || '200px'"
-          [maxResults]="ctrlForm?.value?.maxResults || 0"
-          [maxResultsMessage]="ctrlForm?.value?.maxResultsMessage || 'Too many results…'"
-          [listPosition]="ctrlForm?.value?.listPosition"
-          [infiniteScroll]="ctrlForm?.value?.infiniteScroll"
-          [infiniteScrollDistance]="ctrlForm?.value?.infiniteScrollDistance || 1.5"
-          [infiniteScrollThrottle]="ctrlForm?.value?.infiniteScrollThrottle || 150"
-          [styleMode]="ctrlForm?.value?.styleMode"
-          [noResultMessage]="ctrlForm?.value?.noResultMessage"
-          [grid]="ctrlForm?.value?.grid"
-          [noLabelTemplate]="ctrlForm?.value?.noLabelTemplate"
-          [selectionOverride]="
-            ctrlForm?.value?.selectionOverrideFunction ? selectionOverride : ctrlForm?.value?.selectionOverrideString
-          "
-          [selectionNoWrap]="ctrlForm?.value?.selectionNoWrap"
-          [showSelectAll]="ctrlForm?.value?.showSelectAll"
-          [removeAllText]="ctrlForm?.value?.removeAllText || 'Remove all'"
-          [selectAllText]="ctrlForm?.value?.selectAllText || 'Select all'"
+          [overlay]="value?.overlay"
+          [disabled]="value?.disabled"
+          [minCharForSearch]="value?.minCharForSearch || 0"
+          [minCountForSearch]="value?.minCountForSearch"
+          [displaySearchStatus]="value?.displaySearchStatus"
+          [placeholder]="value?.placeholder"
+          [customSearchEnabled]="value?.search"
+          [multiple]="value?.multiple"
+          [resettable]="value?.resettable"
+          [resetSelectedValue]="value?.resetSelectedValue"
+          [autoCreate]="value?.autoCreate"
+          [limitSelection]="value?.limitSelection || 0"
+          [hideSelectedItems]="value?.hideSelectedItems"
+          [resultMaxHeight]="value?.resultMaxHeight || '200px'"
+          [maxResults]="value?.maxResults || 0"
+          [maxResultsMessage]="value?.maxResultsMessage || 'Too many results…'"
+          [listPosition]="value?.listPosition"
+          [infiniteScroll]="value?.infiniteScroll"
+          [infiniteScrollDistance]="value?.infiniteScrollDistance || 1.5"
+          [infiniteScrollThrottle]="value?.infiniteScrollThrottle || 150"
+          [styleMode]="value?.styleMode"
+          [noResultMessage]="value?.noResultMessage"
+          [grid]="value?.grid"
+          [noLabelTemplate]="value?.noLabelTemplate"
+          [selectionOverride]="value?.selectionOverrideFunction ? selectionOverride : value?.selectionOverrideString"
+          [selectionNoWrap]="value?.selectionNoWrap"
+          [showSelectAll]="value?.showSelectAll"
+          [removeAllText]="value?.removeAllText || 'Remove all'"
+          [selectAllText]="value?.selectAllText || 'Select all'"
           [templates]="
             getTemplate(
               template,

@@ -1,7 +1,6 @@
 import { defaultMinCountForSearch, protectRegexp, unicodePatterns } from './select2-const';
 import { Select2Data, Select2Group, Select2Option, Select2UpdateValue, Select2Value } from './select2-interfaces';
 
-
 export class Select2Utils {
     static getOptionByValue(data: Select2Data, value: Select2Value | null | undefined) {
         if (Array.isArray(data)) {
@@ -224,7 +223,7 @@ export class Select2Utils {
         return result;
     }
 
-    static isSearchboxHiddex(data: Select2Data, minCountForSearch?: number): boolean {
+    static isSearchboxHidden(data: Select2Data, minCountForSearch?: number): boolean {
         if (minCountForSearch === undefined || minCountForSearch === null || isNaN(+minCountForSearch)) {
             minCountForSearch = defaultMinCountForSearch;
         }

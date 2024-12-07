@@ -29,7 +29,7 @@
   </select2>
   <h3 id="ex-4">4. disabled ({{ value4 }})</h3>
   <select2 [overlay]="overlay" [data]="data4" [value]="value4" [disabled]="true" id="selec2-4"> </select2>
-  <h3 id="ex-5">5. hide search box ({{ value5 }})</h3>
+  <h3 id="ex-5">5. search box (infinity) ({{ value5 }})</h3>
   <form [formGroup]="ctrlForm2">
     <select2
       [overlay]="overlay"
@@ -42,7 +42,7 @@
     </select2>
   </form>
   <h3 id="ex-6">
-    6. search limit to <input #limit size="3" value="7" /> / display status
+    6. search box limit to <input #limit size="3" value="7" /> / display status
     <select #status>
       <option selected>default</option>
       <option>hidden</option>
@@ -154,7 +154,7 @@
       [overlay]="overlay"
       [data]="data9"
       multiple="true"
-      id="selec2-10"
+      id="selec2-14"
       formControlName="state"
       (update)="update('value14', $event)"
     >
@@ -354,7 +354,7 @@
   >
   </select2>
 
-  <h3 id="ex-29b">29b. option autocreate search search ({{ value29b }})</h3>
+  <h3 id="ex-29b">29b. option autocreate in search box ({{ value29b }})</h3>
   <select2
     [overlay]="overlay"
     [data]="data29b"
@@ -366,7 +366,7 @@
   >
   </select2>
 
-  <h3 id="ex-30">30. selected option when × is clicked ({{ value30 }})</h3>
+  <h3 id="ex-30">30. selected option when × is clicked (resettable) ({{ value30 }})</h3>
   <select2
     [overlay]="overlay"
     [data]="data30"
@@ -411,7 +411,7 @@
     (update)="update('value31b', $event)"
   ></select2>
 
-  <h3 id="ex-32">32. auto create when ({{ value32 }})</h3>
+  <h3 id="ex-32">32. auto create when / resettable ({{ value32 }})</h3>
   <select2
     [overlay]="overlay"
     [data]="data32"
@@ -484,7 +484,7 @@
     (update)="update('value35b', $event)"
   ></select2>
 
-  <h3 id="ex-35">36. selectionOverride ({{ value36 }})</h3>
+  <h3 id="ex-35">36. selectionOverride / resettable ({{ value36 }})</h3>
   <select2
     selectionOverride="Test (%size%)"
     resettable

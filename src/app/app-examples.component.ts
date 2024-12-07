@@ -141,7 +141,7 @@ export class AppExamplesComponent {
     value37 = ['AK', 'NY', 'NC', 'RI'];
 
     selectionOverride: Select2SelectionOverride = params => {
-        return `Selection (${params.size}${params.options.length > 0 ? ': ' + params.options.map(e => e.label).join(', ') : ''}) `;
+        return `Selection (${params.size}${(params.options?.length || 0) > 0 ? ': ' + params.options.map(e => e.label).join(', ') : ''}) `;
     };
 
     limitSelection = 0;

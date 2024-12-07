@@ -33,6 +33,10 @@
     >
       @if (selectionOverride()) {
         <span class="select2-selection__override" [innerHTML]="_selectionOverrideLabel()"></span>
+
+        @if (resettable() && resetSelectedValue() !== value() && select2Option && !(disabled() || readonly())) {
+            <span (click)="reset($event)" class="select2-selection__reset" role="presentation">×</span>
+          }
         @if (
           !multiple() && resettable() && resetSelectedValue() !== value() && select2Option && !(disabled || readonly())
         ) {
@@ -56,7 +60,8 @@
             placeholder()
           }}</span>
         </span>
-        @if (resettable() && resetSelectedValue() !== value() && select2Option && !(disabled || readonly())) {
+
+        @if (resettable() && resetSelectedValue() !== value() && select2Option && !(disabled() || readonly())) {
           <span (click)="reset($event)" class="select2-selection__reset" role="presentation">×</span>
         }
         <span class="select2-selection__arrow" role="presentation"> </span>
@@ -94,7 +99,7 @@
           @if (autoCreate()) {
             <li class="select2-selection__auto-create" (focus)="stopEvent($event)" (blur)="stopEvent($event)">
               <input
-                [id]="id + '-create-field'"
+                [id]="_id + '-create-field'"
                 (click)="toggleOpenAndClose(false, true); stopEvent($event)"
                 (keydown)="keyDown($event, true)"
                 (keyup)="searchUpdate($event)"
@@ -153,7 +158,7 @@
       <div class="select2-search select2-search--dropdown" [class.select2-search--hide]="hideSearch()">
         <input
           #searchInput
-          [id]="id + '-search-field'"
+          [id]="_id + '-search-field'"
           [value]="searchText"
           (keydown)="keyDown($event, autoCreate())"
           (keyup)="searchUpdate($event)"
@@ -212,7 +217,7 @@
                   @for (option of groupOrOption.options; track trackBy(j, option); let j = $index) {
                     <li
                       #result
-                      [id]="option.id || id + '-option-' + i + '-' + j"
+                      [id]="option.id || _id + '-option-' + i + '-' + j"
                       [class]="getOptionStyle(option)"
                       role="treeitem"
                       [attr.aria-selected]="isSelected(option)"
@@ -233,7 +238,7 @@
             } @else {
               <li
                 #result
-                [id]="groupOrOption.id || id + '-option-' + i"
+                [id]="groupOrOption.id || _id + '-option-' + i"
                 [class]="getOptionStyle(groupOrOption)"
                 role="treeitem"
                 [attr.aria-selected]="isSelected(groupOrOption)"
