@@ -59,7 +59,7 @@
     [data]="data6"
     [value]="value6"
     [minCountForSearch]="limit.value"
-    [displaySearchStatus]="status.value"
+    [displaySearchStatus]="$any(status.value)"
     (update)="update('value6', $event)"
     id="selec2-6"
   >
@@ -148,7 +148,7 @@
   <h3 id="ex-13">13. boolean value ({{ value13 }})</h3>
   <select2 [overlay]="overlay" [data]="data13" [value]="value13" (update)="update('value13', $event)" id="selec2-13">
   </select2>
-  <h3 id="ex-14">14. FormControl ({{ fg.get('state').value }})</h3>
+  <h3 id="ex-14">14. FormControl ({{ fg.get('state')!.value }})</h3>
   <form [formGroup]="fg">
     <select2
       [overlay]="overlay"
@@ -214,7 +214,7 @@
       [value]="value20"
       (update)="update('value20', $event)"
       listPosition="above"
-      [styleMode]="select20?.value || 'noStyle'"
+      [styleMode]="$any(select20?.value) || 'noStyle'"
       id="selec2-20"
     >
     </select2>
@@ -321,7 +321,7 @@
     (scroll)="scroll26($event)"
     id="selec2-26"
   ></select2>
-  <h3 id="ex-27">27. position ({{ value2 }})</h3>
+  <h3 id="ex-27">27. position auto (overlay only) ({{ value2 }})</h3>
   <select2
     [overlay]="overlay"
     [data]="data2"

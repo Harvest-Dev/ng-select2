@@ -1,48 +1,21 @@
 import { JsonPipe } from '@angular/common';
 import { Component } from '@angular/core';
-import {
-    FormsModule,
-    ReactiveFormsModule,
-    UntypedFormBuilder,
-    UntypedFormControl,
-    UntypedFormGroup,
-    Validators,
-} from '@angular/forms';
+import { FormsModule, ReactiveFormsModule, UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 
-import {
-    Select2Data,
-    Select2ScrollEvent,
-    Select2SearchEvent,
-    Select2SelectionOverride,
-    Select2UpdateEvent,
-} from 'projects/ng-select2-component/src/public_api';
 
-import {
-    data1,
-    data2,
-    data3,
-    data5,
-    data6,
-    data8,
-    data13,
-    data17,
-    data18,
-    data19,
-    data22,
-    data23,
-    data24,
-    data26,
-    data28,
-    data31en,
-    data31fr,
-    data31ja,
-    data35,
-    data35b,
-} from './app.data';
+
+import { Select2Data, Select2ScrollEvent, Select2SearchEvent, Select2SelectionOverride, Select2UpdateEvent } from 'projects/ng-select2-component/src/public_api';
+
+
+
+import { data1, data2, data3, data5, data6, data8, data13, data17, data18, data19, data22, data23, data24, data26, data28, data31en, data31fr, data31ja, data35, data35b } from './app.data';
+
+
 
 import { Select2Hint } from '../../projects/ng-select2-component/src/lib/select2-hint.component';
 import { Select2Label } from '../../projects/ng-select2-component/src/lib/select2-label.component';
 import { Select2 } from '../../projects/ng-select2-component/src/lib/select2.component';
+
 
 @Component({
     selector: 'app-root',
@@ -116,7 +89,7 @@ export class AppExamplesComponent {
     value18 = '';
     value19 = '';
     value20 = '';
-    value21 = 'foo6';
+    value21 :string | null | undefined = 'foo6';
     value22 = '';
     value23 = '';
     value24 = '';
@@ -141,7 +114,11 @@ export class AppExamplesComponent {
     value37 = ['AK', 'NY', 'NC', 'RI'];
 
     selectionOverride: Select2SelectionOverride = params => {
-        return `Selection (${params.size}${(params.options?.length || 0) > 0 ? ': ' + params.options.map(e => e.label).join(', ') : ''}) `;
+        return `Selection (${params.size}${(
+            params.options?.length || 0) > 0
+            ? ': ' + params.options!.map(e => e.label).join(', ')
+            : ''
+        }) `;
     };
 
     limitSelection = 0;
@@ -182,19 +159,19 @@ export class AppExamplesComponent {
         this.ctrlForm3.reset();
     }
 
-    open(key: string, event: Event) {
+    open(key: string, event: Select2) {
         console.log(key, event);
     }
 
-    close(key: string, event: Event) {
+    close(key: string, event: Select2) {
         console.log(key, event);
     }
 
-    focus(key: string, event: Event) {
+    focus(key: string, event: Select2) {
         console.log(key, event);
     }
 
-    blur(key: string, event: Event) {
+    blur(key: string, event: Select2) {
         console.log(key, event);
     }
 
@@ -248,7 +225,7 @@ export class AppExamplesComponent {
 
     update(key: string, event: Select2UpdateEvent<any>) {
         console.log('update', event.component.id, event.value);
-        this[key] = event.value;
+        (this as any)[key] = event.value;
     }
 
     resetForm() {

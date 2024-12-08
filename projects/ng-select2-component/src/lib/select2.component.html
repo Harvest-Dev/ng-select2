@@ -35,8 +35,8 @@
         <span class="select2-selection__override" [innerHTML]="_selectionOverrideLabel()"></span>
 
         @if (resettable() && resetSelectedValue() !== value() && select2Option && !(disabled() || readonly())) {
-            <span (click)="reset($event)" class="select2-selection__reset" role="presentation">×</span>
-          }
+          <span (click)="reset($event)" class="select2-selection__reset" role="presentation">×</span>
+        }
         @if (
           !multiple() && resettable() && resetSelectedValue() !== value() && select2Option && !(disabled || readonly())
         ) {
@@ -56,7 +56,7 @@
               ></ng-container>
             }
           }
-          <span [class.select2-selection__placeholder__option]="option" class="select2-selection__placeholder">{{
+          <span [class.select2-selection__placeholder__option]="selectedOption" class="select2-selection__placeholder">{{
             placeholder()
           }}</span>
         </span>
@@ -69,12 +69,12 @@
         <ul class="select2-selection__rendered">
           @if (!autoCreate()) {
             <span
-              [class.select2-selection__placeholder__option]="select2Options?.length > 0"
+              [class.select2-selection__placeholder__option]="select2Options && select2Options.length > 0"
               class="select2-selection__placeholder"
               >{{ placeholder() }}</span
             >
           }
-          @for (op of option || []; track trackBy($index, op)) {
+          @for (op of selectedOption || []; track op) {
             <li
               class="select2-selection__choice"
               [title]="op.label"
@@ -193,7 +193,7 @@
           (scrolledUp)="onScroll('up')"
           (keydown)="keyDown($event)"
         >
-          @if (showSelectAll() && multiple) {
+          @if (showSelectAll() && multiple()) {
             <li class="select2-results__option select2-selectall" (click)="selectAll()" tabindex="1" aria-selected>
               <div class="select2-label-content">
                 {{ selectAllTest() ? removeAllText() : selectAllText() }}
@@ -201,20 +201,20 @@
             </li>
           }
 
-          @for (groupOrOption of filteredData(); track trackBy(i, groupOrOption); let i = $index) {
-            @if (groupOrOption.options !== undefined) {
+          @for (groupOrOption of filteredData(); track groupOrOption; let i = $index) {
+            @let group = _toGroup(groupOrOption);
+            @if (group.options !== undefined) {
               <li class="select2-results__option" role="group">
-                @if (!hasTemplate(groupOrOption, 'group')) {
+                @if (!hasTemplate(group, 'group')) {
                   <strong
-                    [attr.class]="'select2-results__group' + (groupOrOption.classes ? ' ' + groupOrOption.classes : '')"
-                    [innerHTML]="groupOrOption.label"
+                    [attr.class]="'select2-results__group' + (group.classes ? ' ' + group.classes : '')"
+                    [innerHTML]="group.label"
                   ></strong>
                 } @else {
-                  <ng-container *ngTemplateOutlet="getTemplate(groupOrOption, 'group'); context: groupOrOption">
-                  </ng-container>
+                  <ng-container *ngTemplateOutlet="getTemplate(group, 'group'); context: group"> </ng-container>
                 }
                 <ul class="select2-results__options select2-results__options--nested">
-                  @for (option of groupOrOption.options; track trackBy(j, option); let j = $index) {
+                  @for (option of group.options; track option; let j = $index) {
                     <li
                       #result
                       [id]="option.id || _id + '-option-' + i + '-' + j"
@@ -236,27 +236,26 @@
                 </ul>
               </li>
             } @else {
+              @let option = _toOption(groupOrOption);
               <li
                 #result
-                [id]="groupOrOption.id || _id + '-option-' + i"
-                [class]="getOptionStyle(groupOrOption)"
+                [id]="option.id || _id + '-option-' + i"
+                [class]="getOptionStyle(option)"
                 role="treeitem"
-                [attr.aria-selected]="isSelected(groupOrOption)"
-                [attr.aria-disabled]="isDisabled(groupOrOption)"
-                (mouseenter)="mouseenter(groupOrOption)"
-                (click)="click(groupOrOption)"
+                [attr.aria-selected]="isSelected(option)"
+                [attr.aria-disabled]="isDisabled(option)"
+                (mouseenter)="mouseenter(option)"
+                (click)="click(option)"
               >
-                @if (!hasTemplate(groupOrOption, 'option')) {
-                  <div [innerHTML]="groupOrOption.label" class="select2-label-content"></div>
+                @if (!hasTemplate(option, 'option')) {
+                  <div [innerHTML]="option.label" class="select2-label-content"></div>
                 } @else {
-                  <ng-container *ngTemplateOutlet="getTemplate(groupOrOption, 'option'); context: groupOrOption">
-                  </ng-container>
+                  <ng-container *ngTemplateOutlet="getTemplate(option, 'option'); context: option"> </ng-container>
                 }
               </li>
 
               <ng-template #li>
-                <ng-container *ngTemplateOutlet="getTemplate(groupOrOption, 'option'); context: groupOrOption">
-                </ng-container>
+                <ng-container *ngTemplateOutlet="getTemplate(option, 'option'); context: option"> </ng-container>
               </ng-template>
             }
           }

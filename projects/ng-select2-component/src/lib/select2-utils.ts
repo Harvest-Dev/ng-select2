@@ -1,8 +1,9 @@
 import { defaultMinCountForSearch, protectRegexp, unicodePatterns } from './select2-const';
 import { Select2Data, Select2Group, Select2Option, Select2UpdateValue, Select2Value } from './select2-interfaces';
 
+
 export class Select2Utils {
-    static getOptionByValue(data: Select2Data, value: Select2Value | null | undefined) {
+    static getOptionByValue(data: Select2Data, value: Select2Value ) {
         if (Array.isArray(data)) {
             for (const groupOrOption of data) {
                 const options = (groupOrOption as Select2Group).options;
@@ -17,7 +18,7 @@ export class Select2Utils {
                 }
             }
         }
-        return undefined;
+        return null;
     }
 
     static getOptionsByValue(
@@ -36,7 +37,7 @@ export class Select2Utils {
             }
             return result;
         }
-        return Select2Utils.getOptionByValue(data, value as Select2Value | null | undefined);
+        return Select2Utils.getOptionByValue(data, value as Select2Value);
     }
 
     static getFirstAvailableOption(data: Select2Data) {
@@ -60,7 +61,7 @@ export class Select2Utils {
         return null;
     }
 
-    static valueIsNotInFilteredData(filteredData: Select2Data, value: Select2Value | null | undefined) {
+    static valueIsNotInFilteredData(filteredData: Select2Data, value: Select2Value) {
         if (Select2Utils.isNullOrUndefined(value)) {
             return true;
         }
@@ -79,7 +80,10 @@ export class Select2Utils {
         return true;
     }
 
-    static getPreviousOption(filteredData: Select2Data, hoveringValue: Select2Value | null | undefined) {
+    static getPreviousOption(
+        filteredData: Select2Data ,
+        hoveringValue: Select2Value ,
+    ): Select2Option | null {
         let findIt = Select2Utils.isNullOrUndefined(hoveringValue);
         for (let i = filteredData.length - 1; i >= 0; i--) {
             const groupOrOption = filteredData[i];
@@ -107,12 +111,23 @@ export class Select2Utils {
         return null;
     }
 
-    static getNextOption(filteredData: Select2Data, hoveringValue: Select2Value | null | undefined) {
+    static getNextOption(filteredData: Select2Data | null, hoveringValue: Select2Value) {
         let findIt = Select2Utils.isNullOrUndefined(hoveringValue);
-        for (const groupOrOption of filteredData) {
-            const options = (groupOrOption as Select2Group).options;
-            if (options) {
-                for (const option of options) {
+        if (filteredData) {
+            for (const groupOrOption of filteredData) {
+                const options = (groupOrOption as Select2Group).options;
+                if (options) {
+                    for (const option of options) {
+                        if (findIt) {
+                            if (!option.disabled && !option.hide) {
+                                return option;
+                            }
+                        } else if (!findIt) {
+                            findIt = option.value === hoveringValue;
+                        }
+                    }
+                } else {
+                    const option = groupOrOption as Select2Option;
                     if (findIt) {
                         if (!option.disabled && !option.hide) {
                             return option;
@@ -120,15 +135,6 @@ export class Select2Utils {
                     } else if (!findIt) {
                         findIt = option.value === hoveringValue;
                     }
-                }
-            } else {
-                const option = groupOrOption as Select2Option;
-                if (findIt) {
-                    if (!option.disabled && !option.hide) {
-                        return option;
-                    }
-                } else if (!findIt) {
-                    findIt = option.value === hoveringValue;
                 }
             }
         }
@@ -144,7 +150,7 @@ export class Select2Utils {
             for (const groupOrOption of data) {
                 const options = (groupOrOption as Select2Group).options;
                 if (options) {
-                    const group = {
+                    const group: Select2Group | Select2Option = {
                         ...groupOrOption,
                         options: [],
                     };

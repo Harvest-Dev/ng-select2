@@ -1,6 +1,9 @@
 import { TemplateRef } from '@angular/core';
 
+
+
 import { Select2 } from './select2.component';
+
 
 export interface Select2Group {
     /** label of group */
@@ -36,9 +39,9 @@ export interface Select2Option {
     hide?: boolean;
 }
 
-export type Select2Value = string | number | boolean | object;
+export type Select2Value = string | number | boolean | object | null | undefined;
 
-export type Select2UpdateValue = Select2Value | Select2Value[];
+export type Select2UpdateValue = Select2Value | Select2Value[] | undefined | null;
 
 export type Select2Data = (Select2Group | Select2Option)[];
 
@@ -46,9 +49,9 @@ export interface Select2UpdateEvent<U extends Select2UpdateValue = Select2Value>
     /** component */
     readonly component: Select2;
     /** current selected value */
-    readonly value: U;
+    readonly value: U | null;
     /** selected option */
-    readonly options: Select2Option[];
+    readonly options: Select2Option[] | null;
 }
 
 export interface Select2AutoCreateEvent<U extends Select2UpdateValue = Select2Value> {
@@ -57,14 +60,14 @@ export interface Select2AutoCreateEvent<U extends Select2UpdateValue = Select2Va
     /** current selected value */
     readonly value: U;
     /** selected option */
-    readonly options: Select2Option[];
+    readonly options: Select2Option[] | null;
 }
 
 export interface Select2SearchEvent<U extends Select2UpdateValue = Select2Value> {
     /** component */
     readonly component: Select2;
     /** current selected value */
-    readonly value: U;
+    readonly value: U | null;
     /** search text */
     readonly search: string;
     /** current data source */
@@ -95,4 +98,4 @@ export interface Select2ScrollEvent {
 
 export type Select2SelectionOverride = string | ((params: { size: number; options: Select2Option[] | null }) => string);
 
-export type Select2Template = TemplateRef<any> | { [key: string]: TemplateRef<any> };
+export type Select2Template = TemplateRef<any> | { [key: string]: TemplateRef<any> } | undefined;

@@ -1,13 +1,9 @@
 import { AfterContentInit, Component, TemplateRef } from '@angular/core';
-import {
-    FormsModule,
-    ReactiveFormsModule,
-    UntypedFormBuilder,
-    UntypedFormControl,
-    UntypedFormGroup,
-} from '@angular/forms';
+import { FormsModule, ReactiveFormsModule, UntypedFormBuilder, UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 
-import { Json2html, Json2htmlRef } from '@ikilote/json2html';
+
+
+import { Json2html, Json2htmlAttr, Json2htmlRef } from '@ikilote/json2html';
 
 import * as Bowser from 'bowser';
 import { Highlight } from 'ngx-highlightjs';
@@ -30,7 +26,7 @@ export class AppGenComponent implements AfterContentInit {
 
     html = '';
 
-    jsonError: string;
+    jsonError: string | undefined;
 
     ctrlForm: UntypedFormGroup;
 
@@ -91,7 +87,7 @@ export class AppGenComponent implements AfterContentInit {
         });
 
         this.ctrlForm.valueChanges.subscribe(_ => this.codeGeneration());
-        this.ctrlForm.get('json').valueChanges.subscribe(value => this.changeJson(value));
+        this.ctrlForm.get('json')?.valueChanges.subscribe(value => this.changeJson(value));
     }
 
     ngAfterContentInit() {
@@ -99,7 +95,7 @@ export class AppGenComponent implements AfterContentInit {
     }
 
     selectionOverride: Select2SelectionOverride = params => {
-        return `Selection (${params.size}${params.options.length > 0 ? ': ' + params.options.map(e => e.label).join(', ') : ''}) `;
+        return `Selection (${params.size}${params.options!.length > 0 ? ': ' + params.options!.map(e => e.label).join(', ') : ''}) `;
     };
 
     getTemplate(
@@ -166,6 +162,7 @@ export class AppGenComponent implements AfterContentInit {
             case 'ref':
                 return template;
         }
+        return undefined;
     }
 
     _event(type: string, event: any) {
@@ -183,7 +180,7 @@ export class AppGenComponent implements AfterContentInit {
             body: [],
         };
         const value = this.ctrlForm.value;
-        const attrs = json.attrs;
+        const attrs: Json2htmlAttr = json.attrs!;
         const body = json.body as Json2htmlRef[];
 
         // tags
@@ -198,97 +195,97 @@ export class AppGenComponent implements AfterContentInit {
         // parameters
 
         if (value.disabled) {
-            attrs.disabled = this._testBoolean(value.disabled);
+            attrs['disabled'] = this._testBoolean(value.disabled);
         }
         if (value.overlay) {
-            attrs.overlay = this._testBoolean(value.overlay);
+            attrs['overlay'] = this._testBoolean(value.overlay);
         }
         if (value.minCharForSearch) {
-            attrs.minCharForSearch = value.minCharForSearch;
+            attrs['minCharForSearch'] = value.minCharForSearch;
         }
         if (value.minCountForSearch) {
-            attrs.minCountForSearch = value.minCountForSearch;
+            attrs['minCountForSearch'] = value.minCountForSearch;
         }
         if (value.displaySearchStatus) {
-            attrs.displaySearchStatus = value.displaySearchStatus;
+            attrs['displaySearchStatus'] = value.displaySearchStatus;
         }
         if (value.placeholder) {
-            attrs.placeholder = value.placeholder;
+            attrs['placeholder'] = value.placeholder;
         }
         if (value.search) {
-            attrs.customSearchEnabled = this._testBoolean(value.search);
+            attrs['customSearchEnabled'] = this._testBoolean(value.search);
         }
         if (value.multiple) {
-            attrs.multiple = this._testBoolean(value.multiple);
+            attrs['multiple'] = this._testBoolean(value.multiple);
         } else {
             if (value.resettable) {
-                attrs.resettable = this._testBoolean(value.resettable);
+                attrs['resettable'] = this._testBoolean(value.resettable);
             }
             if (value.resetSelectedValue) {
-                attrs.resetSelectedValue = value.resetSelectedValue;
+                attrs['resetSelectedValue'] = value.resetSelectedValue;
             }
         }
         if (value.autoCreate) {
-            attrs.autoCreate = this._testBoolean(value.autoCreate);
+            attrs['autoCreate'] = this._testBoolean(value.autoCreate);
         }
         if (value.limitSelection) {
-            attrs.limitSelection = value.limitSelection;
+            attrs['limitSelection'] = value.limitSelection;
         }
         if (value.hideSelectedItems) {
-            attrs.hideSelectedItems = this._testBoolean(value.hideSelectedItems);
+            attrs['hideSelectedItems'] = this._testBoolean(value.hideSelectedItems);
         }
         if (value.resultMaxHeight) {
-            attrs.resultMaxHeight = value.resultMaxHeight;
+            attrs['resultMaxHeight'] = value.resultMaxHeight;
         }
         if (value.listPosition) {
-            attrs.listPosition = value.listPosition;
+            attrs['listPosition'] = value.listPosition;
         }
         if (value.infiniteScroll) {
-            attrs.infiniteScroll = this._testBoolean(value.infiniteScroll);
+            attrs['infiniteScroll'] = this._testBoolean(value.infiniteScroll);
         }
         if (value.infiniteScrollDistance) {
-            attrs.infiniteScrollDistance = value.infiniteScrollDistance;
+            attrs['infiniteScrollDistance'] = value.infiniteScrollDistance;
         }
         if (value.infiniteScrollThrottle) {
-            attrs.infiniteScrollThrottle = value.infiniteScrollThrottle;
+            attrs['infiniteScrollThrottle'] = value.infiniteScrollThrottle;
         }
         if (value.grid) {
-            attrs.grid = value.grid;
+            attrs['grid'] = value.grid;
         }
         if (value.styleMode) {
-            attrs.styleMode = value.styleMode;
+            attrs['styleMode'] = value.styleMode;
         }
         if (value.noResultMessage) {
-            attrs.noResultMessage = value.noResultMessage;
+            attrs['noResultMessage'] = value.noResultMessage;
         }
         if (value.maxResultsMessage) {
-            attrs.maxResultsMessage = value.maxResultsMessage;
+            attrs['maxResultsMessage'] = value.maxResultsMessage;
         }
         if (value.maxResults) {
-            attrs.maxResults = value.maxResults;
+            attrs['maxResults'] = value.maxResults;
         }
         if (value.noLabelTemplate) {
-            attrs.noLabelTemplate = this._testBoolean(value.noLabelTemplate);
+            attrs['noLabelTemplate'] = this._testBoolean(value.noLabelTemplate);
         }
         if (value.noLabelTemplate) {
-            attrs.noLabelTemplate = this._testBoolean(value.noLabelTemplate);
+            attrs['noLabelTemplate'] = this._testBoolean(value.noLabelTemplate);
         }
         if (value.selectionOverrideFunction) {
             attrs['[selectionOverride]'] = 'selectionOverride';
         } else if (value.selectionOverrideString) {
-            attrs.selectionOverride = value.selectionOverrideString;
+            attrs['selectionOverride'] = value.selectionOverrideString;
         }
         if (value.selectionNoWrap) {
-            attrs.selectionNoWrap = this._testBoolean(value.selectionNoWrap);
+            attrs['selectionNoWrap'] = this._testBoolean(value.selectionNoWrap);
         }
         if (value.showSelectAll) {
-            attrs.showSelectAll = this._testBoolean(value.showSelectAll);
+            attrs['showSelectAll'] = this._testBoolean(value.showSelectAll);
 
             if (value.removeAllText) {
-                attrs.removeAllText = this._testBoolean(value.removeAllText);
+                attrs['removeAllText'] = this._testBoolean(value.removeAllText);
             }
             if (value.removeAllText) {
-                attrs.selectAllText = this._testBoolean(value.selectAllText);
+                attrs['selectAllText'] = this._testBoolean(value.selectAllText);
             }
         }
 
@@ -419,20 +416,20 @@ export class AppGenComponent implements AfterContentInit {
         try {
             this.data = JSON.parse(value);
         } catch (error) {
-            this.jsonError = this._parseJsonError(value, error);
+            this.jsonError = this._parseJsonError(value, error as Error);
         }
     }
 
     private _parseJsonError(value: string, error: Error): string {
         let returnMessage = '';
 
-        const message = error.message.match(/[^\n]+/)[0];
+        const message = error.message.match(/[^\n]+/)![0];
 
         const browser = Bowser.getParser(window.navigator.userAgent).getResult();
 
         if (browser.browser.name === 'Chrome') {
             if (message.match(/at position/)) {
-                const position = parseInt(message.match(/at position (\d+)/)[1], 10);
+                const position = parseInt(message.match(/at position (\d+)/)![1], 10);
                 const lines = value.split(/\n/);
                 let l = 1;
                 for (const line of lines) {
@@ -450,7 +447,7 @@ export class AppGenComponent implements AfterContentInit {
             }
         } else if (browser.browser.name === 'Firefox') {
             if (message.match(/at line/)) {
-                const [, line, column] = message.match(/at line (\d+) column (\d+)/);
+                const [, line, column] = message.match(/at line (\d+) column (\d+)/)!;
                 const lines = value.split(/\n/);
                 if (lines[+line - 1]) {
                     returnMessage =
@@ -468,7 +465,7 @@ export class AppGenComponent implements AfterContentInit {
         return returnMessage;
     }
 
-    private _testBoolean(value: any) {
+    private _testBoolean(value: any): null | undefined {
         return value ? null : undefined;
     }
 }

@@ -6,7 +6,13 @@
     "esModuleInterop": true,
     "sourceMap": true,
     "declaration": false,
+    "skipLibCheck": true,
+    "strict": true,
     "moduleResolution": "node",
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+    "noPropertyAccessFromIndexSignature": true,
+    "noImplicitOverride": true,
     "module": "ES2022",
     "experimentalDecorators": true,
     "target": "ES2022",
@@ -18,7 +24,12 @@
     },
     "useDefineForClassFields": false
   },
-
+  "angularCompilerOptions": {
+    "enableI18nLegacyMessageIdFormat": false,
+    "strictInjectionParameters": true,
+    "strictInputAccessModifiers": true,
+    "strictTemplates": true
+  },
   "include": ["src/**/*"],
   "exclude": ["node_modules"]
 }

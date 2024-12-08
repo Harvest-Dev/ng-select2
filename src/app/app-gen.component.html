@@ -54,11 +54,11 @@
       <label for="multiple">multiple : </label>
       <input type="checkbox" formControlName="multiple" id="multiple" />
     </div>
-    <div [class.hide]="ctrlForm?.value?.multiple">
+    <div [class.hide]="ctrlForm.value?.multiple ?? false">
       <label for="resettable">resettable : </label>
       <input type="checkbox" formControlName="resettable" id="resettable" />
     </div>
-    <div [class.hide]="ctrlForm?.value?.multiple">
+    <div [class.hide]="ctrlForm.value?.multiple">
       <label for="resetSelectedValue">resetSelectedValue : </label>
       <select formControlName="resetSelectedValue" id="resetSelectedValue">
         <option [value]="undefined">undefined</option>
@@ -83,7 +83,7 @@
       <label for="grid">grid (4 or '100px') : </label>
       <input type="string" formControlName="grid" id="grid" />
     </div>
-    <div [class.hide]="!ctrlForm?.value?.multiple">
+    <div [class.hide]="!ctrlForm.value?.multiple">
       <label for="hideSelectedItems">hideSelectedItems : </label>
       <input type="checkbox" formControlName="hideSelectedItems" id="hideSelectedItems" />
     </div>
@@ -111,11 +111,11 @@
       <label for="infiniteScroll">infiniteScroll : </label>
       <input type="checkbox" formControlName="infiniteScroll" id="infiniteScroll" />
     </div>
-    <div [class.hide]="!ctrlForm?.value?.infiniteScrollDistance">
+    <div [class.hide]="!ctrlForm.value?.infiniteScrollDistance">
       <label for="infiniteScrollDistance">infiniteScrollDistance (1.5) : </label>
       <input type="number" formControlName="infiniteScrollDistance" id="infiniteScrollDistance" />
     </div>
-    <div [class.hide]="!ctrlForm?.value?.infiniteScroll">
+    <div [class.hide]="!ctrlForm.value?.infiniteScroll">
       <label for="infiniteScrollThrottle">infiniteScrollThrottle (150) : </label>
       <input type="number" formControlName="infiniteScrollThrottle" id="infiniteScrollThrottle" />
     </div>
@@ -143,7 +143,7 @@
         type="text"
         formControlName="selectionOverrideString"
         id="selectionOverrideString"
-        [attr.disabled]="ctrlForm?.value?.selectionOverrideFunction === true ? 'disabled' : null"
+        [attr.disabled]="ctrlForm.value?.selectionOverrideFunction === true ? 'disabled' : null"
       />
     </div>
     <div>
@@ -151,13 +151,13 @@
       <input type="checkbox" formControlName="selectionNoWrap" id="selectionNoWrap" />
     </div>
 
-    @if (ctrlForm?.value?.multiple) {
+    @if (ctrlForm.value?.multiple) {
       <h5>Select all</h5>
       <div>
         <label for="showSelectAll">showSelectAll : </label>
         <input type="checkbox" formControlName="showSelectAll" id="showSelectAll" />
       </div>
-      @if (ctrlForm?.value?.showSelectAll) {
+      @if (ctrlForm.value?.showSelectAll) {
         <div>
           <label for="selectAllText">selectAllText</label>
           <input type="text" formControlName="selectAllText" id="selectAllText" />
@@ -265,7 +265,7 @@
           [removeAllText]="value?.removeAllText || 'Remove all'"
           [selectAllText]="value?.selectAllText || 'Select all'"
           [templates]="
-            getTemplate(
+            $any(getTemplate(
               template,
               option,
               group,
@@ -274,7 +274,7 @@
               optionSelection,
               template2Selection,
               template3Selection
-            )
+            ))
           "
           [templateSelection]="getTemplateSelection(templateSelection)"
           (update)="_event('update', $event)"
@@ -286,8 +286,8 @@
           (scroll)="_event('scroll', $event)"
           (removeOption)="_event('removeOption', $event)"
         >
-          <select2-label [innerHTML]="ctrlForm?.value?.label"></select2-label>
-          <select2-hint [innerHTML]="ctrlForm?.value?.hint"></select2-hint>
+          <select2-label [innerHTML]="ctrlForm.value?.label"></select2-label>
+          <select2-hint [innerHTML]="ctrlForm.value?.hint"></select2-hint>
           <ng-template #template let-data="data">
             @if (data?.color) {
               <strong>{{ data?.color }}</strong
