@@ -18,21 +18,24 @@ npm i ng-select2-component --save
     - `angular/cdk` 19.0.0 and more
 
 - dependencies (include):
+
     - `ngx-infinite-scroll` 19.0.0 and more
 
-> **Note:**<br>
->
-> - For `angular` 7, 8 and 9 (View Engine): use version `7.3.1`.
-> - For `angular` 10, 11 and 12 (View Engine): use version `8.1.0`.
-> - For `angular` 13 (Ivy): use version `9.0.0`.
-> - For `angular` 14 (Ivy): use version `10.0.0`.
-> - For `angular` 15 (Ivy): use version `11.1.0`.
-> - For `angular` 16 (Ivy): use version `12.1.0`.
-> - For `angular` 16.1 (Ivy): use version `13.0.12`.
-> - For `angular` 17 (Ivy): use version `14.0.1`.
-> - For `angular` 18 (Ivy): use version `15.3.0`.
-> - For `angular` 19 (Ivy / Module): use version `16.0.0`.
-> - For `angular` 19 and more (Ivy / Stand-alone): use version `17.0.0`.
+### Notes
+
+| Version   | For **Angular** | Notes             |
+| --------- | --------------- | ----------------- |
+| `7.3.1`   | 7, 8 and 9      | View Engine       |
+| `8.1.0`   | 10, 11 and 12   | View Engine       |
+| `9.0.0`   | 13              | Ivy               |
+| `10.0.0`  | 14              | Ivy               |
+| `11.1.0`  | 15              | Ivy               |
+| `12.1.0`  | 16              | Ivy               |
+| `13.0.12` | 16.1            | Ivy               |
+| `14.0.1`  | 17              | Ivy               |
+| `15.3.0`  | 18              | Ivy               |
+| `16.0.0`  | 19              | Ivy / Module      |
+| `17.0.0`  | 19 and more     | Ivy / Stand-alone |
 
 ## Demo
 
