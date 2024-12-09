@@ -4,7 +4,7 @@ import { FormsModule, ReactiveFormsModule, UntypedFormBuilder, UntypedFormContro
 
 
 
-import { Select2Data, Select2ScrollEvent, Select2SearchEvent, Select2SelectionOverride, Select2UpdateEvent } from 'projects/ng-select2-component/src/public_api';
+import { Select2AutoCreateEvent, Select2Data, Select2ScrollEvent, Select2SearchEvent, Select2SelectionOverride, Select2UpdateEvent, Select2UpdateValue } from 'projects/ng-select2-component/src/public_api';
 
 
 
@@ -224,8 +224,12 @@ export class AppExamplesComponent {
     }
 
     update(key: string, event: Select2UpdateEvent<any>) {
-        console.log('update', event.component.id, event.value);
+        console.log('update', key, event.component._id, event.value);
         (this as any)[key] = event.value;
+    }
+
+    autoCreateItem(key: string, event: Select2AutoCreateEvent<Select2UpdateValue>) {
+        console.log('autoCreateItem', key, event.component._id, event.value);
     }
 
     resetForm() {

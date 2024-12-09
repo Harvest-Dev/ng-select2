@@ -34,11 +34,11 @@
       @if (selectionOverride()) {
         <span class="select2-selection__override" [innerHTML]="_selectionOverrideLabel()"></span>
 
-        @if (resettable() && resetSelectedValue() !== value() && select2Option && !(disabled() || readonly())) {
+        @if (resettable() && resetSelectedValue() !== _value && select2Option && !(disabled() || readonly())) {
           <span (click)="reset($event)" class="select2-selection__reset" role="presentation">×</span>
         }
         @if (
-          !multiple() && resettable() && resetSelectedValue() !== value() && select2Option && !(disabled || readonly())
+          !multiple() && resettable() && resetSelectedValue() !== _value && select2Option && !(disabled || readonly())
         ) {
           <span (click)="reset($event)" class="select2-selection__reset" role="presentation">×</span>
         }
@@ -61,7 +61,7 @@
           }}</span>
         </span>
 
-        @if (resettable() && resetSelectedValue() !== value() && select2Option && !(disabled() || readonly())) {
+        @if (resettable() && resetSelectedValue() !== _value && select2Option && !(disabled() || readonly())) {
           <span (click)="reset($event)" class="select2-selection__reset" role="presentation">×</span>
         }
         <span class="select2-selection__arrow" role="presentation"> </span>
@@ -81,7 +81,7 @@
               tabindex="0"
               (keydown.enter)="removeSelection($event, op)"
             >
-              @if (!(disabled || readonly())) {
+              @if (!(disabled() || readonly())) {
                 <span
                   (click)="removeSelection($event, op)"
                   class="select2-selection__choice__remove"

@@ -10,6 +10,7 @@ import type { ElementRef, OnDestroy } from '@angular/core';
 import {
     AfterViewInit,
     Attribute,
+    ChangeDetectionStrategy,
     ChangeDetectorRef,
     Component,
     DoCheck,
@@ -62,6 +63,7 @@ const displaySearchStatusList = ['default', 'hidden', 'always'];
         '[id]': '_id',
         '[class.select2-selection-nowrap]': 'selectionNoWrap()',
     },
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterViewInit, OnDestroy {
     // ----------------------- signal-input
@@ -291,14 +293,14 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
 
     private _data: Select2Data = [];
 
-    protected get _id(): string {
+    get _id(): string {
         return this.id() || this._uid;
     }
 
     private _disabled = false;
 
     private _uid = `select2-${nextUniqueId++}`;
-    private _value: Select2UpdateValue | null = null;
+    protected _value: Select2UpdateValue | null = null;
     private _previousNativeValue: Select2UpdateValue | undefined;
     private _overlayPosition: VerticalConnectionPos | undefined;
     private toObservable = new Subscription();
@@ -343,9 +345,9 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
             toObservable(this.value).subscribe(value => {
                 if (this.testValueChange(this._value, value)) {
                     if (this._value === undefined) {
-                        this._value = value ?? null;
+                        this._value = value;
                     }
-                    this.writeValue(value ?? null);
+                    this.writeValue(value);
                 }
             }),
         );
@@ -391,14 +393,14 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
 
         const option = Select2Utils.getOptionsByValue(
             this._data,
-            this._control ? this._control.value : this.value,
+            this._control ? this._control.value : this.value(),
             this.multiple(),
         );
         if (option !== null) {
             this.selectedOption = option ?? null;
         }
         if (!Array.isArray(option)) {
-            this.hoveringValue = this.value() as string | undefined;
+            this.hoveringValue = this.value();
         }
         this.updateSearchBox();
     }
@@ -451,8 +453,11 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
     }
 
     hideSearch(): boolean {
+        if (this.autoCreate() && !this.multiple()) {
+            return false;
+        }
         const displaySearchStatus =
-            displaySearchStatusList.indexOf(this.displaySearchStatus() || 'default') > -1
+            this.displaySearchStatus() && displaySearchStatusList.indexOf(this.displaySearchStatus()!) > -1
                 ? this.displaySearchStatus()
                 : 'default';
         return (displaySearchStatus === 'default' && this.isSearchboxHidden) || displaySearchStatus === 'hidden';
@@ -834,7 +839,7 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
                 }
                 value = this.selectedOption.value;
                 if (!option && this._value === null) {
-                    this._value = value ?? null;
+                    this._value = value;
                 }
             }
         } else {
@@ -856,11 +861,11 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
         }
 
         if (emit) {
-            this._value = value ?? null;
+            this.writeValue(value);
             setTimeout(() => {
                 this.update.emit({
                     component: this,
-                    value: this._value,
+                    value: value,
                     options: Array.isArray(this.selectedOption)
                         ? this.selectedOption
                         : this.selectedOption
@@ -1078,8 +1083,11 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
         const value = (e.target as HTMLInputElement).value;
         if (value.trim()) {
             (e.target as HTMLInputElement).value = '';
+            this.searchText = '';
             const item = this.addItem(value.trim());
             this.click(item);
+            this.updateFilteredData();
+
             this.autoCreateItem.emit({
                 value: item,
                 component: this,
@@ -1210,7 +1218,7 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
 
     /** Does some manual dirty checking on the native input `value` property. */
     private _dirtyCheckNativeValue() {
-        const newValue = this.value;
+        const newValue = this.value();
 
         if (this._previousNativeValue !== newValue) {
             this._previousNativeValue = newValue;
