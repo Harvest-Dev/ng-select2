@@ -24,6 +24,8 @@ import {
     ViewChild,
     ViewChildren,
     booleanAttribute,
+    computed,
+    input,
     numberAttribute,
     signal,
 } from '@angular/core';
@@ -54,8 +56,12 @@ const displaySearchStatusList = ['default', 'hidden', 'always'];
     selector: 'select2',
     templateUrl: './select2.component.html',
     styleUrls: ['./select2.component.scss'],
+    host: {
+        '[id]': 'id()',
+    },
 })
 export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterViewInit {
+    private _uid = `select2-${nextUniqueId++}`;
     _data: Select2Data;
 
     /** data of options & optiongrps */
@@ -136,14 +142,15 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
     }
 
     /** Unique id of the element. */
-    @Input()
-    @HostBinding('id')
-    get id() {
-        return this._id;
-    }
-    set id(value: string) {
-        this._id = value || this._uid;
-    }
+    id = input<string>(this._uid);
+    idLabel = computed(() => `${this.id()}-label`);
+    idCombo = computed(() => `${this.id()}-combo`);
+    idOptions = computed(() => `${this.id()}-options`);
+
+    title = input<string>();
+    ariaLabelledby = input<string>();
+    ariaDescribedby = input<string>();
+    ariaInvalid = input<boolean, unknown>(false, { transform: booleanAttribute });
 
     /** Whether the element is required. */
     @Input({ transform: booleanAttribute }) required = false;
@@ -261,11 +268,6 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
         this.innerSearchText = text;
     }
 
-    @HostBinding('attr.aria-invalid')
-    get ariaInvalid(): boolean {
-        return this._isErrorState();
-    }
-
     @HostBinding('class.material')
     get classMaterial(): boolean {
         return this.styleMode === 'material';
@@ -306,7 +308,9 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
     @ViewChild('searchInput') private searchInput: ElementRef<HTMLElement>;
     @ViewChild('dropdown') private dropdown: ElementRef<HTMLElement>;
 
-    private hoveringValue: Select2Value | null | undefined = null;
+    private hoveringOption = signal<Select2Option | null>(null);
+    hoveringOptionId = computed(() => this.getElementId(this.hoveringOption()));
+
     private innerSearchText = '';
     private isSearchboxHidden: boolean;
 
@@ -323,8 +327,6 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
 
     private _disabled = false;
     private _multiple = false;
-    private _id: string;
-    private _uid = `select2-${nextUniqueId++}`;
     private _value: Select2UpdateValue = null;
     private _previousNativeValue: Select2UpdateValue;
     private _overlayPosition: VerticalConnectionPos;
@@ -337,8 +339,6 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
         @Self() @Optional() public _control: NgControl,
         @Attribute('tabindex') tabIndex: string,
     ) {
-        // eslint-disable-next-line no-self-assign
-        this.id = this.id;
         this._tabIndex = parseInt(tabIndex, 10) || 0;
 
         if (this._control) {
@@ -354,10 +354,10 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
                 if (!this.ifParentContainsClass(target, 'select2-dropdown')) {
                     this.toggleOpenAndClose();
                 }
-                if (!this.overlay && !this.ifParentContainsId(target, this._id)) {
+                if (!this.overlay && !this.ifParentContainsId(target, this.id())) {
                     this.clickExit();
                 }
-            } else if (!this.ifParentContainsId(target, this._id)) {
+            } else if (!this.ifParentContainsId(target, this.id())) {
                 this.toggleOpenAndClose();
                 this.clickExit();
             }
@@ -393,7 +393,7 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
             this.option = option;
         }
         if (!Array.isArray(option)) {
-            this.hoveringValue = this.value as string | undefined;
+            this.hoveringOption.set(Select2Utils.getOptionByValue(this._data, this.value));
         }
         this.updateSearchBox();
     }
@@ -429,32 +429,29 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
     }
 
     updateSearchBox() {
-        const hidden = this.customSearchEnabled
-            ? false
-            : Select2Utils.isSearchboxHiddex(this._data, this._minCountForSearch);
+        const hidden =
+            this.displaySearchStatus === 'hidden' ||
+            (this.displaySearchStatus !== 'always' &&
+                !this.customSearchEnabled &&
+                Select2Utils.isSearchboxHidden(this._data, this._minCountForSearch));
+
         if (this.isSearchboxHidden !== hidden) {
             this.isSearchboxHidden = hidden;
         }
-    }
-
-    hideSearch(): boolean {
-        const displaySearchStatus =
-            displaySearchStatusList.indexOf(this.displaySearchStatus) > -1 ? this.displaySearchStatus : 'default';
-        return (displaySearchStatus === 'default' && this.isSearchboxHidden) || displaySearchStatus === 'hidden';
     }
 
     getOptionStyle(option: Select2Option) {
         return (
             'select2-results__option ' +
             (option.hide ? 'select2-results__option--hide ' : '') +
-            (option.value === this.hoveringValue ? 'select2-results__option--highlighted ' : '') +
+            (option === this.hoveringOption() ? 'select2-results__option--highlighted ' : '') +
             (option.classes || '')
         );
     }
 
     mouseenter(option: Select2Option) {
         if (!option.disabled) {
-            this.hoveringValue = option.value;
+            this.hoveringOption.set(option);
         }
     }
 
@@ -500,7 +497,7 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
             if (!this.isSearchboxHidden) {
                 this.innerSearchText = '';
                 this.updateFilteredData();
-                this._focusSearchboxOrResultsElement(focus);
+                this._focusSearchbox(focus);
             }
 
             if (this.isSearchboxHidden && !changeEmit && event) {
@@ -672,8 +669,8 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
                 this.maxResultsExceeded = false;
             }
 
-            if (Select2Utils.valueIsNotInFilteredData(result, this.hoveringValue)) {
-                this.hoveringValue = Select2Utils.getFirstAvailableOption(result);
+            if (Select2Utils.optionIsNotInFilteredData(result, this.hoveringOption())) {
+                this.hoveringOption.set(Select2Utils.getFirstAvailableOption(result));
             }
 
             if (writeValue && this._previousNativeValue !== this._value) {
@@ -953,7 +950,7 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
         e.stopPropagation();
 
         if (this.isOpen) {
-            this._focusSearchboxOrResultsElement();
+            this._focusSearchbox();
         }
     }
 
@@ -1023,6 +1020,33 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
         }
     }
 
+    getElementId(elt: Select2Group | Select2Option | null): string | null {
+        if (!elt) {
+            return null;
+        }
+
+        const [i, j] = this._getElementPath(elt);
+        const toSuffix = index => (index !== undefined ? `-${index}` : '');
+        return (elt as Select2Option).id ?? `${this.id()}-option${toSuffix(i)}${toSuffix(j)}`;
+    }
+
+    _getElementPath(elt: Select2Group | Select2Option): number[] {
+        for (let i = 0; i < this._data.length; i++) {
+            const optionOrGroup = this._data[i];
+
+            if (optionOrGroup === elt) {
+                return [i];
+            }
+
+            const j = (optionOrGroup as Select2Group)?.options?.findIndex(o => o === elt);
+            if (j >= 0) {
+                return [i, j];
+            }
+        }
+
+        return [];
+    }
+
     private optionsSize() {
         return Array.isArray(this.option) ? this.option.length : this.option ? 1 : 0;
     }
@@ -1055,16 +1079,16 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
     }
 
     private moveUp() {
-        this.updateScrollFromOption(Select2Utils.getPreviousOption(this.filteredData(), this.hoveringValue));
+        this.updateScrollFromOption(Select2Utils.getPreviousOption(this.filteredData(), this.hoveringOption()));
     }
 
     private moveDown() {
-        this.updateScrollFromOption(Select2Utils.getNextOption(this.filteredData(), this.hoveringValue));
+        this.updateScrollFromOption(Select2Utils.getNextOption(this.filteredData(), this.hoveringOption()));
     }
 
     private updateScrollFromOption(option: Select2Option) {
         if (option) {
-            this.hoveringValue = option.value;
+            this.hoveringOption.set(option);
             const domElement = this.results.find(r => r.nativeElement.innerText.trim() === option.label);
             if (domElement && this.resultsElement) {
                 this.resultsElement.scrollTop = 0;
@@ -1076,9 +1100,8 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
     }
 
     private selectByEnter() {
-        if (this.hoveringValue) {
-            const option = Select2Utils.getOptionByValue(this._data, this.hoveringValue);
-            this.select(option);
+        if (this.hoveringOption()) {
+            this.select(this.hoveringOption());
         }
     }
 
@@ -1168,24 +1191,23 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
         }
     }
 
-    private _focusSearchboxOrResultsElement(focus = true) {
+    private _focusSearchbox(focus = true) {
         if (!this.isSearchboxHidden) {
             setTimeout(() => {
                 if (this.searchInput && this.searchInput.nativeElement && focus) {
                     this.searchInput.nativeElement.focus();
                 }
             });
-            if (this.resultsElement && focus) {
-                this.resultsElement.focus();
-            }
         }
     }
 
     private _focus(state: boolean) {
         if (!state && this.focused) {
+            this.selection.nativeElement.blur();
             this.focused = state;
             this.blur.emit(this);
         } else if (state && !this.focused) {
+            this.selection.nativeElement.focus();
             this.focused = state;
             this.focus.emit(this);
         }

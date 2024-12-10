@@ -422,7 +422,7 @@
     }
 
     .select2-results__option {
-        &[role='group'] {
+        &.select2-results__group {
             padding: 0;
             grid-column: col-start / col-end;
         }

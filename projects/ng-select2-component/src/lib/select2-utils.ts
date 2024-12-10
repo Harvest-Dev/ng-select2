@@ -39,20 +39,20 @@ export class Select2Utils {
         return Select2Utils.getOptionByValue(data, value as Select2Value | null | undefined);
     }
 
-    static getFirstAvailableOption(data: Select2Data) {
+    static getFirstAvailableOption(data: Select2Data): Select2Option {
         if (Array.isArray(data)) {
             for (const groupOrOption of data) {
                 const options = (groupOrOption as Select2Group).options;
                 if (options) {
                     for (const option of options) {
                         if (!option.disabled) {
-                            return option.value;
+                            return option;
                         }
                     }
                 } else {
                     const option = groupOrOption as Select2Option;
                     if (!option.disabled) {
-                        return option.value;
+                        return option;
                     }
                 }
             }
@@ -60,27 +60,23 @@ export class Select2Utils {
         return null;
     }
 
-    static valueIsNotInFilteredData(filteredData: Select2Data, value: Select2Value | null | undefined) {
-        if (Select2Utils.isNullOrUndefined(value)) {
+    static optionIsNotInFilteredData(filteredData: Select2Data, option: Select2Option | null | undefined) {
+        if (Select2Utils.isNullOrUndefined(option)) {
             return true;
         }
         for (const groupOrOption of filteredData) {
             const options = (groupOrOption as Select2Group).options;
-            if (options) {
-                for (const option of options) {
-                    if (option.value === value) {
-                        return false;
-                    }
-                }
-            } else if ((groupOrOption as Select2Option).value === value) {
+            if (options && options.includes(option)) {
+                return false;
+            } else if (groupOrOption === option) {
                 return false;
             }
         }
         return true;
     }
 
-    static getPreviousOption(filteredData: Select2Data, hoveringValue: Select2Value | null | undefined) {
-        let findIt = Select2Utils.isNullOrUndefined(hoveringValue);
+    static getPreviousOption(filteredData: Select2Data, hoveringOption: Select2Option | null | undefined) {
+        let findIt = Select2Utils.isNullOrUndefined(hoveringOption);
         for (let i = filteredData.length - 1; i >= 0; i--) {
             const groupOrOption = filteredData[i];
             const options = (groupOrOption as Select2Group).options;
@@ -91,7 +87,7 @@ export class Select2Utils {
                         return option;
                     }
                     if (!findIt) {
-                        findIt = option.value === hoveringValue;
+                        findIt = option === hoveringOption;
                     }
                 }
             } else {
@@ -100,15 +96,15 @@ export class Select2Utils {
                     return option;
                 }
                 if (!findIt) {
-                    findIt = option.value === hoveringValue;
+                    findIt = option === hoveringOption;
                 }
             }
         }
         return null;
     }
 
-    static getNextOption(filteredData: Select2Data, hoveringValue: Select2Value | null | undefined) {
-        let findIt = Select2Utils.isNullOrUndefined(hoveringValue);
+    static getNextOption(filteredData: Select2Data, hoveringOption: Select2Option | null | undefined) {
+        let findIt = Select2Utils.isNullOrUndefined(hoveringOption);
         for (const groupOrOption of filteredData) {
             const options = (groupOrOption as Select2Group).options;
             if (options) {
@@ -118,7 +114,7 @@ export class Select2Utils {
                             return option;
                         }
                     } else if (!findIt) {
-                        findIt = option.value === hoveringValue;
+                        findIt = option === hoveringOption;
                     }
                 }
             } else {
@@ -128,7 +124,7 @@ export class Select2Utils {
                         return option;
                     }
                 } else if (!findIt) {
-                    findIt = option.value === hoveringValue;
+                    findIt = option === hoveringOption;
                 }
             }
         }
@@ -223,7 +219,7 @@ export class Select2Utils {
         return result;
     }
 
-    static isSearchboxHiddex(data: Select2Data, minCountForSearch?: number | string): boolean {
+    static isSearchboxHidden(data: Select2Data, minCountForSearch?: number | string): boolean {
         if (
             minCountForSearch === '' ||
             minCountForSearch === undefined ||
