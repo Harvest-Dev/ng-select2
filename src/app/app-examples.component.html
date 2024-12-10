@@ -56,6 +56,7 @@
     <h3 id="ex-2">2. options ({{ value2 }})</h3>
     <select2 [overlay]="overlay" [data]="data2" [value]="value2" (update)="update('value2', $event)" id="select2-2">
     </select2>
+
     <h3 id="ex-3">3. less options ({{ value3 }})</h3>
     <select2 [overlay]="overlay" [data]="data3" [value]="value3" (update)="update('value3', $event)" id="select2-3">
     </select2>
@@ -120,7 +121,7 @@
     >
         <select2-hint>value : {{ value8 }}</select2-hint>
     </select2>
-    -->
+
     <h3 id="ex-9">9. multiple + limite <input type="number" [(ngModel)]="limitSelection" /> ({{ value9 | json }})</h3>
     <select2
         [overlay]="overlay"

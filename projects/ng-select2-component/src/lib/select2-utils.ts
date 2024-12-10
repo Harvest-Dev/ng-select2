@@ -131,6 +131,32 @@ export class Select2Utils {
         return null;
     }
 
+    static getFirstOption(filteredData: Select2Data) {
+        const firstElement = filteredData[0];
+        if (this.isOption(firstElement)) {
+            return firstElement;
+        } else {
+            return firstElement.options[0];
+        }
+    }
+
+    static getLastOption(filteredData: Select2Data) {
+        const lastElement = filteredData.at(-1);
+        if (this.isOption(lastElement)) {
+            return lastElement;
+        } else {
+            return lastElement.options.at(-1);
+        }
+    }
+
+    static isGroup(element: Select2Group | Select2Option): element is Select2Group {
+        return !!(element as Select2Group).options;
+    }
+
+    static isOption(element: Select2Group | Select2Option): element is Select2Option {
+        return !this.isGroup(element);
+    }
+
     static getReduceData(data: Select2Data, maxResults = 0): { result: Select2Data; reduce: boolean } {
         if (maxResults > 0) {
             let counter = 0;

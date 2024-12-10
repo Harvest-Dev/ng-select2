@@ -234,7 +234,7 @@ export class AppExamplesComponent {
     }
 
     update(key: string, event: Select2UpdateEvent<any>) {
-        console.log('update', event.component.id, event.value);
+        console.log('update', event.component.id(), event.value);
         this[key] = event.value;
     }
 
