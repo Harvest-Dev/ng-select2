@@ -61,7 +61,7 @@ const displaySearchStatusList = ['default', 'hidden', 'always'];
     },
 })
 export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterViewInit {
-    private _uid = `select2-${nextUniqueId++}`;
+    readonly _uid = `select2-${nextUniqueId++}`;
     _data: Select2Data;
 
     /** data of options & optiongrps */
@@ -485,7 +485,7 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
     }
 
     toggleOpenAndClose(focus = true, open?: boolean, event?: KeyboardEvent) {
-        if (this.disabled) {
+        if (this.disabled || this.readonly) {
             return;
         }
         this._focus(focus);

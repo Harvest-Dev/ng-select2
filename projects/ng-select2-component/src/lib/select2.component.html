@@ -11,7 +11,7 @@
     [class.select2-container--below]="!select2above"
     [class.select2-container--above]="select2above"
     [class.select2-container--open]="isOpen"
-    [class.select2-container--disabled]="disabled"
+    [class.select2-container--disabled]="disabled || readonly"
 >
     <div
         [id]="idCombo()"
