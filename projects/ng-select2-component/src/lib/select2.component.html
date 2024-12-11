@@ -33,7 +33,7 @@
         [attr.aria-disabled]="disabled ? 'true' : null"
         (click)="toggleOpenAndClose()"
         (focus)="focusin()"
-        (blur)="focusout()"
+        (focusout)="focusout($event)"
         (keydown)="openKey($event)"
         cdkOverlayOrigin
         [class.select2-focused]="focused"
@@ -171,6 +171,7 @@
 
 <ng-template #containerTemplate>
     <div
+        [id]="idOverlay()"
         class="select2-container select2-container--default select2-container-dropdown"
         [class.select2-container--open]="isOpen"
         [class.select2-overlay]="overlay"

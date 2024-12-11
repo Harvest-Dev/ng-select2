@@ -153,6 +153,7 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
     idLabel = computed(() => `${this.id()}-label`);
     idCombo = computed(() => `${this.id()}-combo`);
     idOptions = computed(() => `${this.id()}-options`);
+    idOverlay = computed(() => `${this.id()}-overlay`);
 
     title = input<string>();
     ariaLabelledby = input<string>();
@@ -732,15 +733,19 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
         this._focus(false);
     }
 
-    private ifParentContainsClass(element: HTMLElement, cssClass: string): boolean {
+    private isInSelect(elt: Element): boolean {
+        return this.ifParentContainsId(elt, this.id()) || this.ifParentContainsId(elt, this.idOverlay());
+    }
+
+    private ifParentContainsClass(element: Element, cssClass: string): boolean {
         return this.getParentElementByClass(element, cssClass) !== null;
     }
 
-    private ifParentContainsId(element: HTMLElement, id: string): boolean {
+    private ifParentContainsId(element: Element, id: string): boolean {
         return this.getParentElementById(element, id) !== null;
     }
 
-    private getParentElementByClass(element: HTMLElement, cssClass: string): HTMLElement | null {
+    private getParentElementByClass(element: Element, cssClass: string): Element | null {
         return this.containClasses(element, cssClass.trim().split(/\s+/))
             ? element
             : element.parentElement
@@ -748,7 +753,7 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
               : null;
     }
 
-    private getParentElementById(element: HTMLElement, id: string): HTMLElement | null {
+    private getParentElementById(element: Element, id: string): Element | null {
         return element.id === id
             ? element
             : element.parentElement
@@ -756,7 +761,7 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
               : null;
     }
 
-    private containClasses(element: HTMLElement, cssClasses: string[]): boolean {
+    private containClasses(element: Element, cssClasses: string[]): boolean {
         if (!element.classList) {
             return false;
         }
@@ -794,14 +799,14 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
         ]);
     }
 
-    focusin() {
+    focusin(options?: FocusOptions) {
         if (!this.disabled) {
-            this._focus(true);
+            this._focus(true, options);
         }
     }
 
-    focusout() {
-        if (this.selectionElement && !this.selectionElement.classList.contains('select2-focused')) {
+    focusout(event: FocusEvent) {
+        if (!event.relatedTarget || !this.isInSelect(event.relatedTarget as Element)) {
             this._focus(false);
             this._onTouched();
         }
@@ -1220,12 +1225,12 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
         }
     }
 
-    private _focus(state: boolean) {
+    private _focus(state: boolean, options?: FocusOptions) {
         if (state) {
             const eltToFocus =
                 !this.isSearchboxHidden && this.isOpen ? this.searchInput.nativeElement : this.selection.nativeElement;
             if (document.activeElement !== eltToFocus) {
-                eltToFocus.focus();
+                eltToFocus.focus(options);
             }
         } else if (
             document.activeElement === this.selection?.nativeElement ||
