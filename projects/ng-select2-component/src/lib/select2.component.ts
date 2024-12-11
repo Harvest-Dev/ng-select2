@@ -55,8 +55,8 @@ interface KeyInfo {
     altKey: boolean;
 }
 
-const OPEN_KEYS: (string | KeyInfo)[] = ['ArrowDown', 'ArrowUp', 'Enter', ' ', 'Home', 'End'];
-const ON_OPEN_KEYS: (string | KeyInfo)[] = ['Home', 'End'];
+const OPEN_KEYS: (string | KeyInfo)[] = ['ArrowDown', 'ArrowUp', 'Enter', ' ', 'Home', 'End', 'PageUp', 'PageDown'];
+const ON_OPEN_KEYS: (string | KeyInfo)[] = ['Home', 'End', 'PageUp', 'PageDown'];
 const CLOSE_KEYS: (string | KeyInfo)[] = ['Escape', 'Tab', { key: 'ArrowUp', altKey: true }];
 
 @Component({
@@ -881,6 +881,12 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
         } else if (this._testKey(event, ['End'])) {
             this.moveEnd();
             event.preventDefault();
+        } else if (this._testKey(event, ['PageUp'])) {
+            this.moveUp(10);
+            event.preventDefault();
+        } else if (this._testKey(event, ['PageDown'])) {
+            this.moveDown(10);
+            event.preventDefault();
         } else if (this._testKey(event, ['Enter']) || (this.isSearchboxHidden && this._testKey(event, [' ']))) {
             this.selectByEnter();
             event.preventDefault();
@@ -1092,12 +1098,16 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
         this.stopEvent(e);
     }
 
-    private moveUp() {
-        this.updateScrollFromOption(Select2Utils.getPreviousOption(this.filteredData(), this.hoveringOption()));
+    private moveUp(times = 1) {
+        for (let i = 0; i < times; i++) {
+            this.updateScrollFromOption(Select2Utils.getPreviousOption(this.filteredData(), this.hoveringOption()));
+        }
     }
 
-    private moveDown() {
-        this.updateScrollFromOption(Select2Utils.getNextOption(this.filteredData(), this.hoveringOption()));
+    private moveDown(times = 1) {
+        for (let i = 0; i < times; i++) {
+            this.updateScrollFromOption(Select2Utils.getNextOption(this.filteredData(), this.hoveringOption()));
+        }
     }
 
     private moveStart() {
