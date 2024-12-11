@@ -50,9 +50,14 @@ import { Select2Utils } from './select2-utils';
 
 let nextUniqueId = 0;
 
-const OPEN_KEYS = ['ArrowDown', 40, 'ArrowUp', 38, 'Enter', 13, ' ', 32, 'Home', 36, 'End', 35];
-const ON_OPEN_KEYS = ['Home', 36, 'End', 35];
-const CLOSE_KEYS = ['Escape', 27, 'Tab', 9];
+interface KeyInfo {
+    key: string;
+    altKey: boolean;
+}
+
+const OPEN_KEYS: (string | KeyInfo)[] = ['ArrowDown', 'ArrowUp', 'Enter', ' ', 'Home', 'End'];
+const ON_OPEN_KEYS: (string | KeyInfo)[] = ['Home', 'End'];
+const CLOSE_KEYS: (string | KeyInfo)[] = ['Escape', 'Tab', { key: 'ArrowUp', altKey: true }];
 
 @Component({
     selector: 'select2',
@@ -862,42 +867,39 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
     }
 
     keyDown(event: KeyboardEvent, create = false) {
-        if (create && this._testKey(event, ['Enter', 13])) {
+        if (create && this._testKey(event, ['Enter'])) {
             this.createAndAdd(event);
-        } else if (this._testKey(event, ['ArrowDown', 40])) {
+        } else if (this._testKey(event, [{ key: 'ArrowDown', altKey: false }])) {
             this.moveDown();
             event.preventDefault();
-        } else if (this._testKey(event, ['ArrowUp', 38])) {
+        } else if (this._testKey(event, [{ key: 'ArrowUp', altKey: false }])) {
             this.moveUp();
             event.preventDefault();
-        } else if (this._testKey(event, ['Home', 36])) {
+        } else if (this._testKey(event, ['Home'])) {
             this.moveStart();
             event.preventDefault();
-        } else if (this._testKey(event, ['End', 35])) {
+        } else if (this._testKey(event, ['End'])) {
             this.moveEnd();
             event.preventDefault();
-        } else if (this._testKey(event, ['Enter', 13]) || (this.isSearchboxHidden && this._testKey(event, [' ', 32]))) {
+        } else if (this._testKey(event, ['Enter']) || (this.isSearchboxHidden && this._testKey(event, [' ']))) {
             this.selectByEnter();
             event.preventDefault();
-        } else if (this._testKey(event, ['Escape', 'Tab', 9, 27]) && this.isOpen) {
+        } else if (this._testKey(event, CLOSE_KEYS) && this.isOpen) {
             this.toggleOpenAndClose();
-            this._focus(false);
+            this._focus(true);
         }
     }
 
     openKey(event: KeyboardEvent, create = false) {
-        if (create && this._testKey(event, ['Enter', 13])) {
+        if (create && this._testKey(event, ['Enter'])) {
             this.createAndAdd(event);
         } else if (this._testKey(event, OPEN_KEYS)) {
             this.toggleOpenAndClose(true, true, event);
             event.preventDefault();
         } else if (this._testKey(event, CLOSE_KEYS)) {
             if (this.isOpen) {
-                this.toggleOpenAndClose(false);
+                this.toggleOpenAndClose();
                 this._onTouched();
-                event.preventDefault();
-            } else {
-                this._focus(false);
             }
         }
     }
@@ -1125,28 +1127,15 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
         }
     }
 
-    private _testKey(event: KeyboardEvent, refs: (number | string)[] = []): boolean {
-        return this._isKey(this._getKey(event), refs);
-    }
-
-    private _getKey(event: KeyboardEvent): number | string {
-        let code: number | string;
-
-        if (event.key !== undefined) {
-            code = event.key;
-        } else if (event['keyIdentifier'] !== undefined) {
-            code = event['keyIdentifier'];
-        } else if (event['keyCode'] !== undefined) {
-            code = event['keyCode'];
-        } else {
-            event.preventDefault();
-        }
-
-        return code;
-    }
-
-    private _isKey(code: number | string, refs: (number | string)[] = []): boolean {
-        return refs && refs.length > 0 ? refs.indexOf(code) !== -1 : false;
+    private _testKey(event: KeyboardEvent, refs: (string | KeyInfo)[] = []): boolean {
+        const { key, altKey } = event;
+        return refs.some(ref => {
+            if (typeof ref === 'string') {
+                return ref === key;
+            } else {
+                return key === ref.key && altKey === ref.altKey;
+            }
+        });
     }
 
     /**
@@ -1222,12 +1211,23 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
     }
 
     private _focus(state: boolean) {
+        if (state) {
+            const eltToFocus =
+                !this.isSearchboxHidden && this.isOpen ? this.searchInput.nativeElement : this.selection.nativeElement;
+            if (document.activeElement !== eltToFocus) {
+                eltToFocus.focus();
+            }
+        } else if (
+            document.activeElement === this.selection?.nativeElement ||
+            document.activeElement === this.searchInput?.nativeElement
+        ) {
+            (document.activeElement as HTMLElement).blur();
+        }
+
         if (!state && this.focused) {
-            this.selection.nativeElement.blur();
             this.focused = state;
             this.blur.emit(this);
         } else if (state && !this.focused) {
-            this.selection.nativeElement.focus();
             this.focused = state;
             this.focus.emit(this);
         }
