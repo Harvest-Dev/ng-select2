@@ -2,6 +2,7 @@ import {
     CdkConnectedOverlay,
     CdkOverlayOrigin,
     ConnectedOverlayPositionChange,
+    ConnectionPositionPair,
     VerticalConnectionPos,
 } from '@angular/cdk/overlay';
 import { ViewportRuler } from '@angular/cdk/scrolling';
@@ -198,8 +199,8 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
 
     // ----------------------- signal-input
 
-    readonly cdkConnectedOverlay = viewChild(CdkConnectedOverlay);
-    readonly selection = viewChild<ElementRef<HTMLElement>>('selection');
+    readonly cdkConnectedOverlay = viewChild.required(CdkConnectedOverlay);
+    readonly selection = viewChild.required<ElementRef<HTMLElement>>('selection');
     readonly resultContainer = viewChild<ElementRef<HTMLElement>>('results');
     readonly results = viewChildren<ElementRef>('result');
     readonly searchInput = viewChild<ElementRef<HTMLElement>>('searchInput');
@@ -269,7 +270,34 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
     protected _dropdownRect: DOMRect | undefined;
 
     protected get _positions(): any {
-        return this.listPosition() === 'auto' ? undefined : null;
+        switch (this.listPosition()) {
+            case 'above':
+                return [
+                    new ConnectionPositionPair(
+                        { originX: 'start', originY: 'top' },
+                        { overlayX: 'start', overlayY: 'bottom' },
+                    ),
+                ];
+            case 'auto':
+                return [
+                    new ConnectionPositionPair(
+                        { originX: 'start', originY: 'bottom' },
+                        { overlayX: 'start', overlayY: 'top' },
+                    ),
+                    new ConnectionPositionPair(
+                        { originX: 'start', originY: 'top' },
+                        { overlayX: 'start', overlayY: 'bottom' },
+                    ),
+                ];
+
+            default:
+                return [
+                    new ConnectionPositionPair(
+                        { originX: 'start', originY: 'bottom' },
+                        { overlayX: 'start', overlayY: 'top' },
+                    ),
+                ];
+        }
     }
 
     protected maxResultsExceeded: boolean | undefined;
@@ -406,7 +434,7 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
     }
 
     ngAfterViewInit() {
-        this.cdkConnectedOverlay()?.positionChange.subscribe((posChange: ConnectedOverlayPositionChange) => {
+        this.cdkConnectedOverlay().positionChange.subscribe((posChange: ConnectedOverlayPositionChange) => {
             if (
                 this.listPosition() === 'auto' &&
                 posChange.connectionPair?.originY &&
@@ -418,7 +446,7 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
             }
         });
 
-        this.selectionElement = this.selection()?.nativeElement;
+        this.selectionElement = this.selection().nativeElement;
         this.triggerRect();
     }
 
@@ -535,9 +563,11 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
                     } else if (this.resultsElement) {
                         this.resultsElement.scrollTop = 0;
                     }
+                    this._changeDetectorRef.detectChanges();
+
                     setTimeout(() => {
                         this.triggerRect();
-                        this.cdkConnectedOverlay()?.overlayRef?.updatePosition();
+                        this.cdkConnectedOverlay().overlayRef?.updatePosition();
                     }, 100);
                 });
             }
