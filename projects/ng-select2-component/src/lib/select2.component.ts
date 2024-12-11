@@ -456,6 +456,7 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
         if (this._triggerRect) {
             if (this.overlayWidth !== this._triggerRect.width) {
                 this.overlayWidth = this._triggerRect.width;
+                this._changeDetectorRef.detectChanges();
             }
             if (
                 this._dropdownRect &&
@@ -463,6 +464,7 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
                 this.overlayHeight !== this._dropdownRect.height
             ) {
                 this.overlayHeight = this.listPosition() === 'auto' ? this._dropdownRect.height : 0;
+                this._changeDetectorRef.detectChanges();
             }
         }
     }
