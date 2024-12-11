@@ -515,8 +515,6 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
     }
 
     reset(event?: MouseEvent) {
-        // const test = Select2Utils.getOptionByValue(this._data, this.resetSelectedValue);
-        // debugger;
         const resetSelectedValue = this.resetSelectedValue();
         this.select(
             resetSelectedValue !== undefined
@@ -556,22 +554,16 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
             if (this.isSearchboxHidden && !changeEmit && event) {
                 this.keyDown(event);
             } else {
-                setTimeout(() => {
-                    if (this.selectedOption) {
-                        const option = Array.isArray(this.selectedOption)
-                            ? this.selectedOption[0]
-                            : this.selectedOption;
-                        this.updateScrollFromOption(option);
-                    } else if (this.resultsElement) {
-                        this.resultsElement.scrollTop = 0;
-                    }
-                    this._changeDetectorRef.detectChanges();
+                if (this.selectedOption) {
+                    const option = Array.isArray(this.selectedOption) ? this.selectedOption[0] : this.selectedOption;
+                    this.updateScrollFromOption(option);
+                } else if (this.resultsElement) {
+                    this.resultsElement.scrollTop = 0;
+                }
+                this._changeDetectorRef.detectChanges();
 
-                    setTimeout(() => {
-                        this.triggerRect();
-                        this.cdkConnectedOverlay().overlayRef?.updatePosition();
-                    }, 100);
-                });
+                this.triggerRect();
+                this.cdkConnectedOverlay().overlayRef?.updatePosition();
             }
             if (changeEmit) {
                 this.open.emit(this);

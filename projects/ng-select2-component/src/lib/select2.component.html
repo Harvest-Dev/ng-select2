@@ -192,6 +192,7 @@
           (scrolled)="onScroll('down')"
           (scrolledUp)="onScroll('up')"
           (keydown)="keyDown($event)"
+
         >
           @if (showSelectAll() && multiple()) {
             <li class="select2-results__option select2-selectall" (click)="selectAll()" tabindex="1" aria-selected>
