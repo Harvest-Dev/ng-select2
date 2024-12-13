@@ -946,6 +946,10 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
     }
 
     removeSelection(e: MouseEvent | KeyboardEvent, option: Select2Option) {
+        if (this.readonly || this.disabled) {
+            return;
+        }
+
         Select2Utils.removeSelection(this.option, option);
 
         if (this.multiple && this.hideSelectedItems) {

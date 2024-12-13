@@ -264,14 +264,24 @@
         }
     }
 
+    &.select2-container--disabled,
+    &.select2-container--readonly {
+        .select2-selection--single .select2-selection__clear,
+        .select2-selection__choice__remove {
+            display: none;
+        }
+    }
     &.select2-container--disabled {
-        .select2-selection--single {
-            background: var(--select2-selection-disabled-background, #eee);
+        .select2-selection--single,
+        .select2-selection--multiple {
             cursor: default;
-
-            .select2-selection__clear {
-                display: none;
-            }
+            background: var(--select2-selection-disabled-background, #eee);
+        }
+    }
+    &.select2-container--readonly {
+        .select2-selection--single,
+        .select2-selection--multiple {
+            background: var(--select2-selection-readonly-background, #eee);
         }
     }
 
@@ -369,17 +379,6 @@
         .select2-selection--multiple {
             border: solid var(--select2-selection-focus-border-color, #000) 1px;
             outline: none;
-        }
-    }
-
-    &.select2-container--disabled {
-        .select2-selection--multiple {
-            background: var(--select2-selection-disabled-background, #eee);
-            cursor: default;
-        }
-
-        .select2-selection__choice__remove {
-            display: none;
         }
     }
 
@@ -717,13 +716,30 @@
             color: var(--select2-material-option-selected-text-color, #ff5722);
         }
 
+        &.select2-container--disabled,
+        &.select2-container--readonly {
+            .select2-selection--single,
+            .select2-selection--multiple {
+                background: transparent;
+            }
+        }
         &.select2-container--disabled .select2-selection--single,
         &.select2-container--disabled .select2-selection--multiple {
-            background: transparent;
-
             &::before {
                 background: var(
                     --select2-material-underline-disabled,
+                    linear-gradient(to right, rgba(0, 0, 0, 0.26) 0, rgba(0, 0, 0, 0.26) 33%, transparent 0)
+                );
+                background-size: 4px 1px;
+                background-repeat: repeat-x;
+                background-position: 0 bottom;
+            }
+        }
+        &.select2-container--readonly .select2-selection--single,
+        &.select2-container--readonly .select2-selection--multiple {
+            &::before {
+                background: var(
+                    --select2-material-underline-readonly,
                     linear-gradient(to right, rgba(0, 0, 0, 0.26) 0, rgba(0, 0, 0, 0.26) 33%, transparent 0)
                 );
                 background-size: 4px 1px;
