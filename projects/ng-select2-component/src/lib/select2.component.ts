@@ -159,6 +159,7 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
     ariaLabelledby = input<string>();
     ariaDescribedby = input<string>();
     ariaInvalid = input<boolean, unknown>(false, { transform: booleanAttribute });
+    ariaResetButtonDescription = input<string>('Reset');
 
     /** Whether the element is required. */
     @Input({ transform: booleanAttribute }) required = false;
@@ -481,6 +482,7 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
         if (event) {
             this.stopEvent(event);
         }
+        this._focus(true);
     }
 
     prevChange(event: Event) {
@@ -980,6 +982,8 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
 
         if (this.isOpen) {
             this._focusSearchbox();
+        } else {
+            this._focus(true);
         }
     }
 
@@ -1243,6 +1247,16 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
             (document.activeElement as HTMLElement).blur();
         }
 
+        this._updateFocusState(state);
+    }
+
+    private _isAbobeOverlay(): boolean {
+        return this.overlay && this._overlayPosition && this.listPosition === 'auto'
+            ? this._overlayPosition === 'top'
+            : this.listPosition === 'above';
+    }
+
+    protected _updateFocusState(state: boolean) {
         if (!state && this.focused) {
             this.focused = state;
             this.blur.emit(this);
@@ -1250,11 +1264,5 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
             this.focused = state;
             this.focus.emit(this);
         }
-    }
-
-    private _isAbobeOverlay(): boolean {
-        return this.overlay && this._overlayPosition && this.listPosition === 'auto'
-            ? this._overlayPosition === 'top'
-            : this.listPosition === 'above';
     }
 }

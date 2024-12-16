@@ -261,6 +261,11 @@
 
         .select2-selection__reset {
             color: var(--select2-reset-color, #999);
+            background: var(--select2-reset-background, transparent);
+            border: var(--select2-reset-border, none);
+            border-radius: var(--select2-reset-border-radius, 4px);
+            height: fit-content;
+            align-self: center;
         }
     }
 

@@ -49,13 +49,7 @@
                 @if (
                     !multiple && resettable && resetSelectedValue !== value && select2Option && !(disabled || readonly)
                 ) {
-                    <span
-                        (click)="reset($event)"
-                        class="select2-selection__reset"
-                        role="presentation"
-                        aria-hidden="true"
-                        >×</span
-                    >
+                    <ng-container *ngTemplateOutlet="resetButton"></ng-container>
                 }
             } @else if (!multiple) {
                 <span class="select2-selection__rendered" [title]="select2Option?.label || ''">
@@ -78,13 +72,7 @@
                     >
                 </span>
                 @if (resettable && resetSelectedValue !== value && select2Option && !(disabled || readonly)) {
-                    <span
-                        (click)="reset($event)"
-                        class="select2-selection__reset"
-                        role="presentation"
-                        aria-hidden="true"
-                        >×</span
-                    >
+                    <ng-container *ngTemplateOutlet="resetButton"></ng-container>
                 }
                 <span class="select2-selection__arrow" role="presentation"> </span>
             } @else {
@@ -101,6 +89,7 @@
                             class="select2-selection__choice"
                             [title]="op.label"
                             tabindex="0"
+                            (focus)="_updateFocusState(true)"
                             (keydown.enter)="removeSelection($event, op)"
                         >
                             @if (!(disabled || readonly)) {
@@ -337,4 +326,18 @@
             </div>
         </div>
     </div>
+</ng-template>
+
+<ng-template #resetButton>
+    <button
+        type="button"
+        (focus)="_updateFocusState(true)"
+        (click)="reset($event)"
+        (keydown)="$event.stopPropagation()"
+        class="select2-selection__reset"
+        [attr.aria-description]="ariaResetButtonDescription()"
+        [attr.aria-controls]="idCombo()"
+    >
+        <span aria-hidden="true">×</span>
+    </button>
 </ng-template>
