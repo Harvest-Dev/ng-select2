@@ -8,7 +8,7 @@ import { Select2AutoCreateEvent, Select2Data, Select2ScrollEvent, Select2SearchE
 
 
 
-import { data1, data2, data3, data5, data6, data8, data13, data17, data18, data19, data22, data23, data24, data26, data28, data31en, data31fr, data31ja, data35, data35b } from './app.data';
+import { data1, data13, data17, data18, data19, data2, data22, data23, data24, data26, data28, data3, data31en, data31fr, data31ja, data35, data35b, data5, data6, data8 } from './app.data';
 
 
 
@@ -224,12 +224,12 @@ export class AppExamplesComponent {
     }
 
     update(key: string, event: Select2UpdateEvent<any>) {
-        console.log('update', key, event.component._id, event.value);
+        console.log('update', key, event.component.id(), event.value);
         (this as any)[key] = event.value;
     }
 
     autoCreateItem(key: string, event: Select2AutoCreateEvent<Select2UpdateValue>) {
-        console.log('autoCreateItem', key, event.component._id, event.value);
+        console.log('autoCreateItem', key, event.component.id(), event.value);
     }
 
     resetForm() {

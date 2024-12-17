@@ -1,9 +1,9 @@
-<div class="select2-label" (click)="toggleOpenAndClose()">
+<label class="select2-label" (click)="toggleOpenAndClose()" [id]="idLabel()">
   <ng-content select="select2-label"></ng-content>
   @if (required()) {
-    <span class="select2-required"></span>
+    <span class="select2-required" aria-hidden="true"></span>
   }
-</div>
+</label>
 
 <div
   class="select2 select2-container select2-container--default"
@@ -12,15 +12,29 @@
   [class.select2-container--above]="select2above"
   [class.select2-container--open]="isOpen"
   [class.select2-container--disabled]="disabled()"
+  [class.select2-container--readonly]="readonly()"
 >
   <div
+    [id]="idCombo()"
+    role="combobox"
     class="selection"
     #selection
     #trigger="cdkOverlayOrigin"
     [tabindex]="!this.isOpen ? _tabIndex : '-1'"
+    [attr.aria-labelledby]="ariaLabelledby() ?? idLabel()"
+    [attr.aria-expanded]="isOpen"
+    aria-haspopup="listbox"
+    [attr.aria-controls]="idOptions()"
+    [attr.aria-activedescendant]="isOpen ? hoveringOptionId() : null"
+    [attr.aria-describedby]="ariaDescribedby()"
+    [attr.title]="title()"
+    [attr.aria-invalid]="_isErrorState() || ariaInvalid() ? 'true' : null"
+    [attr.aria-required]="required() ? 'true' : null"
+    [attr.aria-readonly]="readonly() ? 'true' : null"
+    [attr.aria-disabled]="disabled() ? 'true' : null"
     (click)="toggleOpenAndClose(); $event.stopPropagation()"
     (focus)="focusin()"
-    (blur)="focusout()"
+    (focusout)="focusout($event)"
     (keydown)="openKey($event)"
     cdkOverlayOrigin
     [class.select2-focused]="focused"
@@ -29,18 +43,15 @@
       class="select2-selection"
       [class.select2-selection--multiple]="multiple()"
       [class.select2-selection--single]="!multiple()"
-      role="combobox"
     >
       @if (selectionOverride()) {
         <span class="select2-selection__override" [innerHTML]="_selectionOverrideLabel()"></span>
 
-        @if (resettable() && resetSelectedValue() !== _value && select2Option && !(disabled() || readonly())) {
-          <span (click)="reset($event)" class="select2-selection__reset" role="presentation">×</span>
-        }
         @if (
-          !multiple() && resettable() && resetSelectedValue() !== _value && select2Option && !(disabled || readonly())
+            resettable() && !(disabled() || readonly()) && resetSelectedValue() !== _value &&
+            ((!multiple() && select2Option) || (multiple() && select2Options.length > 0))
         ) {
-          <span (click)="reset($event)" class="select2-selection__reset" role="presentation">×</span>
+          <ng-container *ngTemplateOutlet="resetButton"></ng-container>
         }
       } @else if (!multiple()) {
         <span class="select2-selection__rendered" [title]="select2Option?.label || ''">
@@ -62,14 +73,14 @@
         </span>
 
         @if (resettable() && resetSelectedValue() !== _value && select2Option && !(disabled() || readonly())) {
-          <span (click)="reset($event)" class="select2-selection__reset" role="presentation">×</span>
+            <ng-container *ngTemplateOutlet="resetButton"></ng-container>
         }
         <span class="select2-selection__arrow" role="presentation"> </span>
       } @else {
         <ul class="select2-selection__rendered">
           @if (!autoCreate()) {
             <span
-              [class.select2-selection__placeholder__option]="select2Options && select2Options.length > 0"
+              [class.select2-selection__placeholder__option]="select2Options.length > 0"
               class="select2-selection__placeholder"
               >{{ placeholder() }}</span
             >
@@ -79,6 +90,7 @@
               class="select2-selection__choice"
               [title]="op.label"
               tabindex="0"
+              (focus)="_updateFocusState(true)"
               (keydown.enter)="removeSelection($event, op)"
             >
               @if (!(disabled() || readonly())) {
@@ -86,6 +98,7 @@
                   (click)="removeSelection($event, op)"
                   class="select2-selection__choice__remove"
                   role="presentation"
+                  aria-hidden="true"
                   >×</span
                 >
               }
@@ -99,7 +112,7 @@
           @if (autoCreate()) {
             <li class="select2-selection__auto-create" (focus)="stopEvent($event)" (blur)="stopEvent($event)">
               <input
-                [id]="_id + '-create-field'"
+                [id]="id() + '-create-field'"
                 (click)="toggleOpenAndClose(false, true); stopEvent($event)"
                 (keydown)="keyDown($event, true)"
                 (keyup)="searchUpdate($event)"
@@ -143,6 +156,7 @@
 
 <ng-template #containerTemplate>
   <div
+    [id]="idOverlay()"
     class="select2-container select2-container--default select2-container-dropdown"
     [class.select2-container--open]="isOpen"
     [class.select2-overlay]="overlay()"
@@ -155,40 +169,49 @@
       [class.select2-dropdown--below]="!select2above"
       [class.select2-dropdown--above]="select2above"
     >
-      <div class="select2-search select2-search--dropdown" [class.select2-search--hide]="hideSearch()">
+      <div class="select2-search select2-search--dropdown" [class.select2-search--hide]="isSearchboxHidden">
         <input
           #searchInput
-          [id]="_id + '-search-field'"
+          [id]="id() + '-search-field'"
           [value]="searchText"
           (keydown)="keyDown($event, autoCreate())"
           (keyup)="searchUpdate($event)"
           (change)="prevChange($event)"
           class="select2-search__field"
           type="search"
-          role="textbox"
+          role="combobox"
           autocomplete="off"
           autocorrect="off"
           autocapitalize="off"
           spellcheck="false"
           [attr.tabindex]="this.isOpen ? _tabIndex : '-1'"
+          [attr.aria-labelledby]="ariaLabelledby() ?? idLabel()"
+          aria-autocomplete="list"
+          [attr.aria-controls]="idOptions()"
+          aria-expanded="true"
+          [attr.aria-activedescendant]="hoveringOptionId()"
         />
       </div>
 
       <div class="select2-results">
         <ul
+          [id]="idOptions()"
           #results
           class="select2-results__options"
           [class.select2-grid]="grid() && isNumber(grid())"
           [class.select2-grid-auto]="grid() && !isNumber(grid())"
           [style.max-height]="resultMaxHeight()"
           [style.--grid-size]="grid() || null"
-          role="tree"
+          role="listbox"
           tabindex="-1"
           infiniteScroll
           [infiniteScrollDisabled]="!infiniteScroll() && !isOpen"
           [infiniteScrollDistance]="infiniteScrollDistance()"
           [infiniteScrollThrottle]="infiniteScrollThrottle()"
           [infiniteScrollContainer]="results"
+          [attr.aria-labelledby]="ariaLabelledby() ?? idLabel()"
+          [attr.aria-multiselectable]="multiple()"
+          [attr.aria-activedescendant]="hoveringOptionId()"
           (scrolled)="onScroll('down')"
           (scrolledUp)="onScroll('up')"
           (keydown)="keyDown($event)"
@@ -205,22 +228,26 @@
           @for (groupOrOption of filteredData(); track groupOrOption; let i = $index) {
             @let group = _toGroup(groupOrOption);
             @if (group.options !== undefined) {
-              <li class="select2-results__option" role="group">
-                @if (!hasTemplate(group, 'group')) {
-                  <strong
-                    [attr.class]="'select2-results__group' + (group.classes ? ' ' + group.classes : '')"
-                    [innerHTML]="group.label"
-                  ></strong>
-                } @else {
-                  <ng-container *ngTemplateOutlet="getTemplate(group, 'group'); context: group"> </ng-container>
-                }
-                <ul class="select2-results__options select2-results__options--nested">
+              <li class="select2-results__option select2-results__group">
+                <span [id]="getElementId(groupOrOption)">
+                    @if (!hasTemplate(group, 'group')) {
+                    <strong
+                        [attr.class]="'select2-results__group' + (group.classes ? ' ' + group.classes : '')"
+                        [innerHTML]="group.label"
+                    ></strong>
+                    } @else {
+                    <ng-container *ngTemplateOutlet="getTemplate(group, 'group'); context: group"> </ng-container>
+                    }
+                </span>
+                <ul class="select2-results__options select2-results__options--nested"
+                    role="group"
+                    [attr.aria-labelledby]="getElementId(groupOrOption)">
                   @for (option of group.options; track option; let j = $index) {
                     <li
                       #result
-                      [id]="option.id || _id + '-option-' + i + '-' + j"
+                      [id]="getElementId(option)"
                       [class]="getOptionStyle(option)"
-                      role="treeitem"
+                      role="option"
                       [attr.aria-selected]="isSelected(option)"
                       [attr.aria-disabled]="isDisabled(option)"
                       (mouseenter)="mouseenter(option)"
@@ -240,9 +267,9 @@
               @let option = _toOption(groupOrOption);
               <li
                 #result
-                [id]="option.id || _id + '-option-' + i"
+                [id]="getElementId(groupOrOption)"
                 [class]="getOptionStyle(option)"
-                role="treeitem"
+                role="option"
                 [attr.aria-selected]="isSelected(option)"
                 [attr.aria-disabled]="isDisabled(option)"
                 (mouseenter)="mouseenter(option)"
@@ -270,4 +297,18 @@
       </div>
     </div>
   </div>
+</ng-template>
+
+<ng-template #resetButton>
+    <button
+        type="button"
+        (focus)="_updateFocusState(true)"
+        (click)="reset($event)"
+        (keydown)="$event.stopPropagation()"
+        class="select2-selection__reset"
+        [attr.aria-description]="ariaResetButtonDescription()"
+        [attr.aria-controls]="idCombo()"
+    >
+        <span aria-hidden="true">×</span>
+    </button>
 </ng-template>
