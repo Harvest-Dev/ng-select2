@@ -23,6 +23,10 @@
             <input type="checkbox" formControlName="disabled" id="disabled" />
         </div>
         <div>
+            <label for="readonly">readonly : </label>
+            <input type="checkbox" formControlName="readonly" id="readonly" />
+        </div>
+        <div>
             <label for="overlay">overlay : </label>
             <input type="checkbox" formControlName="overlay" id="overlay" />
         </div>
@@ -196,7 +200,7 @@
         <h4>Events</h4>
         <div>
             <label for="update">update: </label>
-            <input type="checkbox" formControlName="selectionOverride" id="update" />
+            <input type="checkbox" formControlName="update" id="update" />
         </div>
         <div>
             <label for="open">open: </label>
@@ -236,6 +240,7 @@
                     [data]="data"
                     [overlay]="ctrlForm?.value?.overlay"
                     [disabled]="ctrlForm?.value?.disabled"
+                    [readonly]="ctrlForm?.value?.readonly"
                     [minCharForSearch]="ctrlForm?.value?.minCharForSearch || 0"
                     [minCountForSearch]="ctrlForm?.value?.minCountForSearch || 6"
                     [displaySearchStatus]="ctrlForm?.value?.displaySearchStatus"

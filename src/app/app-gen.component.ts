@@ -30,6 +30,7 @@ export class AppGenComponent implements AfterContentInit {
             hint: new UntypedFormControl(),
             // parameters
             disabled: new UntypedFormControl(),
+            readonly: new UntypedFormControl(),
             overlay: new UntypedFormControl(),
             minCharForSearch: new UntypedFormControl(),
             minCountForSearch: new UntypedFormControl(),
@@ -86,7 +87,7 @@ export class AppGenComponent implements AfterContentInit {
     }
 
     selectionOverride: Select2SelectionOverride = params => {
-        return `Selection (${params.size}${params.options.length > 0 ? ': ' + params.options.map(e => e.label).join(', ') : ''}) `;
+        return `Selection (${params.size}${(params.options?.length ?? 0) > 0 ? ': ' + params.options!.map(e => e.label).join(', ') : ''}) `;
     };
 
     getTemplate(
@@ -187,6 +188,9 @@ export class AppGenComponent implements AfterContentInit {
         if (value.disabled) {
             attrs.disabled = this._testBoolean(value.disabled);
         }
+        if (value.readonly) {
+            attrs.readonly = this._testBoolean(value.readonly);
+        }
         if (value.overlay) {
             attrs.overlay = this._testBoolean(value.overlay);
         }
@@ -278,7 +282,6 @@ export class AppGenComponent implements AfterContentInit {
                 attrs.selectAllText = this._testBoolean(value.selectAllText);
             }
         }
-
 
         // template
 
