@@ -1,5 +1,9 @@
-
-
 select2 {
     width: 300px;
+}
+
+.badges {
+    display: flex;
+    flex-wrap: wrap-reverse;
+    gap: 12px;
 }

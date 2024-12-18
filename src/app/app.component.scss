@@ -94,25 +94,23 @@
 }
 
 nav {
-    background-color: #ddd;
-    padding: 15px;
     position: sticky;
     top: 0;
     z-index: 100000;
+    background-color: #ddd;
+    padding: 15px;
 
     ul {
-        list-style: none;
+        margin-bottom: 5px;
         padding: 0;
         font-size: 20px;
-        margin-bottom: 5px;
+        list-style: none;
     }
-
 }
 
-
-img{
+.attachment-full {
     position: fixed;
-    right: 0;
     top: 0;
+    right: 0;
     z-index: 100000;
 }
