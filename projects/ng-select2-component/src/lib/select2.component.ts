@@ -64,7 +64,7 @@ const ON_OPEN_KEYS: (string | KeyInfo)[] = ['Home', 'End', 'PageUp', 'PageDown']
 const CLOSE_KEYS: (string | KeyInfo)[] = ['Escape', 'Tab', { key: 'ArrowUp', altKey: true }];
 
 @Component({
-    selector: 'select2',
+    selector: 'select2, ng-select2',
     templateUrl: './select2.component.html',
     styleUrls: ['./select2.component.scss'],
     imports: [CdkOverlayOrigin, NgTemplateOutlet, CdkConnectedOverlay, InfiniteScrollDirective],

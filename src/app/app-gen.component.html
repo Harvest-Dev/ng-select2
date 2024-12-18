@@ -2,40 +2,40 @@
 
 <div class="cols">
   <div [formGroup]="ctrlForm">
-    <h4>data</h4>
+    <h4>{{ 'Data' | transloco }}</h4>
     <div>
-      <label for="json">json (for <code>[data]</code>) : </label>
+      <label for="json">json (for <code>[data]</code>)</label>
       <textarea formControlName="json" id="json"></textarea>
       <div class="error" [innerHTML]="jsonError"></div>
     </div>
-    <h4>tags</h4>
+    <h4>{{ 'Tags' | transloco }}</h4>
     <div>
-      <label for="label">label : </label>
+      <label for="label">label</label>
       <input type="text" formControlName="label" id="label" />
     </div>
     <div>
-      <label for="hint">hint : </label>
+      <label for="hint">hint</label>
       <input type="text" formControlName="hint" id="hint" />
     </div>
-    <h4>parameters</h4>
+    <h4>{{ 'Parameters' | transloco }}</h4>
     <div>
-      <label for="disabled">disabled : </label>
+      <label for="disabled">disabled</label>
       <input type="checkbox" formControlName="disabled" id="disabled" />
     </div>
     <div>
-        <label for="readonly">readonly : </label>
-        <input type="checkbox" formControlName="readonly" id="readonly" />
+      <label for="readonly">readonly</label>
+      <input type="checkbox" formControlName="readonly" id="readonly" />
     </div>
     <div>
-      <label for="overlay">overlay : </label>
+      <label for="overlay">overlay</label>
       <input type="checkbox" formControlName="overlay" id="overlay" />
     </div>
     <div>
-      <label for="minCharForSearch">minCharForSearch (0) : </label>
+      <label for="minCharForSearch">minCharForSearch (0)</label>
       <input type="number" formControlName="minCharForSearch" id="minCharForSearch" min="0" />
     </div>
     <div>
-      <label for="minCountForSearch">minCountForSearch (6) : </label>
+      <label for="minCountForSearch">minCountForSearch (6)</label>
       <input type="number" formControlName="minCountForSearch" id="minCountForSearch" min="0" />
     </div>
     <div>
@@ -47,23 +47,23 @@
       </select>
     </div>
     <div>
-      <label for="placeholder">placeholder : </label>
+      <label for="placeholder">placeholder</label>
       <input type="text" formControlName="placeholder" id="placeholder" />
     </div>
     <div>
-      <label for="noResultMessage">noResultMessage : </label>
+      <label for="noResultMessage">noResultMessage</label>
       <input type="text" formControlName="noResultMessage" id="noResultMessage" />
     </div>
     <div>
-      <label for="multiple">multiple : </label>
+      <label for="multiple">multiple</label>
       <input type="checkbox" formControlName="multiple" id="multiple" />
     </div>
     <div [class.hide]="ctrlForm.value?.multiple ?? false">
-      <label for="resettable">resettable : </label>
+      <label for="resettable">resettable</label>
       <input type="checkbox" formControlName="resettable" id="resettable" />
     </div>
     <div [class.hide]="ctrlForm.value?.multiple">
-      <label for="resetSelectedValue">resetSelectedValue : </label>
+      <label for="resetSelectedValue">resetSelectedValue</label>
       <select formControlName="resetSelectedValue" id="resetSelectedValue">
         <option [value]="undefined">undefined</option>
         <option [value]="null">null</option>
@@ -76,31 +76,31 @@
       </select>
     </div>
     <div>
-      <label for="autoCreate">autoCreate : </label>
+      <label for="autoCreate">autoCreate</label>
       <input type="checkbox" formControlName="autoCreate" id="autoCreate" />
     </div>
     <div>
-      <label for="limitSelection">limitSelection (0) : </label>
+      <label for="limitSelection">limitSelection (0)</label>
       <input type="number" formControlName="limitSelection" id="limitSelection" />
     </div>
     <div>
-      <label for="grid">grid (4 or '100px') : </label>
+      <label for="grid">grid ({{ "4 or '100px'" | transloco }})</label>
       <input type="string" formControlName="grid" id="grid" />
     </div>
     <div [class.hide]="!ctrlForm.value?.multiple">
-      <label for="hideSelectedItems">hideSelectedItems : </label>
+      <label for="hideSelectedItems">hideSelectedItems</label>
       <input type="checkbox" formControlName="hideSelectedItems" id="hideSelectedItems" />
     </div>
     <div>
-      <label for="resultMaxHeight">resultMaxHeight ('200px') : </label>
+      <label for="resultMaxHeight">resultMaxHeight ('200px')</label>
       <input type="text" formControlName="resultMaxHeight" id="resultMaxHeight" />
     </div>
     <div>
-      <label for="maxResults">maxResults (0 = infinity) : </label>
+      <label for="maxResults">maxResults ({{ "0 = infinity" | transloco }})</label>
       <input type="text" formControlName="maxResults" id="maxResults" />
     </div>
     <div>
-      <label for="maxResultsMessage">maxResultsMessage ('Too much result...') : </label>
+      <label for="maxResultsMessage">maxResultsMessage ('Too much result...')</label>
       <input type="text" formControlName="maxResultsMessage" id="maxResultsMessage" />
     </div>
     <div>
@@ -112,19 +112,19 @@
       </select>
     </div>
     <div>
-      <label for="infiniteScroll">infiniteScroll : </label>
+      <label for="infiniteScroll">infiniteScroll</label>
       <input type="checkbox" formControlName="infiniteScroll" id="infiniteScroll" />
     </div>
     <div [class.hide]="!ctrlForm.value?.infiniteScrollDistance">
-      <label for="infiniteScrollDistance">infiniteScrollDistance (1.5) : </label>
+      <label for="infiniteScrollDistance">infiniteScrollDistance (1.5)</label>
       <input type="number" formControlName="infiniteScrollDistance" id="infiniteScrollDistance" />
     </div>
     <div [class.hide]="!ctrlForm.value?.infiniteScroll">
-      <label for="infiniteScrollThrottle">infiniteScrollThrottle (150) : </label>
+      <label for="infiniteScrollThrottle">infiniteScrollThrottle (150)</label>
       <input type="number" formControlName="infiniteScrollThrottle" id="infiniteScrollThrottle" />
     </div>
     <div>
-      <label for="styleMode">styleMode : </label>
+      <label for="styleMode">styleMode</label>
       <select formControlName="styleMode" id="listPstyleModeosition">
         <option value="">default</option>
         <option value="material">material</option>
@@ -133,15 +133,15 @@
       </select>
     </div>
 
-    <h5>Selection</h5>
-    <div>selectionOverride:</div>
+    <h5>{{ 'Selection' | transloco }}</h5>
+    <div>selectionOverride</div>
     <div>
-      <label for="selectionOverrideFunction"> - function : </label>
+      <label for="selectionOverrideFunction"> - function</label>
       <input type="checkbox" formControlName="selectionOverrideFunction" id="selectionOverrideFunction" />
     </div>
     <div>
       <label for="selectionOverrideString">
-        - string: <br /><small><code>%size%</code> = selected item count </small></label
+        - string: <br /><small><code>%size%</code> = {{ 'selected item count' | transloco }} </small></label
       >
       <input
         type="text"
@@ -151,14 +151,14 @@
       />
     </div>
     <div>
-      <label for="selectionNoWrap">selectionOverride : </label>
+      <label for="selectionNoWrap">selectionOverride</label>
       <input type="checkbox" formControlName="selectionNoWrap" id="selectionNoWrap" />
     </div>
 
     @if (ctrlForm.value?.multiple) {
-      <h5>Select all</h5>
+      <h5>{{ 'Select all' | transloco }}</h5>
       <div>
-        <label for="showSelectAll">showSelectAll : </label>
+        <label for="showSelectAll">showSelectAll</label>
         <input type="checkbox" formControlName="showSelectAll" id="showSelectAll" />
       </div>
       @if (ctrlForm.value?.showSelectAll) {
@@ -173,9 +173,9 @@
       }
     }
 
-    <h5>Templates</h5>
+    <h5>{{ 'Templates' | transloco }}</h5>
     <div>
-      <label for="template">template style :</label>
+      <label for="template">template style</label>
       <select formControlName="template" id="template">
         <option value="none">None</option>
         <option value="ref">Unique template</option>
@@ -184,7 +184,7 @@
       </select>
     </div>
     <div>
-      <label for="templateSelection">template selection style :</label>
+      <label for="templateSelection">template selection style</label>
       <select formControlName="templateSelection" id="templateSelection">
         <option value="none">None</option>
         <option value="ref">Unique template</option>
@@ -193,48 +193,55 @@
       </select>
     </div>
     <div>
-      <label for="noLabelTemplate">noLabelTemplate : </label>
+      <label for="noLabelTemplate">noLabelTemplate</label>
       <input type="checkbox" formControlName="noLabelTemplate" id="noLabelTemplate" />
     </div>
 
-    <h4>Events</h4>
+    <h5>{{ 'HTML standard' | transloco }}</h5>
+
     <div>
-      <label for="update">update: </label>
+      <label for="guideLineName">{{ 'Web Component guide line name' | transloco }}</label>
+      <input type="checkbox" formControlName="guideLineName" id="guideLineName" />
+    </div>
+
+    <h4>{{ 'Events' | transloco }}</h4>
+    <div>
+      <label for="update">update</label>
       <input type="checkbox" formControlName="update" id="update" />
     </div>
     <div>
-      <label for="open">open: </label>
+      <label for="open">open</label>
       <input type="checkbox" formControlName="open" id="open" />
     </div>
     <div>
-      <label for="close">close: </label>
+      <label for="close">close</label>
       <input type="checkbox" formControlName="close" id="close" />
     </div>
     <div>
-      <label for="focus">focus: </label>
+      <label for="focus">focus</label>
       <input type="checkbox" formControlName="focus" id="focus" />
     </div>
     <div>
-      <label for="blur">blur: </label>
+      <label for="blur">blur</label>
       <input type="checkbox" formControlName="blur" id="blur" />
     </div>
     <div>
-      <label for="search">search: </label>
+      <label for="search">search</label>
       <input type="checkbox" formControlName="search" id="search" />
       (Required: <code>customSearchEnabled</code>)
     </div>
     <div>
-      <label for="scroll">scroll: </label>
+      <label for="scroll">scroll</label>
       <input type="checkbox" formControlName="scroll" id="scroll" />
     </div>
     <div>
-      <label for="removeOption">removeOption: </label>
+      <label for="removeOption">removeOption</label>
       <input type="checkbox" formControlName="removeOption" id="removeOption" />
     </div>
   </div>
   <div>
     <div class="result">
-      <h4>HTML render</h4>
+      <h4>{{ 'HTML render' | transloco }}</h4>
       @if (ctrlForm.value) {
         @let value = ctrlForm.value;
         <select2
@@ -270,16 +277,18 @@
           [removeAllText]="value?.removeAllText || 'Remove all'"
           [selectAllText]="value?.selectAllText || 'Select all'"
           [templates]="
-            $any(getTemplate(
-              template,
-              option,
-              group,
-              template1,
-              template2,
-              optionSelection,
-              template2Selection,
-              template3Selection
-            ))
+            $any(
+              getTemplate(
+                template,
+                option,
+                group,
+                template1,
+                template2,
+                optionSelection,
+                template2Selection,
+                template3Selection
+              )
+            )
           "
           [templateSelection]="getTemplateSelection(templateSelection)"
           (update)="_event('update', $event)"
@@ -322,7 +331,7 @@
         </select2>
       }
 
-      <h4>HTML Code</h4>
+      <h4>{{ 'HTML Code' | transloco }}</h4>
 
       <div class="code">
         <code><pre [highlight]="html" language="html"></pre></code>

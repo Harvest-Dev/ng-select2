@@ -1,9 +1,14 @@
 import { AfterContentInit, Component, TemplateRef } from '@angular/core';
-import { FormsModule, ReactiveFormsModule, UntypedFormBuilder, UntypedFormControl, UntypedFormGroup } from '@angular/forms';
-
-
+import {
+    FormsModule,
+    ReactiveFormsModule,
+    UntypedFormBuilder,
+    UntypedFormControl,
+    UntypedFormGroup,
+} from '@angular/forms';
 
 import { Json2html, Json2htmlAttr, Json2htmlRef } from '@ikilote/json2html';
+import { TranslocoModule } from '@jsverse/transloco';
 
 import * as Bowser from 'bowser';
 import { Highlight } from 'ngx-highlightjs';
@@ -19,7 +24,7 @@ import { Select2 } from '../../projects/ng-select2-component/src/lib/select2.com
     selector: 'app-gen',
     templateUrl: './app-gen.component.html',
     styleUrls: ['./app-gen.component.scss'],
-    imports: [FormsModule, ReactiveFormsModule, Select2, Select2Label, Select2Hint, Highlight],
+    imports: [FormsModule, ReactiveFormsModule, Select2, Select2Label, Select2Hint, Highlight, TranslocoModule],
 })
 export class AppGenComponent implements AfterContentInit {
     data = data24;
@@ -71,6 +76,8 @@ export class AppGenComponent implements AfterContentInit {
             template: new UntypedFormControl(),
             templateSelection: new UntypedFormControl(),
             noLabelTemplate: new UntypedFormControl(),
+            // HTML standard
+            guideLineName: new UntypedFormControl(),
             // event
             update: new UntypedFormControl(),
             open: new UntypedFormControl(),
@@ -173,24 +180,35 @@ export class AppGenComponent implements AfterContentInit {
     }
 
     codeGeneration() {
+        const value = this.ctrlForm.value;
+
+        // tag root
+
         const json: Json2htmlRef = {
-            tag: 'select2',
+            tag: value.guideLineName ? 'ng-select2' : 'select2',
             attrs: {
                 '[data]': 'data',
             },
             body: [],
         };
-        const value = this.ctrlForm.value;
         const attrs: Json2htmlAttr = json.attrs!;
         const body = json.body as Json2htmlRef[];
 
         // tags
 
         if (value.label) {
-            body.push({ tag: 'select2-label', body: value.label, inline: true });
+            body.push({
+                tag: value.guideLineName ? 'ng-select2-label' : 'select2-label',
+                body: value.label,
+                inline: true,
+            });
         }
         if (value.hint) {
-            body.push({ tag: 'select2-hint', body: value.hint, inline: true });
+            body.push({
+                tag: value.guideLineName ? 'ng-select2-hint' : 'select2-hint',
+                body: value.hint,
+                inline: true,
+            });
         }
 
         // parameters

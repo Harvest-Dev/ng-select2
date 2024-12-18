@@ -1,4 +1,6 @@
-import { Component, ViewEncapsulation } from '@angular/core';
+import { Component, ViewEncapsulation, inject } from '@angular/core';
+
+import { TranslocoService } from '@jsverse/transloco';
 
 @Component({
     selector: 'app-root',
@@ -7,4 +9,15 @@ import { Component, ViewEncapsulation } from '@angular/core';
     styleUrls: ['./app.component.scss'],
     standalone: false,
 })
-export class AppComponent {}
+export class AppComponent {
+    private readonly translate = inject(TranslocoService);
+
+    language = 'en';
+
+    changeLanguage(lang: string) {
+        this.translate.load(lang).subscribe(() => {
+            this.translate.setActiveLang(lang);
+        });
+        document.documentElement.setAttribute('lang', lang);
+    }
+}

@@ -1,10 +1,37 @@
-<a href="https://github.com/Harvest-Dev/ng-select2/tree/master/src" target="_blank">the source code of the demo</a>
-
 <nav>
-  <ul>
-    <li><a routerLink="/examples" routerLinkActive="active">Examples</a></li>
-    <li><a routerLink="/generator" routerLinkActive="active">Code generator</a></li>
-  </ul>
+  <a href="https://github.com/Harvest-Dev/ng-select2"
+    ><img
+      decoding="async"
+      width="149"
+      height="149"
+      src="https://github.blog/wp-content/uploads/2008/12/forkme_right_gray_6d6d6d.png"
+      class="attachment-full size-full"
+      alt="Fork me on GitHub"
+      loading="lazy"
+  /></a>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-10">
+        <ul class="row">
+          <li class="col-2"><a routerLink="/" routerLinkActive="home">{{ 'Home' | transloco }}</a></li>
+          <li class="col-2"><a routerLink="/examples" routerLinkActive="active">{{ 'Examples' | transloco }}</a></li>
+          <li class="col-4"><a routerLink="/generator" routerLinkActive="active">{{ 'Code generator' | transloco }}</a></li>
+        </ul>
+      </div>
+      <div class="col-md-2">
+        <select [(ngModel)]="language" (ngModelChange)="changeLanguage($event)" id="language">
+          <option value="en">English</option>
+          <option value="fr">Français</option>
+        </select>
+      </div>
+    </div>
+  </div>
 </nav>
 
-<router-outlet></router-outlet>
+<main class="container">
+  <div class="row">
+    <div class="col">
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+</main>

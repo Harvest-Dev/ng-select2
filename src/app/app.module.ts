@@ -1,3 +1,4 @@
+import { provideHttpClient } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
@@ -8,6 +9,7 @@ import { AppExamplesComponent } from './app-examples.component';
 import { AppGenComponent } from './app-gen.component';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app.routing';
+import { TranslocoRootModule } from './transloco-root.module';
 
 declare var require: any;
 
@@ -26,8 +28,17 @@ export function hljsLanguages() {
 
 @NgModule({
     declarations: [AppComponent],
-    imports: [BrowserModule, AppRoutingModule, FormsModule, HighlightModule, AppExamplesComponent, AppGenComponent],
+    imports: [
+        BrowserModule,
+        AppRoutingModule,
+        FormsModule,
+        HighlightModule,
+        TranslocoRootModule,
+        AppExamplesComponent,
+        AppGenComponent,
+    ],
     providers: [
+        provideHttpClient(),
         {
             provide: HIGHLIGHT_OPTIONS,
             useValue: {

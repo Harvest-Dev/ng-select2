@@ -1,4 +1,4 @@
 import { Directive } from '@angular/core';
 
-@Directive({ selector: 'select2-hint' })
+@Directive({ selector: 'select2-hint, ng-select2-hint' })
 export class Select2Hint {}

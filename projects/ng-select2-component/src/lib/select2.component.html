@@ -1,5 +1,5 @@
 <label class="select2-label" (click)="toggleOpenAndClose()" [id]="idLabel()">
-  <ng-content select="select2-label"></ng-content>
+  <ng-content select="select2-label, ng-select2-label"></ng-content>
   @if (required()) {
     <span class="select2-required" aria-hidden="true"></span>
   }
@@ -136,7 +136,7 @@
   }
 
   <div class="select2-subscript-wrapper">
-    <ng-content select="select2-hint"></ng-content>
+    <ng-content select="select2-hint, ng-select2-hint"></ng-content>
   </div>
 </div>
 
