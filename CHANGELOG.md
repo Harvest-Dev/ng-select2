@@ -1,10 +1,85 @@
 # Changelog of ng-select2
 
+## V17.0.0 (2024-12-23)
+
+### Changes
+
+- Rewrite the component to use all the advances of Angular:
+    - Switch to stand-alone component mode
+    - Use of signals for inputs & queries
+    - Removed a lot of setTimeout
+    - Improved the overlay with the CDK
+    - Fix autocreate with single option
+    - Add resettable with multiple mode
+    - Fix inconsistencies in the code
+    - Much stricter code rewriting
+- Accessibility (from 15.4.0)
+    - Added/modified accessibility attributes
+    - New inputs for accessibility
+        - `title`
+        - `ariaLabelledBy`
+        - `ariaDescribedBy`
+        - `ariaInvalid`
+        - `ariaResetButtonDescription`
+    - Improved focus/blur
+    - Fixed readonly
+    - Added reset button to tab navigation
+    - Keyboard interactions
+        - Update
+            - `Escape`: Improved focus after closing popup.
+            - `Tab`: Navigates correctly when no searchbox.
+        - New
+            - `Home`: Opens popup. Goes to first option.
+            - `End`: Opens popup. Goes to last option.
+            - `PageUp`: Opens popup. Goes up 10 options.
+            - `PageDown`: Opens popup. Goes down 10 options.
+            - `Space`: Opens popup. Selects option when there is no search input.
+            - `Alt`+`Down`, `Alt`+`Up`: Opens/closes popup.
+
+### Demo
+
+- New demo
+
+---
+
 ## V16.0.0 (2024-11-27)
 
 ### Breaking Changes
 
 - minimum required support has been upgraded to Angular `19.0`.
+
+---
+
+## V15.4.0 (on a branch) (2024-12-18)
+
+### Changes
+
+- Added/modified accessibility attributes
+- New inputs for accessibility
+    - `title`
+    - `ariaLabelledBy`
+    - `ariaDescribedBy`
+    - `ariaInvalid`
+    - `ariaResetButtonDescription`
+- Improved focus/blur
+- Fixed readonly
+- Added reset button to tab navigation
+- Keyboard interactions
+    - Update
+        - `Escape`: Improved focus after closing popup.
+        - `Tab`: Navigates correctly when no searchbox.
+    - New
+        - `Home`: Opens popup. Goes to first option.
+        - `End`: Opens popup. Goes to last option.
+        - `PageUp`: Opens popup. Goes up 10 options.
+        - `PageDown`: Opens popup. Goes down 10 options.
+        - `Space`: Opens popup. Selects option when there is no search input.
+        - `Alt`+`Down`, `Alt`+`Up`: Opens/closes popup.
+
+### Demo
+
+- Fixed bugs
+- Added accessibility exemples
 
 ## V15.3.0 (2024-11-16)
 
@@ -55,6 +130,8 @@
 
 - manage blur event (overlay, click on option)
 
+---
+
 ## V14.0.1 (2024-03-04)
 
 - add `borderless` style
@@ -65,7 +142,18 @@
 
 - minimum required support has been upgraded to Angular `17.0`.
 
-## V13.0.10 (2024-03-04)
+---
+
+## V13.0.12 (on a branch) (2024-07-24)
+
+- Fix reset with multiple #69
+- Rewrite update event #69
+
+## V13.0.11 (on a branch) (2024-06-14)
+
+- manage blur event (overlay, click on option)
+
+## V13.0.10 (on a branch) (2024-03-04)
 
 - add `borderless` style
 
@@ -129,6 +217,8 @@
 - fix template with `multiple`
 - refacto with `numberAttribute` & `booleanAttribute` (Angular `16.1`)
 
+---
+
 ## V12.1.0 (2023-07-05)
 
 ### Changes
@@ -169,6 +259,8 @@
 
 - fix class `select2-container--focus`
 - add item keyboard remove (multiple)
+
+---
 
 ## V10.0.0 (2022-07-27)
 

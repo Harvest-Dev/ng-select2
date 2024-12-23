@@ -1,0 +1,3 @@
+{
+  "List events": "<code>update</code>, <code>change</code>, <code>blur</code>, <code>focus</code>, <code>open</code>, <code>close</code> and <code>search</code> events"
+}
