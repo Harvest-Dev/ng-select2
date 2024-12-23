@@ -1,0 +1,116 @@
+<h2>{{ 'Limits' | transloco }}</h2>
+
+<div class="container">
+  <div class="row">
+    <h3 class="col-12" id="ex-5">Search box (infinity) ({{ value5 }})</h3>
+    <form [formGroup]="ctrlForm2" class="col-6">
+      <select2
+        [overlay]="overlay"
+        [styleMode]="styleMode"
+        [data]="data5"
+        formControlName="test5"
+        [minCountForSearch]="minCountForSearch"
+        (update)="update('value5', $event)"
+        id="select2-5"
+      ></select2>
+    </form>
+
+    <div class="col-12 value">
+      <div>
+        <span>{{ 'value:' | transloco }}</span
+        ><code>{{ value5 | json }}</code>
+      </div>
+    </div>
+
+    <h3 class="col-12" id="ex-6">Search box limit to <input #limit size="3" value="7" /> / display status</h3>
+    <div class="col-12">
+      <select #status>
+        <option selected>default</option>
+        <option>hidden</option>
+        <option>always</option>
+      </select>
+      -
+      <button type="button" (click)="addItem()">Add item</button>
+      <button type="button" (click)="removeItem()">Remove item</button>
+    </div>
+
+    <select2
+      class="col-6"
+      [overlay]="overlay"
+      [styleMode]="styleMode"
+      [data]="data6"
+      [value]="value6"
+      [minCountForSearch]="limit.value"
+      [displaySearchStatus]="$any(status.value)"
+      (update)="update('value6', $event)"
+      id="select2-6"
+    ></select2>
+
+    <div class="col-12 value">
+      <div>
+        <span>{{ 'value:' | transloco }}</span
+        ><code>{{ value6 | json }}</code>
+      </div>
+    </div>
+
+    <h3 class="col-12" id="ex-9">Multiple with a limit selection</h3>
+    <div>
+      <label>Limit: <input type="number" size="3" [(ngModel)]="limitSelection" /></label> (0 = no limit)
+    </div>
+    <select2
+      class="col-6"
+      [overlay]="overlay"
+      [data]="data9"
+      [value]="value9"
+      multiple="true"
+      [limitSelection]="limitSelection"
+      customSearchEnabled
+      id="select2-9"
+    >
+    </select2>
+    <div class="col-12 value">
+      <div>
+        <span>{{ 'value:' | transloco }}</span
+        ><code>{{ value9 | json }}</code>
+      </div>
+    </div>
+
+    <h3 class="col-12" id="ex-28">Max results (50)</h3>
+    <select2
+      class="col-6"
+      [overlay]="overlay"
+      [styleMode]="styleMode"
+      [data]="data28"
+      [value]="value28"
+      listPosition="auto"
+      id="select2-28"
+      (update)="update('value28', $event)"
+      maxResults="50"
+      maxResultsMessage="Too much results in this list."
+    ></select2>
+    <div class="col-12 value">
+      <div>
+        <span>{{ 'value:' | transloco }}</span
+        ><code>{{ value28 | json }}</code>
+      </div>
+    </div>
+
+    <h3 class="col-12" id="ex-18">Search starts with 3 chars</h3>
+    <select2
+      class="col-6"
+      [overlay]="overlay"
+      [data]="data18"
+      [value]="value18"
+      (update)="update('value18', $event)"
+      minCharForSearch="3"
+      id="select2-18"
+    >
+    </select2>
+    <div class="col-12 value">
+      <div>
+        <span>{{ 'value:' | transloco }}</span
+        ><code>{{ value18 | json }}</code>
+      </div>
+    </div>
+  </div>
+</div>

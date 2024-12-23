@@ -1,0 +1,21 @@
+<h2>{{ 'Select all options' | transloco }}</h2>
+
+<div class="container">
+  <div class="row">
+    <select2
+      class="col-6"
+      showSelectAll
+      [overlay]="overlay"
+      [styleMode]="styleMode"
+      [data]="data37"
+      [value]="value37"
+      id="select2-select-all"
+      (update)="update('value37', $event)"
+      multiple
+    ></select2>
+    <div class="col-12 value">
+      <span>{{ 'value:' | transloco }}</span
+      ><code>{{ value37 | json }}</code>
+    </div>
+  </div>
+</div>

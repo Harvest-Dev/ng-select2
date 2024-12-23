@@ -1,0 +1,86 @@
+<h2>{{ 'Selection override & no wrap' | transloco }}</h2>
+
+<div class="container">
+  <div class="row">
+    <h3 class="col-12" id="ex-34b">Simple & resettable</h3>
+    <select2
+      class="col-6"
+      selectionOverride="Test (%size%)"
+      resettable
+      [overlay]="overlay"
+      [styleMode]="styleMode"
+      [data]="data36"
+      [value]="value36"
+      id="select2-36"
+      (update)="update('value36', $event)"
+    >
+    </select2>
+    <div class="col-12 value">
+      <span>{{ 'value:' | transloco }}</span
+      ><code>{{ value36 | json }}</code>
+    </div>
+
+    <h3 class="col-12" id="ex-36m">With multiple & resettable</h3>
+
+    <select2
+      class="col-6"
+      selectionOverride="Test (%size%)"
+      resettable
+      [overlay]="overlay"
+      [styleMode]="styleMode"
+      [data]="data36m"
+      [value]="value36m"
+      id="select2-36-m"
+      (update)="update('value36m', $event)"
+      multiple
+    >
+    </select2>
+    <div class="col-12 value">
+      <span>{{ 'value:' | transloco }}</span
+      ><code>{{ value36m | json }}</code>
+    </div>
+
+    <h3 class="col-12" id="ex-10">With hide selected items</h3>
+
+    <label class="col-12"><input id="no-wrap" type="checkbox" [(ngModel)]="selectionNoWrap2" /> selectionNoWrap</label>
+
+    <select2
+      class="col-6"
+      [overlay]="overlay"
+      [styleMode]="styleMode"
+      [data]="data10"
+      [value]="value10"
+      multiple="true"
+      (update)="update('value10', $event)"
+      hideSelectedItems="true"
+      id="select2-10"
+      [selectionNoWrap]="selectionNoWrap2"
+    ></select2>
+    <div class="col-12 value">
+      <span>{{ 'value:' | transloco }}</span
+      ><code>{{ value10 | json }}</code>
+    </div>
+
+    <h3 class="col-12" id="ex-36mf">In multiple mode with function override</h3>
+
+    <label class="col-12"><input id="no-wrap" type="checkbox" [(ngModel)]="selectionNoWrap" /> selectionNoWrap</label>
+
+    <select2
+      class="col-6"
+      [selectionOverride]="selectionOverride"
+      [selectionNoWrap]="selectionNoWrap"
+      [overlay]="overlay"
+      [styleMode]="styleMode"
+      [data]="data36mf"
+      [value]="value36mf"
+      id="select2-36-mf"
+      (update)="update('value36mf', $event)"
+      multiple
+    >
+    </select2>
+    <div class="col-12 value">
+      <span>{{ 'value:' | transloco }}</span
+      ><code>{{ value36mf | json }}</code>
+    </div>
+  </div>
+</div>

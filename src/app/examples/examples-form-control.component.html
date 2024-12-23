@@ -1,0 +1,72 @@
+<h2>{{ 'Form Control' | transloco }}</h2>
+
+<div class="container">
+  <div class="row">
+    <h3 class="col-12" id="ex-11">ngModel</h3>
+    <form [formGroup]="ctrlForm" class="col-6">
+      <select2
+        [overlay]="overlay"
+        [(ngModel)]="value11"
+        [data]="data11"
+        formControlName="test11"
+        placeholder="Select a state"
+        id="select2-11"
+      ></select2>
+    </form>
+    <div class="col-12">
+      <button (click)="reset11()">reset</button>
+      <button (click)="change11()">Utah</button>
+    </div>
+    <div class="col-12 value">
+      <div>
+        <span>{{ 'value:' | transloco }}</span
+        ><code>{{ value11 | json }}</code>
+      </div>
+    </div>
+
+    <h3 id="ex-33">FormControl & reset form multiple</h3>
+    <form [formGroup]="ctrlForm3" class="col-6">
+      <select2
+        [data]="data32"
+        formControlName="test33"
+        multiple="true"
+        (update)="update('value33', $event)"
+        id="select2-33"
+      ></select2>
+    </form>
+    <div class="col-12">
+      <button (click)="reset()">Reset</button>
+    </div>
+
+    <div class="col-12 value">
+      <div>
+        <span>{{ 'value:' | transloco }}</span
+        ><code>{{ ctrlForm3.get('test33')?.value | json }}</code>
+      </div>
+    </div>
+
+    <h3 class="col-12" id="ex-14">FormControl & reset a specific value</h3>
+    <form [formGroup]="fg" class="col-6">
+      <select2
+        class="col-6"
+        [overlay]="overlay"
+        [styleMode]="styleMode"
+        [data]="data9"
+        multiple="true"
+        id="select2-14"
+        formControlName="state"
+        (update)="update('value14', $event)"
+      ></select2>
+    </form>
+    <div class="col-12">
+      <button (click)="print()">Log selected (See F12)</button>
+      <button (click)="resetForm()">Reset form to value : ['CA', 'NV']</button>
+    </div>
+    <div class="col-12 value">
+      <div>
+        <span>{{ 'value:' | transloco }}</span
+        ><code>{{ fg.get('state')!.value | json }}</code>
+      </div>
+    </div>
+  </div>
+</div>

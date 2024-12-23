@@ -1,0 +1,28 @@
+nav {
+    position: sticky;
+    top: 62px;
+    align-self: flex-start;
+    background-color: transparent;
+
+    li {
+        margin: 2px 0;
+
+        :hover {
+            background-color: #eee;
+        }
+
+        a {
+            display: block;
+        }
+    }
+}
+
+.options {
+    margin-top: 10px;
+    border-bottom: 1px solid #888;
+    padding-bottom: 10px;
+}
+
+.main {
+    padding-bottom: 300px;
+}

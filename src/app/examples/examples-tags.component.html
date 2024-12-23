@@ -1,0 +1,58 @@
+<h2>{{ 'Tags' | transloco }}</h2>
+
+<div class="container">
+  <div class="row">
+    <h3 class="col-12" id="ex-15">With label</h3>
+    <select2
+      class="col-6"
+      [overlay]="overlay"
+      [styleMode]="styleMode"
+      [data]="data15"
+      [value]="value15"
+      (update)="update('value15', $event)"
+      id="select2-15"
+    >
+      <select2-label>Select a state</select2-label>
+    </select2>
+    <div class="col-12 value">
+      <span>{{ 'value:' | transloco }}</span
+      ><code>{{ value15 | json }}</code>
+    </div>
+
+    <h3 class="col-12" id="ex-16">Required with label</h3>
+    <select2
+      class="col-6"
+      [overlay]="overlay"
+      [styleMode]="styleMode"
+      [data]="data16"
+      [value]="value16"
+      (update)="update('value16', $event)"
+      required
+      id="select2-16"
+    >
+      <select2-label>Select a state</select2-label>
+    </select2>
+    <div class="col-12 value">
+      <span>{{ 'value:' | transloco }}</span
+      ><code>{{ value16 | json }}</code>
+    </div>
+
+    <h3 class="col-12" id="ex-16">With hint</h3>
+    <select2
+      class="col-6"
+      [overlay]="overlay"
+      [styleMode]="styleMode"
+      [data]="data16b"
+      [value]="value16b"
+      (update)="update('value16b', $event)"
+      required
+      id="select2-16"
+    >
+      <select2-hint>Description in hint</select2-hint>
+    </select2>
+    <div class="col-12 value">
+      <span>{{ 'value:' | transloco }}</span
+      ><code>{{ value16b | json }}</code>
+    </div>
+  </div>
+</div>

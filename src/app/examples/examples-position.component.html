@@ -1,0 +1,31 @@
+<h2>{{ 'Template' | transloco }}</h2>
+
+<div class="container">
+  <div class="row">
+    <h3 class="col-12" id="ex-19">Dropdown list position: above</h3>
+
+    <select2
+      class="col-6"
+      [overlay]="overlay"
+      [styleMode]="styleMode"
+      [data]="data19"
+      [value]="value19"
+      (update)="update('value19', $event)"
+      listPosition="above"
+      id="select2-19"
+    >
+    </select2>
+
+    <h3 class="col-12" id="ex-27">Position auto (overlay only)</h3>
+    <select2
+      class="col-6"
+      [overlay]="overlay"
+      [styleMode]="styleMode"
+      [data]="data2"
+      [value]="value2"
+      listPosition="auto"
+      (update)="update('value2', $event)"
+      id="select2-27"
+    ></select2>
+  </div>
+</div>

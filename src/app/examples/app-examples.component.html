@@ -1,0 +1,84 @@
+<div class="container">
+  <div class="row">
+    <nav class="col-3">
+      <div>
+        <h2>{{ 'Examples' | transloco }}</h2>
+        <ul>
+          <li>
+            <a routerLink="./basic" routerLinkActive="active">{{ 'Basic' | transloco }}</a>
+          </li>
+          <li>
+            <a routerLink="./multiple" routerLinkActive="active">{{ 'Multiple' | transloco }}</a>
+          </li>
+          <li>
+            <a routerLink="./tags" routerLinkActive="active">{{ 'Tags' | transloco }}</a>
+          </li>
+          <li>
+            <a routerLink="./events" routerLinkActive="active">{{ 'Events' | transloco }}</a>
+          </li>
+          <li>
+            <a routerLink="./limits" routerLinkActive="active">{{ 'Limits' | transloco }}</a>
+          </li>
+          <li>
+            <a routerLink="./form-control" routerLinkActive="active">{{ 'Form Control' | transloco }}</a>
+          </li>
+          <li>
+            <a routerLink="./resettable" routerLinkActive="active">{{ 'Resettable' | transloco }}</a>
+          </li>
+          <li>
+            <a routerLink="./auto-create" routerLinkActive="active">{{ 'Auto create' | transloco }}</a>
+          </li>
+          <li>
+            <a routerLink="./infinite-scroll" routerLinkActive="active">{{ 'Infinite scroll' | transloco }}</a>
+          </li>
+          <li>
+            <a routerLink="./position" routerLinkActive="active">{{ 'Position' | transloco }}</a>
+          </li>
+          <li>
+            <a routerLink="./template" routerLinkActive="active">{{ 'Template' | transloco }}</a>
+          </li>
+          <li>
+            <a routerLink="./grid" routerLinkActive="active">{{ 'Grid' | transloco }}</a>
+          </li>
+          <li>
+            <a routerLink="./selection-override" routerLinkActive="active">{{
+              'Selection override & no wrap' | transloco
+            }}</a>
+          </li>
+          <li>
+            <a routerLink="./select-all" routerLinkActive="active">{{ 'Select All' | transloco }}</a>
+          </li>
+          <li>
+            <a routerLink="./style" routerLinkActive="active">{{ 'Style' | transloco }}</a>
+          </li>
+          <li>
+            <a routerLink="./wai" routerLinkActive="active">{{ 'Accessibility' | transloco }}</a>
+          </li>
+          <li>
+            <a routerLink="./others" routerLinkActive="active">{{ 'Others' | transloco }}</a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+    <div class="col-9 container">
+      <div class="row options">
+        <div class="col-3">
+          <label for="disabled">Angular CDK Overlay:</label>
+          <input id="disabled" type="checkbox" [(ngModel)]="overlay" (ngModelChange)="changeOverlay($event)" />
+        </div>
+        <div class="col-4">
+          <label for="disabled">Style mode:</label>
+          <select id="disabled" [(ngModel)]="styleMode" (ngModelChange)="changeStyleMode($event)">
+            <option selected>default</option>
+            <option>material</option>
+            <option>noStyle</option>
+            <option>borderless</option>
+          </select>
+        </div>
+      </div>
+      <div class="main">
+        <router-outlet></router-outlet>
+      </div>
+    </div>
+  </div>
+</div>

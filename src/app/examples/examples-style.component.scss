@@ -3,10 +3,6 @@
     justify-content: space-between;
 }
 
-.noStyle {
-    background-color: antiquewhite;
-}
-
 .flower-list ::ng-deep .flower {
     &.white::before {
         content: '🌼 ';
@@ -19,9 +15,4 @@
     &.yellow::before {
         content: '🌻 ';
     }
-}
-
-.block {
-    padding-bottom: 300px;
-    max-width: 500px;
 }

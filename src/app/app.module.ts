@@ -5,7 +5,6 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { HIGHLIGHT_OPTIONS, HighlightModule } from 'ngx-highlightjs';
 
-import { AppExamplesComponent } from './app-examples.component';
 import { AppGenComponent } from './app-gen.component';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app.routing';
@@ -28,15 +27,7 @@ export function hljsLanguages() {
 
 @NgModule({
     declarations: [AppComponent],
-    imports: [
-        BrowserModule,
-        AppRoutingModule,
-        FormsModule,
-        HighlightModule,
-        TranslocoRootModule,
-        AppExamplesComponent,
-        AppGenComponent,
-    ],
+    imports: [BrowserModule, AppRoutingModule, FormsModule, HighlightModule, TranslocoRootModule, AppGenComponent],
     providers: [
         provideHttpClient(),
         {

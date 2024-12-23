@@ -1,0 +1,27 @@
+.events {
+    margin: 20px auto;
+    border: 1px solid #888;
+    padding: 5px;
+
+    h4 {
+        margin: 0;
+        padding: 0;
+    }
+
+    code {
+        display: block;
+        margin-bottom: 5px;
+        background: #ddd;
+
+        div {
+            border-bottom: 1px solid #aaa;
+            font-weight: bolder;
+        }
+        pre {
+            margin: 0;
+            max-height: 100px;
+            overflow: auto;
+            font-size: 14px;
+        }
+    }
+}

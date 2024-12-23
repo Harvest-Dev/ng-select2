@@ -81,16 +81,22 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
     /** data of options & option groups */
     readonly data = input.required<Select2Data>();
 
+    /** minimum characters to start filter search */
     readonly minCharForSearch = input(0, { transform: numberAttribute });
 
+    /** text placeholder */
     readonly displaySearchStatus = input<'default' | 'hidden' | 'always' | undefined>(undefined);
 
+    /** text placeholder */
     readonly placeholder = input<string | undefined>(undefined);
 
+    /** in multiple: maximum selection element (0 = no limit) */
     readonly limitSelection = input(0, { transform: numberAttribute });
 
+    /** dropdown position */
     readonly listPosition = input<'above' | 'below' | 'auto'>('below');
 
+    /** overlay with CDK Angular position */
     readonly overlay = input(false, { transform: booleanAttribute });
 
     /** use the material style */
@@ -143,9 +149,17 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
 
     /** Unique id of the element. */
     readonly id = input<string>(this._uid);
+
+    /** Unique id of label element. */
     readonly idLabel = computed(() => `${this.id()}-label`);
+
+    /** Unique id of combo element. */
     readonly idCombo = computed(() => `${this.id()}-combo`);
+
+    /** Unique id of options element. */
     readonly idOptions = computed(() => `${this.id()}-options`);
+
+    /** Unique id of overlay element. */
     readonly idOverlay = computed(() => `${this.id()}-overlay`);
 
     /** Whether the element is required. */
@@ -198,19 +212,24 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
     /** Text for select all options */
     readonly selectAllText = input('Select all');
 
-    // WAI related inputs
+    // -- WAI related inputs ---
+
     /** title attribute applied to the input */
     readonly title = input<string>();
+
     /** aria-labelledby attribute applied to the input, to specify en external label */
     readonly ariaLabelledby = input<string>();
+
     /** aria-describedby attribute applied to the input */
     readonly ariaDescribedby = input<string>();
+
     /** aria-invalid attribute applied to the input, to force error state */
     readonly ariaInvalid = input<boolean, unknown>(false, { transform: booleanAttribute });
+
     /** description of the reset button when using 'resettable'. Default value : 'Reset' */
     readonly ariaResetButtonDescription = input<string>('Reset');
 
-    // ----------------------- signal-output
+    // ----------------------- output
 
     readonly update = output<Select2UpdateEvent<Select2UpdateValue>>();
     readonly autoCreateItem = output<Select2AutoCreateEvent<Select2UpdateValue>>();
@@ -222,7 +241,7 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
     readonly scroll = output<Select2ScrollEvent>();
     readonly removeOption = output<Select2RemoveEvent<Select2UpdateValue>>();
 
-    // ----------------------- signal-input
+    // ----------------------- signal viewChild
 
     readonly cdkConnectedOverlay = viewChild.required(CdkConnectedOverlay);
     readonly selection = viewChild.required<ElementRef<HTMLElement>>('selection');
@@ -265,7 +284,7 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
     filteredData = signal<Select2Data | undefined>(undefined);
 
     get select2Options(): Select2Option[] {
-        return this.multiple() ? (this.selectedOption as Select2Option[]) ?? [] : [];
+        return this.multiple() ? ((this.selectedOption as Select2Option[]) ?? []) : [];
     }
 
     get select2Option(): Select2Option | null {
@@ -488,14 +507,18 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
     }
 
     updateSearchBox() {
-        const hidden =
-            this.displaySearchStatus() === 'hidden' ||
-            (this.displaySearchStatus() !== 'always' &&
-                !this.customSearchEnabled() &&
-                Select2Utils.isSearchboxHidden(this._data, this.minCountForSearch()));
+        if (this.autoCreate() && !this.multiple()) {
+            this.isSearchboxHidden = false;
+        } else {
+            const hidden =
+                this.displaySearchStatus() === 'hidden' ||
+                (this.displaySearchStatus() !== 'always' &&
+                    !this.customSearchEnabled() &&
+                    Select2Utils.isSearchboxHidden(this._data, this.minCountForSearch()));
 
-        if (this.isSearchboxHidden !== hidden) {
-            this.isSearchboxHidden = hidden;
+            if (this.isSearchboxHidden !== hidden) {
+                this.isSearchboxHidden = hidden;
+            }
         }
     }
 
@@ -1319,7 +1342,9 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
     private _focus(state: boolean, options?: FocusOptions) {
         if (state) {
             const eltToFocus =
-                !this.isSearchboxHidden && this.isOpen ? this.searchInput()!.nativeElement : this.selection().nativeElement;
+                !this.isSearchboxHidden && this.isOpen
+                    ? this.searchInput()!.nativeElement
+                    : this.selection().nativeElement;
             if (document.activeElement !== eltToFocus) {
                 eltToFocus.focus(options);
             }

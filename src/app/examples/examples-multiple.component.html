@@ -1,0 +1,56 @@
+<h2>{{ 'Events' | transloco }}</h2>
+
+<div class="container">
+  <div class="row">
+    <h3 class="col-12" id="ex-10a">Basic usage</h3>
+    <select2
+      class="col-6"
+      [overlay]="overlay"
+      [styleMode]="styleMode"
+      [data]="data10a"
+      [value]="value10a"
+      multiple="true"
+      (update)="update('value10a', $event)"
+      id="select2-10a"
+    ></select2>
+    <div class="col-12 value">
+      <span>{{ 'value:' | transloco }}</span
+      ><code>{{ value10a | json }}</code>
+    </div>
+
+    <h3 class="col-12" id="ex-10">With hide selected items</h3>
+
+    <select2
+      class="col-6"
+      [overlay]="overlay"
+      [styleMode]="styleMode"
+      [data]="data10"
+      [value]="value10"
+      multiple="true"
+      (update)="update('value10', $event)"
+      hideSelectedItems="true"
+      id="select2-10"
+    ></select2>
+    <div class="col-12 value">
+      <span>{{ 'value:' | transloco }}</span
+      ><code>{{ value10 | json }}</code>
+    </div>
+
+    <h3 class="col-12" id="ex-10b">Basic with placeholder</h3>
+    <select2
+      class="col-6"
+      [overlay]="overlay"
+      [styleMode]="styleMode"
+      placeholder="select items"
+      [data]="data10b"
+      [value]="value10b"
+      multiple="true"
+      (update)="update('value10b', $event)"
+      id="select2-10b"
+    ></select2>
+    <div class="col-12 value">
+      <span>{{ 'value:' | transloco }}</span
+      ><code>{{ value10b | json }}</code>
+    </div>
+  </div>
+</div>

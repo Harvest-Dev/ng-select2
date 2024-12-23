@@ -1,0 +1,13 @@
+.flower-list ::ng-deep .flower {
+    &.white::before {
+        content: '🌼 ';
+    }
+
+    &.red::before {
+        content: '🌹 ';
+    }
+
+    &.yellow::before {
+        content: '🌻 ';
+    }
+}

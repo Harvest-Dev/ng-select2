@@ -1,0 +1,82 @@
+<h2>{{ 'Grid list' | transloco }}</h2>
+
+<div class="container">
+  <div class="row">
+    <h3 class="col-12" id="ex-34b">Simple</h3>
+    <select2
+      class="col-6"
+      [overlay]="overlay"
+      [styleMode]="styleMode"
+      [data]="data34"
+      [value]="value34"
+      id="select2-34"
+      grid="4"
+      (autoCreateItem)="autoCreateItem('value34', $event)"
+      (update)="update('value34', $event)"
+    ></select2>
+    <div class="col-12 value">
+      <div>
+        <span>{{ 'value:' | transloco }}</span
+        ><code>{{ value34 | json }}</code>
+      </div>
+    </div>
+
+    <h3 class="col-12" id="ex-34b">With sub-group ({{ value34b }})</h3>
+    <select2
+      class="col-6"
+      [overlay]="overlay"
+      [styleMode]="styleMode"
+      [data]="data34b"
+      [value]="value34b"
+      grid="4"
+      id="select2-34b"
+      (autoCreateItem)="autoCreateItem('value34b', $event)"
+      (update)="update('value34b', $event)"
+    ></select2>
+    <div class="col-12 value">
+      <div>
+        <span>{{ 'value:' | transloco }}</span
+        ><code>{{ value34b | json }}</code>
+      </div>
+    </div>
+
+    <h3 class="col-12" id="ex-35">Grid with cell size</h3>
+    <select2
+      class="col-6"
+      [overlay]="overlay"
+      [styleMode]="styleMode"
+      [data]="data35"
+      [value]="value35"
+      id="select2-35"
+      grid="35px"
+      (autoCreateItem)="autoCreateItem('value35', $event)"
+      (update)="update('value35', $event)"
+    ></select2>
+    <div class="col-12 value">
+      <div>
+        <span>{{ 'value:' | transloco }}</span
+        ><code>{{ value35 | json }}</code>
+      </div>
+    </div>
+
+    <h3 class="col-12" id="ex-35b">Grid with cell size & sub-group</h3>
+    <select2
+      class="col-6"
+      [overlay]="overlay"
+      [styleMode]="styleMode"
+      [data]="data35b"
+      [value]="value35b"
+      multiple
+      id="select2-35b"
+      grid="35px"
+      (autoCreateItem)="autoCreateItem('value35b', $event)"
+      (update)="update('value35b', $event)"
+    ></select2>
+    <div class="col-12 value">
+      <div>
+        <span>{{ 'value:' | transloco }}</span
+        ><code>{{ value35b | json }}</code>
+      </div>
+    </div>
+  </div>
+</div>

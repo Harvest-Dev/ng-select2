@@ -128,6 +128,9 @@
             </li>
           }
         </ul>
+        @if (resettable() && $any(selectedOption)?.length > 0 && !(disabled() || readonly())) {
+            <ng-container *ngTemplateOutlet="resetButton"></ng-container>
+        }
       }
     </div>
   </div>

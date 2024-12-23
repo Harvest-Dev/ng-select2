@@ -96,7 +96,7 @@
 nav {
     position: sticky;
     top: 0;
-    z-index: 100000;
+    z-index: 1000;
     background-color: #ddd;
     padding: 15px;
 
@@ -113,4 +113,8 @@ nav {
     top: 0;
     right: 0;
     z-index: 100000;
+}
+
+h3 {
+    margin: 1em 0 !important;
 }

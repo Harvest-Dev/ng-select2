@@ -1,0 +1,86 @@
+<h2>{{ 'Template' | transloco }}</h2>
+
+<div class="container">
+  <div class="row">
+    <h3 class="col-12" id="ex-23">Only one template</h3>
+
+    <select2
+      class="col-6 flower-list"
+      [overlay]="overlay"
+      [styleMode]="styleMode"
+      [data]="data23"
+      [value]="value23"
+      (update)="update('value23', $event)"
+      [templates]="template"
+      [templateSelection]="templateSelection"
+      id="select2-23"
+    >
+      <ng-template #template let-data="data"
+        ><strong>{{ data?.color }}</strong
+        >: {{ data?.name }}</ng-template
+      >
+      <ng-template #templateSelection let-data="data"
+        ><strong>{{ data?.color }}</strong> ({{ data?.name }})</ng-template
+      >
+    </select2>
+    <div class="col-12 value">
+      <div>
+        <span>{{ 'value:' | transloco }}</span
+        ><code>{{ value23 | json }}</code>
+      </div>
+    </div>
+
+    <h3 class="col-12" id="ex-24">Template for options & groups ({{ value24 }})</h3>
+    <select2
+      class="col-6 flower-list"
+      [overlay]="overlay"
+      [styleMode]="styleMode"
+      [data]="data24"
+      [value]="value24"
+      (update)="update('value24', $event)"
+      [templates]="{ option: templateOption, group: templateGroup }"
+      id="select2-24"
+    >
+      <ng-template #templateOption let-data="data"
+        ><strong>{{ data?.color }}</strong
+        >: {{ data?.name }}</ng-template
+      >
+      <ng-template #templateGroup let-label="label"
+        ><strong>({{ label }})</strong></ng-template
+      >
+    </select2>
+    <div class="col-12 value">
+      <div>
+        <span>{{ 'value:' | transloco }}</span
+        ><code>{{ value24 | json }}</code>
+      </div>
+    </div>
+
+    <h3 id="ex-25">With templates Ids ({{ value25 }})</h3>
+    <select2
+      class="col-6 flower-list"
+      [overlay]="overlay"
+      [styleMode]="styleMode"
+      [data]="data25"
+      [value]="value25"
+      (update)="update('value25', $event)"
+      [templates]="{ template1: template1, template2: template2, template3: template3 }"
+      id="select2-25"
+    >
+      <ng-template #template1 let-data="data"
+        ><span [style.background]="data?.color">{{ data?.name }}</span></ng-template
+      >
+      <ng-template #template2 let-data="data"
+        ><strong>{{ data?.color }}</strong
+        >: {{ data?.name }}</ng-template
+      >
+      <ng-template #template3 let-data="data">{{ data | json }}</ng-template>
+    </select2>
+    <div class="col-12 value">
+      <div>
+        <span>{{ 'value:' | transloco }}</span
+        ><code>{{ value25 | json }}</code>
+      </div>
+    </div>
+  </div>
+</div>

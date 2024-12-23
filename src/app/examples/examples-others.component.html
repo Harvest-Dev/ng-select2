@@ -1,0 +1,72 @@
+<h2>{{ 'Others' | transloco }}</h2>
+
+<div class="container">
+  <div class="row">
+    <h3 class="col-12" id="ex-31">Change list</h3>
+    <div class="col-6">
+      <select #select31 (change)="changeData31(select31.value)">
+        <option>english</option>
+        <option>french</option>
+        <option>japanese</option>
+      </select>
+
+      <div>Value :</div>
+      <select2
+        [overlay]="overlay"
+        [styleMode]="styleMode"
+        [data]="data31"
+        [value]="value31"
+        id="select2-31"
+        (update)="update('value31', $event)"
+      >
+      </select2>
+      <div>Value multiple :</div>
+      <select2
+        [overlay]="overlay"
+        [styleMode]="styleMode"
+        [data]="data31"
+        [value]="value31m"
+        id="select2-31-m"
+        (update)="update('value31m', $event)"
+        multiple
+      >
+      </select2>
+      <br />
+
+      <div>NgModel :</div>
+      <select2
+        [overlay]="overlay"
+        [styleMode]="styleMode"
+        [data]="data31"
+        [(ngModel)]="value31b"
+        id="select2-31b"
+        (update)="update('value31b', $event)"
+      ></select2>
+    </div>
+
+    <h3 class="col-12" id="ex-21">Update to empty/null/undefined</h3>
+    <div class="col-6">
+      <select2
+        [overlay]="overlay"
+        [styleMode]="styleMode"
+        [data]="data21"
+        [value]="value21"
+        (update)="update('value21', $event)"
+        listPosition="above"
+        id="select2-21"
+      >
+      </select2>
+    </div>
+    <div class="col-12 value">
+      <div>
+        <span>{{ 'value:' | transloco }}</span
+        ><code>{{ value21 | json }}</code>
+      </div>
+    </div>
+    <div class="col-12">
+      <button (click)="value21 = ''">Update value to empty "string"</button>
+      <button (click)="value21 = null">Update value to "null"</button>
+      <button (click)="value21 = undefined">Update value to "undefined"</button>
+    </div>
+  </div>
+</div>

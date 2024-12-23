@@ -1,0 +1,98 @@
+<h2>{{ 'Template' | transloco }}</h2>
+
+<div class="container">
+  <div class="row">
+    <h3 class="col-12" id="ex-2">Basic list of options</h3>
+    <select2
+      class="col-6"
+      [overlay]="overlay"
+      [styleMode]="styleMode"
+      [data]="data2"
+      [value]="value2"
+      (update)="update('value2', $event)"
+      id="select2-2"
+    >
+    </select2>
+    <div class="col-12 value">
+      <div>
+        <span>{{ 'value:' | transloco }}</span
+        ><code>{{ value2 | json }}</code>
+      </div>
+    </div>
+
+    <h3 class="col-12" id="ex-1">Basic list with group</h3>
+    <select2
+      class="col-6"
+      [overlay]="overlay"
+      [styleMode]="styleMode"
+      [data]="data1"
+      [value]="value1"
+      resettable
+      customSearchEnabled
+      id="select2-1"
+    >
+    </select2>
+    <div class="col-12 value">
+      <div>
+        <span>{{ 'value:' | transloco }}</span
+        ><code>{{ value1 | json }}</code>
+      </div>
+    </div>
+
+    <h3 class="col-12" id="ex-3">Less options</h3>
+    <select2
+      class="col-6"
+      [overlay]="overlay"
+      [styleMode]="styleMode"
+      [data]="data3"
+      [value]="value3"
+      (update)="update('value3', $event)"
+      id="select2-3"
+    >
+    </select2>
+    <div class="col-12 value">
+      <div>
+        <span>{{ 'value:' | transloco }}</span
+        ><code>{{ value3 | json }}</code>
+      </div>
+    </div>
+
+    <h3 class="col-12" id="ex-4">Disabled ({{ value4 }})</h3>
+    <select2 class="col-6" [overlay]="overlay" [data]="data4" [value]="value4" [disabled]="true" id="select2-4">
+    </select2>
+    <div class="col-12 value">
+      <span>{{ 'value:' | transloco }}</span
+      ><code>{{ value4 | json }}</code>
+    </div>
+
+    <h3 class="col-12" id="ex-7">Placeholder</h3>
+    <select2
+      class="col-6"
+      [overlay]="overlay"
+      [styleMode]="styleMode"
+      [data]="data7"
+      placeholder="select an item"
+      (update)="update('value7', $event)"
+      id="select2-7"
+    ></select2>
+    <div class="col-12 value">
+      <span>{{ 'value:' | transloco }}</span
+      ><code>{{ value7 | json }}</code>
+    </div>
+
+    <h3 class="col-12" id="ex-13">Boolean value</h3>
+    <select2
+      class="col-6"
+      [overlay]="overlay"
+      [styleMode]="styleMode"
+      [data]="data13"
+      [value]="value13"
+      (update)="update('value13', $event)"
+      id="select2-13"
+    ></select2>
+    <div class="col-12 value">
+      <span>{{ 'value:' | transloco }}</span
+      ><code>{{ value13 | json }}</code>
+    </div>
+  </div>
+</div>

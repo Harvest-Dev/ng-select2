@@ -1,0 +1,42 @@
+<h2>{{ 'Events' | transloco }}</h2>
+
+<div class="container">
+  <div class="row">
+    <h3 class="col-12" id="ex-8">
+      <code>update</code>, <code>change</code>, <code>blur</code>, <code>focus</code>, <code>open,</code>
+      <code>close</code> and <code>search</code> events
+    </h3>
+    <select2
+      class="col-6"
+      [overlay]="overlay"
+      [styleMode]="styleMode"
+      [data]="data8"
+      autoCreate
+      (update)="update('update', $event)"
+      (change)="change('change', $event)"
+      (blur)="blur('blur', $event)"
+      (focus)="focus('focus', $event)"
+      (open)="open('open', $event)"
+      (close)="close('close', $event)"
+      (search)="search('search', $event)"
+      (autoCreateItem)="autoCreate('autoCreateItem', $event)"
+      id="select2-8"
+    ></select2>
+
+    <div class="col-12 value">
+      <span>{{ 'value:' | transloco }}</span
+      ><code>{{ value8 | json }}</code>
+    </div>
+  </div>
+
+  <button (click)="event = []">Clear events</button>
+  <div class="events">
+    <h4>Events:</h4>
+    @for (item of event; track item) {
+      <code>
+        <div>{{ item.key }} - {{ item.type }}</div>
+        <pre>{{ item.event | json }}</pre>
+      </code>
+    }
+  </div>
+</div>

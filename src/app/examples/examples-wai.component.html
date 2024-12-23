@@ -1,0 +1,51 @@
+<h2>{{ 'WAI - Accessibility' | transloco }}</h2>
+
+<div class="container">
+  <div class="row">
+    <div class="col-6">
+      <select2 [overlay]="overlay" [data]="data3" id="select2-0a" title="title">
+        <select2-label>Label</select2-label>
+      </select2>
+
+      <div id="select2-0b-custom-label">External label</div>
+      <div id="select2-0b-description">External description</div>
+      <select2
+        [overlay]="overlay"
+      [styleMode]="styleMode"
+        [data]="data3"
+        id="select2-0b"
+        title="title"
+        ariaLabelledby="select2-0b-custom-label"
+        ariaDescribedby="select2-0b-description"
+      ></select2>
+
+      <select2 [overlay]="overlay" [data]="data3" id="select2-0c" ariaInvalid>
+        <select2-label>Invalid field</select2-label>
+      </select2>
+
+      <select2 [overlay]="overlay" [data]="data3" id="select2-0d" required>
+        <select2-label>Required field</select2-label>
+      </select2>
+
+      <select2 [overlay]="overlay" [data]="data3" id="select2-0e" readonly value="foo">
+        <select2-label>Readonly field</select2-label>
+      </select2>
+
+      <select2 [overlay]="overlay" [data]="data3" id="select2-0f" disabled value="foo">
+        <select2-label>Disabled field</select2-label>
+      </select2>
+
+      <select2
+        [overlay]="overlay"
+      [styleMode]="styleMode"
+        [data]="data3"
+        id="select2-0g"
+        resettable
+        value="foo"
+        ariaResetButtonDescription="Clear the field"
+      >
+        <select2-label>Resettable field</select2-label>
+      </select2>
+    </div>
+  </div>
+</div>

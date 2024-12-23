@@ -1,0 +1,65 @@
+<h2>{{ 'Resettable' | transloco }}</h2>
+
+<div class="container">
+  <div class="row">
+    <h3 class="col-12" id="ex-30">Reset value when × is clicked</h3>
+    <select2
+      class="col-6"
+      [overlay]="overlay"
+      [styleMode]="styleMode"
+      [data]="data30"
+      [value]="value30"
+      resettable
+      id="select2-30"
+      (update)="update('value30', $event)"
+    >
+    </select2>
+    <div class="col-12 value">
+      <div>
+        <span>{{ 'value:' | transloco }}</span
+        ><code>{{ value30 | json }}</code>
+      </div>
+    </div>
+
+    <h3 class="col-12" id="ex-30">Reset value when × is clicked in multiple</h3>
+    <select2
+      class="col-6"
+      [overlay]="overlay"
+      [styleMode]="styleMode"
+      [data]="data30a"
+      [value]="value30a"
+      resettable
+      multiple
+      id="select2-30a"
+      (update)="update('value30a', $event)"
+    >
+    </select2>
+    <div class="col-12 value">
+      <div>
+        <span>{{ 'value:' | transloco }}</span
+        ><code>{{ value30a | json }}</code>
+      </div>
+    </div>
+
+    <h3 class="col-12" id="ex-30b">Selected a default option when × is clicked</h3>
+    <select2
+      class="col-6"
+      [overlay]="overlay"
+      [styleMode]="styleMode"
+      [data]="data30b"
+      [value]="value30b"
+      resettable
+      resetSelectedValue="CA"
+      id="select2-30b"
+      (update)="update('value30b', $event)"
+    >
+    </select2>
+    <div class="col-12 value">
+      <div>
+        <span>{{ 'value:' | transloco }}</span
+        ><code>{{ value30b | json }}</code>
+      </div>
+    </div>
+    <div class="col-12">In this example, "CA" is the default value</div>
+  </div>
+</div>
