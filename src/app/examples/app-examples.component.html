@@ -41,9 +41,10 @@
             <a routerLink="./grid" routerLinkActive="active">{{ 'Grid' | transloco }}</a>
           </li>
           <li>
-            <a routerLink="./selection-override" routerLinkActive="active">{{
-              'Selection override & no wrap' | transloco
-            }}</a>
+            <a routerLink="./selection-override" routerLinkActive="active">{{ 'Selection override' | transloco }}</a>
+          </li>
+          <li>
+            <a routerLink="./selection-nowrap" routerLinkActive="active">{{ 'Selection no wrap' | transloco }}</a>
           </li>
           <li>
             <a routerLink="./select-all" routerLinkActive="active">{{ 'Select All' | transloco }}</a>
@@ -63,11 +64,11 @@
     <div class="col-9 container">
       <div class="row options">
         <div class="col-3">
-          <label for="disabled">Angular CDK Overlay:</label>
+          <label for="disabled">{{ 'Angular CDK Overlay:' | transloco }} </label>
           <input id="disabled" type="checkbox" [(ngModel)]="overlay" (ngModelChange)="changeOverlay($event)" />
         </div>
         <div class="col-4">
-          <label for="disabled">Style mode:</label>
+          <label for="disabled">{{ 'Style mode:' | transloco }} </label>
           <select id="disabled" [(ngModel)]="styleMode" (ngModelChange)="changeStyleMode($event)">
             <option selected>default</option>
             <option>material</option>

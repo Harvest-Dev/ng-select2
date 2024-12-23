@@ -14,7 +14,7 @@
       ></select2>
     </form>
     <div class="col-12">
-      <button (click)="reset11()">reset</button>
+      <button (click)="reset11()">{{ 'Reset' | transloco }}</button>
       <button (click)="change11()">Utah</button>
     </div>
     <div class="col-12 value">
@@ -24,7 +24,7 @@
       </div>
     </div>
 
-    <h3 id="ex-33">FormControl & reset form multiple</h3>
+    <h3 id="ex-33">{{ 'FormControl & reset form multiple' | transloco }}</h3>
     <form [formGroup]="ctrlForm3" class="col-6">
       <select2
         [data]="data32"
@@ -35,7 +35,7 @@
       ></select2>
     </form>
     <div class="col-12">
-      <button (click)="reset()">Reset</button>
+      <button (click)="reset()">{{ 'Reset' | transloco }}</button>
     </div>
 
     <div class="col-12 value">
@@ -45,7 +45,7 @@
       </div>
     </div>
 
-    <h3 class="col-12" id="ex-14">FormControl & reset a specific value</h3>
+    <h3 class="col-12" id="ex-14">{{ 'FormControl & reset a specific value' | transloco }}</h3>
     <form [formGroup]="fg" class="col-6">
       <select2
         class="col-6"
@@ -59,8 +59,8 @@
       ></select2>
     </form>
     <div class="col-12">
-      <button (click)="print()">Log selected (See F12)</button>
-      <button (click)="resetForm()">Reset form to value : ['CA', 'NV']</button>
+      <button (click)="print()">{{ 'Selection log (See F12)' | transloco }}</button>
+      <button (click)="resetForm()">{{ 'Reset form to value:' | transloco }} <code>['CA', 'NV']</code></button>
     </div>
     <div class="col-12 value">
       <div>

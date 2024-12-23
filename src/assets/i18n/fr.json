@@ -1,6 +1,7 @@
 {
   "Home": "Accueil",
   "Basic usage": "Utilisation de base",
+  "Basic": "Basique",
   "Examples": "Exemples",
   "Code generator": "Générateur de code",
   "Extended version of the basic HTML select.": "Version étendue du select HTML de base.",
@@ -18,5 +19,107 @@
   "Web Component guide line name": "Nom recommandé pour les Web Component",
   "Required": "Requis",
   "HTML render": "Rendu HTML",
-  "HTML Code": "Code HTML"
+  "HTML Code": "Code HTML",
+  "Limits": "Limites",
+  "Resettable": "Réinitialisable",
+  "Auto create": "Création automatique",
+  "Infinite scroll": "Défilement infini",
+  "Grid": "Grille",
+  "Selection override": "Remplacement de la sélection",
+  "Selection no wrap": "Sélection sans retour à la ligne",
+  "Select All": "Sélectionner tout",
+  "Accessibility": "Accessibilité",
+  "Others": "Autres",
+  "value:": "valeur :",
+  "Style mode:": "Mode style :",
+  "Angular CDK Overlay:": "Overlay CDK Angular :",
+  "Required:": "Requis :",
+
+  "Basic list of options": "Liste de base des options",
+  "Basic list with groups": "Liste de base avec groupes",
+  "Less options": "Moins d'options",
+  "Disabled": "Désactivé",
+  "Boolean value": "Valeur booléenne",
+
+  "With hide selected items": "Avec masquer les éléments sélectionnés",
+  "Basic with placeholder": "Basique avec placeholder",
+
+  "With label": "Avec libellé",
+  "Select a state": "Sélectionnez un État",
+  "Required with label": "Requis avec libellé",
+  "With hint": "Avec indice",
+  "Description in hint": "Description en indice",
+
+  "List events": "Événements <code>update</code>, <code>change</code>, <code>blur</code>, <code>focus</code>, <code>open</code>, <code>close</code> et <code>search</code>",
+  "Clear events": "Effacer les événements",
+  "Events:": "Événements :",
+
+  "Search box always show": "Le champs de recherche s'affiche toujours",
+  "Search box limit to ": "Le champs de recherche est limitée à ",
+  " / display status": " / état d'affichage",
+  "Add item": "Ajouter un item",
+  "Remove item": "Supprimer un item",
+  "Multiple with limited selection": "Multiple avec une selection limité",
+  "Limit:": "Limite :",
+  "(0 = no limit)": "(0 = aucune limite)",
+  "Max results (50)": "Résultats max. (50)",
+  "Too much results in this list.": "Trop de résultats dans cette liste",
+  "Search starts with 3 chars": "La recherche commence à 3 caractères",
+
+  "FormControl & reset form multiple": "FormControl & réinitialiser formulaires multiple",
+  "FormControl & reset a specific value": "FormControl & réinitialiser une valeur spécifique",
+  "Selection log (See F12)": "Journal de sélection (voir F12)",
+  "Reset form to value:": "Réinitialiser le formulaire à la valeur :",
+  "Reset": "Réinitialiser",
+
+  "Reset value when × is clicked": "Réinitialiser la valeur lorsque × est cliqué",
+  "Reset value when × is clicked in multiple": "Réinitialiser la valeur lorsque × est cliqué en multiple",
+  "Selected a default option when × is clicked": "Sélectionner une option par défaut lorsque × est cliqué",
+  "In this example, “CA” is the default value": "Dans cet exemple, « CA » est la valeur par défaut",
+
+  "Single for create new item with search box & resettable": "Simple pour créer un nouvel élément avec champ de recherche et réinitialisable",
+  "Multiple with input for create new item in selection zone": "Multiple avec saisie pour créer un nouvel élément dans la zone de sélection",
+  "Multiple for create new item with search box": "Multiple pour créer un nouvel élément avec champ de recherche",
+
+  "Dropdown list position: above": "Position de la liste déroulante : au-dessus (above)",
+  "Position auto (overlay only)": "Position automatique (overlay uniquement)",
+
+  "Only one template for options/groups & one for selection": "Un seul template pour les options/groupes et un pour la sélection",
+  "Templates for options & groups": "Templates pour les options et les groupes",
+  "With templates Ids": "Avec ids de templates",
+
+  "Grid list": "Liste en grille",
+  "Basic (4 per line)": "Basique (4 par ligne)",
+  "With sub-group (4 per line)": "Avec sous-groupe (4 par ligne)",
+  "Grid with cell size (min 35px par item)": "Grille avec taille de cellule (min 35px par item)",
+  "Grid with cell size & sub-group (min 35px par item)": "Grille avec taille de cellule et sous-groupe (min 35px par item)",
+
+  "Simple & resettable": "Simple et réinitialisable",
+  "With multiple & resettable": "Avec multiple et réinitialisable",
+
+  "In multiple mode with function override": "En mode multiple avec fonction de remplacement",
+
+  "With two labels per option": "Avec deux libelles par option",
+  "With classes and id for items": "Avec des classes et id pour les items",
+
+  "Label": "Libellé",
+  "External label": "Libellé externe",
+  "External description": "Description externe",
+  "Invalid field": "Champ non valide",
+  "Required field": "Champ obligatoire",
+  "Readonly field": "Champ en lecture seule",
+  "Disabled field": "Champ désactivé",
+  "Resettable field": "Champ réinitialisable",
+
+  "Change list": "Liste des changement",
+  "english": "anglais",
+  "french": "français",
+  "japanese": "japonais",
+  "Single value:": "Valeur unique :",
+  "Multiple value:": "Valeurs multiples :",
+  "Update to empty/null/undefined": "Mise à jour vers vide/null/indéfini",
+  "Update value to empty “string”": "Mise à jour de la valeur vers une “string” vide",
+  "Update value to “null”": "Mise à jour de la valeur vers “null”",
+  "Update value to “undefined”": "Mise à jour de la valeur vers “undefined”"
 }
+

@@ -2,7 +2,9 @@
 
 <div class="container">
   <div class="row">
-    <h3 class="col-12" id="ex-5">Search box (infinity) ({{ value5 }})</h3>
+    <h3 class="col-12" id="ex-5">
+      {{ 'Search box always show' | transloco }} (minCountForSearch = <code>infinity</code>) ({{ value5 }})
+    </h3>
     <form [formGroup]="ctrlForm2" class="col-6">
       <select2
         [overlay]="overlay"
@@ -22,7 +24,9 @@
       </div>
     </div>
 
-    <h3 class="col-12" id="ex-6">Search box limit to <input #limit size="3" value="7" /> / display status</h3>
+    <h3 class="col-12" id="ex-6">
+      {{ 'Search box limit to ' | transloco }}<input #limit size="3" value="7" />{{ ' / display status' | transloco }}
+    </h3>
     <div class="col-12">
       <select #status>
         <option selected>default</option>
@@ -30,8 +34,8 @@
         <option>always</option>
       </select>
       -
-      <button type="button" (click)="addItem()">Add item</button>
-      <button type="button" (click)="removeItem()">Remove item</button>
+      <button type="button" (click)="addItem()">{{ 'Add item' | transloco }}</button>
+      <button type="button" (click)="removeItem()">{{ 'Remove item' | transloco }}</button>
     </div>
 
     <select2
@@ -53,9 +57,10 @@
       </div>
     </div>
 
-    <h3 class="col-12" id="ex-9">Multiple with a limit selection</h3>
+    <h3 class="col-12" id="ex-9">{{ 'Multiple with limited selection' | transloco }}</h3>
     <div>
-      <label>Limit: <input type="number" size="3" [(ngModel)]="limitSelection" /></label> (0 = no limit)
+      <label>{{ 'Limit:' | transloco }} <input type="number" size="3" [(ngModel)]="limitSelection" /></label>
+      {{ '(0 = no limit)' | transloco }}
     </div>
     <select2
       class="col-6"
@@ -75,7 +80,7 @@
       </div>
     </div>
 
-    <h3 class="col-12" id="ex-28">Max results (50)</h3>
+    <h3 class="col-12" id="ex-28">{{ 'Max results (50)' | transloco }}</h3>
     <select2
       class="col-6"
       [overlay]="overlay"
@@ -86,7 +91,7 @@
       id="select2-28"
       (update)="update('value28', $event)"
       maxResults="50"
-      maxResultsMessage="Too much results in this list."
+      [maxResultsMessage]="'Too much results in this list.' | transloco"
     ></select2>
     <div class="col-12 value">
       <div>
@@ -95,7 +100,7 @@
       </div>
     </div>
 
-    <h3 class="col-12" id="ex-18">Search starts with 3 chars</h3>
+    <h3 class="col-12" id="ex-18">{{ 'Search starts with 3 chars' | transloco }}</h3>
     <select2
       class="col-6"
       [overlay]="overlay"

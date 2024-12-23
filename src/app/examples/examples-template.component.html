@@ -2,7 +2,7 @@
 
 <div class="container">
   <div class="row">
-    <h3 class="col-12" id="ex-23">Only one template</h3>
+    <h3 class="col-12" id="ex-23">{{ 'Only one template for options/groups & one for selection' | transloco }}</h3>
 
     <select2
       class="col-6 flower-list"
@@ -30,7 +30,7 @@
       </div>
     </div>
 
-    <h3 class="col-12" id="ex-24">Template for options & groups ({{ value24 }})</h3>
+    <h3 class="col-12" id="ex-24">{{ 'Templates for options & groups' | transloco }}</h3>
     <select2
       class="col-6 flower-list"
       [overlay]="overlay"
@@ -56,7 +56,7 @@
       </div>
     </div>
 
-    <h3 id="ex-25">With templates Ids ({{ value25 }})</h3>
+    <h3 id="ex-25">{{ 'With templates Ids' | transloco }}</h3>
     <select2
       class="col-6 flower-list"
       [overlay]="overlay"

@@ -2,10 +2,7 @@
 
 <div class="container">
   <div class="row">
-    <h3 class="col-12" id="ex-8">
-      <code>update</code>, <code>change</code>, <code>blur</code>, <code>focus</code>, <code>open,</code>
-      <code>close</code> and <code>search</code> events
-    </h3>
+    <h3 class="col-12" id="ex-8" [innerHTML]=" 'List events'| transloco"></h3>
     <select2
       class="col-6"
       [overlay]="overlay"
@@ -29,9 +26,9 @@
     </div>
   </div>
 
-  <button (click)="event = []">Clear events</button>
+  <button (click)="event = []">{{ 'Clear events' | transloco }}</button>
   <div class="events">
-    <h4>Events:</h4>
+    <h4>{{ 'Events:' | transloco }}</h4>
     @for (item of event; track item) {
       <code>
         <div>{{ item.key }} - {{ item.type }}</div>

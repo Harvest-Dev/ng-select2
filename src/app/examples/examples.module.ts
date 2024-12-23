@@ -76,6 +76,11 @@ const routes: Routes = [
                     import('./examples-selection-override.component').then(m => m.ExemplesSelectionOverrideComponent),
             },
             {
+                path: 'selection-nowrap',
+                loadComponent: () =>
+                    import('./examples-selection-nowrap.component').then(m => m.ExemplesSelectionNowrapComponent),
+            },
+            {
                 path: 'select-all',
                 loadComponent: () => import('./examples-select-all.component').then(m => m.ExemplesSelectAllComponent),
             },

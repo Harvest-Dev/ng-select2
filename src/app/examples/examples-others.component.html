@@ -2,15 +2,15 @@
 
 <div class="container">
   <div class="row">
-    <h3 class="col-12" id="ex-31">Change list</h3>
+    <h3 class="col-12" id="ex-31">{{ 'Change list' | transloco }}</h3>
     <div class="col-6">
       <select #select31 (change)="changeData31(select31.value)">
-        <option>english</option>
-        <option>french</option>
-        <option>japanese</option>
+        <option>{{ 'english' | transloco }}</option>
+        <option>{{ 'french' | transloco }}</option>
+        <option>{{ 'japanese' | transloco }}</option>
       </select>
 
-      <div>Value :</div>
+      <div>{{ 'Single value:' | transloco }}</div>
       <select2
         [overlay]="overlay"
         [styleMode]="styleMode"
@@ -20,7 +20,7 @@
         (update)="update('value31', $event)"
       >
       </select2>
-      <div>Value multiple :</div>
+      <div>{{ 'Multiple value:' | transloco }}</div>
       <select2
         [overlay]="overlay"
         [styleMode]="styleMode"
@@ -33,7 +33,7 @@
       </select2>
       <br />
 
-      <div>NgModel :</div>
+      <div>NgModel:</div>
       <select2
         [overlay]="overlay"
         [styleMode]="styleMode"
@@ -44,7 +44,7 @@
       ></select2>
     </div>
 
-    <h3 class="col-12" id="ex-21">Update to empty/null/undefined</h3>
+    <h3 class="col-12" id="ex-21">{{ 'Update to empty/null/undefined' | transloco }}</h3>
     <div class="col-6">
       <select2
         [overlay]="overlay"
@@ -64,9 +64,9 @@
       </div>
     </div>
     <div class="col-12">
-      <button (click)="value21 = ''">Update value to empty "string"</button>
-      <button (click)="value21 = null">Update value to "null"</button>
-      <button (click)="value21 = undefined">Update value to "undefined"</button>
+      <button (click)="value21 = ''">{{ 'Update value to empty “string”' | transloco }}</button>
+      <button (click)="value21 = null">{{ 'Update value to “null”' | transloco }}</button>
+      <button (click)="value21 = undefined">{{ 'Update value to “undefined”' | transloco }}</button>
     </div>
   </div>
 </div>
