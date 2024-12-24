@@ -40,10 +40,6 @@ export class Examples {
         console.log(key, event);
     }
 
-    change(key: string, event: Event) {
-        console.log(key, event);
-    }
-
     search(key: string, event: Select2SearchEvent) {
         console.log(key, event);
     }

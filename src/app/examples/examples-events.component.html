@@ -2,7 +2,7 @@
 
 <div class="container">
   <div class="row">
-    <h3 class="col-12" id="ex-8" [innerHTML]=" 'List events'| transloco"></h3>
+    <h3 class="col-12" id="ex-8" [innerHTML]="'List events' | transloco"></h3>
     <select2
       class="col-6"
       [overlay]="overlay"
@@ -10,7 +10,6 @@
       [data]="data8"
       autoCreate
       (update)="update('update', $event)"
-      (change)="change('change', $event)"
       (blur)="blur('blur', $event)"
       (focus)="focus('focus', $event)"
       (open)="open('open', $event)"

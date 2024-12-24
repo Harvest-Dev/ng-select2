@@ -58,23 +58,25 @@
       <label for="multiple">multiple</label>
       <input type="checkbox" formControlName="multiple" id="multiple" />
     </div>
-    <div [class.hide]="ctrlForm.value?.multiple ?? false">
+    <div>
       <label for="resettable">resettable</label>
       <input type="checkbox" formControlName="resettable" id="resettable" />
     </div>
-    <div [class.hide]="ctrlForm.value?.multiple">
-      <label for="resetSelectedValue">resetSelectedValue</label>
-      <select formControlName="resetSelectedValue" id="resetSelectedValue">
-        <option [value]="undefined">undefined</option>
-        <option [value]="null">null</option>
-        <option value="hibiscus">hibiscus</option>
-        <option value="marigold">marigold</option>
-        <option value="sunflower">sunflower</option>
-        <option value="heliotrope">heliotrope</option>
-        <option value="lily">lily</option>
-        <option value="petunia">petunia</option>
-      </select>
-    </div>
+    @if (!ctrlForm.value?.multiple) {
+      <div>
+        <label for="resetSelectedValue">resetSelectedValue</label>
+        <select formControlName="resetSelectedValue" id="resetSelectedValue">
+          <option [value]="undefined">undefined</option>
+          <option [value]="null">null</option>
+          <option value="hibiscus">hibiscus</option>
+          <option value="marigold">marigold</option>
+          <option value="sunflower">sunflower</option>
+          <option value="heliotrope">heliotrope</option>
+          <option value="lily">lily</option>
+          <option value="petunia">petunia</option>
+        </select>
+      </div>
+    }
     <div>
       <label for="autoCreate">autoCreate</label>
       <input type="checkbox" formControlName="autoCreate" id="autoCreate" />
@@ -87,16 +89,18 @@
       <label for="grid">grid ({{ "4 or '100px'" | transloco }})</label>
       <input type="string" formControlName="grid" id="grid" />
     </div>
-    <div [class.hide]="!ctrlForm.value?.multiple">
-      <label for="hideSelectedItems">hideSelectedItems</label>
-      <input type="checkbox" formControlName="hideSelectedItems" id="hideSelectedItems" />
-    </div>
+    @if (ctrlForm.value?.multiple) {
+      <div>
+        <label for="hideSelectedItems">hideSelectedItems</label>
+        <input type="checkbox" formControlName="hideSelectedItems" id="hideSelectedItems" />
+      </div>
+    }
     <div>
       <label for="resultMaxHeight">resultMaxHeight ('200px')</label>
       <input type="text" formControlName="resultMaxHeight" id="resultMaxHeight" />
     </div>
     <div>
-      <label for="maxResults">maxResults ({{ "0 = infinity" | transloco }})</label>
+      <label for="maxResults">maxResults ({{ '0 = infinity' | transloco }})</label>
       <input type="text" formControlName="maxResults" id="maxResults" />
     </div>
     <div>

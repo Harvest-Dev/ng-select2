@@ -50,11 +50,6 @@ export class ExemplesEventsComponent extends Examples {
         this.event.push({ key, type: 'Select2', event: '[object: Select2]' });
     }
 
-    override change(key: string, event: Event) {
-        super.change(key, event);
-        this.event.push({ key, type: 'Event', event: event });
-    }
-
     override search(key: string, event: Select2SearchEvent) {
         super.search(key, event);
         this.event.push({

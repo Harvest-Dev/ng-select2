@@ -25,21 +25,21 @@ npm i ng-select2-component --save
 
 | Version   | For **Angular** | Notes             |
 | --------- | --------------- | ----------------- |
-| `7.3.1`   | 7, 8 and 9      | View Engine       |
-| `8.1.0`   | 10, 11 and 12   | View Engine       |
-| `9.0.0`   | 13              | Ivy               |
-| `10.0.0`  | 14              | Ivy               |
-| `11.1.0`  | 15              | Ivy               |
-| `12.1.0`  | 16              | Ivy               |
-| `13.0.12` | 16.1            | Ivy               |
-| `14.0.1`  | 17              | Ivy               |
-| `15.3.0`  | 18              | Ivy               |
-| `16.0.0`  | 19              | Ivy / Module      |
 | `17.0.0`  | 19 and more     | Ivy / Stand-alone |
+| `16.0.0`  | 19              | Ivy / Module      |
+| `15.3.0`  | 18              | Ivy               |
+| `14.0.1`  | 17              | Ivy               |
+| `13.0.12` | 16.1            | Ivy               |
+| `12.1.0`  | 16              | Ivy               |
+| `11.1.0`  | 15              | Ivy               |
+| `10.0.0`  | 14              | Ivy               |
+| `9.0.0`   | 13              | Ivy               |
+| `8.1.0`   | 10, 11 and 12   | View Engine       |
+| `7.3.1`   | 7, 8 and 9      | View Engine       |
 
 ## Demo
 
-[See a demo](https://harvest-dev.github.io/ng-select2/dist/ng-select2/browser).
+[See a demo and code generator](https://harvest-dev.github.io/ng-select2/dist/ng-select2/browser).
 
 ## Features
 
@@ -57,6 +57,7 @@ npm i ng-select2-component --save
 - material style
 - form binding
 - templating
+- etc.
 
 ## Usage
 
@@ -82,58 +83,51 @@ class MyComponent {}
 
 ### properties and events of the component
 
-| name                                                                      | type                                                                                                                           | status   | default              | description                                                                                                             | required                             |
-| ------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------ | -------- | -------------------- | ----------------------------------------------------------------------------------------------------------------------- | ------------------------------------ |
-| `data`                                                                    | [`Select2Data`](#select2-data-structure)                                                                                       | required |                      | the data of the select2                                                                                                 |                                      |
-| `value`                                                                   | [`Select2Value`](#select2-data-structure)                                                                                      |          |                      | initial value                                                                                                           |                                      |
-| `minCharForSearch`                                                        | `number`                                                                                                                       |          | `0`                  | start the search when the number of characters is reached (`0` = unlimited)                                             |                                      |
-| `minCountForSearch`                                                       | `number`                                                                                                                       |          | `6`                  | hide search box if `options.length < minCountForSearch`                                                                 |                                      |
-| `displaySearchStatus`                                                     | `'default'`<br>`'hidden'`<br>`'always'`                                                                                        |          | `'default'`          | display the search box (`default` : is based on `minCountForSearch`)                                                    |                                      |
-| `placeholder`                                                             | `string`                                                                                                                       |          |                      | the placeholder string if nothing selected                                                                              |                                      |
-| `noResultMessage`                                                         | `string`                                                                                                                       |          |                      | the message string if no results when using the search field                                                            |                                      |
-| `customSearchEnabled`                                                     | `boolean`                                                                                                                      |          | `false`              | will trigger `search` event, and disable inside filter                                                                  |                                      |
-| `multiple`                                                                | `boolean`                                                                                                                      |          | `false`              | select multiple options                                                                                                 |                                      |
-| `resettable`                                                              | `boolean`                                                                                                                      |          | `false`              | add a button to reset value                                                                                             | not `multiple`                       |
-| `resetSelectedValue`                                                      | `any`                                                                                                                          |          | `undefined`          | selected option when × is clicked                                                                                       | not `multiple` and with `resettable` |
-| `autoCreate`                                                              | `boolean`                                                                                                                      |          | `false`              | gives the possibility to add elements not present in the list.                                                          |                                      |
-| `limitSelection`                                                          | `number`                                                                                                                       |          | `0`                  | to limit multiple selection (`0` = unlimited)                                                                           |                                      |
-| `hideSelectedItems`                                                       | `boolean`                                                                                                                      |          | `false`              | remove selected values                                                                                                  | with `multiple`                      |
-| `resultMaxHeight`                                                         | `string`                                                                                                                       |          | `'200px'`            | change the height size of results                                                                                       |                                      |
-| `maxResults`                                                              | `number`                                                                                                                       |          | `0`                  | maximum results limit (`0` = unlimited)                                                                                 |                                      |
-| `maxResultsMessage`                                                       | `string`                                                                                                                       |          | `'Too much result…'` | message when maximum result                                                                                             |                                      |
-| `grid`                                                                    | `number` or `string`                                                                                                           |          |                      | option by line in grid layout (empty or `0` = no grid layout)<br>`number`: item by line<br>`string`: minimal item width |                                      |
-| `listPosition`                                                            | `'below'`<br>`'above'`<br>`'auto'` ¹                                                                                           |          | `'below'`            | the position for the dropdown list                                                                                      | ¹ `'auto'`: only with `overlay`      |
-| `infiniteScroll`                                                          | `boolean`                                                                                                                      |          | `false`              | active infiniteScroll on dropdown list                                                                                  | with `ngx-infinite-scroll`           |
-| `infiniteScrollDistance`                                                  | `number`                                                                                                                       |          | `1.5`                | infiniteScroll distance                                                                                                 | with `ngx-infinite-scroll`           |
-| `infiniteScrollThrottle`                                                  | `number`                                                                                                                       |          | `150`                | infiniteScroll throttle                                                                                                 |                                      |
-| `overlay`                                                                 | `boolean`                                                                                                                      |          | `false`              | active an overlay mode for dropdown list (with angular cdk). (See [Overlay](#overlay))                                  |                                      |
-| `styleMode`                                                               | `'default'`<br>`'material'`<br>`'noStyle'`<br>`'borderless'`                                                                   |          | `'default'`          | change style for material style or remove border and background color                                                   |                                      |
-| `templates`                                                               | `TemplateRef`<br>`{option?: TemplateRef, group?: TemplateRef}`<br>etc.<br>(see ”possible object” in [Templating](#templating)) |          |                      | use templates for formatting content (see [Templating](#templating))                                                    |                                      |
-| `templateSelection`                                                       | `TemplateRef`                                                                                                                  |          |                      | use templates for formatting content (see [Templating](#templating))                                                    |                                      |
-| `noLabelTemplate`                                                         | `boolean`                                                                                                                      |          | `false`              | do not use the template in the selection, stay in text mode                                                             |                                      |
-| `selectionOverride`                                                       | `string` or function ([`Select2SelectionOverride`](#select2-data-structure))                                                   |          |                      | Replace selection by a text<br>`string`: `%size%` = total selected options<br>`function`: juste show the string         |                                      |
-| `selectionNoWrap`                                                         | `boolean`                                                                                                                      |          | `false`              | Force selection on one line                                                                                             |                                      |
-| `showSelectAll`                                                           | `boolean`                                                                                                                      |          | `false`              | Add an option to select all options                                                                                     | with `multiple`                      |
-| `selectAllText`                                                           | `string`                                                                                                                       |          | `'Select all'`       | Text when all options as not selected                                                                                   | with `multiple`                      |
-| `removeAllText`                                                           | `string`                                                                                                                       |          | `'Remove all'`       | Text when all options as selected                                                                                       | with `multiple`                      |
-| `editPattern`                                                             | `(str: string) => string`                                                                                                      |          |                      | use it for change the pattern of the filter search                                                                      |                                      |
-| `ngModel`<br>`id`<br>`required`<br>`disabled`<br>`readonly`<br>`tabIndex` |                                                                                                                                |          |                      | just like a `select` control                                                                                            |                                      |
-| `(update)`                                                                | `(event: `[`Select2UpdateEvent`](#select2-data-structure)`) => void`                                                           | event    |                      | triggered when user select an option                                                                                    |                                      |
-| `(open)`                                                                  | `(event: Select2) => void`                                                                                                     | event    |                      | triggered when user open the options                                                                                    |                                      |
-| `(close)`                                                                 | `(event: Select2) => void`                                                                                                     | event    |                      | triggered when user close the options                                                                                   |                                      |
-| `(focus)`                                                                 | `(event: Select2) => void`                                                                                                     | event    |                      | triggered when user enters the component                                                                                |                                      |
-| `(blur)`                                                                  | `(event: Select2) => void`                                                                                                     | event    |                      | triggered when user leaves the component                                                                                |                                      |
-| `(search)`                                                                | `(event: `[`Select2SearchEvent`](#select2-data-structure)`) => void`                                                           | event    |                      | triggered when search text changed                                                                                      | with `customSearchEnabled`           |
-| `(scroll)`                                                                | `(event: `[`Select2ScrollEvent`](#select2-data-structure)`) => void`                                                           | event    |                      | triggered when infiniteScroll is on `up` or `down` position                                                             | with `ngx-infinite-scroll`           |
-| `(removeOption)`                                                          | `(event: `[`Select2RemoveEvent`](#select2-data-structure)`) => void`                                                           | event    |                      | triggered when an option is removed from the list of selected options options list                                      | with `multiple`                      |
-| `(autoCreateItem)`                                                        | `(event: `[`Select2AutoCreateEvent`](#select2-data-structure)`) => void`                                                       | event    |                      | triggered when a new item has been added                                                                                | with `autoCreate`                    |
-
-    @Input() selectionOverride: Select2SelectionOverride;
-
-    /** force selection on one line */
-    @HostBinding('class.select2-selection-nowrap')
-    @Input({ transform: booleanAttribute })
-    selectionNoWrap = false;
+| name                                                                      | type                                                                                                 | default              | description                                                                                                             | required                        |
+| ------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------- | -------------------- | ----------------------------------------------------------------------------------------------------------------------- | ------------------------------- |
+| `data` (required)                                                         | [`Select2Data`](#select2-data-structure)                                                             |                      | the data of the select2                                                                                                 |                                 |
+| `value`                                                                   | [`Select2Value`](#select2-data-structure)                                                            |                      | initial value                                                                                                           |                                 |
+| `minCharForSearch`                                                        | `number`                                                                                             | `0`                  | start the search when the number of characters is reached (`0` = unlimited)                                             |                                 |
+| `minCountForSearch`                                                       | `number`                                                                                             | `6`                  | hide search box if `options.length < minCountForSearch`                                                                 |                                 |
+| `displaySearchStatus`                                                     | `'default'`<br>`'hidden'`<br>`'always'`                                                              | `'default'`          | display the search box (`default` : is based on `minCountForSearch`)                                                    |                                 |
+| `placeholder`                                                             | `string`                                                                                             |                      | the placeholder string if nothing selected                                                                              |                                 |
+| `noResultMessage`                                                         | `string`                                                                                             |                      | the message string if no results when using the search field                                                            |                                 |
+| `customSearchEnabled`                                                     | `boolean`                                                                                            | `false`              | will trigger `search` event, and disable inside filter                                                                  |                                 |
+| `multiple`                                                                | `boolean`                                                                                            | `false`              | select multiple options                                                                                                 |                                 |
+| `resettable`                                                              | `boolean`                                                                                            | `false`              | add a button to reset value                                                                                             |                                 |
+| `resetSelectedValue`                                                      | `any`                                                                                                | `undefined`          | selected option when × is clicked                                                                                       |                                 |
+| `autoCreate`                                                              | `boolean`                                                                                            | `false`              | gives the possibility to add elements not present in the list.                                                          |                                 |
+| `limitSelection`                                                          | `number`                                                                                             | `0`                  | to limit multiple selection (`0` = unlimited)                                                                           |                                 |
+| `hideSelectedItems`                                                       | `boolean`                                                                                            | `false`              | remove selected values                                                                                                  | with `multiple`                 |
+| `resultMaxHeight`                                                         | `string`                                                                                             | `'200px'`            | change the height size of results                                                                                       |                                 |
+| `maxResults`                                                              | `number`                                                                                             | `0`                  | maximum results limit (`0` = unlimited)                                                                                 |                                 |
+| `maxResultsMessage`                                                       | `string`                                                                                             | `'Too much result…'` | message when maximum result                                                                                             |                                 |
+| `grid`                                                                    | `number` or `string`                                                                                 |                      | option by line in grid layout (empty or `0` = no grid layout)<br>`number`: item by line<br>`string`: minimal item width |                                 |
+| `listPosition`                                                            | `'below'`<br>`'above'`<br>`'auto'` ¹                                                                 | `'below'`            | the position for the dropdown list                                                                                      | ¹ `'auto'`: only with `overlay` |
+| `infiniteScroll`                                                          | `boolean`                                                                                            | `false`              | active infiniteScroll on dropdown list                                                                                  | with `ngx-infinite-scroll`      |
+| `infiniteScrollDistance`                                                  | `number`                                                                                             | `1.5`                | infiniteScroll distance                                                                                                 | with `ngx-infinite-scroll`      |
+| `infiniteScrollThrottle`                                                  | `number`                                                                                             | `150`                | infiniteScroll throttle                                                                                                 |                                 |
+| `overlay`                                                                 | `boolean`                                                                                            | `false`              | active an overlay mode for dropdown list (with angular cdk). (See [Overlay](#overlay))                                  |                                 |
+| `styleMode`                                                               | `'default'`<br>`'material'`<br>`'noStyle'`<br>`'borderless'`                                         | `'default'`          | change style for material style or remove border and background color                                                   |                                 |
+| `templates`                                                               | [`Select2Template`](#select2-data-structure)<br>(see ”possible object” in [Templating](#templating)) |                      | use templates for formatting content (see [Templating](#templating))                                                    |                                 |
+| `templateSelection`                                                       | `TemplateRef`                                                                                        |                      | use templates for formatting content (see [Templating](#templating))                                                    |                                 |
+| `noLabelTemplate`                                                         | `boolean`                                                                                            | `false`              | do not use the template in the selection, stay in text mode                                                             |                                 |
+| `selectionOverride`                                                       | [`Select2SelectionOverride`](#select2-data-structure)                                                |                      | Replace selection by a text<br>`string`: `%size%` = total selected options<br>`function`: juste show the string         |                                 |
+| `selectionNoWrap`                                                         | `boolean`                                                                                            | `false`              | Force selection on one line                                                                                             |                                 |
+| `showSelectAll`                                                           | `boolean`                                                                                            | `false`              | Add an option to select all options                                                                                     | with `multiple`                 |
+| `selectAllText`                                                           | `string`                                                                                             | `'Select all'`       | Text when all options as not selected                                                                                   | with `multiple`                 |
+| `removeAllText`                                                           | `string`                                                                                             | `'Remove all'`       | Text when all options as selected                                                                                       | with `multiple`                 |
+| `editPattern`                                                             | `(str: string) => string`                                                                            |                      | use it for change the pattern of the filter search                                                                      |                                 |
+| `ngModel`<br>`id`<br>`required`<br>`disabled`<br>`readonly`<br>`tabIndex` |                                                                                                      |                      | just like a `select` control                                                                                            |                                 |
+| `(update)`                                                                | `(event: `[`Select2UpdateEvent`](#select2-data-structure)`) => void`                                 |                      | triggered when user select an option                                                                                    |                                 |
+| `(open)`                                                                  | `(event: Select2) => void`                                                                           |                      | triggered when user open the options                                                                                    |                                 |
+| `(close)`                                                                 | `(event: Select2) => void`                                                                           |                      | triggered when user close the options                                                                                   |                                 |
+| `(focus)`                                                                 | `(event: Select2) => void`                                                                           |                      | triggered when user enters the component                                                                                |                                 |
+| `(blur)`                                                                  | `(event: Select2) => void`                                                                           |                      | triggered when user leaves the component                                                                                |                                 |
+| `(search)`                                                                | `(event: `[`Select2SearchEvent`](#select2-data-structure)`) => void`                                 |                      | triggered when search text changed                                                                                      | with `customSearchEnabled`      |
+| `(scroll)`                                                                | `(event: `[`Select2ScrollEvent`](#select2-data-structure)`) => void`                                 |                      | triggered when infiniteScroll is on `up` or `down` position                                                             | with `ngx-infinite-scroll`      |
+| `(removeOption)`                                                          | `(event: `[`Select2RemoveEvent`](#select2-data-structure)`) => void`                                 |                      | triggered when an option is removed from the list of selected options options list                                      | with `multiple`                 |
+| `(autoCreateItem)`                                                        | `(event: `[`Select2AutoCreateEvent`](#select2-data-structure)`) => void`                             |                      | triggered when a new item has been added                                                                                | with `autoCreate`               |
 
 ### select2 data structure
 
@@ -145,7 +139,7 @@ export interface Select2Group {
     options: Select2Option[];
     /** add classes  */
     classes?: string;
-    /** template id  */
+    /** template id dropdown & selection if no templateSelectionId */
     templateId?: string;
     /** template data  */
     data?: any;
@@ -162,17 +156,19 @@ export interface Select2Option {
     id?: string;
     /** add classes  */
     classes?: string;
-    /** template id  */
+    /** template id dropdown & selection if no templateSelectionId */
     templateId?: string;
+    /** template id for selection */
+    templateSelectionId?: string;
     /** template data  */
     data?: any;
     /** hide this option */
     hide?: boolean;
 }
 
-export type Select2Value = string | number | boolean | object;
+export type Select2Value = string | number | boolean | object | null | undefined;
 
-export type Select2UpdateValue = Select2Value | Select2Value[];
+export type Select2UpdateValue = Select2Value | Select2Value[] | undefined | null;
 
 export type Select2Data = (Select2Group | Select2Option)[];
 
@@ -180,9 +176,9 @@ export interface Select2UpdateEvent<U extends Select2UpdateValue = Select2Value>
     /** component */
     readonly component: Select2;
     /** current selected value */
-    readonly value: U;
+    readonly value: U | null;
     /** selected option */
-    readonly options: Select2Option[];
+    readonly options: Select2Option[] | null;
 }
 
 export interface Select2AutoCreateEvent<U extends Select2UpdateValue = Select2Value> {
@@ -191,14 +187,14 @@ export interface Select2AutoCreateEvent<U extends Select2UpdateValue = Select2Va
     /** current selected value */
     readonly value: U;
     /** selected option */
-    readonly options: Select2Option[];
+    readonly options: Select2Option[] | null;
 }
 
 export interface Select2SearchEvent<U extends Select2UpdateValue = Select2Value> {
     /** component */
     readonly component: Select2;
     /** current selected value */
-    readonly value: U;
+    readonly value: U | null;
     /** search text */
     readonly search: string;
     /** current data source */
@@ -228,6 +224,8 @@ export interface Select2ScrollEvent {
 }
 
 export type Select2SelectionOverride = string | ((params: { size: number; options: Select2Option[] | null }) => string);
+
+export type Select2Template = TemplateRef<any> | { [key: string]: TemplateRef<any> } | undefined;
 ```
 
 ### Templating
@@ -291,6 +289,14 @@ const data: Select2Data = [
         templateId: 'template2',
     },
 ];
+```
+
+#### Template for change the selection
+
+```html
+<select2 [data]="data" [templateSelection]="templateSelection">
+    <ng-template #templateSelection let-data="data"><strong>{{ data?.color }}</strong> ({{ data?.name }})</ng-template>
+</select2>
 ```
 
 #### Possible object
