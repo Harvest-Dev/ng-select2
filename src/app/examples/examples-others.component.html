@@ -5,9 +5,9 @@
     <h3 class="col-12" id="ex-31">{{ 'Change list' | transloco }}</h3>
     <div class="col-6">
       <select #select31 (change)="changeData31(select31.value)">
-        <option>{{ 'english' | transloco }}</option>
-        <option>{{ 'french' | transloco }}</option>
-        <option>{{ 'japanese' | transloco }}</option>
+        <option value="english">{{ 'english' | transloco }}</option>
+        <option value="french">{{ 'french' | transloco }}</option>
+        <option value="japanese">{{ 'japanese' | transloco }}</option>
       </select>
 
       <div>{{ 'Single value:' | transloco }}</div>
