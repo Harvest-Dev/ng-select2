@@ -1,5 +1,9 @@
 # Changelog of ng-select2
 
+## V17.1.0 (2024-12-26)
+
+- Add attribute `multipleDrag`: drag'n drop list of items in selection
+
 ## V17.0.0 (2024-12-23)
 
 ### Changes

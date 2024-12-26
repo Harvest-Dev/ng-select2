@@ -25,9 +25,9 @@ npm i ng-select2-component --save
 
 | Version   | For **Angular** | Notes             |
 | --------- | --------------- | ----------------- |
-| `17.0.0`  | 19 and more     | Ivy / Stand-alone |
+| `17.1.0`  | 19 and more     | Ivy / Stand-alone |
 | `16.0.0`  | 19              | Ivy / Module      |
-| `15.3.0`  | 18              | Ivy               |
+| `15.4.0`  | 18              | Ivy               |
 | `14.0.1`  | 17              | Ivy               |
 | `13.0.12` | 16.1            | Ivy               |
 | `12.1.0`  | 16              | Ivy               |
