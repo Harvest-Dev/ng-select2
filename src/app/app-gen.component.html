@@ -91,6 +91,10 @@
     </div>
     @if (ctrlForm.value?.multiple) {
       <div>
+        <label for="multipleDrag">multipleDrag</label>
+        <input type="checkbox" formControlName="multipleDrag" id="multipleDrag" />
+      </div>
+      <div>
         <label for="hideSelectedItems">hideSelectedItems</label>
         <input type="checkbox" formControlName="hideSelectedItems" id="hideSelectedItems" />
       </div>
@@ -259,6 +263,7 @@
           [placeholder]="value?.placeholder"
           [customSearchEnabled]="value?.search"
           [multiple]="value?.multiple"
+          [multipleDrag]="value?.multipleDrag"
           [resettable]="value?.resettable"
           [resetSelectedValue]="value?.resetSelectedValue"
           [autoCreate]="value?.autoCreate"

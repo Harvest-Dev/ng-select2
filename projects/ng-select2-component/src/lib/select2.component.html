@@ -48,8 +48,10 @@
         <span class="select2-selection__override" [innerHTML]="_selectionOverrideLabel()"></span>
 
         @if (
-            resettable() && !(disabled() || readonly()) && resetSelectedValue() !== _value &&
-            ((!multiple() && select2Option) || (multiple() && select2Options.length > 0))
+          resettable() &&
+          !(disabled() || readonly()) &&
+          resetSelectedValue() !== _value &&
+          ((!multiple() && select2Option) || (multiple() && select2Options.length > 0))
         ) {
           <ng-container *ngTemplateOutlet="resetButton"></ng-container>
         }
@@ -67,17 +69,25 @@
               ></ng-container>
             }
           }
-          <span [class.select2-selection__placeholder__option]="selectedOption" class="select2-selection__placeholder">{{
-            placeholder()
-          }}</span>
+          <span
+            [class.select2-selection__placeholder__option]="selectedOption"
+            class="select2-selection__placeholder"
+            >{{ placeholder() }}</span
+          >
         </span>
 
         @if (resettable() && resetSelectedValue() !== _value && select2Option && !(disabled() || readonly())) {
-            <ng-container *ngTemplateOutlet="resetButton"></ng-container>
+          <ng-container *ngTemplateOutlet="resetButton"></ng-container>
         }
         <span class="select2-selection__arrow" role="presentation"> </span>
       } @else {
-        <ul class="select2-selection__rendered">
+        <ul
+          class="select2-selection__rendered"
+          cdkDropList
+          cdkDropListOrientation="mixed"
+          [cdkDropListDisabled]="!multipleDrag()"
+          (cdkDropListDropped)="drop($event)"
+        >
           @if (!autoCreate()) {
             <span
               [class.select2-selection__placeholder__option]="select2Options.length > 0"
@@ -92,6 +102,8 @@
               tabindex="0"
               (focus)="_updateFocusState(true)"
               (keydown.enter)="removeSelection($event, op)"
+              cdkDrag
+
             >
               @if (!(disabled() || readonly())) {
                 <span
@@ -129,7 +141,7 @@
           }
         </ul>
         @if (resettable() && $any(selectedOption)?.length > 0 && !(disabled() || readonly())) {
-            <ng-container *ngTemplateOutlet="resetButton"></ng-container>
+          <ng-container *ngTemplateOutlet="resetButton"></ng-container>
         }
       }
     </div>
@@ -218,7 +230,6 @@
           (scrolled)="onScroll('down')"
           (scrolledUp)="onScroll('up')"
           (keydown)="keyDown($event)"
-
         >
           @if (showSelectAll() && multiple()) {
             <li class="select2-results__option select2-selectall" (click)="selectAll()" tabindex="1" aria-selected>
@@ -233,18 +244,20 @@
             @if (group.options !== undefined) {
               <li class="select2-results__option select2-results__group">
                 <span [id]="getElementId(groupOrOption)">
-                    @if (!hasTemplate(group, 'group')) {
+                  @if (!hasTemplate(group, 'group')) {
                     <strong
-                        [attr.class]="'select2-results__group' + (group.classes ? ' ' + group.classes : '')"
-                        [innerHTML]="group.label"
+                      [attr.class]="'select2-results__group' + (group.classes ? ' ' + group.classes : '')"
+                      [innerHTML]="group.label"
                     ></strong>
-                    } @else {
+                  } @else {
                     <ng-container *ngTemplateOutlet="getTemplate(group, 'group'); context: group"> </ng-container>
-                    }
+                  }
                 </span>
-                <ul class="select2-results__options select2-results__options--nested"
-                    role="group"
-                    [attr.aria-labelledby]="getElementId(groupOrOption)">
+                <ul
+                  class="select2-results__options select2-results__options--nested"
+                  role="group"
+                  [attr.aria-labelledby]="getElementId(groupOrOption)"
+                >
                   @for (option of group.options; track option; let j = $index) {
                     <li
                       #result
@@ -303,15 +316,15 @@
 </ng-template>
 
 <ng-template #resetButton>
-    <button
-        type="button"
-        (focus)="_updateFocusState(true)"
-        (click)="reset($event)"
-        (keydown)="$event.stopPropagation()"
-        class="select2-selection__reset"
-        [attr.aria-description]="ariaResetButtonDescription()"
-        [attr.aria-controls]="idCombo()"
-    >
-        <span aria-hidden="true">×</span>
-    </button>
+  <button
+    type="button"
+    (focus)="_updateFocusState(true)"
+    (click)="reset($event)"
+    (keydown)="$event.stopPropagation()"
+    class="select2-selection__reset"
+    [attr.aria-description]="ariaResetButtonDescription()"
+    [attr.aria-controls]="idCombo()"
+  >
+    <span aria-hidden="true">×</span>
+  </button>
 </ng-template>

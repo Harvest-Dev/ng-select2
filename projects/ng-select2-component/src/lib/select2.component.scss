@@ -70,6 +70,7 @@
                 }
             }
         }
+
     }
 
     .select2-search--inline {
@@ -357,6 +358,10 @@
             background: var(--select2-selection-choice-background, #e4e4e4);
             padding: 0 5px;
             color: var(--select2-selection-choice-text-color, #000);
+
+            &.cdk-drag:not(.cdk-drag-disabled) {
+                cursor: move;
+            }
         }
 
         .select2-selection__choice__remove {

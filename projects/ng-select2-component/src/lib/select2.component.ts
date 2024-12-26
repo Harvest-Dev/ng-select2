@@ -1,3 +1,4 @@
+import { CdkDrag, CdkDragDrop, CdkDropList, moveItemInArray } from '@angular/cdk/drag-drop';
 import {
     CdkConnectedOverlay,
     CdkOverlayOrigin,
@@ -67,7 +68,7 @@ const CLOSE_KEYS: (string | KeyInfo)[] = ['Escape', 'Tab', { key: 'ArrowUp', alt
     selector: 'select2, ng-select2',
     templateUrl: './select2.component.html',
     styleUrls: ['./select2.component.scss'],
-    imports: [CdkOverlayOrigin, NgTemplateOutlet, CdkConnectedOverlay, InfiniteScrollDirective],
+    imports: [CdkOverlayOrigin, NgTemplateOutlet, CdkConnectedOverlay, InfiniteScrollDirective, CdkDropList, CdkDrag],
     host: {
         '[id]': 'id()',
         '[class.select2-selection-nowrap]': 'selectionNoWrap()',
@@ -99,8 +100,11 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
     /** overlay with CDK Angular position */
     readonly overlay = input(false, { transform: booleanAttribute });
 
-    /** use the material style */
+    /** select one or more item */
     readonly multiple = input(false, { transform: booleanAttribute });
+
+    /** drag'n drop list of items in multiple */
+    readonly multipleDrag = input(false, { transform: booleanAttribute });
 
     /** use the material style */
     readonly styleMode = input<'material' | 'noStyle' | 'borderless' | 'default'>('default');
@@ -925,15 +929,7 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
         if (emit) {
             this.writeValue(value);
             setTimeout(() => {
-                this.update.emit({
-                    component: this,
-                    value: value,
-                    options: Array.isArray(this.selectedOption)
-                        ? this.selectedOption
-                        : this.selectedOption
-                          ? [this.selectedOption]
-                          : null,
-                });
+                this.updateEvent(value);
             });
         }
     }
@@ -1031,15 +1027,7 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
             this._value = value ?? null;
         }
 
-        this.update.emit({
-            component: this,
-            value: value,
-            options: Array.isArray(this.selectedOption)
-                ? this.selectedOption
-                : this.selectedOption
-                  ? [this.selectedOption]
-                  : null,
-        });
+        this.updateEvent(value);
         this.removeOption.emit({
             component: this,
             value: value,
@@ -1108,6 +1096,16 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
         });
     }
 
+    drop(event: CdkDragDrop<string[], string[], any>) {
+        if (Array.isArray(this.selectedOption)) {
+            moveItemInArray(this.selectedOption, event.previousIndex, event.currentIndex);
+            const value = this.selectedOption.map(e => e.value);
+            this.writeValue(value);
+            this._value = value;
+            this.updateEvent(value);
+        }
+    }
+
     _isErrorState(): boolean {
         const isInvalid = this._control?.invalid;
         const isTouched = this._control?.touched;
@@ -1165,6 +1163,18 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
 
     _toOption(option: Select2Option | Select2Group) {
         return option as Select2Option;
+    }
+
+    private updateEvent(value: Select2UpdateValue) {
+        this.update.emit({
+            component: this,
+            value: value,
+            options: Array.isArray(this.selectedOption)
+                ? this.selectedOption
+                : this.selectedOption
+                  ? [this.selectedOption]
+                  : null,
+        });
     }
 
     private optionsSize() {
@@ -1277,15 +1287,7 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
                         this._value ??= value;
 
                         if (this.testDiffValue(this._value, value)) {
-                            this.update.emit({
-                                component: this,
-                                value: value,
-                                options: Array.isArray(this.selectedOption)
-                                    ? this.selectedOption
-                                    : this.selectedOption
-                                      ? [this.selectedOption]
-                                      : null,
-                            });
+                            this.updateEvent(value);
                         }
                     } else if (value === null) {
                         // fix if value is null
@@ -1295,15 +1297,7 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
 
                         if (this.testDiffValue(this._value, value)) {
                             this._value = [];
-                            this.update.emit({
-                                component: this,
-                                value: this._value,
-                                options: Array.isArray(this.selectedOption)
-                                    ? this.selectedOption
-                                    : this.selectedOption
-                                      ? [this.selectedOption]
-                                      : null,
-                            });
+                            this.updateEvent(this._value);
                         }
                     }
                 } else {

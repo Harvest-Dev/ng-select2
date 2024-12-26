@@ -120,6 +120,9 @@
   "Update to empty/null/undefined": "Mise à jour vers vide/null/indéfini",
   "Update value to empty “string”": "Mise à jour de la valeur vers une “string” vide",
   "Update value to “null”": "Mise à jour de la valeur vers “null”",
-  "Update value to “undefined”": "Mise à jour de la valeur vers “undefined”"
+  "Update value to “undefined”": "Mise à jour de la valeur vers “undefined”",
+
+  "Multiple drag selection": "Sélection multiple par glissement",
+  "Multiple selection with sortable selection": "Sélection multiple avec sélection triable"
 }
 

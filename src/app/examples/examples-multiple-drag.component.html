@@ -1,0 +1,22 @@
+<h2>{{ 'Multiple drag selection' | transloco }}</h2>
+
+<div class="container">
+  <div class="row">
+    <h3 class="col-12" id="ex-10a">{{ 'Multiple selection with drag selection' | transloco }}</h3>
+    <select2
+      class="col-6"
+      [overlay]="overlay"
+      [styleMode]="styleMode"
+      [data]="data10a"
+      [value]="value10a"
+      multiple
+      multipleDrag
+      (update)="update('value10a', $event)"
+      id="select2-10a"
+    ></select2>
+    <div class="col-12 value">
+      <span>{{ 'value:' | transloco }}</span
+      ><code>{{ value10a | json }}</code>
+    </div>
+  </div>
+</div>

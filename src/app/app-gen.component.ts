@@ -1,24 +1,27 @@
 import { AfterContentInit, Component, TemplateRef } from '@angular/core';
-import {
-    FormsModule,
-    ReactiveFormsModule,
-    UntypedFormBuilder,
-    UntypedFormControl,
-    UntypedFormGroup,
-} from '@angular/forms';
+import { FormsModule, ReactiveFormsModule, UntypedFormBuilder, UntypedFormControl, UntypedFormGroup } from '@angular/forms';
+
+
 
 import { Json2html, Json2htmlAttr, Json2htmlRef } from '@ikilote/json2html';
 import { TranslocoModule } from '@jsverse/transloco';
+
+
 
 import * as Bowser from 'bowser';
 import { Highlight } from 'ngx-highlightjs';
 import { Select2SelectionOverride } from 'projects/ng-select2-component/src/public_api';
 
+
+
 import { data24 } from './app.data';
+
+
 
 import { Select2Hint } from '../../projects/ng-select2-component/src/lib/select2-hint.component';
 import { Select2Label } from '../../projects/ng-select2-component/src/lib/select2-label.component';
 import { Select2 } from '../../projects/ng-select2-component/src/lib/select2.component';
+
 
 @Component({
     selector: 'app-gen',
@@ -51,6 +54,7 @@ export class AppGenComponent implements AfterContentInit {
             displaySearchStatus: new UntypedFormControl(),
             placeholder: new UntypedFormControl(),
             multiple: new UntypedFormControl(),
+            multipleDrag: new UntypedFormControl(),
             autoCreate: new UntypedFormControl(),
             resettable: new UntypedFormControl(),
             resetSelectedValue: new UntypedFormControl(),
@@ -239,13 +243,27 @@ export class AppGenComponent implements AfterContentInit {
         }
         if (value.multiple) {
             attrs['multiple'] = this._testBoolean(value.multiple);
-        } else {
-            if (value.resettable) {
-                attrs['resettable'] = this._testBoolean(value.resettable);
+
+            if (value.multipleDrag) {
+                attrs['multipleDrag'] = this._testBoolean(value.multipleDrag);
             }
+            if (value.showSelectAll) {
+                attrs['showSelectAll'] = this._testBoolean(value.showSelectAll);
+
+                if (value.removeAllText) {
+                    attrs['removeAllText'] = this._testBoolean(value.removeAllText);
+                }
+                if (value.removeAllText) {
+                    attrs['selectAllText'] = this._testBoolean(value.selectAllText);
+                }
+            }
+        } else {
             if (value.resetSelectedValue) {
                 attrs['resetSelectedValue'] = value.resetSelectedValue;
             }
+        }
+        if (value.resettable) {
+            attrs['resettable'] = this._testBoolean(value.resettable);
         }
         if (value.autoCreate) {
             attrs['autoCreate'] = this._testBoolean(value.autoCreate);
@@ -299,16 +317,6 @@ export class AppGenComponent implements AfterContentInit {
         }
         if (value.selectionNoWrap) {
             attrs['selectionNoWrap'] = this._testBoolean(value.selectionNoWrap);
-        }
-        if (value.showSelectAll) {
-            attrs['showSelectAll'] = this._testBoolean(value.showSelectAll);
-
-            if (value.removeAllText) {
-                attrs['removeAllText'] = this._testBoolean(value.removeAllText);
-            }
-            if (value.removeAllText) {
-                attrs['selectAllText'] = this._testBoolean(value.selectAllText);
-            }
         }
 
         // template

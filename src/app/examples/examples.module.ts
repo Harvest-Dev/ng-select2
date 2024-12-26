@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-
 const routes: Routes = [
     {
         path: '',
@@ -18,6 +17,11 @@ const routes: Routes = [
             {
                 path: 'multiple',
                 loadComponent: () => import('./examples-multiple.component').then(m => m.ExemplesMultipleComponent),
+            },
+            {
+                path: 'multiple-drag',
+                loadComponent: () =>
+                    import('./examples-multiple-drag.component').then(m => m.ExemplesMultipleDragComponent),
             },
             {
                 path: 'limits',
