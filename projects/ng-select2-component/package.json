@@ -1,6 +1,6 @@
 {
   "name": "ng-select2-component",
-  "version": "17.1.0",
+  "version": "17.1.1",
   "description": "An Angular select2 component.",
   "author": "York Yao, Célian Veyssière",
   "license": "MIT",
@@ -22,10 +22,13 @@
   "bugs": {
     "url": "https://github.com/Harvest-Dev/ng-select2/issues"
   },
-  "homepage": "https://github.com/Harvest-Dev/ng-select2#readme",
+  "homepage": "https://harvest-dev.github.io/ng-select2/dist/ng-select2/browser/#/",
   "keywords": [
     "typescript",
     "angular",
-    "select2"
+    "select2",
+    "ng-select2",
+    "ng-select",
+    "select"
   ]
 }

@@ -1,6 +1,14 @@
 # Changelog of ng-select2
 
+## V17.1.1 (2025-02-04)
+
+### Change
+
+- Fix value when switching between single and multiple
+
 ## V17.1.0 (2024-12-26)
+
+### Change
 
 - Add attribute `multipleDrag`: drag'n drop list of items in selection
 
