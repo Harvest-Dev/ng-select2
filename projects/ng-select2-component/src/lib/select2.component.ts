@@ -501,13 +501,33 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
                 this.overlayHeight !== this._dropdownRect.height
             ) {
                 this.overlayHeight = this.listPosition() === 'auto' ? this._dropdownRect.height : 0;
-                this._changeDetectorRef.detectChanges();
+                this.fixValue();
             }
         }
     }
 
     ngOnDestroy(): void {
         this.toObservable.unsubscribe();
+    }
+
+    fixValue() {
+        if (!Array.isArray(this.selectedOption) && this.multiple()) {
+            const selectedOption = this.selectedOption;
+            this.selectedOption = [];
+            setTimeout(() => {
+                this.select(selectedOption);
+                this._changeDetectorRef.detectChanges();
+            });
+        } else if (Array.isArray(this.selectedOption) && !this.multiple()) {
+            const selectedOption = this.selectedOption[0];
+            this.selectedOption = null;
+            setTimeout(() => {
+                this.select(selectedOption);
+                this._changeDetectorRef.detectChanges();
+            });
+        } else {
+            this._changeDetectorRef.detectChanges();
+        }
     }
 
     updateSearchBox() {
@@ -881,7 +901,7 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
         }
     }
 
-    select(option: Select2Option | null, emit: boolean = true) {
+    select(option: Select2Option | null, emit: boolean = true, erase: boolean = false) {
         let value: any;
 
         if (option !== null && option !== undefined) {

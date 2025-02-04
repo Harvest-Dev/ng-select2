@@ -253,6 +253,7 @@
       @if (ctrlForm.value) {
         @let value = ctrlForm.value;
         <select2
+          [(ngModel)]="ngModel"
           [data]="data"
           [overlay]="value?.overlay"
           [disabled]="value?.disabled"
@@ -339,6 +340,8 @@
           </ng-template>
         </select2>
       }
+
+      <p>value : {{ ngModel | json }}</p>
 
       <h4>{{ 'HTML Code' | transloco }}</h4>
 

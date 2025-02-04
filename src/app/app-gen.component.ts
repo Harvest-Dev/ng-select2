@@ -1,38 +1,47 @@
+import { JsonPipe } from '@angular/common';
 import { AfterContentInit, Component, TemplateRef } from '@angular/core';
-import { FormsModule, ReactiveFormsModule, UntypedFormBuilder, UntypedFormControl, UntypedFormGroup } from '@angular/forms';
-
-
+import {
+    FormsModule,
+    ReactiveFormsModule,
+    UntypedFormBuilder,
+    UntypedFormControl,
+    UntypedFormGroup,
+} from '@angular/forms';
 
 import { Json2html, Json2htmlAttr, Json2htmlRef } from '@ikilote/json2html';
 import { TranslocoModule } from '@jsverse/transloco';
 
-
-
 import * as Bowser from 'bowser';
 import { Highlight } from 'ngx-highlightjs';
-import { Select2SelectionOverride } from 'projects/ng-select2-component/src/public_api';
-
-
+import { Select2SelectionOverride, Select2Value } from 'projects/ng-select2-component/src/public_api';
 
 import { data24 } from './app.data';
-
-
 
 import { Select2Hint } from '../../projects/ng-select2-component/src/lib/select2-hint.component';
 import { Select2Label } from '../../projects/ng-select2-component/src/lib/select2-label.component';
 import { Select2 } from '../../projects/ng-select2-component/src/lib/select2.component';
 
-
 @Component({
     selector: 'app-gen',
     templateUrl: './app-gen.component.html',
     styleUrls: ['./app-gen.component.scss'],
-    imports: [FormsModule, ReactiveFormsModule, Select2, Select2Label, Select2Hint, Highlight, TranslocoModule],
+    imports: [
+        FormsModule,
+        ReactiveFormsModule,
+        Select2,
+        Select2Label,
+        Select2Hint,
+        Highlight,
+        TranslocoModule,
+        JsonPipe,
+    ],
 })
 export class AppGenComponent implements AfterContentInit {
     data = data24;
 
     html = '';
+
+    ngModel: Select2Value;
 
     jsonError: string | undefined;
 
