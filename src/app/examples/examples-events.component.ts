@@ -20,6 +20,7 @@ import { data8 } from '../app.data';
     selector: 'examples-events',
     templateUrl: './examples-events.component.html',
     styleUrls: ['./examples-events.component.scss'],
+    standalone: true,
     imports: [FormsModule, ReactiveFormsModule, Select2, JsonPipe, TranslocoModule],
 })
 export class ExemplesEventsComponent extends Examples {

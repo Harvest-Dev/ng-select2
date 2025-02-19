@@ -12,6 +12,7 @@ import { data3 } from '../app.data';
     selector: 'examples-wai',
     templateUrl: './examples-wai.component.html',
     styleUrls: ['./examples-wai.component.scss'],
+    standalone: true,
     imports: [Select2, Select2Label, TranslocoModule],
 })
 export class ExemplesWaiComponent extends Examples {

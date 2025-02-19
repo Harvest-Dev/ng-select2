@@ -14,6 +14,7 @@ import { data1 } from '../app.data';
     selector: 'examples-multiple-drag',
     templateUrl: './examples-multiple-drag.component.html',
     styleUrls: ['./examples-multiple-drag.component.scss'],
+    standalone: true,
     imports: [FormsModule, ReactiveFormsModule, Select2, JsonPipe, TranslocoModule],
 })
 export class ExemplesMultipleDragComponent extends Examples {

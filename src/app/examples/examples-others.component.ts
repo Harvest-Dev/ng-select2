@@ -14,6 +14,7 @@ import { data19, data31en, data31fr, data31ja } from '../app.data';
     selector: 'examples-others',
     templateUrl: './examples-others.component.html',
     styleUrls: ['./examples-others.component.scss'],
+    standalone: true,
     imports: [FormsModule, ReactiveFormsModule, Select2, JsonPipe, TranslocoModule],
 })
 export class ExemplesOthersComponent extends Examples {

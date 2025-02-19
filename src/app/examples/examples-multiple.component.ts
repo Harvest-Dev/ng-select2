@@ -14,6 +14,7 @@ import { data1 } from '../app.data';
     selector: 'examples-multiple',
     templateUrl: './examples-multiple.component.html',
     styleUrls: ['./examples-multiple.component.scss'],
+    standalone: true,
     imports: [FormsModule, ReactiveFormsModule, Select2, JsonPipe, TranslocoModule],
 })
 export class ExemplesMultipleComponent extends Examples {

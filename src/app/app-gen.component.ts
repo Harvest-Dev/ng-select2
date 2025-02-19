@@ -25,6 +25,7 @@ import { Select2 } from '../../projects/ng-select2-component/src/lib/select2.com
     selector: 'app-gen',
     templateUrl: './app-gen.component.html',
     styleUrls: ['./app-gen.component.scss'],
+    standalone: true,
     imports: [
         FormsModule,
         ReactiveFormsModule,

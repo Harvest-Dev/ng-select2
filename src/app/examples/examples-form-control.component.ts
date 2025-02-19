@@ -21,6 +21,7 @@ import { data1 } from '../app.data';
     selector: 'examples-form-control',
     templateUrl: './examples-form-control.component.html',
     styleUrls: ['./examples-form-control.component.scss'],
+    standalone: true,
     imports: [FormsModule, ReactiveFormsModule, Select2, JsonPipe, TranslocoModule],
 })
 export class ExemplesFormControlComponent extends Examples {
