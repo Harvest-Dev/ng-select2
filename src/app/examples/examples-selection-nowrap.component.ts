@@ -14,6 +14,7 @@ import { data1 } from '../app.data';
     selector: 'examples-selection-nowrap',
     templateUrl: './examples-selection-nowrap.component.html',
     styleUrls: ['./examples-selection-nowrap.component.scss'],
+    standalone: true,
     imports: [FormsModule, Select2, JsonPipe, TranslocoModule],
 })
 export class ExemplesSelectionNowrapComponent extends Examples {

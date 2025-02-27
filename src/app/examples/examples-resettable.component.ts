@@ -13,6 +13,7 @@ import { data1 } from '../app.data';
     selector: 'examples-resettable',
     templateUrl: './examples-resettable.component.html',
     styleUrls: ['./examples-resettable.component.scss'],
+    standalone: true,
     imports: [Select2, JsonPipe, TranslocoModule],
 })
 export class ExemplesResettableComponent extends Examples {

@@ -68,6 +68,7 @@ const CLOSE_KEYS: (string | KeyInfo)[] = ['Escape', 'Tab', { key: 'ArrowUp', alt
     selector: 'select2, ng-select2',
     templateUrl: './select2.component.html',
     styleUrls: ['./select2.component.scss'],
+    standalone: true,
     imports: [CdkOverlayOrigin, NgTemplateOutlet, CdkConnectedOverlay, InfiniteScrollDirective, CdkDropList, CdkDrag],
     host: {
         '[id]': 'id()',

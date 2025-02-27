@@ -14,6 +14,7 @@ import { data2 } from '../app.data';
     selector: 'examples-tags',
     templateUrl: './examples-tags.component.html',
     styleUrls: ['./examples-tags.component.scss'],
+    standalone: true,
     imports: [FormsModule, ReactiveFormsModule, Select2, Select2Label, Select2Hint, JsonPipe, TranslocoModule],
 })
 export class ExemplesTagsComponent extends Examples {

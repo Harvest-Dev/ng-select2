@@ -13,6 +13,7 @@ import { data1, data2, data3, data13 } from '../app.data';
     selector: 'examples-basic',
     templateUrl: './examples-basic.component.html',
     styleUrls: ['./examples-basic.component.scss'],
+    standalone: true,
     imports: [Select2, JsonPipe, TranslocoModule],
 })
 export class ExemplesBasicComponent extends Examples {

@@ -2,11 +2,7 @@ import { JsonPipe } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
-
-
 import { TranslocoModule } from '@jsverse/transloco';
-
-
 
 import { Select2, Select2SelectionOverride } from 'projects/ng-select2-component/src/public_api';
 
@@ -18,6 +14,7 @@ import { data1 } from '../app.data';
     selector: 'examples-selection-override',
     templateUrl: './examples-selection-override.component.html',
     styleUrls: ['./examples-selection-override.component.scss'],
+    standalone: true,
     imports: [FormsModule, Select2, JsonPipe, TranslocoModule],
 })
 export class ExemplesSelectionOverrideComponent extends Examples {

@@ -13,6 +13,7 @@ import { data1, data3 } from '../app.data';
     selector: 'examples-auto-create',
     templateUrl: './examples-auto-create.component.html',
     styleUrls: ['./examples-auto-create.component.scss'],
+    standalone: true,
     imports: [Select2, JsonPipe, TranslocoModule],
 })
 export class ExemplesAutoCreateComponent extends Examples {

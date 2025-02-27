@@ -13,6 +13,7 @@ import { data26 } from '../app.data';
     selector: 'examples-infinite-scroll',
     templateUrl: './examples-infinite-scroll.component.html',
     styleUrls: ['./examples-infinite-scroll.component.scss'],
+    standalone: true,
     imports: [Select2, JsonPipe, TranslocoModule],
 })
 export class ExemplesInfiniteScrollComponent extends Examples {

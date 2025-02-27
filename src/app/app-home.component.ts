@@ -11,6 +11,7 @@ import { data1 } from './app.data';
     selector: 'app-home',
     templateUrl: './app-home.component.html',
     styleUrls: ['./app-home.component.scss'],
+    standalone: true,
     imports: [Select2, TranslocoModule, Highlight],
 })
 export class AppHomeComponent {

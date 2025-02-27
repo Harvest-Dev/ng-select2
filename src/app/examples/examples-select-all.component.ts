@@ -13,6 +13,7 @@ import { data1 } from '../app.data';
     selector: 'examples-select-all',
     templateUrl: './examples-select-all.component.html',
     styleUrls: ['./examples-select-all.component.scss'],
+    standalone: true,
     imports: [Select2, JsonPipe, TranslocoModule],
 })
 export class ExemplesSelectAllComponent extends Examples {

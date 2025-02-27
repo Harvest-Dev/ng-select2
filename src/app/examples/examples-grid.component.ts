@@ -13,6 +13,7 @@ import { data1, data2, data35, data35b } from '../app.data';
     selector: 'examples-grid',
     templateUrl: './examples-grid.component.html',
     styleUrls: ['./examples-grid.component.scss'],
+    standalone: true,
     imports: [Select2, JsonPipe, TranslocoModule],
 })
 export class ExemplesGridComponent extends Examples {

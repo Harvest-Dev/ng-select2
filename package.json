@@ -14,7 +14,10 @@
     "test": "ng test",
     "lint": "ng lint ng-select2-component",
     "format": "npx prettier --write .",
-    "e2e": "ng e2e"
+    "e2e": "ng e2e",
+    "reinstall": "npm run clean && npm i",
+    "reinstall:all": "npm run clean && rm -f package-lock.json && npm i",
+    "clean": "npm cache clean --force && rm -rf ./dist/ ./.angular/ ./node_modules/"
   },
   "private": false,
   "dependencies": {

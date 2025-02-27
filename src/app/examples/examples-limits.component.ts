@@ -21,6 +21,7 @@ import { data1, data3, data5, data6, data18, data28 } from '../app.data';
     selector: 'examples-limits',
     templateUrl: './examples-limits.component.html',
     styleUrls: ['./examples-limits.component.scss'],
+    standalone: true,
     imports: [FormsModule, ReactiveFormsModule, Select2, TranslocoModule, JsonPipe],
 })
 export class ExamplesLimitsComponent extends Examples {
