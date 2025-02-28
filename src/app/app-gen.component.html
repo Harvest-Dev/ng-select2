@@ -141,8 +141,8 @@
       </select>
     </div>
     <div>
-      <label for="autocompleteMode">autocompleteMode</label>
-      <input type="checkbox" formControlName="autocompleteMode" id="autocompleteMode" />
+      <label for="autocompleteSearch">autocompleteSearch</label>
+      <input type="checkbox" formControlName="autocompleteSearch" id="autocompleteSearch" />
     </div>
 
     <h5>{{ 'Selection' | transloco }}</h5>
@@ -284,7 +284,7 @@
           [styleMode]="value?.styleMode"
           [noResultMessage]="value?.noResultMessage"
           [grid]="value?.grid"
-          [autocompleteMode]="value?.autocompleteMode"
+          [autocompleteSearch]="value?.autocompleteSearch"
           [noLabelTemplate]="value?.noLabelTemplate"
           [selectionOverride]="value?.selectionOverrideFunction ? selectionOverride : value?.selectionOverrideString"
           [selectionNoWrap]="value?.selectionNoWrap"

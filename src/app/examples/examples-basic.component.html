@@ -27,8 +27,8 @@
       [styleMode]="styleMode"
       [data]="data1"
       [value]="value1"
+      (update)="update('value1', $event)"
       resettable
-      customSearchEnabled
       id="select2-1"
     >
     </select2>
@@ -94,5 +94,8 @@
       <span>{{ 'value:' | transloco }}</span
       ><code>{{ value13 | json }}</code>
     </div>
+
+    <h3 class="col-12" id="ex-14">{{ 'Without data' | transloco }}</h3>
+    <select2 class="col-6" [overlay]="overlay" [styleMode]="styleMode" id="select2-14"></select2>
   </div>
 </div>

@@ -66,7 +66,7 @@ export class AppGenComponent implements AfterContentInit {
             multiple: new UntypedFormControl(),
             multipleDrag: new UntypedFormControl(),
             autoCreate: new UntypedFormControl(),
-            autocompleteMode: new UntypedFormControl(),
+            autocompleteSearch: new UntypedFormControl(),
             resettable: new UntypedFormControl(),
             resetSelectedValue: new UntypedFormControl(),
             limitSelection: new UntypedFormControl(),
@@ -281,8 +281,8 @@ export class AppGenComponent implements AfterContentInit {
         if (value.autoCreate) {
             attrs['autoCreate'] = this._testBoolean(value.autoCreate);
         }
-        if (value.autocompleteMode) {
-            attrs['autocompleteMode'] = value.autocompleteMode;
+        if (value.autocompleteSearch) {
+            attrs['autocompleteSearch'] = value.autocompleteSearch;
         }
         if (value.limitSelection) {
             attrs['limitSelection'] = value.limitSelection;
