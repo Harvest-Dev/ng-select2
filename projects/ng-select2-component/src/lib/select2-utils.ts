@@ -1,9 +1,8 @@
 import { defaultMinCountForSearch, protectRegexp, unicodePatterns } from './select2-const';
 import { Select2Data, Select2Group, Select2Option, Select2UpdateValue, Select2Value } from './select2-interfaces';
 
-
 export class Select2Utils {
-    static getOptionByValue(data: Select2Data, value: Select2Value ) {
+    static getOptionByValue(data: Select2Data, value: Select2Value) {
         if (Array.isArray(data)) {
             for (const groupOrOption of data) {
                 const options = (groupOrOption as Select2Group).options;

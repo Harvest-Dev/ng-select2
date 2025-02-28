@@ -14,17 +14,18 @@ npm i ng-select2-component --save
 
 - peerDependencies:
 
-    - `angular` 19.0.0 and more
-    - `angular/cdk` 19.0.0 and more
+    - `angular` 18.1.0 and more
+    - `angular/cdk` 18.1.0 and more
 
 - dependencies (include):
 
-    - `ngx-infinite-scroll` 19.0.0 and more
+    - `ngx-infinite-scroll` 18.0.0 and more
 
 ### Notes
 
 | Version   | For **Angular** | Notes             |
 | --------- | --------------- | ----------------- |
+| `17.2.0`  | 18.1 and more   | Ivy / Stand-alone |
 | `17.1.0`  | 19 and more     | Ivy / Stand-alone |
 | `16.0.0`  | 19              | Ivy / Module      |
 | `15.4.0`  | 18              | Ivy               |
@@ -85,7 +86,7 @@ class MyComponent {}
 
 | name                                                                      | type                                                                                                 | default              | description                                                                                                             | required                        |
 | ------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------- | -------------------- | ----------------------------------------------------------------------------------------------------------------------- | ------------------------------- |
-| `data` (required)                                                         | [`Select2Data`](#select2-data-structure)                                                             |                      | the data of the select2                                                                                                 |                                 |
+| `data`                                                                    | [`Select2Data`](#select2-data-structure)                                                             |                      | the data of the select2                                                                                                 |                                 |
 | `value`                                                                   | [`Select2Value`](#select2-data-structure)                                                            |                      | initial value                                                                                                           |                                 |
 | `minCharForSearch`                                                        | `number`                                                                                             | `0`                  | start the search when the number of characters is reached (`0` = unlimited)                                             |                                 |
 | `minCountForSearch`                                                       | `number`                                                                                             | `6`                  | hide search box if `options.length < minCountForSearch`                                                                 |                                 |
