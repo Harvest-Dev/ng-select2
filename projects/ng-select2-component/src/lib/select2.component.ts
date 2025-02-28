@@ -1261,10 +1261,16 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
             this.hoveringOption.set(option);
             const domElement = this.results().find(r => r.nativeElement.innerText.trim() === option.label);
             if (domElement && this.resultsElement) {
-                this.resultsElement.scrollTop = 0;
-                const listClientRect = this.resultsElement.getBoundingClientRect();
-                const optionClientRect = domElement.nativeElement.getBoundingClientRect();
-                this.resultsElement.scrollTop = optionClientRect.top - listClientRect.top;
+                const resultClientRect = this.resultsElement.getBoundingClientRect();
+                const eltClientRect = domElement.nativeElement.getBoundingClientRect();
+
+                if (eltClientRect.bottom > resultClientRect.bottom) {
+                    // Needs element scroll to bottom
+                    this.resultsElement.scrollTop += eltClientRect.bottom - resultClientRect.bottom;
+                } else if (resultClientRect.top > eltClientRect.top) {
+                    // Needs element scroll to top
+                    this.resultsElement.scrollTop += eltClientRect.top - resultClientRect.top;
+                }
             }
         }
     }
