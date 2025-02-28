@@ -55,7 +55,7 @@
         ) {
           <ng-container *ngTemplateOutlet="resetButton"></ng-container>
         }
-      } @else if (!multiple()) {
+      } @else if (!multiple() && !autocompleteMode()) {
         <span class="select2-selection__rendered" [title]="select2Option?.label || ''">
           @if (!select2Option) {
             <span>&nbsp;</span>
@@ -80,6 +80,24 @@
           <ng-container *ngTemplateOutlet="resetButton"></ng-container>
         }
         <span class="select2-selection__arrow" role="presentation"> </span>
+      } @else if (autocompleteMode()) {
+        <input
+          [id]="id() + '-autocomplete'"
+          (keydown)="keyDown($event, false)"
+          (keyup)="searchUpdate($event)"
+          (change)="prevChange($event)"
+          [value]="select2Option?.label || ''"
+          class="select2-autocomplete"
+          type="search"
+          role="textbox"
+          autocomplete="on"
+          autocorrect="off"
+          autocapitalize="off"
+          spellcheck="false"
+        />
+        @if (resettable() && resetSelectedValue() !== _value && select2Option && !(disabled() || readonly())) {
+          <ng-container *ngTemplateOutlet="resetButton"></ng-container>
+        }
       } @else {
         <ul
           class="select2-selection__rendered"

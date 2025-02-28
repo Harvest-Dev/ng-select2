@@ -133,12 +133,16 @@
     </div>
     <div>
       <label for="styleMode">styleMode</label>
-      <select formControlName="styleMode" id="listPstyleModeosition">
+      <select formControlName="styleMode" id="styleMode">
         <option value="">default</option>
         <option value="material">material</option>
         <option value="noStyle">noStyle</option>
         <option value="borderless">borderless</option>
       </select>
+    </div>
+    <div>
+      <label for="autocompleteMode">autocompleteMode</label>
+      <input type="checkbox" formControlName="autocompleteMode" id="autocompleteMode" />
     </div>
 
     <h5>{{ 'Selection' | transloco }}</h5>
@@ -159,7 +163,7 @@
       />
     </div>
     <div>
-      <label for="selectionNoWrap">selectionOverride</label>
+      <label for="selectionNoWrap">selectionNoWrap</label>
       <input type="checkbox" formControlName="selectionNoWrap" id="selectionNoWrap" />
     </div>
 
@@ -280,6 +284,7 @@
           [styleMode]="value?.styleMode"
           [noResultMessage]="value?.noResultMessage"
           [grid]="value?.grid"
+          [autocompleteMode]="value?.autocompleteMode"
           [noLabelTemplate]="value?.noLabelTemplate"
           [selectionOverride]="value?.selectionOverrideFunction ? selectionOverride : value?.selectionOverrideString"
           [selectionNoWrap]="value?.selectionNoWrap"

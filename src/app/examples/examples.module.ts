@@ -54,6 +54,11 @@ const routes: Routes = [
                     import('./examples-auto-create.component').then(m => m.ExemplesAutoCreateComponent),
             },
             {
+                path: 'autocomplete',
+                loadComponent: () =>
+                    import('./examples-autocomplete.component').then(m => m.ExemplesAutocompleteComponent),
+            },
+            {
                 path: 'wai',
                 loadComponent: () => import('./examples-wai.component').then(m => m.ExemplesWaiComponent),
             },

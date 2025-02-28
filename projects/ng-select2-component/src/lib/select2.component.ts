@@ -11,7 +11,6 @@ import { NgTemplateOutlet } from '@angular/common';
 import type { ElementRef, OnDestroy } from '@angular/core';
 import {
     AfterViewInit,
-    Attribute,
     ChangeDetectionStrategy,
     ChangeDetectorRef,
     Component,
@@ -130,6 +129,9 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
 
     /** auto create if not exist */
     readonly autoCreate = input(false, { transform: booleanAttribute });
+
+    /** switch to autocomplete search */
+    readonly autocompleteMode = input(false, { transform: booleanAttribute });
 
     /** no template for label selection */
     readonly noLabelTemplate = input(false, { transform: booleanAttribute });
@@ -380,7 +382,6 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
         @Optional() private _parentForm: NgForm,
         @Optional() private _parentFormGroup: FormGroupDirective,
         @Self() @Optional() public _control: NgControl,
-        @Attribute('tabindex') tabIndex: string,
     ) {
         if (this._control) {
             this._control.valueAccessor = this;
@@ -398,7 +399,7 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
             }),
         );
         this.toObservable.add(
-            toObservable(this.minCountForSearch).subscribe(minCountForSearch => {
+            toObservable(this.minCountForSearch).subscribe(() => {
                 this.updateSearchBox();
             }),
         );
@@ -532,7 +533,9 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
     }
 
     updateSearchBox() {
-        if (this.autoCreate() && !this.multiple()) {
+        if (this.autocompleteMode()) {
+            this.isSearchboxHidden = true;
+        } else if (this.autoCreate() && !this.multiple()) {
             this.isSearchboxHidden = false;
         } else {
             const hidden =
@@ -989,10 +992,8 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
         }
     }
 
-    openKey(event: KeyboardEvent, create = false) {
-        if (create && this._testKey(event, ['Enter'])) {
-            this.createAndAdd(event);
-        } else if (this._testKey(event, OPEN_KEYS)) {
+    openKey(event: KeyboardEvent) {
+        if (this._testKey(event, OPEN_KEYS)) {
             this.toggleOpenAndClose(true, true, event);
             event.preventDefault();
         } else if (this._testKey(event, CLOSE_KEYS)) {

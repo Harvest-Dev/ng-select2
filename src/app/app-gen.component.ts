@@ -66,6 +66,7 @@ export class AppGenComponent implements AfterContentInit {
             multiple: new UntypedFormControl(),
             multipleDrag: new UntypedFormControl(),
             autoCreate: new UntypedFormControl(),
+            autocompleteMode: new UntypedFormControl(),
             resettable: new UntypedFormControl(),
             resetSelectedValue: new UntypedFormControl(),
             limitSelection: new UntypedFormControl(),
@@ -80,9 +81,11 @@ export class AppGenComponent implements AfterContentInit {
             maxResults: new UntypedFormControl(),
             maxResultsMessage: new UntypedFormControl(),
             grid: new UntypedFormControl(),
+            // selection
             selectionOverrideString: new UntypedFormControl(),
             selectionOverrideFunction: new UntypedFormControl(),
             selectionNoWrap: new UntypedFormControl(),
+            // select all
             showSelectAll: new UntypedFormControl(),
             removeAllText: new UntypedFormControl(),
             selectAllText: new UntypedFormControl(),
@@ -277,6 +280,9 @@ export class AppGenComponent implements AfterContentInit {
         }
         if (value.autoCreate) {
             attrs['autoCreate'] = this._testBoolean(value.autoCreate);
+        }
+        if (value.autocompleteMode) {
+            attrs['autocompleteMode'] = value.autocompleteMode;
         }
         if (value.limitSelection) {
             attrs['limitSelection'] = value.limitSelection;
