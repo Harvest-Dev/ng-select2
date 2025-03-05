@@ -1,9 +1,6 @@
 import { TemplateRef } from '@angular/core';
 
-
-
 import { Select2 } from './select2.component';
-
 
 export interface Select2Group {
     /** label of group */
@@ -61,6 +58,13 @@ export interface Select2AutoCreateEvent<U extends Select2UpdateValue = Select2Va
     readonly value: U;
     /** selected option */
     readonly options: Select2Option[] | null;
+}
+
+export interface Select2AutocompleteEvent {
+    /** component */
+    readonly component: Select2;
+    /** selected value */
+    readonly value: string;
 }
 
 export interface Select2SearchEvent<U extends Select2UpdateValue = Select2Value> {

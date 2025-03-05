@@ -9,9 +9,9 @@
       [styleMode]="styleMode"
       [value]="value"
       autocompleteSearch
-      minCharForSearch="3"
       (update)="update('value', $event)"
       (search)="onSearch($event)"
+      (triggeredValue)="onTriggeredValue($event)"
       id="select2-98"
     ></select2>
     <div class="col-12 value">
@@ -32,11 +32,12 @@
       resettable
       (update)="update('value2', $event)"
       (search)="onSearch($event)"
+      (triggeredValue)="onTriggeredValue($event)"
       id="select2-99"
     ></select2>
     <div class="col-12 value">
       <span>{{ 'value:' | transloco }}</span
-      ><code>{{ value | json }}</code>
+      ><code>{{ value2 | json }}</code>
     </div>
   </div>
 </div>

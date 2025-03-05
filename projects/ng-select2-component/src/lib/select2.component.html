@@ -82,8 +82,9 @@
         <span class="select2-selection__arrow" role="presentation"> </span>
       } @else if (autocompleteSearch()) {
         <input
+          #autocompleteInput
           [id]="id() + '-autocomplete'"
-          (keydown)="keyDown($event, false, true)"
+          (keydown)="keyDown($event, false)"
           (keyup)="searchUpdate($event)"
           (change)="prevChange($event)"
           [value]="select2Option?.label || ''"
