@@ -1,0 +1,43 @@
+<h2>{{ 'Autocomplete' | transloco }}</h2>
+
+<div class="container">
+  <div class="row">
+    <h3 class="col-12" id="ex-98">{{ 'Basic usage' | transloco }}</h3>
+    <select2
+      class="col-6"
+      [overlay]="overlay"
+      [styleMode]="styleMode"
+      [value]="value"
+      autocompleteSearch
+      (update)="update('value', $event)"
+      (search)="onSearch($event)"
+      (triggeredValue)="onTriggeredValue($event)"
+      id="select2-98"
+    ></select2>
+    <div class="col-12 value">
+      <span>{{ 'value:' | transloco }}</span
+      ><code>{{ value | json }}</code>
+    </div>
+  </div>
+
+  <div class="row">
+    <h3 class="col-12" id="ex-99">{{ 'Resetable usage' | transloco }}</h3>
+    <select2
+      class="col-6"
+      [overlay]="overlay"
+      [styleMode]="styleMode"
+      [value]="value2"
+      autocompleteSearch
+      minCharForSearch="3"
+      resettable
+      (update)="update('value2', $event)"
+      (search)="onSearch($event)"
+      (triggeredValue)="onTriggeredValue($event)"
+      id="select2-99"
+    ></select2>
+    <div class="col-12 value">
+      <span>{{ 'value:' | transloco }}</span
+      ><code>{{ value2 | json }}</code>
+    </div>
+  </div>
+</div>

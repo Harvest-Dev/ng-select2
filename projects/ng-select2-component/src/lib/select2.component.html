@@ -32,7 +32,7 @@
     [attr.aria-required]="required() ? 'true' : null"
     [attr.aria-readonly]="readonly() ? 'true' : null"
     [attr.aria-disabled]="disabled() ? 'true' : null"
-    (click)="toggleOpenAndClose()"
+    (click)="!autocompleteSearch() ? toggleOpenAndClose() : null"
     (focus)="focusin()"
     (focusout)="focusout($event)"
     (keydown)="openKey($event)"
@@ -55,7 +55,7 @@
         ) {
           <ng-container *ngTemplateOutlet="resetButton"></ng-container>
         }
-      } @else if (!multiple()) {
+      } @else if (!multiple() && !autocompleteSearch()) {
         <span class="select2-selection__rendered" [title]="select2Option?.label || ''">
           @if (!select2Option) {
             <span>&nbsp;</span>
@@ -80,6 +80,25 @@
           <ng-container *ngTemplateOutlet="resetButton"></ng-container>
         }
         <span class="select2-selection__arrow" role="presentation"> </span>
+      } @else if (autocompleteSearch()) {
+        <input
+          #autocompleteInput
+          [id]="id() + '-autocomplete'"
+          (keydown)="keyDown($event, false)"
+          (keyup)="searchUpdate($event)"
+          (change)="prevChange($event)"
+          [value]="select2Option?.label || ''"
+          class="select2-autocomplete"
+          type="search"
+          role="textbox"
+          autocomplete="on"
+          autocorrect="off"
+          autocapitalize="off"
+          spellcheck="false"
+        />
+        @if (resettable() && resetSelectedValue() !== _value && select2Option && !(disabled() || readonly())) {
+          <ng-container *ngTemplateOutlet="resetButton"></ng-container>
+        }
       } @else {
         <ul
           class="select2-selection__rendered"
@@ -302,8 +321,12 @@
               </ng-template>
             }
           }
-          @if (!filteredData()?.length && noResultMessage()) {
-            <li class="select2-no-result select2-results__option" [innerHTML]="noResultMessage()"></li>
+          @if (!filteredData()?.length || (!data().length && !autocompleteSearch())) {
+            @if (noResultMessage()) {
+              <li class="select2-no-result select2-results__option" [innerHTML]="noResultMessage()"></li>
+            } @else {
+              <li class="select2-no-result select2-results__option">No data</li>
+            }
           }
           @if (maxResultsExceeded) {
             <li class="select2-too-much-result select2-results__option" [innerHTML]="maxResultsMessage()"></li>

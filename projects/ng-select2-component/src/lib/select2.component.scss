@@ -35,6 +35,16 @@
         .select2-selection__clear {
             position: relative;
         }
+
+        .select2-autocomplete {
+            border-color: transparent;
+            border-radius: var(--select2-selection-border-radius, 4px);
+            width: 100%;
+
+            &:focus {
+                outline: none;
+            }
+        }
     }
 
     .select2-selection--multiple {
@@ -70,7 +80,6 @@
                 }
             }
         }
-
     }
 
     .select2-search--inline {
@@ -397,6 +406,11 @@
         .select2-selection--multiple {
             border-top-right-radius: 0;
             border-top-left-radius: 0;
+
+            .select2-autocomplete {
+                border-top-right-radius: 0;
+                border-top-left-radius: 0;
+            }
         }
     }
 
@@ -405,6 +419,11 @@
         .select2-selection--multiple {
             border-bottom-right-radius: 0;
             border-bottom-left-radius: 0;
+
+            .select2-autocomplete {
+                border-bottom-right-radius: 0;
+                border-bottom-left-radius: 0;
+            }
         }
     }
 
