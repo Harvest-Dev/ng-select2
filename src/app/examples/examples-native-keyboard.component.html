@@ -1,0 +1,43 @@
+<h2>{{ 'Native keyboard navigation' | transloco }}</h2>
+
+<div class="container">
+  <div class="row">
+    <h3 class="col-12" id="ex-2">{{ 'Basic list of options' | transloco }}</h3>
+    <select2
+      class="col-6"
+      [overlay]="overlay"
+      [styleMode]="styleMode"
+      [data]="data2"
+      [value]="value2"
+      (update)="update('value2', $event)"
+      nativeKeyboard
+      id="select2"
+    >
+    </select2>
+    <div class="col-12 value">
+      <div>
+        <span>{{ 'value:' | transloco }}</span
+        ><code>{{ value2 | json }}</code>
+      </div>
+    </div>
+
+    <h3 class="col-12" id="ex-2">{{ 'Basic list with group options' | transloco }}</h3>
+    <select2
+      class="col-6"
+      [overlay]="overlay"
+      [styleMode]="styleMode"
+      [data]="data1"
+      [value]="value1"
+      (update)="update('value1', $event)"
+      nativeKeyboard
+      id="select1"
+    >
+    </select2>
+    <div class="col-12 value">
+      <div>
+        <span>{{ 'value:' | transloco }}</span
+        ><code>{{ value1 | json }}</code>
+      </div>
+    </div>
+  </div>
+</div>

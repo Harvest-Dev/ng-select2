@@ -159,7 +159,7 @@
       />
     </div>
     <div>
-      <label for="selectionNoWrap">selectionOverride</label>
+      <label for="selectionNoWrap">selectionNoWrap</label>
       <input type="checkbox" formControlName="selectionNoWrap" id="selectionNoWrap" />
     </div>
 
@@ -210,6 +210,10 @@
     <div>
       <label for="guideLineName">{{ 'Web Component guide line name' | transloco }}</label>
       <input type="checkbox" formControlName="guideLineName" id="guideLineName" />
+    </div>
+    <div>
+      <label for="nativeKeyboard">{{ 'Native keyboard navigation' | transloco }}</label>
+      <input type="checkbox" formControlName="nativeKeyboard" id="nativeKeyboard" />
     </div>
 
     <h4>{{ 'Events' | transloco }}</h4>
@@ -286,6 +290,7 @@
           [showSelectAll]="value?.showSelectAll"
           [removeAllText]="value?.removeAllText || 'Remove all'"
           [selectAllText]="value?.selectAllText || 'Select all'"
+          [nativeKeyboard]="value?.nativeKeyboard"
           [templates]="
             $any(
               getTemplate(

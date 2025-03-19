@@ -60,6 +60,8 @@ interface KeyInfo {
     altKey: boolean;
 }
 
+const OPEN_KEYS_NATIVE: (string | KeyInfo)[] = ['Enter', ' '];
+const CLOSE_KEYS_NATIVE: (string | KeyInfo)[] = ['ArrowDown', 'ArrowUp', 'Home', 'End', 'PageUp', 'PageDown'];
 const OPEN_KEYS: (string | KeyInfo)[] = ['ArrowDown', 'ArrowUp', 'Enter', ' ', 'Home', 'End', 'PageUp', 'PageDown'];
 const ON_OPEN_KEYS: (string | KeyInfo)[] = ['Home', 'End', 'PageUp', 'PageDown'];
 const CLOSE_KEYS: (string | KeyInfo)[] = ['Escape', 'Tab', { key: 'ArrowUp', altKey: true }];
@@ -190,6 +192,9 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
 
     /** selected value when × is clicked */
     readonly resetSelectedValue = input<any>(undefined);
+
+    /** like native select keyboard navigation (only single mode) */
+    readonly nativeKeyboard = input(false, { transform: booleanAttribute });
 
     /** grid: item by line
      * * 0 = no grid
@@ -732,7 +737,9 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
 
         const limitSelection = this.limitSelection();
         return (
-            !this.multiple() || !limitSelection || (Array.isArray(this._value) && this._value.length < limitSelection)
+            !this.multiple() ||
+            !this.nativeKeyboard() ||
+            (Array.isArray(this._value) && this._value.length < limitSelection)
         );
     }
 
@@ -902,7 +909,7 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
         }
     }
 
-    select(option: Select2Option | null, emit: boolean = true, erase: boolean = false) {
+    select(option: Select2Option | null, emit: boolean = true, closeOnSelect: boolean = true) {
         let value: any;
 
         if (option !== null && option !== undefined) {
@@ -919,7 +926,7 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
                 value = (this.selectedOption as Select2Option[]).map(op => op.value);
             } else {
                 this.selectedOption = option;
-                if (this.isOpen) {
+                if (closeOnSelect && this.isOpen) {
                     this.isOpen = false;
                     this.close.emit(this);
                     this.selectionElement?.focus();
@@ -964,24 +971,24 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
             this.createAndAdd(event);
         } else if (this._testKey(event, [{ key: 'ArrowDown', altKey: false }])) {
             this.moveDown();
-            event.preventDefault();
+            this.actionAfterKeyDownMoveAction(event);
         } else if (this._testKey(event, [{ key: 'ArrowUp', altKey: false }])) {
             this.moveUp();
-            event.preventDefault();
+            this.actionAfterKeyDownMoveAction(event);
         } else if (this._testKey(event, ['Home'])) {
             this.moveStart();
-            event.preventDefault();
+            this.actionAfterKeyDownMoveAction(event);
         } else if (this._testKey(event, ['End'])) {
             this.moveEnd();
-            event.preventDefault();
+            this.actionAfterKeyDownMoveAction(event);
         } else if (this._testKey(event, ['PageUp'])) {
             this.moveUp(10);
-            event.preventDefault();
+            this.actionAfterKeyDownMoveAction(event);
         } else if (this._testKey(event, ['PageDown'])) {
             this.moveDown(10);
-            event.preventDefault();
+            this.actionAfterKeyDownMoveAction(event);
         } else if (this._testKey(event, ['Enter']) || (this.isSearchboxHidden && this._testKey(event, [' ']))) {
-            this.selectByEnter();
+            this.selectByEnter(true);
             event.preventDefault();
         } else if (this._testKey(event, CLOSE_KEYS) && this.isOpen) {
             this.toggleOpenAndClose();
@@ -989,12 +996,22 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
         }
     }
 
+    private actionAfterKeyDownMoveAction(event: KeyboardEvent) {
+        event.preventDefault();
+        if (this.nativeKeyboard() && !this.multiple()) {
+            this.selectByEnter(false);
+        }
+    }
+
     openKey(event: KeyboardEvent, create = false) {
         if (create && this._testKey(event, ['Enter'])) {
             this.createAndAdd(event);
-        } else if (this._testKey(event, OPEN_KEYS)) {
+        } else if (this._testKey(event, this.nativeKeyboard() && !this.multiple() ? OPEN_KEYS_NATIVE : OPEN_KEYS)) {
             this.toggleOpenAndClose(true, true, event);
             event.preventDefault();
+        } else if (this.nativeKeyboard() && !this.multiple() && this._testKey(event, CLOSE_KEYS_NATIVE)) {
+            this.updateScrollFromOption(this.select2Option);
+            this.keyDown(event, create);
         } else if (this._testKey(event, CLOSE_KEYS)) {
             if (this.isOpen) {
                 this.toggleOpenAndClose();
@@ -1275,9 +1292,10 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
         }
     }
 
-    private selectByEnter() {
-        if (this.hoveringOption()) {
-            this.select(this.hoveringOption());
+    private selectByEnter(close: boolean = false) {
+        const hoveringOption = this.hoveringOption();
+        if (hoveringOption) {
+            this.select(hoveringOption, true, close);
         }
     }
 
@@ -1329,7 +1347,7 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
                     }
                 } else {
                     this._value = value;
-                    this.select(Select2Utils.getOptionByValue(this._data, this._value));
+                    this.select(Select2Utils.getOptionByValue(this._data, this._value), this.isOpen, false);
                 }
             } else if (this._control) {
                 this._control.viewToModelUpdate(value);
