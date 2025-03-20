@@ -92,6 +92,7 @@ export class AppGenComponent implements AfterContentInit {
             noLabelTemplate: new UntypedFormControl(),
             // HTML standard
             guideLineName: new UntypedFormControl(),
+            nativeKeyboard: new UntypedFormControl(),
             // event
             update: new UntypedFormControl(),
             open: new UntypedFormControl(),
@@ -270,6 +271,9 @@ export class AppGenComponent implements AfterContentInit {
         } else {
             if (value.resetSelectedValue) {
                 attrs['resetSelectedValue'] = value.resetSelectedValue;
+            }
+            if (value.nativeKeyboard) {
+                attrs['nativeKeyboard'] = this._testBoolean(value.nativeKeyboard);
             }
         }
         if (value.resettable) {

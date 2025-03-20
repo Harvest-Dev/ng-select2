@@ -60,6 +60,8 @@ interface KeyInfo {
     altKey: boolean;
 }
 
+const OPEN_KEYS_NATIVE: (string | KeyInfo)[] = ['Enter', ' '];
+const CLOSE_KEYS_NATIVE: (string | KeyInfo)[] = ['ArrowDown', 'ArrowUp', 'Home', 'End', 'PageUp', 'PageDown'];
 const OPEN_KEYS: (string | KeyInfo)[] = ['ArrowDown', 'ArrowUp', 'Enter', ' ', 'Home', 'End', 'PageUp', 'PageDown'];
 const ON_OPEN_KEYS: (string | KeyInfo)[] = ['Home', 'End', 'PageUp', 'PageDown'];
 const CLOSE_KEYS: (string | KeyInfo)[] = ['Escape', 'Tab', { key: 'ArrowUp', altKey: true }];
@@ -99,13 +101,13 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
     readonly listPosition = input<'above' | 'below' | 'auto'>('below');
 
     /** overlay with CDK Angular position */
-    readonly overlay = input(false, { transform: booleanAttribute });
+    readonly overlay = input<boolean, unknown>(false, { transform: booleanAttribute });
 
     /** select one or more item */
-    readonly multiple = input(false, { transform: booleanAttribute });
+    readonly multiple = input<boolean, unknown>(false, { transform: booleanAttribute });
 
     /** drag'n drop list of items in multiple */
-    readonly multipleDrag = input(false, { transform: booleanAttribute });
+    readonly multipleDrag = input<boolean, unknown>(false, { transform: booleanAttribute });
 
     /** use the material style */
     readonly styleMode = input<'material' | 'noStyle' | 'borderless' | 'default'>('default');
@@ -126,13 +128,13 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
     readonly infiniteScrollThrottle = input(150, { transform: numberAttribute });
 
     /** infinite scroll activated */
-    readonly infiniteScroll = input(false, { transform: booleanAttribute });
+    readonly infiniteScroll = input<boolean, unknown>(false, { transform: booleanAttribute });
 
     /** auto create if not exist */
-    readonly autoCreate = input(false, { transform: booleanAttribute });
+    readonly autoCreate = input<boolean, unknown>(false, { transform: booleanAttribute });
 
     /** no template for label selection */
-    readonly noLabelTemplate = input(false, { transform: booleanAttribute });
+    readonly noLabelTemplate = input<boolean, unknown>(false, { transform: booleanAttribute });
 
     /** use it for change the pattern of the filter search */
     readonly editPattern = input<((str: string) => string) | undefined>(undefined);
@@ -147,7 +149,7 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
     readonly resultMaxHeight = input('200px');
 
     /** Active Search event */
-    readonly customSearchEnabled = input(false, { transform: booleanAttribute });
+    readonly customSearchEnabled = input<boolean, unknown>(false, { transform: booleanAttribute });
 
     /** minimal data of show the search field */
     readonly minCountForSearch = input(undefined, { transform: numberAttribute });
@@ -168,16 +170,16 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
     readonly idOverlay = computed(() => `${this.id()}-overlay`);
 
     /** Whether the element is required. */
-    readonly required = input(false, { transform: booleanAttribute });
+    readonly required = input<boolean, unknown>(false, { transform: booleanAttribute });
 
     /** Whether selected items should be hidden. */
-    readonly disabled = input(false, { transform: booleanAttribute });
+    readonly disabled = input<boolean, unknown>(false, { transform: booleanAttribute });
 
     /** Whether items are hidden when has. */
-    readonly hideSelectedItems = input(false, { transform: booleanAttribute });
+    readonly hideSelectedItems = input<boolean, unknown>(false, { transform: booleanAttribute });
 
     /** Whether the element is readonly. */
-    readonly readonly = input(false, { transform: booleanAttribute });
+    readonly readonly = input<boolean, unknown>(false, { transform: booleanAttribute });
 
     /** The input element's value. */
     readonly value = input<Select2UpdateValue>();
@@ -186,10 +188,13 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
     readonly tabIndex = input(0, { transform: numberAttribute });
 
     /** reset with no selected value */
-    readonly resettable = input(false, { transform: booleanAttribute });
+    readonly resettable = input<boolean, unknown>(false, { transform: booleanAttribute });
 
     /** selected value when × is clicked */
     readonly resetSelectedValue = input<any>(undefined);
+
+    /** like native select keyboard navigation (only single mode) */
+    readonly nativeKeyboard = input<boolean, unknown>(false, { transform: booleanAttribute });
 
     /** grid: item by line
      * * 0 = no grid
@@ -206,10 +211,10 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
     readonly selectionOverride = input<Select2SelectionOverride | undefined>(undefined);
 
     /** force selection on one line */
-    readonly selectionNoWrap = input(false, { transform: booleanAttribute });
+    readonly selectionNoWrap = input<boolean, unknown>(false, { transform: booleanAttribute });
 
     /** Add an option to select or remove all (if all is selected) */
-    readonly showSelectAll = input(false, { transform: booleanAttribute });
+    readonly showSelectAll = input<boolean, unknown>(false, { transform: booleanAttribute });
 
     /** Text for remove all options */
     readonly removeAllText = input('Remove all');
@@ -731,9 +736,7 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
         }
 
         const limitSelection = this.limitSelection();
-        return (
-            !this.multiple() || !limitSelection || (Array.isArray(this._value) && this._value.length < limitSelection)
-        );
+        return !this.multiple() || (Array.isArray(this._value) && this._value.length < limitSelection);
     }
 
     private testValueChange(value1: Select2UpdateValue | null, value2: Select2UpdateValue | undefined) {
@@ -902,7 +905,7 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
         }
     }
 
-    select(option: Select2Option | null, emit: boolean = true, erase: boolean = false) {
+    select(option: Select2Option | null, emit: boolean = true, closeOnSelect: boolean = true) {
         let value: any;
 
         if (option !== null && option !== undefined) {
@@ -919,7 +922,7 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
                 value = (this.selectedOption as Select2Option[]).map(op => op.value);
             } else {
                 this.selectedOption = option;
-                if (this.isOpen) {
+                if (closeOnSelect && this.isOpen) {
                     this.isOpen = false;
                     this.close.emit(this);
                     this.selectionElement?.focus();
@@ -964,24 +967,24 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
             this.createAndAdd(event);
         } else if (this._testKey(event, [{ key: 'ArrowDown', altKey: false }])) {
             this.moveDown();
-            event.preventDefault();
+            this.actionAfterKeyDownMoveAction(event);
         } else if (this._testKey(event, [{ key: 'ArrowUp', altKey: false }])) {
             this.moveUp();
-            event.preventDefault();
+            this.actionAfterKeyDownMoveAction(event);
         } else if (this._testKey(event, ['Home'])) {
             this.moveStart();
-            event.preventDefault();
+            this.actionAfterKeyDownMoveAction(event);
         } else if (this._testKey(event, ['End'])) {
             this.moveEnd();
-            event.preventDefault();
+            this.actionAfterKeyDownMoveAction(event);
         } else if (this._testKey(event, ['PageUp'])) {
             this.moveUp(10);
-            event.preventDefault();
+            this.actionAfterKeyDownMoveAction(event);
         } else if (this._testKey(event, ['PageDown'])) {
             this.moveDown(10);
-            event.preventDefault();
+            this.actionAfterKeyDownMoveAction(event);
         } else if (this._testKey(event, ['Enter']) || (this.isSearchboxHidden && this._testKey(event, [' ']))) {
-            this.selectByEnter();
+            this.selectByEnter(true);
             event.preventDefault();
         } else if (this._testKey(event, CLOSE_KEYS) && this.isOpen) {
             this.toggleOpenAndClose();
@@ -989,12 +992,22 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
         }
     }
 
+    private actionAfterKeyDownMoveAction(event: KeyboardEvent) {
+        event.preventDefault();
+        if (this.nativeKeyboard() && !this.multiple()) {
+            this.selectByEnter(false);
+        }
+    }
+
     openKey(event: KeyboardEvent, create = false) {
         if (create && this._testKey(event, ['Enter'])) {
             this.createAndAdd(event);
-        } else if (this._testKey(event, OPEN_KEYS)) {
+        } else if (this._testKey(event, this.nativeKeyboard() && !this.multiple() ? OPEN_KEYS_NATIVE : OPEN_KEYS)) {
             this.toggleOpenAndClose(true, true, event);
             event.preventDefault();
+        } else if (this.nativeKeyboard() && !this.multiple() && this._testKey(event, CLOSE_KEYS_NATIVE)) {
+            this.updateScrollFromOption(this.select2Option);
+            this.keyDown(event, create);
         } else if (this._testKey(event, CLOSE_KEYS)) {
             if (this.isOpen) {
                 this.toggleOpenAndClose();
@@ -1275,9 +1288,10 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
         }
     }
 
-    private selectByEnter() {
-        if (this.hoveringOption()) {
-            this.select(this.hoveringOption());
+    private selectByEnter(close: boolean = false) {
+        const hoveringOption = this.hoveringOption();
+        if (hoveringOption) {
+            this.select(hoveringOption, true, close);
         }
     }
 
@@ -1329,7 +1343,7 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
                     }
                 } else {
                     this._value = value;
-                    this.select(Select2Utils.getOptionByValue(this._data, this._value));
+                    this.select(Select2Utils.getOptionByValue(this._data, this._value), this.isOpen, false);
                 }
             } else if (this._control) {
                 this._control.viewToModelUpdate(value);

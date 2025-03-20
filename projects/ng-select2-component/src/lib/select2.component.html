@@ -56,7 +56,11 @@
           <ng-container *ngTemplateOutlet="resetButton"></ng-container>
         }
       } @else if (!multiple()) {
-        <span class="select2-selection__rendered" [title]="select2Option?.label || ''">
+        <span
+          class="select2-selection__rendered"
+          [title]="select2Option?.label || ''"
+          [attr.aria-live]="nativeKeyboard() && !isOpen ? 'polite' : null"
+        >
           @if (!select2Option) {
             <span>&nbsp;</span>
           }
