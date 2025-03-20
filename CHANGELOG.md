@@ -1,5 +1,15 @@
 # Changelog of ng-select2
 
+## V17.2.0 (2025-03-20)
+
+### Change
+
+- build: fix backward compatibility to **Angular 18.1** (thanks @bborel-hvs)
+- feat: new attribute `nativeKeyboard`
+- feat: add accessibility for `nativeKeyboard` (thanks @mbelin-hvs)
+- feat: improve scrolling behavior in results (thanks @mbelin-hvs)
+- fix: multiple opening when overlay is not active
+
 ## V17.1.1 (2025-02-04)
 
 ### Change
@@ -25,7 +35,7 @@
     - Add resettable with multiple mode
     - Fix inconsistencies in the code
     - Much stricter code rewriting
-- Accessibility (from 15.4.0)
+- Accessibility (from 15.4.0) (thanks @mbelin-hvs)
     - Added/modified accessibility attributes
     - New inputs for accessibility
         - `title`
@@ -140,7 +150,7 @@
 
 ### Changes
 
-- manage blur event (overlay, click on option)
+- manage blur event (overlay, click on option) (thanks @bborel-hvs)
 
 ---
 
