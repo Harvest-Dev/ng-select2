@@ -123,6 +123,10 @@
   "Update value to “undefined”": "Mise à jour de la valeur vers “undefined”",
 
   "Multiple drag selection": "Sélection multiple par glissement",
-  "Multiple selection with sortable selection": "Sélection multiple avec sélection triable"
-}
+  "Multiple selection with sortable selection": "Sélection multiple avec sélection triable",
 
+  "Native keyboard navigation": "Navigation native au clavier",
+  "<code>nativeKeyboard</code> attribute to have the same navigation as the native HTML select:": "L'attribut <code>nativeKeyboard</code> pour avoir une navigation comme le select HTML natif&nbsp;:",
+  "the arrows don't open the drop down": "Les flèches n'ouvrent pas la liste des options",
+  "the arrows update the selected value": "Les flèches mettent à jour la valeur sélectionnée"
+}

@@ -101,13 +101,13 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
     readonly listPosition = input<'above' | 'below' | 'auto'>('below');
 
     /** overlay with CDK Angular position */
-    readonly overlay = input(false, { transform: booleanAttribute });
+    readonly overlay = input<boolean, unknown>(false, { transform: booleanAttribute });
 
     /** select one or more item */
-    readonly multiple = input(false, { transform: booleanAttribute });
+    readonly multiple = input<boolean, unknown>(false, { transform: booleanAttribute });
 
     /** drag'n drop list of items in multiple */
-    readonly multipleDrag = input(false, { transform: booleanAttribute });
+    readonly multipleDrag = input<boolean, unknown>(false, { transform: booleanAttribute });
 
     /** use the material style */
     readonly styleMode = input<'material' | 'noStyle' | 'borderless' | 'default'>('default');
@@ -128,13 +128,13 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
     readonly infiniteScrollThrottle = input(150, { transform: numberAttribute });
 
     /** infinite scroll activated */
-    readonly infiniteScroll = input(false, { transform: booleanAttribute });
+    readonly infiniteScroll = input<boolean, unknown>(false, { transform: booleanAttribute });
 
     /** auto create if not exist */
-    readonly autoCreate = input(false, { transform: booleanAttribute });
+    readonly autoCreate = input<boolean, unknown>(false, { transform: booleanAttribute });
 
     /** no template for label selection */
-    readonly noLabelTemplate = input(false, { transform: booleanAttribute });
+    readonly noLabelTemplate = input<boolean, unknown>(false, { transform: booleanAttribute });
 
     /** use it for change the pattern of the filter search */
     readonly editPattern = input<((str: string) => string) | undefined>(undefined);
@@ -149,7 +149,7 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
     readonly resultMaxHeight = input('200px');
 
     /** Active Search event */
-    readonly customSearchEnabled = input(false, { transform: booleanAttribute });
+    readonly customSearchEnabled = input<boolean, unknown>(false, { transform: booleanAttribute });
 
     /** minimal data of show the search field */
     readonly minCountForSearch = input(undefined, { transform: numberAttribute });
@@ -170,16 +170,16 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
     readonly idOverlay = computed(() => `${this.id()}-overlay`);
 
     /** Whether the element is required. */
-    readonly required = input(false, { transform: booleanAttribute });
+    readonly required = input<boolean, unknown>(false, { transform: booleanAttribute });
 
     /** Whether selected items should be hidden. */
-    readonly disabled = input(false, { transform: booleanAttribute });
+    readonly disabled = input<boolean, unknown>(false, { transform: booleanAttribute });
 
     /** Whether items are hidden when has. */
-    readonly hideSelectedItems = input(false, { transform: booleanAttribute });
+    readonly hideSelectedItems = input<boolean, unknown>(false, { transform: booleanAttribute });
 
     /** Whether the element is readonly. */
-    readonly readonly = input(false, { transform: booleanAttribute });
+    readonly readonly = input<boolean, unknown>(false, { transform: booleanAttribute });
 
     /** The input element's value. */
     readonly value = input<Select2UpdateValue>();
@@ -188,13 +188,13 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
     readonly tabIndex = input(0, { transform: numberAttribute });
 
     /** reset with no selected value */
-    readonly resettable = input(false, { transform: booleanAttribute });
+    readonly resettable = input<boolean, unknown>(false, { transform: booleanAttribute });
 
     /** selected value when × is clicked */
     readonly resetSelectedValue = input<any>(undefined);
 
     /** like native select keyboard navigation (only single mode) */
-    readonly nativeKeyboard = input(false, { transform: booleanAttribute });
+    readonly nativeKeyboard = input<boolean, unknown>(false, { transform: booleanAttribute });
 
     /** grid: item by line
      * * 0 = no grid
@@ -211,10 +211,10 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
     readonly selectionOverride = input<Select2SelectionOverride | undefined>(undefined);
 
     /** force selection on one line */
-    readonly selectionNoWrap = input(false, { transform: booleanAttribute });
+    readonly selectionNoWrap = input<boolean, unknown>(false, { transform: booleanAttribute });
 
     /** Add an option to select or remove all (if all is selected) */
-    readonly showSelectAll = input(false, { transform: booleanAttribute });
+    readonly showSelectAll = input<boolean, unknown>(false, { transform: booleanAttribute });
 
     /** Text for remove all options */
     readonly removeAllText = input('Remove all');
@@ -736,11 +736,7 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
         }
 
         const limitSelection = this.limitSelection();
-        return (
-            !this.multiple() ||
-            !this.nativeKeyboard() ||
-            (Array.isArray(this._value) && this._value.length < limitSelection)
-        );
+        return !this.multiple() || (Array.isArray(this._value) && this._value.length < limitSelection);
     }
 
     private testValueChange(value1: Select2UpdateValue | null, value2: Select2UpdateValue | undefined) {

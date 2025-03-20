@@ -1,5 +1,15 @@
 <h2>{{ 'Native keyboard navigation' | transloco }}</h2>
 
+<p
+  [innerHTML]="
+    '<code>nativeKeyboard</code> attribute to have the same navigation as the native HTML select:' | transloco
+  "
+></p>
+<ul>
+  <li>{{ "the arrows don't open the drop down" | transloco }}</li>
+  <li>{{ 'the arrows update the selected value' | transloco }}</li>
+</ul>
+
 <div class="container">
   <div class="row">
     <h3 class="col-12" id="ex-2">{{ 'Basic list of options' | transloco }}</h3>
@@ -21,7 +31,7 @@
       </div>
     </div>
 
-    <h3 class="col-12" id="ex-2">{{ 'Basic list with group options' | transloco }}</h3>
+    <h3 class="col-12" id="ex-2">{{ 'Basic list with groups' | transloco }}</h3>
     <select2
       class="col-6"
       [overlay]="overlay"
