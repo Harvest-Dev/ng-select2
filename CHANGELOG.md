@@ -1,5 +1,11 @@
 # Changelog of ng-select2
 
+## V17.2.1 (2025-03-21)
+
+### Change
+
+- fix: regression on limit to 0
+
 ## V17.2.0 (2025-03-20)
 
 ### Change
