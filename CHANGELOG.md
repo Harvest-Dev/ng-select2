@@ -1,5 +1,11 @@
 # Changelog of ng-select2
 
+## V17.2.2 (2025-04-05)
+
+### Change
+
+- fix: init value with formControl on init, on setValue, on reset #89
+
 ## V17.2.1 (2025-03-21)
 
 ### Change
