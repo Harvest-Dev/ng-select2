@@ -32,9 +32,9 @@ export class ExemplesFormControlComponent extends Examples {
     value11 = '';
 
     ctrlForm: UntypedFormGroup;
-    ctrlForm3: UntypedFormGroup;
+    ctrlForm2: UntypedFormGroup;
 
-    fg: UntypedFormGroup = new UntypedFormGroup({
+    ctrlForm3: UntypedFormGroup = new UntypedFormGroup({
         state: new UntypedFormControl(),
     });
 
@@ -43,15 +43,16 @@ export class ExemplesFormControlComponent extends Examples {
         this.ctrlForm = this.fb.group({
             test11: new UntypedFormControl(null, Validators.required),
         });
-        this.ctrlForm3 = this.fb.group({
+        this.ctrlForm2 = this.fb.group({
             test33: new UntypedFormControl(null),
         });
 
-        this.fg.patchValue(this.formData());
+        this.ctrlForm3.setValue(this.formData());
+        // this.ctrlForm3.get('state')!.setValue(['CA', 'NV']);
     }
 
     reset() {
-        this.ctrlForm3.reset();
+        this.ctrlForm2.reset();
     }
 
     reset11() {
@@ -68,12 +69,29 @@ export class ExemplesFormControlComponent extends Examples {
         }
     }
 
+    changeValue11() {
+        this.value11 = 'CA';
+    }
+    change11Emit() {
+        const test11 = this.ctrlForm.get('test11');
+        if (test11) {
+            test11.setValue('UT', { emitEvent: true });
+        }
+    }
+
     resetForm() {
-        this.fg.reset(this.formData());
+        this.ctrlForm3.reset(this.formData());
+    }
+
+    setValue() {
+        const state = this.ctrlForm3.get('state');
+        if (state) {
+            state.setValue(['CA', 'NV']);
+        }
     }
 
     print() {
-        console.log('FormControl', this.fg.value);
+        console.log('FormControl', this.ctrlForm3.value);
     }
 
     formData() {

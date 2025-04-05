@@ -11,11 +11,13 @@
         formControlName="test11"
         placeholder="Select a state"
         id="select2-11"
+        (update)="update('value11', $event)"
       ></select2>
     </form>
     <div class="col-12">
       <button (click)="reset11()">{{ 'Reset' | transloco }}</button>
-      <button (click)="change11()">Utah</button>
+      <button (click)="change11()">Utah (via formGroup)</button>
+      <button (click)="changeValue11()">California (via ngModel)</button>
     </div>
     <div class="col-12 value">
       <div>
@@ -25,7 +27,7 @@
     </div>
 
     <h3 id="ex-33">{{ 'FormControl & reset form multiple' | transloco }}</h3>
-    <form [formGroup]="ctrlForm3" class="col-6">
+    <form [formGroup]="ctrlForm2" class="col-6">
       <select2
         [data]="data32"
         formControlName="test33"
@@ -41,12 +43,12 @@
     <div class="col-12 value">
       <div>
         <span>{{ 'value:' | transloco }}</span
-        ><code>{{ ctrlForm3.get('test33')?.value | json }}</code>
+        ><code>{{ ctrlForm2.get('test33')?.value | json }}</code>
       </div>
     </div>
 
     <h3 class="col-12" id="ex-14">{{ 'FormControl & reset a specific value' | transloco }}</h3>
-    <form [formGroup]="fg" class="col-6">
+    <form [formGroup]="ctrlForm3" class="col-6">
       <select2
         class="col-6"
         [overlay]="overlay"
@@ -61,11 +63,12 @@
     <div class="col-12">
       <button (click)="print()">{{ 'Selection log (See F12)' | transloco }}</button>
       <button (click)="resetForm()">{{ 'Reset form to value:' | transloco }} <code>['CA', 'NV']</code></button>
+      <button (click)="setValue()">{{ 'SetValue form to value:' | transloco }} <code>['CA', 'NV']</code></button>
     </div>
     <div class="col-12 value">
       <div>
         <span>{{ 'value:' | transloco }}</span
-        ><code>{{ fg.get('state')!.value | json }}</code>
+        ><code>{{ ctrlForm3.get('state')!.value | json }}</code>
       </div>
     </div>
   </div>

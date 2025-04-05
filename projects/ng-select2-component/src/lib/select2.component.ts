@@ -8,7 +8,6 @@ import {
 } from '@angular/cdk/overlay';
 import { ViewportRuler } from '@angular/cdk/scrolling';
 import { NgTemplateOutlet } from '@angular/common';
-import type { ElementRef, OnDestroy } from '@angular/core';
 import {
     AfterViewInit,
     Attribute,
@@ -16,11 +15,15 @@ import {
     ChangeDetectorRef,
     Component,
     DoCheck,
+    ElementRef,
     HostBinding,
     HostListener,
+    OnChanges,
+    OnDestroy,
     OnInit,
     Optional,
     Self,
+    SimpleChanges,
     TemplateRef,
     booleanAttribute,
     computed,
@@ -78,7 +81,7 @@ const CLOSE_KEYS: (string | KeyInfo)[] = ['Escape', 'Tab', { key: 'ArrowUp', alt
     },
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterViewInit, OnDestroy {
+export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterViewInit, OnDestroy, OnChanges {
     readonly _uid = `select2-${nextUniqueId++}`;
     // ----------------------- signal-input
 
@@ -390,16 +393,9 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
         if (this._control) {
             this._control.valueAccessor = this;
         }
-
         this.toObservable.add(
             toObservable(this.multiple).subscribe(_multiple => {
                 this.ngOnInit();
-            }),
-        );
-        this.toObservable.add(
-            toObservable(this.data).subscribe(_data => {
-                this._data = _data;
-                this.updateFilteredData();
             }),
         );
         this.toObservable.add(
@@ -412,16 +408,21 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
                 this._disabled = disabled;
             }),
         );
-        this.toObservable.add(
-            toObservable(this.value).subscribe(value => {
-                if (this.testValueChange(this._value, value)) {
-                    if (this._value === undefined) {
-                        this._value = value;
-                    }
-                    this.writeValue(value);
+    }
+
+    ngOnChanges(changes: SimpleChanges): void {
+        if (changes['data']) {
+            this._data = changes['data'].currentValue;
+            this.updateFilteredData();
+        } else if (changes['value']) {
+            const value = changes['value'].currentValue;
+            if (this.testValueChange(this._value, value)) {
+                if (this._value === undefined) {
+                    this._value = value;
                 }
-            }),
-        );
+                this.writeValue(value);
+            }
+        }
     }
 
     @HostListener('document:click', ['$event'])
@@ -1086,7 +1087,7 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
      */
     writeValue(value: any) {
         this.selectedOption = null;
-        this._setSelectionByValue(value);
+        this._setSelectionByValue(this.multiple() ? (value ?? []) : value);
         if (this.testValueChange(this._value, value)) {
             this._value = value;
         }
