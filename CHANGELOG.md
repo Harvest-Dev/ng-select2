@@ -1,5 +1,12 @@
 # Changelog of ng-select2
 
+## V17.2.3 (2025-04-06)
+
+### Change
+
+- fix: `hideSelectedItems` on click option to not close the dropdown #58
+- fix: `limitSelection` when value is not an array
+
 ## V17.2.2 (2025-04-05)
 
 ### Change
