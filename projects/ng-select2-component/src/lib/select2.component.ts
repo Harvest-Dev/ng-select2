@@ -430,9 +430,18 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
         if (this.isOpen) {
             const target = e.target as HTMLElement;
             if (!this.ifParentContainsClass(target, 'selection')) {
-                if (!this.ifParentContainsClass(target, 'select2-dropdown')) {
+                if (
+                    (!this.ifParentContainsClass(target, 'select2-dropdown') &&
+                        !this.multiple() &&
+                        !this.hideSelectedItems()) ||
+                    !(
+                        this.ifParentContainsClass(target, 'select2-results__option') ||
+                        this.ifParentContainsClass(target, 'select2-dropdown')
+                    )
+                ) {
                     this.toggleOpenAndClose();
                 }
+
                 if (!this.overlay() && !this.ifParentContainsId(target, this.id())) {
                     this.clickExit();
                 }
@@ -602,6 +611,8 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
             return;
         }
         this._focus(focus);
+
+        console.error('>>>><');
 
         const onOpenAction = event && this._testKey(event, ON_OPEN_KEYS);
         const changeEmit = this.isOpen !== (open ?? !this.isOpen);
