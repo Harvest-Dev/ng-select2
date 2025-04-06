@@ -737,9 +737,7 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
         }
 
         const limitSelection = this.limitSelection();
-        return (
-            !this.multiple() || !limitSelection || (Array.isArray(this._value) && this._value.length < limitSelection)
-        );
+        return !this.multiple() || !limitSelection || this.optionsSize() < limitSelection;
     }
 
     private testValueChange(value1: Select2UpdateValue | null, value2: Select2UpdateValue | undefined) {
