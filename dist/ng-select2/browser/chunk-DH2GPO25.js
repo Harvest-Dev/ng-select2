@@ -1,4 +1,4 @@
-import{d as g}from"./chunk-VYCFR35Q.js";import"./chunk-AOWZBKXU.js";import"./chunk-4FOF4764.js";import{a as f,w as b}from"./chunk-2PJKHW3M.js";import{x as h,y as v}from"./chunk-TFLA3MJ3.js";import{Eb as e,Fb as t,Gb as a,Ua as i,Ub as n,Wb as m,fb as d,gc as r,hc as s,wb as p}from"./chunk-NMNW4KSO.js";import"./chunk-EQDQRRRY.js";var H=(()=>{class l{constructor(){this.data=f,this.ts=`import { Select2 } from 'ng-select2-component';
+import{d as g}from"./chunk-VYCFR35Q.js";import"./chunk-AOWZBKXU.js";import"./chunk-4FOF4764.js";import{a as f,w as b}from"./chunk-3U57SYJ4.js";import{x as h,y as v}from"./chunk-TFLA3MJ3.js";import{Eb as e,Fb as t,Gb as a,Ua as i,Ub as n,Wb as m,fb as d,gc as r,hc as s,wb as p}from"./chunk-NMNW4KSO.js";import"./chunk-EQDQRRRY.js";var H=(()=>{class l{constructor(){this.data=f,this.ts=`import { Select2 } from 'ng-select2-component';
 
 @Component({
     selector: 'app-root',
