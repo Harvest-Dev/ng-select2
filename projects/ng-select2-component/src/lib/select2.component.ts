@@ -612,8 +612,6 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
         }
         this._focus(focus);
 
-        console.error('>>>><');
-
         const onOpenAction = event && this._testKey(event, ON_OPEN_KEYS);
         const changeEmit = this.isOpen !== (open ?? !this.isOpen);
         this.isOpen = open ?? !this.isOpen;
