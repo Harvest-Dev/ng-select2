@@ -1,5 +1,11 @@
 # Changelog of ng-select2
 
+## V17.2.5 (2025-04-18)
+
+### Change
+
+- fix: when data and value change at the same time
+
 ## V17.2.4 (2025-04-06)
 
 ### Change
