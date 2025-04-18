@@ -414,7 +414,8 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
         if (changes['data']) {
             this._data = changes['data'].currentValue;
             this.updateFilteredData();
-        } else if (changes['value']) {
+        }
+        if (changes['value']) {
             const value = changes['value'].currentValue;
             if (this.testValueChange(this._value, value)) {
                 if (this._value === undefined) {
