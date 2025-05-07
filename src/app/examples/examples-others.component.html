@@ -68,5 +68,22 @@
       <button (click)="value21 = null">{{ 'Update value to “null”' | transloco }}</button>
       <button (click)="value21 = undefined">{{ 'Update value to “undefined”' | transloco }}</button>
     </div>
+    <br />
+
+    <h3 class="col-12" id="ex-41">{{ 'Multiple value changing data:' | transloco }}</h3>
+    <div class="col-6">
+      <select2
+        [overlay]="overlay"
+        [styleMode]="styleMode"
+        [data]="data41"
+        [value]="value41m"
+        id="select2-41-m"
+        (update)="update('value41m', $event)"
+        multiple
+      >
+      </select2>
+      <button (click)="changeDataAndValue41()">{{ 'Update  list data and value (select something first)' | transloco }}</button>
+      <br />
+    </div>
   </div>
 </div>

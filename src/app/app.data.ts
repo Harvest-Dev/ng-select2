@@ -1,5 +1,5 @@
 import Graphemer from 'graphemer';
-import { Select2Data } from 'projects/ng-select2-component/src/public_api';
+import { Select2Data, Select2Option } from 'projects/ng-select2-component/src/public_api';
 
 export const data1: Select2Data = [
     {
@@ -383,17 +383,17 @@ for (let i = 1; i <= 200; i++) {
     data28.push({ value: i, label: 'item n° ' + i });
 }
 
-export const data31en: Select2Data = [
+export const data31en: Array<Select2Option> = [
     { value: 'english', label: 'English' },
     { value: 'french', label: 'French' },
     { value: 'japanese', label: 'Japanese' },
 ];
-export const data31fr: Select2Data = [
+export const data31fr: Array<Select2Option> = [
     { value: 'english', label: 'Anglais' },
     { value: 'french', label: 'Français' },
     { value: 'japanese', label: 'Japonais' },
 ];
-export const data31ja: Select2Data = [
+export const data31ja: Array<Select2Option> = [
     { value: 'english', label: '英語' },
     { value: 'french', label: 'フランス語' },
     { value: 'japanese', label: '日本語' },
