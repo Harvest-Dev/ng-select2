@@ -1,5 +1,11 @@
 # Changelog of ng-select2
 
+## V17.2.6 (2025-05-08)
+
+### Change
+
+- fix: when multiselect change fulldata (data & value) #91 (thanks @jcompagner)
+
 ## V17.2.5 (2025-04-18)
 
 ### Change
