@@ -411,9 +411,10 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
     }
 
     ngOnChanges(changes: SimpleChanges): void {
+        let updateFilterData;
         if (changes['data']) {
             this._data = changes['data'].currentValue;
-            this.updateFilteredData();
+            updateFilterData = true; 
         }
         if (changes['value']) {
             const value = changes['value'].currentValue;
@@ -422,7 +423,12 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
                     this._value = value;
                 }
                 this.writeValue(value);
+                updateFilterData = true;
             }
+        }
+        // now call update filter data so that _data and the current selected values are set
+        if (updateFilterData){
+            this.updateFilteredData();
         }
     }
 
