@@ -4,7 +4,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { TranslocoModule } from '@jsverse/transloco';
 
-import { Select2, Select2Data, Select2Option, Select2Value } from 'projects/ng-select2-component/src/public_api';
+import { Select2, Select2Data, Select2Value } from 'projects/ng-select2-component/src/public_api';
 
 import { Examples } from './examples';
 
@@ -43,14 +43,14 @@ export class ExemplesOthersComponent extends Examples {
                 break;
         }
     }
-    
+
     changeDataAndValue41() {
         if (this.data41[0].value === 'english') {
-            this.data41 =  JSON.parse(JSON.stringify(data22));
-            this.value41m = ["heliotrope"]
-        } else { 
+            this.data41 = JSON.parse(JSON.stringify(data22));
+            this.value41m = ['heliotrope'];
+        } else {
             this.data41 = JSON.parse(JSON.stringify(data31en));
-            this.value41m = ["english"]
+            this.value41m = ['english'];
         }
     }
 }

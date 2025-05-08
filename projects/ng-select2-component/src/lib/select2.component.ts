@@ -414,7 +414,7 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
         let updateFilterData;
         if (changes['data']) {
             this._data = changes['data'].currentValue;
-            updateFilterData = true; 
+            updateFilterData = true;
         }
         if (changes['value']) {
             const value = changes['value'].currentValue;
@@ -427,7 +427,7 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
             }
         }
         // now call update filter data so that _data and the current selected values are set
-        if (updateFilterData){
+        if (updateFilterData) {
             this.updateFilteredData();
         }
     }

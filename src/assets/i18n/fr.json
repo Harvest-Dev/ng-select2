@@ -128,5 +128,13 @@
   "Native keyboard navigation": "Navigation native au clavier",
   "<code>nativeKeyboard</code> attribute to have the same navigation as the native HTML select:": "L'attribut <code>nativeKeyboard</code> pour avoir une navigation comme le select HTML natif&nbsp;:",
   "the arrows don't open the drop down": "Les flèches n'ouvrent pas la liste des options",
-  "the arrows update the selected value": "Les flèches mettent à jour la valeur sélectionnée"
+  "the arrows update the selected value": "Les flèches mettent à jour la valeur sélectionnée",
+  "Multiple value changing data": "Changement des données à valeurs multiples",
+  "Update list data and value (select something first)": "Mettre à jour les données et la valeur de la liste (sélectionnez d'abord quelque chose)",
+
+  "Multiple": "Multiple",
+  "Form Control": "Form Control",
+  "Position": "Position",
+  "Template": "Template",
+  "Style": "Style"
 }

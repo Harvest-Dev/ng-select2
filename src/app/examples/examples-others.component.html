@@ -70,7 +70,7 @@
     </div>
     <br />
 
-    <h3 class="col-12" id="ex-41">{{ 'Multiple value changing data:' | transloco }}</h3>
+    <h3 class="col-12" id="ex-41">{{ 'Multiple value changing data' | transloco }}</h3>
     <div class="col-6">
       <select2
         [overlay]="overlay"
@@ -82,7 +82,17 @@
         multiple
       >
       </select2>
-      <button (click)="changeDataAndValue41()">{{ 'Update  list data and value (select something first)' | transloco }}</button>
+    </div>
+    <div class="col-12 value">
+      <div>
+        <span>{{ 'value:' | transloco }}</span
+        ><code>{{ value41m | json }}</code>
+      </div>
+    </div>
+    <div class="col-12">
+      <button (click)="changeDataAndValue41()">
+        {{ 'Update list data and value (select something first)' | transloco }}
+      </button>
       <br />
     </div>
   </div>
