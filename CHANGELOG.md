@@ -1,5 +1,12 @@
 # Changelog of ng-select2
 
+## V17.2.7 (2025-06-13)
+
+### Change
+
+- feat: track by `id` (add `id` on groups) #92
+- add Angular `20.0` support.
+
 ## V17.2.6 (2025-05-08)
 
 ### Change
