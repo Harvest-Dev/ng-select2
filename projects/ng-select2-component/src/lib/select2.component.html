@@ -99,7 +99,7 @@
               >{{ placeholder() }}</span
             >
           }
-          @for (op of selectedOption || []; track op) {
+          @for (op of selectedOption || []; track op.id) {
             <li
               class="select2-selection__choice"
               [title]="op.label"
@@ -242,7 +242,7 @@
             </li>
           }
 
-          @for (groupOrOption of filteredData(); track groupOrOption; let i = $index) {
+          @for (groupOrOption of filteredData(); track groupOrOption.id; let i = $index) {
             @let group = _toGroup(groupOrOption);
             @if (group.options !== undefined) {
               <li class="select2-results__option select2-results__group">
@@ -261,7 +261,7 @@
                   role="group"
                   [attr.aria-labelledby]="getElementId(groupOrOption)"
                 >
-                  @for (option of group.options; track option; let j = $index) {
+                  @for (option of group.options; track option.id; let j = $index) {
                     <li
                       #result
                       [id]="getElementId(option)"

@@ -1,11 +1,10 @@
 import { TemplateRef } from '@angular/core';
 
-
-
 import { Select2 } from './select2.component';
 
-
 export interface Select2Group {
+    /** for identification */
+    id?: string;
     /** label of group */
     label: string;
     /** options list */

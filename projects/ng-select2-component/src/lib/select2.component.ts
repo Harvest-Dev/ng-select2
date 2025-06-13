@@ -1183,12 +1183,15 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
 
     getElementId(elt: Select2Group | Select2Option | null): string | null {
         if (!elt) {
-            return null;
+            return elt;
+        } else if (elt.id) {
+            return elt.id;
         }
 
         const [i, j] = this._getElementPath(elt);
         const toSuffix = (index: number) => (index !== undefined ? `-${index}` : '');
-        return (elt as Select2Option).id ?? `${this.id()}-option${toSuffix(i)}${toSuffix(j)}`;
+        elt.id ??= `${this.id()}-option${toSuffix(i)}${toSuffix(j)}`;
+        return elt.id;
     }
 
     _getElementPath(elt: Select2Group | Select2Option): number[] {
