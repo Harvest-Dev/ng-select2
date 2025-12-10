@@ -1,5 +1,11 @@
 # Changelog of ng-select2
 
+## V17.2.8 (2025-12-10)
+
+### Change
+
+- add Angular `21.0` support.
+
 ## V17.2.7 (2025-06-13)
 
 ### Change

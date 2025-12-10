@@ -14,29 +14,29 @@ npm i ng-select2-component --save
 
 - peerDependencies:
 
-    - `angular` 18.1.0 and more
-    - `angular/cdk` 18.1.0 and more
+    - `angular` `^18.1.0` to `^21.0.0`
+    - `angular/cdk` `^18.1.0` to `^21.0.0`
 
 - dependencies (include):
 
-    - `ngx-infinite-scroll` 19.0.0 and more
+    - `ngx-infinite-scroll` `^19.0.0` to `^21.0.0`
 
 ### Notes
 
-| Version   | For **Angular** | Notes             |
-| --------- | --------------- | ----------------- |
-| `17.2.0`  | 18.1 and more   | Ivy / Stand-alone |
-| `17.1.0`  | 19              | Ivy / Stand-alone |
-| `16.0.0`  | 19              | Ivy / Module      |
-| `15.4.0`  | 18              | Ivy               |
-| `14.0.1`  | 17              | Ivy               |
-| `13.0.12` | 16.1            | Ivy               |
-| `12.1.0`  | 16              | Ivy               |
-| `11.1.0`  | 15              | Ivy               |
-| `10.0.0`  | 14              | Ivy               |
-| `9.0.0`   | 13              | Ivy               |
-| `8.1.0`   | 10, 11 and 12   | View Engine       |
-| `7.3.1`   | 7, 8 and 9      | View Engine       |
+| Version   | For **Angular**  | Notes             |
+| --------- | ---------------- | ----------------- |
+| `17.2.x`  | 18.1, 19, 20, 21 | Ivy / Stand-alone |
+| `17.1.0`  | 19               | Ivy / Stand-alone |
+| `16.0.0`  | 19               | Ivy / Module      |
+| `15.4.0`  | 18               | Ivy               |
+| `14.0.1`  | 17               | Ivy               |
+| `13.0.12` | 16.1             | Ivy               |
+| `12.1.0`  | 16               | Ivy               |
+| `11.1.0`  | 15               | Ivy               |
+| `10.0.0`  | 14               | Ivy               |
+| `9.0.0`   | 13               | Ivy               |
+| `8.1.0`   | 10, 11 and 12    | View Engine       |
+| `7.3.1`   | 7, 8 and 9       | View Engine       |
 
 ## Demo
 
