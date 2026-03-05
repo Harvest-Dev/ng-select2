@@ -1,6 +1,6 @@
 {
   "name": "ng-select2-component",
-  "version": "17.2.8",
+  "version": "17.2.9",
   "description": "An Angular select2 component.",
   "author": "York Yao, Célian Veyssière",
   "license": "MIT",
@@ -17,7 +17,8 @@
     "url": "git+https://github.com/Harvest-Dev/ng-select2.git"
   },
   "publishConfig": {
-    "registry": "https://registry.npmjs.org"
+    "registry": "https://registry.npmjs.org",
+    "access": "public"
   },
   "bugs": {
     "url": "https://github.com/Harvest-Dev/ng-select2/issues"

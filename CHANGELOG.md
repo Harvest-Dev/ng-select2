@@ -1,5 +1,11 @@
 # Changelog of ng-select2
 
+## V17.2.9 (2026-03-05)
+
+### Change
+
+- feat: include placeholder for auto create input #93 (thanks @shoboske)
+
 ## V17.2.8 (2025-12-10)
 
 ### Change

@@ -15,3 +15,4 @@ Thanks for your contributions:
 - Khanh Ngo
 - Johan Compagner
 - majora2007
+- Michael Shobowale
