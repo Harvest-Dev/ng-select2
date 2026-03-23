@@ -3610,7 +3610,6 @@ describe('Select2 Component - final branches', () => {
     });
 });
 
-
 // ── Targeting specific uncovered lines ───────────────────────────────
 
 describe('Select2 Component - targeted line coverage', () => {
@@ -3733,3 +3732,4 @@ describe('Select2 Component - targeted line coverage', () => {
             }
         });
     });
+});
