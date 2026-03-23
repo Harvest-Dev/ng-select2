@@ -385,3 +385,210 @@ describe('Select2Utils', () => {
         });
     });
 });
+
+// ── Additional coverage tests ────────────────────────────────────────
+
+describe('Select2Utils - additional coverage', () => {
+    // ── getPreviousOption with grouped data (lines 85-91) ────────────
+
+    describe('getPreviousOption with grouped data', () => {
+        const groupedData: Select2Data = [
+            {
+                label: 'Group 1',
+                options: [
+                    { value: 'g1a', label: 'G1A' },
+                    { value: 'g1b', label: 'G1B' },
+                ],
+            },
+            {
+                label: 'Group 2',
+                options: [
+                    { value: 'g2a', label: 'G2A' },
+                    { value: 'g2b', label: 'G2B' },
+                ],
+            },
+        ];
+
+        it('should navigate backwards across groups', () => {
+            const current = (groupedData[1] as Select2Group).options[0]; // g2a
+            const result = Select2Utils.getPreviousOption(groupedData, current);
+            expect(result?.value).toBe('g1b');
+        });
+
+        it('should skip disabled options in groups when going backwards', () => {
+            const data: Select2Data = [
+                {
+                    label: 'G1',
+                    options: [{ value: 'a', label: 'A' }],
+                },
+                {
+                    label: 'G2',
+                    options: [
+                        { value: 'b', label: 'B', disabled: true },
+                        { value: 'c', label: 'C' },
+                    ],
+                },
+            ];
+            const current = (data[1] as Select2Group).options[1]; // c
+            const result = Select2Utils.getPreviousOption(data, current);
+            // b is disabled, so should go to a
+            expect(result?.value).toBe('a');
+        });
+
+        it('should skip hidden options in groups when going backwards', () => {
+            const data: Select2Data = [
+                {
+                    label: 'G1',
+                    options: [{ value: 'a', label: 'A' }],
+                },
+                {
+                    label: 'G2',
+                    options: [
+                        { value: 'b', label: 'B', hide: true },
+                        { value: 'c', label: 'C' },
+                    ],
+                },
+            ];
+            const current = (data[1] as Select2Group).options[1]; // c
+            const result = Select2Utils.getPreviousOption(data, current);
+            expect(result?.value).toBe('a');
+        });
+
+        it('should return last available from groups when hovering is null', () => {
+            const result = Select2Utils.getPreviousOption(groupedData, null);
+            expect(result?.value).toBe('g2b');
+        });
+    });
+
+    // ── getNextOption with grouped data (lines 113-119) ──────────────
+
+    describe('getNextOption with grouped data', () => {
+        const groupedData: Select2Data = [
+            {
+                label: 'Group 1',
+                options: [
+                    { value: 'g1a', label: 'G1A' },
+                    { value: 'g1b', label: 'G1B' },
+                ],
+            },
+            {
+                label: 'Group 2',
+                options: [
+                    { value: 'g2a', label: 'G2A' },
+                    { value: 'g2b', label: 'G2B' },
+                ],
+            },
+        ];
+
+        it('should navigate forward across groups', () => {
+            const current = (groupedData[0] as Select2Group).options[1]; // g1b
+            const result = Select2Utils.getNextOption(groupedData, current);
+            expect(result?.value).toBe('g2a');
+        });
+
+        it('should skip disabled options in groups when going forward', () => {
+            const data: Select2Data = [
+                {
+                    label: 'G1',
+                    options: [
+                        { value: 'a', label: 'A' },
+                        { value: 'b', label: 'B', disabled: true },
+                    ],
+                },
+                {
+                    label: 'G2',
+                    options: [{ value: 'c', label: 'C' }],
+                },
+            ];
+            const current = (data[0] as Select2Group).options[0]; // a
+            const result = Select2Utils.getNextOption(data, current);
+            // b is disabled, so should go to c
+            expect(result?.value).toBe('c');
+        });
+
+        it('should skip hidden options in groups when going forward', () => {
+            const data: Select2Data = [
+                {
+                    label: 'G1',
+                    options: [
+                        { value: 'a', label: 'A' },
+                        { value: 'b', label: 'B', hide: true },
+                    ],
+                },
+                {
+                    label: 'G2',
+                    options: [{ value: 'c', label: 'C' }],
+                },
+            ];
+            const current = (data[0] as Select2Group).options[0]; // a
+            const result = Select2Utils.getNextOption(data, current);
+            expect(result?.value).toBe('c');
+        });
+
+        it('should return first available from groups when hovering is null', () => {
+            const result = Select2Utils.getNextOption(groupedData, null);
+            expect(result?.value).toBe('g1a');
+        });
+    });
+
+    // ── getFilteredSelectedData edge case (line 226) ─────────────────
+
+    describe('getFilteredSelectedData - group fully filtered', () => {
+        it('should remove entire group when all options are selected', () => {
+            const data: Select2Data = [
+                {
+                    label: 'G1',
+                    options: [
+                        { value: 'a', label: 'A' },
+                        { value: 'b', label: 'B' },
+                    ],
+                },
+                { value: 'c', label: 'C' },
+            ];
+            const group = data[0] as Select2Group;
+            const selected: Select2Option[] = [group.options[0], group.options[1]];
+            const result = Select2Utils.getFilteredSelectedData(data, selected);
+            // Group should be removed entirely since all options are selected
+            expect(result.length).toBe(1);
+            expect((result[0] as Select2Option).value).toBe('c');
+        });
+    });
+});
+
+describe('Select2Utils - remaining branch coverage', () => {
+    describe('getFilteredData with null/empty searchText', () => {
+        it('should return original data when searchText is null', () => {
+            const result = Select2Utils.getFilteredData(SIMPLE_DATA, null);
+            expect(result).toBe(SIMPLE_DATA);
+        });
+
+        it('should return original data when searchText is empty', () => {
+            const result = Select2Utils.getFilteredData(SIMPLE_DATA, '');
+            expect(result).toBe(SIMPLE_DATA);
+        });
+    });
+
+    describe('getFirstOption - group first element', () => {
+        it('should return first option from group when first element is a group', () => {
+            const result = Select2Utils.getFirstOption(GROUP_DATA);
+            expect(result?.value).toBe('g1a');
+        });
+
+        it('should return first element when it is an option', () => {
+            const result = Select2Utils.getFirstOption(SIMPLE_DATA);
+            expect(result?.value).toBe('a');
+        });
+    });
+
+    describe('getLastOption - group last element', () => {
+        it('should return last option from group when last element is a group', () => {
+            const result = Select2Utils.getLastOption(GROUP_DATA);
+            expect(result?.value).toBe('g2b');
+        });
+
+        it('should return last element when it is an option', () => {
+            const result = Select2Utils.getLastOption(SIMPLE_DATA);
+            expect(result?.value).toBe('c');
+        });
+    });
+});
