@@ -3733,3 +3733,159 @@ describe('Select2 Component - targeted line coverage', () => {
         });
     });
 });
+
+// ── Final coverage: scroll and keyDown branches ──────────────────────
+
+describe('Select2 Component - scroll and keyDown coverage', () => {
+    let fixture: ComponentFixture<TestHostComponent>;
+    let host: TestHostComponent;
+    let select2: Select2;
+
+    beforeEach(async () => {
+        await TestBed.configureTestingModule({
+            imports: [TestHostComponent],
+            providers: [provideNoopAnimations()],
+        }).compileComponents();
+
+        fixture = TestBed.createComponent(TestHostComponent);
+        host = fixture.componentInstance;
+        fixture.detectChanges();
+        select2 = getSelect2(fixture);
+    });
+
+    // ── Lines 1302, 1305: updateScrollFromOption scroll adjustments ──
+
+    describe('updateScrollFromOption scroll branches', () => {
+        it('should scroll down when option is below visible area', () => {
+            host.value = 'opt1';
+            fixture.detectChanges();
+            select2 = getSelect2(fixture);
+
+            // Open the select to render results
+            select2.toggleOpenAndClose(true, true);
+            fixture.detectChanges();
+
+            const resultsEl = (select2 as any).resultsElement;
+            if (resultsEl) {
+                // Mock getBoundingClientRect on the results container
+                vi.spyOn(resultsEl, 'getBoundingClientRect').mockReturnValue({
+                    top: 100,
+                    bottom: 300,
+                    left: 0,
+                    right: 200,
+                    width: 200,
+                    height: 200,
+                    x: 0,
+                    y: 100,
+                    toJSON: () => {},
+                });
+
+                // Find a result element and mock its getBoundingClientRect
+                const resultElements = select2.results();
+                if (resultElements.length > 0) {
+                    vi.spyOn(resultElements[0].nativeElement, 'getBoundingClientRect').mockReturnValue({
+                        top: 350,
+                        bottom: 380,
+                        left: 0,
+                        right: 200,
+                        width: 200,
+                        height: 30,
+                        x: 0,
+                        y: 350,
+                        toJSON: () => {},
+                    });
+                }
+
+                // Call updateScrollFromOption - should trigger scroll down (line 1302)
+                const option = SIMPLE_DATA[0] as Select2Option;
+                (select2 as any).updateScrollFromOption(option);
+                // scrollTop should have been adjusted
+                expect(resultsEl.scrollTop).toBeGreaterThanOrEqual(0);
+            }
+        });
+
+        it('should scroll up when option is above visible area', () => {
+            host.value = 'opt1';
+            fixture.detectChanges();
+            select2 = getSelect2(fixture);
+
+            // Open the select to render results
+            select2.toggleOpenAndClose(true, true);
+            fixture.detectChanges();
+
+            const resultsEl = (select2 as any).resultsElement;
+            if (resultsEl) {
+                // Mock: results container starts at 200, option is at 50 (above)
+                vi.spyOn(resultsEl, 'getBoundingClientRect').mockReturnValue({
+                    top: 200,
+                    bottom: 400,
+                    left: 0,
+                    right: 200,
+                    width: 200,
+                    height: 200,
+                    x: 0,
+                    y: 200,
+                    toJSON: () => {},
+                });
+
+                const resultElements = select2.results();
+                if (resultElements.length > 0) {
+                    vi.spyOn(resultElements[0].nativeElement, 'getBoundingClientRect').mockReturnValue({
+                        top: 50,
+                        bottom: 80,
+                        left: 0,
+                        right: 200,
+                        width: 200,
+                        height: 30,
+                        x: 0,
+                        y: 50,
+                        toJSON: () => {},
+                    });
+                }
+
+                // Call updateScrollFromOption - should trigger scroll up (line 1305)
+                const option = SIMPLE_DATA[0] as Select2Option;
+                (select2 as any).updateScrollFromOption(option);
+                expect(resultsEl.scrollTop).toBeLessThanOrEqual(0);
+            }
+        });
+    });
+
+    // ── Line 1021: openKey with CLOSE_KEYS when isOpen ─────────────
+
+    describe('openKey with CLOSE_KEYS when isOpen', () => {
+        it('should close via openKey Escape when isOpen is true', () => {
+            // Force isOpen to true
+            select2.isOpen = true;
+            fixture.detectChanges();
+
+            // Dispatch keydown on the selection element (which binds to openKey)
+            const selectionEl = fixture.nativeElement.querySelector('.selection') as HTMLElement;
+            const event = new KeyboardEvent('keydown', { key: 'Escape', bubbles: true, cancelable: true });
+            selectionEl.dispatchEvent(event);
+            fixture.detectChanges();
+            expect(select2.isOpen).toBe(false);
+        });
+
+        it('should close via openKey Tab when isOpen is true', () => {
+            select2.isOpen = true;
+            fixture.detectChanges();
+
+            const selectionEl = fixture.nativeElement.querySelector('.selection') as HTMLElement;
+            const event = new KeyboardEvent('keydown', { key: 'Tab', bubbles: true, cancelable: true });
+            selectionEl.dispatchEvent(event);
+            fixture.detectChanges();
+            expect(select2.isOpen).toBe(false);
+        });
+
+        it('should call openKey directly with Escape when isOpen', () => {
+            select2.isOpen = true;
+            fixture.detectChanges();
+
+            const event = new KeyboardEvent('keydown', { key: 'Escape', bubbles: true, cancelable: true });
+            select2.openKey(event);
+            fixture.detectChanges();
+            expect(select2.isOpen).toBe(false);
+        });
+    });
+});

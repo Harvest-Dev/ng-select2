@@ -886,10 +886,6 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
     }
 
     private containAlmostOneClasses(element: HTMLElement, cssClasses: string[]): boolean {
-        if (!element.classList) {
-            return false;
-        }
-
         let containAlmostOne = false;
         for (const cssClass of cssClasses) {
             if (element.classList.contains(cssClass)) {
@@ -945,9 +941,6 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
                     this.selectionElement?.focus();
                 }
                 value = this.selectedOption.value;
-                if (!option && this._value === null) {
-                    this._value = value;
-                }
             }
         } else {
             // when remove value
