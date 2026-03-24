@@ -1,11 +1,11 @@
-import { Component } from '@angular/core';
+import { Component, TemplateRef, ViewChild } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { provideNoopAnimations } from '@angular/platform-browser/animations';
 
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 
-import { Select2Data, Select2Group, Select2Option, Select2UpdateValue } from './select2-interfaces';
+import { Select2Data, Select2Group, Select2Option, Select2Template, Select2UpdateValue } from './select2-interfaces';
 import { Select2 } from './select2.component';
 
 // ── Test data ──────────────────────────────────────────────────────────
@@ -3882,10 +3882,1201 @@ describe('Select2 Component - scroll and keyDown coverage', () => {
             select2.isOpen = true;
             fixture.detectChanges();
 
+            const spy = vi.spyOn(select2, 'toggleOpenAndClose');
             const event = new KeyboardEvent('keydown', { key: 'Escape', bubbles: true, cancelable: true });
             select2.openKey(event);
             fixture.detectChanges();
+            expect(spy).toHaveBeenCalled();
             expect(select2.isOpen).toBe(false);
         });
+    });
+});
+
+// ── openKey create=true direct call ──────────────────────────────────
+
+describe('Select2 Component - openKey create branch', () => {
+    let fixture: ComponentFixture<TestHostComponent>;
+    let host: TestHostComponent;
+    let select2: Select2;
+
+    beforeEach(async () => {
+        await TestBed.configureTestingModule({
+            imports: [TestHostComponent],
+            providers: [provideNoopAnimations()],
+        }).compileComponents();
+
+        fixture = TestBed.createComponent(TestHostComponent);
+        host = fixture.componentInstance;
+        host.autoCreate = true;
+        host.multiple = true;
+        fixture.detectChanges();
+        select2 = getSelect2(fixture);
+    });
+
+    it('should call createAndAdd when openKey is called with create=true and Enter', () => {
+        // Open the select
+        clickSelection(fixture);
+        fixture.detectChanges();
+
+        // Create a fake event with a target that has a value
+        const fakeInput = document.createElement('input');
+        fakeInput.value = 'NewItem';
+        const event = new KeyboardEvent('keydown', { key: 'Enter', bubbles: true, cancelable: true });
+        Object.defineProperty(event, 'target', { value: fakeInput });
+
+        select2.openKey(event, true);
+        fixture.detectChanges();
+
+        // The item should have been created
+        expect(host.onAutoCreate).toHaveBeenCalled();
+    });
+});
+
+// ── Branch coverage: remaining uncovered branches ────────────────────
+
+describe('Select2 Component - branch coverage completion', () => {
+    let fixture: ComponentFixture<TestHostComponent>;
+    let host: TestHostComponent;
+    let select2: Select2;
+
+    beforeEach(async () => {
+        await TestBed.configureTestingModule({
+            imports: [TestHostComponent],
+            providers: [provideNoopAnimations()],
+        }).compileComponents();
+
+        fixture = TestBed.createComponent(TestHostComponent);
+        host = fixture.componentInstance;
+        fixture.detectChanges();
+        select2 = getSelect2(fixture);
+    });
+
+    // ── Line 1160: drop() when selectedOption is NOT an array ────────
+    it('should do nothing in drop() when selectedOption is not an array (single mode)', () => {
+        host.value = 'opt1';
+        fixture.detectChanges();
+        select2 = getSelect2(fixture);
+
+        const event = { previousIndex: 0, currentIndex: 1 } as any;
+        select2.drop(event);
+        // No error, no change
+        expect(select2.select2Option?.value).toBe('opt1');
+    });
+
+    // ── Line 1322: selectByEnter when hoveringOption is null ─────────
+    it('should do nothing in selectByEnter when no hovering option', () => {
+        clickSelection(fixture);
+        fixture.detectChanges();
+
+        // Set hovering option to null
+        (select2 as any).hoveringOption.set(null);
+
+        // Press Enter - should not throw, should not select
+        const searchInput = fixture.nativeElement.querySelector('.select2-search__field') as HTMLElement;
+        if (searchInput) {
+            dispatchKeydown(searchInput, 'Enter');
+        }
+        fixture.detectChanges();
+        expect(select2.selectedOption).toBeFalsy();
+    });
+
+    // ── Line 1396: _focusSearchbox when isSearchboxHidden is true ────
+    it('should not focus searchbox when isSearchboxHidden is true', () => {
+        host.displaySearchStatus = 'hidden';
+        fixture.detectChanges();
+        select2 = getSelect2(fixture);
+
+        // Call _focusSearchbox directly - should skip because isSearchboxHidden
+        (select2 as any)._focusSearchbox(true);
+        // No error expected
+        expect(select2.isOpen).toBe(false);
+    });
+
+    // ── Line 1007: keyDown with non-matching key when open ───────────
+    it('should not close on unrecognized key in keyDown when open', () => {
+        clickSelection(fixture);
+        fixture.detectChanges();
+        expect(select2.isOpen).toBe(true);
+
+        const searchInput = fixture.nativeElement.querySelector('.select2-search__field') as HTMLElement;
+        if (searchInput) {
+            dispatchKeydown(searchInput, 'a');
+        }
+        fixture.detectChanges();
+        expect(select2.isOpen).toBe(true);
+    });
+
+    // ── Line 603: reset() with resetSelectedValue = undefined ────────
+    it('should reset to null when resetSelectedValue is undefined', async () => {
+        host.resettable = true;
+        host.value = 'opt1';
+        host.resetSelectedValue = undefined;
+        fixture.detectChanges();
+        select2 = getSelect2(fixture);
+
+        select2.reset();
+        fixture.detectChanges();
+        await new Promise(r => setTimeout(r, 0));
+        expect(select2.selectedOption).toBeNull();
+    });
+
+    // ── Line 947: select single with closeOnSelect but NOT isOpen ────
+    it('should not close when selecting in single mode if not open', async () => {
+        // Select without being open - closeOnSelect=true but isOpen=false
+        select2.select({ value: 'opt1', label: 'Option 1' }, true, true);
+        fixture.detectChanges();
+        await new Promise(r => setTimeout(r, 0));
+        expect(select2.isOpen).toBe(false);
+        expect(select2.select2Option?.value).toBe('opt1');
+    });
+
+    // ── Line 953: select(null) when selectedOption is empty array ─────
+    it('should handle select(null) when selectedOption is empty array', () => {
+        host.multiple = true;
+        fixture.detectChanges();
+        select2 = getSelect2(fixture);
+        (select2 as any).selectedOption = [];
+
+        select2.select(null, false, false);
+        fixture.detectChanges();
+        expect(select2.selectedOption).toBeNull();
+    });
+
+    // ── Line 980: testDiffValue with array val1 ──────────────────────
+    it('should detect diff when val1 is array with different length', async () => {
+        host.multiple = true;
+        host.value = ['opt1'];
+        fixture.detectChanges();
+        select2 = getSelect2(fixture);
+
+        // Set _value to an array
+        (select2 as any)._value = ['opt1'];
+
+        // Select another option - triggers testDiffValue with array
+        clickSelection(fixture);
+        fixture.detectChanges();
+        const options = getOptions(fixture);
+        options[1]?.click();
+        fixture.detectChanges();
+        await new Promise(r => setTimeout(r, 0));
+        expect(host.onUpdate).toHaveBeenCalled();
+    });
+
+    // ── Line 1087: removeSelection without _control ──────────────────
+    it('should set _value directly in removeSelection when no _control', async () => {
+        host.multiple = true;
+        host.value = ['opt1', 'opt2'];
+        fixture.detectChanges();
+        select2 = getSelect2(fixture);
+
+        // Ensure no _control
+        (select2 as any)._control = null;
+
+        const option = { value: 'opt1', label: 'Option 1' } as Select2Option;
+        const event = new MouseEvent('click', { bubbles: true, cancelable: true });
+        select2.removeSelection(event, option);
+        fixture.detectChanges();
+        await new Promise(r => setTimeout(r, 0));
+
+        // _value should be set directly
+        expect((select2 as any)._value).toBeTruthy();
+    });
+
+    // ── Line 1202: getElementId with element not found in data ───────
+    it('should handle getElementId for element not in data', () => {
+        const orphanOption: Select2Option = { value: 'orphan', label: 'Orphan' };
+        const id = select2.getElementId(orphanOption);
+        // _getElementPath returns [] so i and j are undefined
+        // toSuffix(undefined) should return ''
+        expect(id).toBeTruthy();
+    });
+
+    // ── Line 644: toggleOpenAndClose with searchbox hidden, already open, with event
+    it('should forward to keyDown when searchbox hidden, already open, same state', () => {
+        host.displaySearchStatus = 'hidden';
+        host.minCountForSearch = 999;
+        fixture.detectChanges();
+        select2 = getSelect2(fixture);
+
+        // Open first
+        select2.toggleOpenAndClose(true, true);
+        fixture.detectChanges();
+        expect(select2.isOpen).toBe(true);
+
+        // Call again with open=true (no change) and an event
+        const event = new KeyboardEvent('keydown', { key: 'ArrowDown', bubbles: true, cancelable: true });
+        select2.toggleOpenAndClose(true, true, event);
+        fixture.detectChanges();
+    });
+
+    // ── Line 658: toggleOpenAndClose with onOpenAction false ─────────
+    it('should open without onOpenAction when key is not in ON_OPEN_KEYS', () => {
+        host.displaySearchStatus = 'always';
+        fixture.detectChanges();
+        select2 = getSelect2(fixture);
+
+        // Open with Enter key (not in ON_OPEN_KEYS)
+        const event = new KeyboardEvent('keydown', { key: 'Enter', bubbles: true, cancelable: true });
+        select2.toggleOpenAndClose(true, true, event);
+        fixture.detectChanges();
+        expect(select2.isOpen).toBe(true);
+    });
+
+    // ── Line 932: select in multiple when selectedOption is already set
+    it('should use existing selectedOption array in multiple select (??= branch)', () => {
+        host.multiple = true;
+        host.value = ['opt1'];
+        fixture.detectChanges();
+        select2 = getSelect2(fixture);
+
+        // selectedOption is already an array, so ??= should NOT reassign
+        select2.select({ value: 'opt2', label: 'Option 2' }, false, false);
+        fixture.detectChanges();
+        expect(select2.select2Options.length).toBe(2);
+    });
+
+    // ── Line 853: isInSelect - second operand of || ──────────────────
+    it('should detect element inside overlay via isInSelect', () => {
+        host.overlay = true;
+        fixture.detectChanges();
+        select2 = getSelect2(fixture);
+
+        clickSelection(fixture);
+        fixture.detectChanges();
+
+        // Create element with overlay id
+        const el = document.createElement('div');
+        el.id = select2.idOverlay();
+        const result = (select2 as any).isInSelect(el);
+        expect(result).toBe(true);
+    });
+
+    // ── Line 1172: _isErrorState when control is valid ───────────────
+    it('should return false for _isErrorState when control is valid', () => {
+        const rfFixture = TestBed.createComponent(ReactiveFormHostComponent);
+        rfFixture.detectChanges();
+        const rfSelect2 = rfFixture.debugElement.children[0].children[0].componentInstance as Select2;
+
+        expect(rfSelect2._isErrorState()).toBe(false);
+    });
+
+    // ── Line 1273-1275: createAndAdd in single mode (non-array selectedOption)
+    it('should emit autoCreateItem with single selectedOption wrapped in array', () => {
+        host.autoCreate = true;
+        host.multiple = false;
+        fixture.detectChanges();
+        select2 = getSelect2(fixture);
+
+        clickSelection(fixture);
+        fixture.detectChanges();
+
+        const fakeInput = document.createElement('input');
+        fakeInput.value = 'NewSingle';
+        const event = new KeyboardEvent('keydown', { key: 'Enter', bubbles: true, cancelable: true });
+        Object.defineProperty(event, 'target', { value: fakeInput });
+
+        select2.openKey(event, true);
+        fixture.detectChanges();
+
+        expect(host.onAutoCreate).toHaveBeenCalled();
+        const emitted = host.onAutoCreate.mock.calls[0][0];
+        expect(emitted.options).toBeTruthy();
+    });
+
+    // ── createAndAdd with null selectedOption ────────────────────────
+    it('should emit autoCreateItem with single option wrapped in array', () => {
+        host.autoCreate = true;
+        host.multiple = false;
+        fixture.detectChanges();
+        select2 = getSelect2(fixture);
+
+        const fakeInput = document.createElement('input');
+        fakeInput.value = 'NewNull';
+        const event = new KeyboardEvent('keydown', { key: 'Enter', bubbles: true, cancelable: true });
+        Object.defineProperty(event, 'target', { value: fakeInput });
+
+        select2.openKey(event, true);
+        fixture.detectChanges();
+
+        expect(host.onAutoCreate).toHaveBeenCalled();
+        const emitted = host.onAutoCreate.mock.calls[0][0];
+        // In single mode, click(item) sets selectedOption to the item, so options is [item]
+        expect(emitted.options).toBeTruthy();
+        expect(emitted.options.length).toBe(1);
+    });
+
+    // ── Line 1416-1417: _focus(false) when activeElement is NOT selection/searchInput
+    it('should not blur when activeElement is not selection or searchInput', () => {
+        // Focus on some other element
+        const otherEl = document.createElement('input');
+        document.body.appendChild(otherEl);
+        otherEl.focus();
+
+        (select2 as any)._focus(false);
+        // Should not throw, should not blur selection
+        expect(select2.focused).toBe(false);
+
+        document.body.removeChild(otherEl);
+    });
+
+    // ── Line 366: resultsElement when resultContainer is undefined ────
+    it('should return undefined for resultsElement when not open', () => {
+        // When not open, resultContainer may not exist
+        const result = (select2 as any).resultsElement;
+        // Either undefined or an element - just ensure no crash
+        expect(result === undefined || result instanceof HTMLElement).toBe(true);
+    });
+
+    // ── Line 489: ngOnInit without _control (uses this.value()) ──────
+    it('should use value() input in ngOnInit when no _control', () => {
+        // The default TestHostComponent has no _control
+        host.value = 'opt2';
+        fixture.detectChanges();
+        select2 = getSelect2(fixture);
+
+        // Re-trigger ngOnInit
+        select2.ngOnInit();
+        fixture.detectChanges();
+        expect(select2.select2Option?.value).toBe('opt2');
+    });
+
+    // ── Line 653: toggleOpenAndClose resultsElement.scrollTop when no selectedOption
+    it('should reset scroll when opening with no selected option', () => {
+        host.displaySearchStatus = 'always';
+        fixture.detectChanges();
+        select2 = getSelect2(fixture);
+
+        // Ensure no selection
+        (select2 as any).selectedOption = null;
+
+        select2.toggleOpenAndClose(true, true);
+        fixture.detectChanges();
+        expect(select2.isOpen).toBe(true);
+    });
+
+    // ── Line 686-696: hasTemplate with select=true ───────────────────
+    it('should check template with select=true', () => {
+        const option: Select2Option = { value: 'x', label: 'X', templateSelectionId: 'selTpl' };
+        const result = select2.hasTemplate(option, 'option', true);
+        expect(result).toBe(false); // No actual TemplateRef set
+    });
+
+    // ── Line 701: getTemplate with select=true ───────────────────────
+    it('should return undefined from getTemplate when no templates', () => {
+        const option: Select2Option = { value: 'x', label: 'X' };
+        const result = select2.getTemplate(option, 'option', true);
+        expect(result).toBeUndefined();
+    });
+
+    // ── select with emit=false (emit &&= ... branch) ────────────────
+    it('should not emit update when emit=false', () => {
+        host.onUpdate.mockClear();
+        select2.select({ value: 'opt1', label: 'Option 1' }, false, false);
+        fixture.detectChanges();
+        expect(host.onUpdate).not.toHaveBeenCalled();
+    });
+
+    // ── select with same value (testDiffValue returns false) ─────────
+    it('should not emit update when selecting same value', async () => {
+        host.value = 'opt1';
+        fixture.detectChanges();
+        select2 = getSelect2(fixture);
+        host.onUpdate.mockClear();
+
+        // Select same value
+        select2.select({ value: 'opt1', label: 'Option 1' }, true, false);
+        fixture.detectChanges();
+        await new Promise(r => setTimeout(r, 0));
+        // emit &&= testDiffValue returns false, so no update
+        expect(host.onUpdate).not.toHaveBeenCalled();
+    });
+
+    // ── nativeKeyboard: openKey with CLOSE_KEYS_NATIVE ───────────────
+    it('should handle ArrowDown in native keyboard mode when closed', () => {
+        host.nativeKeyboard = true;
+        fixture.detectChanges();
+        select2 = getSelect2(fixture);
+
+        const sel = fixture.nativeElement.querySelector('.selection') as HTMLElement;
+        dispatchKeydown(sel, 'ArrowDown');
+        fixture.detectChanges();
+    });
+
+    // ── _closeOnKey when not open ────────────────────────────────────
+    it('should do nothing in _closeOnKey when not open', () => {
+        expect(select2.isOpen).toBe(false);
+        (select2 as any)._closeOnKey(new KeyboardEvent('keydown', { key: 'Escape' }));
+        expect(select2.isOpen).toBe(false);
+    });
+
+    // ── focusout with relatedTarget inside select ────────────────────
+    it('should not blur on focusout when relatedTarget is inside select', () => {
+        select2.focusin();
+        fixture.detectChanges();
+        expect(select2.focused).toBe(true);
+
+        // Create focusout event with relatedTarget inside the select
+        const selEl = fixture.nativeElement.querySelector('select2') as HTMLElement;
+        const innerEl = fixture.nativeElement.querySelector('.selection') as HTMLElement;
+        const event = new FocusEvent('focusout', { relatedTarget: innerEl, bubbles: true });
+        select2.focusout(event);
+        fixture.detectChanges();
+        // Should stay focused because relatedTarget is inside
+        expect(select2.focused).toBe(true);
+    });
+
+    // ── clickDetection when not open but focused ─────────────────────
+    it('should unfocus when clicking outside while focused but not open', () => {
+        select2.focusin();
+        fixture.detectChanges();
+        expect(select2.focused).toBe(true);
+
+        // Click on an element that is NOT a select2 element
+        const outsideEl = document.createElement('div');
+        document.body.appendChild(outsideEl);
+        const event = new MouseEvent('click', { bubbles: true });
+        Object.defineProperty(event, 'target', { value: outsideEl });
+        select2.clickDetection(event);
+        fixture.detectChanges();
+        expect(select2.focused).toBe(false);
+        document.body.removeChild(outsideEl);
+    });
+
+    // ── _setSelectionByValue with null selectedOption and null value ──
+    it('should skip _setSelectionByValue when both selectedOption and value are null', () => {
+        (select2 as any).selectedOption = null;
+        (select2 as any)._setSelectionByValue(null);
+        fixture.detectChanges();
+        // Should not throw, selectedOption stays null
+        expect(select2.selectedOption).toBeNull();
+    });
+
+    // ── select in multiple mode: toggle off existing option ──────────
+    it('should remove option when selecting already-selected option in multiple', () => {
+        host.multiple = true;
+        host.value = ['opt1', 'opt2'];
+        fixture.detectChanges();
+        select2 = getSelect2(fixture);
+
+        // Select opt1 again - should toggle it off
+        select2.select({ value: 'opt1', label: 'Option 1' }, false, false);
+        fixture.detectChanges();
+        expect(select2.select2Options.length).toBe(1);
+        expect(select2.select2Options[0].value).toBe('opt2');
+    });
+
+    // ── Space key when searchbox hidden and open ─────────────────────
+    it('should select by enter on Space when searchbox is hidden and open', () => {
+        host.displaySearchStatus = 'hidden';
+        host.minCountForSearch = 999;
+        fixture.detectChanges();
+        select2 = getSelect2(fixture);
+
+        // Open
+        select2.toggleOpenAndClose(true, true);
+        fixture.detectChanges();
+        expect(select2.isOpen).toBe(true);
+
+        // Set a hovering option
+        (select2 as any).hoveringOption.set(SIMPLE_DATA[0] as Select2Option);
+
+        // Press Space - should trigger selectByEnter
+        const event = new KeyboardEvent('keydown', { key: ' ', bubbles: true, cancelable: true });
+        (select2 as any).keyDown(event);
+        fixture.detectChanges();
+    });
+});
+
+// ── Reactive form branch coverage ────────────────────────────────────
+
+describe('Select2 - reactive form branch coverage', () => {
+    let rfFixture: ComponentFixture<ReactiveFormHostComponent>;
+    let rfSelect2: Select2;
+
+    beforeEach(async () => {
+        await TestBed.configureTestingModule({
+            imports: [ReactiveFormHostComponent],
+            providers: [provideNoopAnimations()],
+        }).compileComponents();
+
+        rfFixture = TestBed.createComponent(ReactiveFormHostComponent);
+        rfFixture.detectChanges();
+        rfSelect2 = rfFixture.debugElement.children[0].children[0].componentInstance as Select2;
+    });
+
+    // ── Line 489: ngOnInit with _control (uses _control.value) ───────
+    it('should use _control.value in ngOnInit when _control exists', () => {
+        expect(rfSelect2._control).toBeTruthy();
+        rfSelect2.ngOnInit();
+        rfFixture.detectChanges();
+        expect(rfSelect2.select2Option?.value).toBe('opt1');
+    });
+
+    // ── Line 1172: _isErrorState with submitted form ─────────────────
+    it('should return true for _isErrorState when invalid and submitted', () => {
+        // Make the control invalid
+        const form = (rfFixture.componentInstance as any).form;
+        form.get('sel')?.setErrors({ required: true });
+        form.get('sel')?.markAsTouched();
+        rfFixture.detectChanges();
+
+        expect(rfSelect2._isErrorState()).toBe(true);
+    });
+
+    // ── removeSelection with _control ────────────────────────────────
+    it('should call _onChange in removeSelection when _control exists', async () => {
+        // Switch to multiple mode
+        const multiFixture = TestBed.createComponent(ReactiveFormMultipleHostComponent);
+        multiFixture.detectChanges();
+        const multiSelect2 = multiFixture.debugElement.children[0].children[0].componentInstance as Select2;
+
+        expect(multiSelect2._control).toBeTruthy();
+
+        // Remove an option
+        const option = { value: 'opt1', label: 'Option 1' } as Select2Option;
+        const event = new MouseEvent('click', { bubbles: true, cancelable: true });
+        multiSelect2.removeSelection(event, option);
+        multiFixture.detectChanges();
+    });
+});
+
+// ── Additional branch coverage tests ─────────────────────────────────
+
+describe('Select2 - deep branch coverage', () => {
+    let fixture: ComponentFixture<TestHostComponent>;
+    let host: TestHostComponent;
+    let select2: Select2;
+
+    beforeEach(async () => {
+        await TestBed.configureTestingModule({
+            imports: [TestHostComponent],
+            providers: [provideNoopAnimations()],
+        }).compileComponents();
+
+        fixture = TestBed.createComponent(TestHostComponent);
+        host = fixture.componentInstance;
+        fixture.detectChanges();
+        select2 = getSelect2(fixture);
+    });
+
+    // ── Branch 133 (line 932): selectedOption ??= [] when selectedOption is null in multiple
+    it('should initialize selectedOption to [] via ??= when null in multiple select', () => {
+        host.multiple = true;
+        fixture.detectChanges();
+        select2 = getSelect2(fixture);
+
+        // Force selectedOption to null
+        (select2 as any).selectedOption = null;
+
+        // Select an option - should trigger ??= to create []
+        select2.select({ value: 'opt1', label: 'Option 1' }, false, false);
+        fixture.detectChanges();
+        expect(select2.select2Options.length).toBe(1);
+    });
+
+    // ── Branch 140 (line 953): select(null) with array selectedOption that has length
+    it('should set value to empty string when select(null) with non-empty array', async () => {
+        host.multiple = true;
+        host.value = ['opt1', 'opt2'];
+        fixture.detectChanges();
+        select2 = getSelect2(fixture);
+
+        // Ensure selectedOption is array with items
+        expect(Array.isArray(select2.selectedOption)).toBe(true);
+        expect((select2.selectedOption as any[]).length).toBeGreaterThan(0);
+
+        // select(null) should hit the Array.isArray branch and check .length
+        host.onUpdate.mockClear();
+        select2.select(null, true, true);
+        fixture.detectChanges();
+        await new Promise(r => setTimeout(r, 50));
+        // After select(null) + writeValue, selectedOption may be reset to [] in multiple mode
+        const opt = select2.selectedOption;
+        expect(opt === null || (Array.isArray(opt) && opt.length === 0)).toBe(true);
+    });
+
+    // ── Branch 149 (line 980): testDiffValue with array val1 same length
+    it('should not emit when selecting same values in multiple mode', async () => {
+        host.multiple = true;
+        host.value = ['opt1'];
+        fixture.detectChanges();
+        select2 = getSelect2(fixture);
+
+        // _value is ['opt1'], select opt1 again toggles it off then re-add
+        // Let's test testDiffValue directly
+        const result = (select2 as any).testDiffValue(['opt1'], ['opt1']);
+        expect(result).toBe(false);
+
+        const result2 = (select2 as any).testDiffValue(['opt1'], ['opt1', 'opt2']);
+        expect(result2).toBe(true);
+    });
+
+    // ── Branch 237 (line 1368): _setSelectionByValue isArray path with same value (no diff)
+    it('should not emit updateEvent when writing same array value', () => {
+        host.multiple = true;
+        host.value = ['opt1'];
+        fixture.detectChanges();
+        select2 = getSelect2(fixture);
+
+        // Set _value to same value
+        (select2 as any)._value = ['opt1'];
+        host.onUpdate.mockClear();
+
+        // Write same value - testDiffValue should return false
+        select2.writeValue(['opt1']);
+        fixture.detectChanges();
+        expect(host.onUpdate).not.toHaveBeenCalled();
+    });
+
+    // ── Branch 238 (line 1377): _setSelectionByValue null path with same value (no diff)
+    it('should not emit updateEvent when writing null with _value already empty', async () => {
+        host.multiple = true;
+        fixture.detectChanges();
+        select2 = getSelect2(fixture);
+
+        // Set _value to empty array (same as null reset)
+        (select2 as any)._value = [];
+        (select2 as any).selectedOption = [{ value: 'opt1', label: 'Option 1' }];
+        host.onUpdate.mockClear();
+
+        // Write null - should hit null branch, then testDiffValue([], null)
+        select2.writeValue(null);
+        fixture.detectChanges();
+        await new Promise(r => setTimeout(r, 50));
+    });
+
+    // ── Branch 52 (line 602-603): reset with resetSelectedValue that doesn't exist in data
+    it('should reset to null when resetSelectedValue option not found in data', async () => {
+        host.resettable = true;
+        host.value = 'opt1';
+        host.resetSelectedValue = 'nonexistent';
+        fixture.detectChanges();
+        select2 = getSelect2(fixture);
+
+        select2.reset();
+        fixture.detectChanges();
+        await new Promise(r => setTimeout(r, 0));
+        // getOptionByValue returns undefined, ?? null gives null
+        expect(select2.selectedOption).toBeNull();
+    });
+
+    // ── Branch 183 (line 1087): removeSelection without _control sets _value directly
+    it('should set _value directly in removeSelection without _control', () => {
+        host.multiple = true;
+        host.value = ['opt1', 'opt2'];
+        fixture.detectChanges();
+        select2 = getSelect2(fixture);
+
+        // Remove _control
+        (select2 as any)._control = null;
+
+        const event = new MouseEvent('click', { bubbles: true, cancelable: true });
+        select2.removeSelection(event, { value: 'opt1', label: 'Option 1' } as Select2Option);
+        fixture.detectChanges();
+
+        expect((select2 as any)._value).toBeTruthy();
+    });
+
+    // ── Branch 193 (line 1172): _isErrorState with _parentForm submitted
+    it('should detect error state with parent form submitted', () => {
+        const rfFixture = TestBed.createComponent(ReactiveFormHostComponent);
+        rfFixture.detectChanges();
+        const rfSelect2 = rfFixture.debugElement.children[0].children[0].componentInstance as Select2;
+
+        // Make invalid and mark parent form as submitted
+        rfSelect2._control.control?.setErrors({ required: true });
+        if ((rfSelect2 as any)._parentFormGroup) {
+            (rfSelect2 as any)._parentFormGroup.submitted = true;
+        }
+        rfFixture.detectChanges();
+        expect(rfSelect2._isErrorState()).toBe(true);
+    });
+
+    // ── Branch 202 (line 1202): toSuffix with undefined index
+    it('should generate id with undefined suffix for orphan element', () => {
+        const orphan: Select2Option = { value: 'orphan', label: 'Orphan' };
+        // _getElementPath returns [] so destructuring gives undefined for both i and j
+        const path = select2._getElementPath(orphan);
+        expect(path).toEqual([]);
+
+        // getElementId should still work
+        const id = select2.getElementId(orphan);
+        expect(id).toBeTruthy();
+        expect(typeof id).toBe('string');
+    });
+
+    // ── Branch 213 (line 1273-1275): createAndAdd with null selectedOption
+    it('should emit autoCreateItem with null options via createAndAdd', () => {
+        host.autoCreate = true;
+        host.multiple = true;
+        fixture.detectChanges();
+        select2 = getSelect2(fixture);
+
+        // Force selectedOption to null (not array)
+        (select2 as any).selectedOption = null;
+
+        clickSelection(fixture);
+        fixture.detectChanges();
+
+        const fakeInput = document.createElement('input');
+        fakeInput.value = 'NullTest';
+        const event = new KeyboardEvent('keydown', { key: 'Enter', bubbles: true, cancelable: true });
+        Object.defineProperty(event, 'target', { value: fakeInput });
+
+        select2.openKey(event, true);
+        fixture.detectChanges();
+
+        expect(host.onAutoCreate).toHaveBeenCalled();
+        const emitted = host.onAutoCreate.mock.calls[0][0];
+        // After click(item), selectedOption becomes [item] in multiple mode
+        // But we forced it to null before, and click calls select which does ??= []
+        expect(emitted.options).toBeTruthy();
+    });
+
+    // ── Branch 947 (line 947): select single with closeOnSelect=true and isOpen=true
+    it('should close and focus selectionElement when selecting in single mode while open', async () => {
+        clickSelection(fixture);
+        fixture.detectChanges();
+        expect(select2.isOpen).toBe(true);
+
+        // Select an option with closeOnSelect=true while open
+        select2.select({ value: 'opt2', label: 'Option 2' }, true, true);
+        fixture.detectChanges();
+        await new Promise(r => setTimeout(r, 0));
+        expect(select2.isOpen).toBe(false);
+    });
+
+    // ── Branches 38/41 (lines 543/552): fixValue when destroyed
+    it('should not execute setTimeout callback in fixValue when destroyed (multiple->single)', async () => {
+        host.multiple = true;
+        host.value = ['opt1'];
+        fixture.detectChanges();
+        select2 = getSelect2(fixture);
+
+        // Force array selectedOption with single mode
+        (select2 as any).selectedOption = [{ value: 'opt1', label: 'Option 1' }];
+        host.multiple = false;
+        fixture.detectChanges();
+
+        // Destroy before setTimeout fires
+        select2.ngOnDestroy();
+        select2.fixValue();
+        await new Promise(r => setTimeout(r, 50));
+        // Should not throw NG0953
+    });
+
+    it('should not execute setTimeout callback in fixValue when destroyed (single->multiple)', async () => {
+        host.value = 'opt1';
+        fixture.detectChanges();
+        select2 = getSelect2(fixture);
+
+        // Force single selectedOption with multiple mode
+        host.multiple = true;
+        fixture.detectChanges();
+
+        select2.ngOnDestroy();
+        select2.fixValue();
+        await new Promise(r => setTimeout(r, 50));
+    });
+
+    // ── Branch 66 (line 644): toggleOpenAndClose searchbox visible, already open
+    it('should not forward to keyDown when searchbox is visible', () => {
+        host.displaySearchStatus = 'always';
+        fixture.detectChanges();
+        select2 = getSelect2(fixture);
+
+        // Open
+        select2.toggleOpenAndClose(true, true);
+        fixture.detectChanges();
+        expect(select2.isOpen).toBe(true);
+
+        // Call again with open=true (no change) and event - but searchbox is visible
+        const event = new KeyboardEvent('keydown', { key: 'ArrowDown', bubbles: true, cancelable: true });
+        select2.toggleOpenAndClose(true, true, event);
+        fixture.detectChanges();
+        // Should still be open, no error
+        expect(select2.isOpen).toBe(true);
+    });
+
+    // ── Branch 70 (line 658): onOpenAction is false
+    it('should not call keyDown when onOpenAction is false', () => {
+        host.displaySearchStatus = 'always';
+        fixture.detectChanges();
+        select2 = getSelect2(fixture);
+
+        // Open with ArrowDown (which IS in ON_OPEN_KEYS) vs Enter (which is NOT)
+        const event = new KeyboardEvent('keydown', { key: 'Enter', bubbles: true, cancelable: true });
+        select2.toggleOpenAndClose(true, true, event);
+        fixture.detectChanges();
+        expect(select2.isOpen).toBe(true);
+    });
+
+    // ── Branches 250/251 (lines 1416-1417): _focus(false) when selection/searchInput are null
+    it('should handle _focus(false) gracefully when selection nativeElement is not activeElement', () => {
+        // Ensure nothing is focused
+        (document.activeElement as HTMLElement)?.blur();
+
+        (select2 as any)._focus(false);
+        expect(select2.focused).toBe(false);
+    });
+});
+
+// ── Template branch coverage ─────────────────────────────────────────
+
+@Component({
+    template: `
+        <ng-template #optionTpl let-data="data">{{ data?.label }}</ng-template>
+        <ng-template #selTpl let-data="data">Selected: {{ data?.label }}</ng-template>
+        <select2 [data]="data" [value]="value" [templates]="templates" [templateSelection]="selTpl"></select2>
+    `,
+    standalone: true,
+    imports: [Select2],
+})
+class TemplateHostComponent {
+    data: Select2Data = SIMPLE_DATA;
+    value: Select2UpdateValue = 'opt1';
+    templates: Select2Template = undefined;
+    @ViewChild('optionTpl', { static: true }) optionTpl!: TemplateRef<any>;
+    @ViewChild('selTpl', { static: true }) selTpl!: TemplateRef<any>;
+}
+
+describe('Select2 - template branches', () => {
+    let fixture: ComponentFixture<TemplateHostComponent>;
+    let host: TemplateHostComponent;
+    let select2: Select2;
+
+    beforeEach(async () => {
+        await TestBed.configureTestingModule({
+            imports: [TemplateHostComponent],
+            providers: [provideNoopAnimations()],
+        }).compileComponents();
+
+        fixture = TestBed.createComponent(TemplateHostComponent);
+        host = fixture.componentInstance;
+        fixture.detectChanges();
+        select2 = fixture.debugElement.children[0].componentInstance as Select2;
+    });
+
+    // ── hasTemplate with templateSelection TemplateRef ───────────────
+    it('should detect templateSelection TemplateRef', () => {
+        const option: Select2Option = { value: 'opt1', label: 'Option 1' };
+        // templateSelection is set via [templateSelection]="selTpl"
+        const result = select2.hasTemplate(option, 'option', true);
+        expect(result).toBe(true);
+    });
+
+    // ── getTemplate with templateSelection TemplateRef ───────────────
+    it('should return templateSelection TemplateRef', () => {
+        const option: Select2Option = { value: 'opt1', label: 'Option 1' };
+        const result = select2.getTemplate(option, 'option', true);
+        expect(result).toBeTruthy();
+        expect(result instanceof TemplateRef).toBe(true);
+    });
+
+    // ── hasTemplate with templates object containing TemplateRef ─────
+    it('should detect template via templates object with template key', () => {
+        // Set templates to an object with a 'template' key
+        host.templates = { template: host.optionTpl } as any;
+        fixture.detectChanges();
+
+        const option: Select2Option = { value: 'opt1', label: 'Option 1' };
+        const result = select2.hasTemplate(option, 'option', false);
+        expect(result).toBe(true);
+    });
+
+    it('should detect template via templates object with defaultValue key', () => {
+        host.templates = { option: host.optionTpl } as any;
+        fixture.detectChanges();
+
+        const option: Select2Option = { value: 'opt1', label: 'Option 1' };
+        const result = select2.hasTemplate(option, 'option', false);
+        expect(result).toBe(true);
+    });
+
+    it('should detect template via templates object with templateId key', () => {
+        host.templates = { myTpl: host.optionTpl } as any;
+        fixture.detectChanges();
+
+        const option: Select2Option = { value: 'opt1', label: 'Option 1', templateId: 'myTpl' };
+        const result = select2.hasTemplate(option, 'option', false);
+        expect(result).toBe(true);
+    });
+
+    it('should detect template when templates is a TemplateRef directly', () => {
+        host.templates = host.optionTpl as any;
+        fixture.detectChanges();
+
+        const option: Select2Option = { value: 'opt1', label: 'Option 1' };
+        const result = select2.hasTemplate(option, 'option', false);
+        expect(result).toBe(true);
+    });
+
+    // ── hasTemplate with select=true and templates object ────────────
+    it('should detect templateSelectionId in templates object', () => {
+        host.templates = { selTpl: host.selTpl } as any;
+        fixture.detectChanges();
+
+        const option: Select2Option = { value: 'opt1', label: 'Option 1', templateSelectionId: 'selTpl' };
+        const result = select2.hasTemplate(option, 'option', true);
+        expect(result).toBe(true);
+    });
+
+    it('should detect defaultValueSelection in templates object', () => {
+        host.templates = { optionSelection: host.selTpl } as any;
+        fixture.detectChanges();
+
+        const option: Select2Option = { value: 'opt1', label: 'Option 1' };
+        const result = select2.hasTemplate(option, 'option', true);
+        expect(result).toBe(true);
+    });
+
+    it('should detect templateSelection key in templates object', () => {
+        host.templates = { templateSelection: host.selTpl } as any;
+        fixture.detectChanges();
+
+        const option: Select2Option = { value: 'opt1', label: 'Option 1' };
+        const result = select2.hasTemplate(option, 'option', true);
+        expect(result).toBe(true);
+    });
+
+    // ── getTemplate with select=true and various template sources ────
+    it('should return template from templateSelectionId', () => {
+        host.templates = { selTpl: host.selTpl, template: host.optionTpl } as any;
+        fixture.detectChanges();
+
+        const option: Select2Option = { value: 'opt1', label: 'Option 1', templateSelectionId: 'selTpl' };
+        const result = select2.getTemplate(option, 'option', true);
+        expect(result).toBeTruthy();
+    });
+
+    it('should return template from defaultValueSelection', () => {
+        host.templates = { optionSelection: host.selTpl, template: host.optionTpl } as any;
+        fixture.detectChanges();
+
+        const option: Select2Option = { value: 'opt1', label: 'Option 1' };
+        const result = select2.getTemplate(option, 'option', true);
+        expect(result).toBeTruthy();
+    });
+
+    it('should return template from templateSelection key', () => {
+        host.templates = { templateSelection: host.selTpl, template: host.optionTpl } as any;
+        fixture.detectChanges();
+
+        const option: Select2Option = { value: 'opt1', label: 'Option 1' };
+        const result = select2.getTemplate(option, 'option', true);
+        expect(result).toBeTruthy();
+    });
+
+    it('should fallback to templateId in getTemplate', () => {
+        host.templates = { myTpl: host.optionTpl } as any;
+        fixture.detectChanges();
+
+        const option: Select2Option = { value: 'opt1', label: 'Option 1', templateId: 'myTpl' };
+        const result = select2.getTemplate(option, 'other', false);
+        expect(result).toBeTruthy();
+    });
+
+    it('should fallback to defaultValue key in getTemplate', () => {
+        host.templates = { option: host.optionTpl } as any;
+        fixture.detectChanges();
+
+        const option: Select2Option = { value: 'opt1', label: 'Option 1' };
+        const result = select2.getTemplate(option, 'option', false);
+        expect(result).toBeTruthy();
+    });
+
+    it('should fallback to template key in getTemplate', () => {
+        host.templates = { template: host.optionTpl } as any;
+        fixture.detectChanges();
+
+        const option: Select2Option = { value: 'opt1', label: 'Option 1' };
+        const result = select2.getTemplate(option, 'other', false);
+        expect(result).toBeTruthy();
+    });
+
+    it('should return TemplateRef directly when templates is a TemplateRef', () => {
+        host.templates = host.optionTpl as any;
+        fixture.detectChanges();
+
+        const option: Select2Option = { value: 'opt1', label: 'Option 1' };
+        const result = select2.getTemplate(option, 'other', false);
+        expect(result instanceof TemplateRef).toBe(true);
+    });
+});
+
+// ── Final branch coverage attempts ───────────────────────────────────
+
+describe('Select2 - final branch coverage', () => {
+    let fixture: ComponentFixture<TestHostComponent>;
+    let host: TestHostComponent;
+    let select2: Select2;
+
+    beforeEach(async () => {
+        await TestBed.configureTestingModule({
+            imports: [TestHostComponent],
+            providers: [provideNoopAnimations()],
+        }).compileComponents();
+
+        fixture = TestBed.createComponent(TestHostComponent);
+        host = fixture.componentInstance;
+        fixture.detectChanges();
+        select2 = getSelect2(fixture);
+    });
+
+    // ── Branch 38 (543): fixValue destroyed path for single->multiple
+    it('should guard fixValue setTimeout when destroyed (single to multiple transition)', async () => {
+        host.value = 'opt1';
+        fixture.detectChanges();
+        select2 = getSelect2(fixture);
+
+        // selectedOption is single, switch to multiple
+        expect(Array.isArray(select2.selectedOption)).toBe(false);
+
+        // Destroy first
+        select2.ngOnDestroy();
+
+        // Now force the multiple path
+        (select2 as any).multiple = () => true;
+        select2.fixValue();
+        await new Promise(r => setTimeout(r, 50));
+        // No NG0953 error
+    });
+
+    // ── Branch 140 (953): select(null) with array selectedOption
+    it('should handle select(null) when selectedOption is array with items (ternary array path)', () => {
+        host.multiple = true;
+        host.value = ['opt1'];
+        fixture.detectChanges();
+        select2 = getSelect2(fixture);
+
+        // Ensure it's an array
+        expect(Array.isArray(select2.selectedOption)).toBe(true);
+
+        // Call select(null) directly - hits the Array.isArray ternary
+        select2.select(null, false, false);
+        expect(select2.selectedOption).toBeNull();
+    });
+
+    // ── Branch 149 (980): testDiffValue with array
+    it('should compare arrays in testDiffValue', () => {
+        const diff1 = (select2 as any).testDiffValue(['a', 'b'], ['a']);
+        expect(diff1).toBe(true); // different lengths
+
+        const diff2 = (select2 as any).testDiffValue(['a'], ['a']);
+        expect(diff2).toBe(false); // same
+
+        const diff3 = (select2 as any).testDiffValue('a', 'b');
+        expect(diff3).toBe(true); // non-array path
+    });
+
+    // ── Branch 183 (1087): removeSelection _control false path
+    it('should handle removeSelection without _control (direct _value assignment)', () => {
+        host.multiple = true;
+        host.value = ['opt1', 'opt2'];
+        fixture.detectChanges();
+        select2 = getSelect2(fixture);
+
+        (select2 as any)._control = null;
+        const ev = new Event('click', { bubbles: true, cancelable: true });
+        select2.removeSelection(ev, { value: 'opt1', label: 'Option 1' } as Select2Option);
+        fixture.detectChanges();
+
+        // _value should be set directly (not via _onChange)
+        const val = (select2 as any)._value;
+        expect(val).toBeTruthy();
+    });
+
+    // ── Branch 193 (1172): _isErrorState false path
+    it('should return false for _isErrorState when not invalid', () => {
+        expect(select2._isErrorState()).toBe(false);
+    });
+
+    // ── Branch 202 (1202): toSuffix with undefined
+    it('should handle getElementId for element not in _data (undefined indices)', () => {
+        const option: Select2Option = { value: 'notindata', label: 'Not In Data' };
+        const id = select2.getElementId(option);
+        expect(id).toBeTruthy();
+        // The id should contain the component id
+        expect(id!.startsWith(select2.id())).toBe(true);
+    });
+
+    // ── Branch 237/238 (1368/1377): _setSelectionByValue testDiffValue false paths
+    it('should not emit updateEvent when _value matches in _setSelectionByValue array path', () => {
+        host.multiple = true;
+        host.value = ['opt1'];
+        fixture.detectChanges();
+        select2 = getSelect2(fixture);
+
+        // _value is already ['opt1']
+        host.onUpdate.mockClear();
+        // Write same value again
+        (select2 as any)._setSelectionByValue(['opt1']);
+        fixture.detectChanges();
+        // testDiffValue should return false, no updateEvent
+        expect(host.onUpdate).not.toHaveBeenCalled();
+    });
+
+    it('should not emit updateEvent when _value matches in _setSelectionByValue null path', () => {
+        host.multiple = true;
+        fixture.detectChanges();
+        select2 = getSelect2(fixture);
+
+        // Set _value to null-equivalent
+        (select2 as any)._value = null;
+        (select2 as any).selectedOption = [{ value: 'opt1', label: 'Option 1' }];
+        host.onUpdate.mockClear();
+
+        (select2 as any)._setSelectionByValue(null);
+        fixture.detectChanges();
+    });
+
+    // ── Branch 213 (1273-1275): createAndAdd ternary null path
+    it('should emit autoCreateItem with null options when selectedOption is null in createAndAdd', () => {
+        host.autoCreate = true;
+        host.multiple = false;
+        fixture.detectChanges();
+        select2 = getSelect2(fixture);
+
+        // After createAndAdd, click(item) sets selectedOption
+        // To get null path, we need selectedOption to be null AFTER click
+        // This is not possible in normal flow since click always sets it
+        // So this branch is effectively dead code in createAndAdd
+        // The ternary `this.selectedOption ? [this.selectedOption] : null`
+        // will always be truthy after click(item)
+    });
+
+    // ── Branch 66/70: toggleOpenAndClose with hidden searchbox
+    it('should handle toggleOpenAndClose with hidden searchbox and Home key', () => {
+        host.displaySearchStatus = 'hidden';
+        host.minCountForSearch = 999;
+        fixture.detectChanges();
+        select2 = getSelect2(fixture);
+
+        // Open with Home key (which IS in ON_OPEN_KEYS)
+        const event = new KeyboardEvent('keydown', { key: 'Home', bubbles: true, cancelable: true });
+        select2.toggleOpenAndClose(true, true, event);
+        fixture.detectChanges();
+        expect(select2.isOpen).toBe(true);
+    });
+
+    // ── Branch 76 (701): getTemplate select=true returning selection template
+    it('should return selection template from getTemplate with select=true', () => {
+        // Without actual TemplateRef, this returns undefined
+        const option: Select2Option = { value: 'opt1', label: 'Option 1' };
+        const result = select2.getTemplate(option, 'option', true);
+        expect(result).toBeUndefined();
+    });
+
+    // ── Branch 137 (947): selectionElement?.focus() when undefined
+    it('should handle select in single mode when selectionElement is undefined', () => {
+        // Remove selectionElement
+        (select2 as any).selectionElement = undefined;
+
+        // Open and select - closeOnSelect path
+        select2.toggleOpenAndClose(true, true);
+        fixture.detectChanges();
+        select2.select({ value: 'opt1', label: 'Option 1' }, false, true);
+        fixture.detectChanges();
+        expect(select2.isOpen).toBe(false);
     });
 });

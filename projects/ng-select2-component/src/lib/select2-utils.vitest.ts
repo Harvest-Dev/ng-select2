@@ -102,6 +102,32 @@ describe('Select2Utils', () => {
             const data: Select2Data = [{ value: 'x', label: 'X', disabled: true }];
             expect(Select2Utils.getFirstAvailableOption(data)).toBeNull();
         });
+
+        it('should skip disabled options in group and return first non-disabled', () => {
+            const data: Select2Data = [
+                {
+                    label: 'G1',
+                    options: [
+                        { value: 'a', label: 'A', disabled: true },
+                        { value: 'b', label: 'B' },
+                    ],
+                },
+            ];
+            expect(Select2Utils.getFirstAvailableOption(data)?.value).toBe('b');
+        });
+
+        it('should return null when all group options are disabled', () => {
+            const data: Select2Data = [
+                {
+                    label: 'G1',
+                    options: [
+                        { value: 'a', label: 'A', disabled: true },
+                        { value: 'b', label: 'B', disabled: true },
+                    ],
+                },
+            ];
+            expect(Select2Utils.getFirstAvailableOption(data)).toBeNull();
+        });
     });
 
     // ── getPreviousOption / getNextOption ─────────────────────────────

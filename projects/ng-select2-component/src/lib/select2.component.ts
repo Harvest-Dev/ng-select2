@@ -420,7 +420,7 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
         if (changes['value']) {
             const value = changes['value'].currentValue;
             if (this.testValueChange(this._value, value)) {
-                if (this._value === undefined) {
+                if (this._value === null) {
                     this._value = value;
                 }
                 this.writeValue(value);
@@ -1020,17 +1020,25 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
     openKey(event: KeyboardEvent, create = false) {
         if (create && this._testKey(event, ['Enter'])) {
             this.createAndAdd(event);
-        } else if (this._testKey(event, this.nativeKeyboard() && !this.multiple() ? OPEN_KEYS_NATIVE : OPEN_KEYS)) {
+            return;
+        }
+        if (this._testKey(event, this.nativeKeyboard() && !this.multiple() ? OPEN_KEYS_NATIVE : OPEN_KEYS)) {
             this.toggleOpenAndClose(true, true, event);
             event.preventDefault();
-        } else if (this.nativeKeyboard() && !this.multiple() && this._testKey(event, CLOSE_KEYS_NATIVE)) {
+            return;
+        }
+        if (this.nativeKeyboard() && !this.multiple() && this._testKey(event, CLOSE_KEYS_NATIVE)) {
             this.updateScrollFromOption(this.select2Option);
             this.keyDown(event, create);
-        } else if (this._testKey(event, CLOSE_KEYS)) {
-            if (this.isOpen) {
-                this.toggleOpenAndClose();
-                this._onTouched();
-            }
+            return;
+        }
+        this._closeOnKey(event);
+    }
+
+    private _closeOnKey(event: KeyboardEvent) {
+        if (this._testKey(event, CLOSE_KEYS) && this.isOpen) {
+            this.toggleOpenAndClose();
+            this._onTouched();
         }
     }
 
