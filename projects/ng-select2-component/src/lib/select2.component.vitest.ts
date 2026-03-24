@@ -2583,7 +2583,7 @@ describe('Select2 Component - deep coverage', () => {
         select2 = getSelect2(fixture);
     });
 
-    // ── ngOnInit viewport ruler subscription (line 477-478) ──────────
+    // ── ngOnInit viewport ruler subscription ──────────────────────────
 
     describe('ngOnInit - viewport ruler', () => {
         it('should call triggerRect when viewport changes and isOpen', () => {
@@ -2598,7 +2598,7 @@ describe('Select2 Component - deep coverage', () => {
         });
     });
 
-    // ── ngAfterViewInit overlay position change (line 498-505) ───────
+    // ── ngAfterViewInit overlay position change ───────────────────────
 
     describe('ngAfterViewInit - overlay position', () => {
         it('should handle position change with auto listPosition', () => {
@@ -2612,7 +2612,7 @@ describe('Select2 Component - deep coverage', () => {
         });
     });
 
-    // ── fixValue direct call (lines 536-552) ─────────────────────────
+    // ── fixValue direct call ─────────────────────────────────────────
 
     describe('fixValue - direct calls', () => {
         it('should convert single selectedOption to array when multiple', async () => {
@@ -2659,7 +2659,7 @@ describe('Select2 Component - deep coverage', () => {
         });
     });
 
-    // ── testValueChange - array with different element (line 775) ────
+    // ── testValueChange - array with different element ────────────────
 
     describe('testValueChange - array diff', () => {
         it('should detect different elements in same-length arrays', () => {
@@ -2674,7 +2674,7 @@ describe('Select2 Component - deep coverage', () => {
         });
     });
 
-    // ── select(null) when selectedOption has value (line 949) ─────────
+    // ── select(null) when selectedOption has value ─────────────────────
 
     describe('select null with existing selection', () => {
         it('should set value to empty string when clearing array selection', async () => {
@@ -2702,7 +2702,7 @@ describe('Select2 Component - deep coverage', () => {
         });
     });
 
-    // ── keyDown CLOSE_KEYS when open (line 1021) ─────────────────────
+    // ── keyDown CLOSE_KEYS when open ─────────────────────────────────
 
     describe('keyDown - close keys when open', () => {
         it('should close on Escape via keyDown when open', () => {
@@ -2749,7 +2749,7 @@ describe('Select2 Component - deep coverage', () => {
         });
     });
 
-    // ── removeSelection with reactive form (_control) (line 1076) ────
+    // ── removeSelection with reactive form (_control) ────────────────
 
     describe('removeSelection with reactive form', () => {
         it('should call _onChange when _control exists', async () => {
@@ -2771,7 +2771,7 @@ describe('Select2 Component - deep coverage', () => {
         });
     });
 
-    // ── _setSelectionByValue null in multiple (lines 1353-1361) ──────
+    // ── _setSelectionByValue null in multiple ──────────────────────────
 
     describe('_setSelectionByValue - null in multiple', () => {
         it('should handle writeValue(null) in multiple mode', async () => {
@@ -2899,7 +2899,7 @@ describe('Select2 Component - deep coverage', () => {
         });
     });
 
-    // ── ngOnChanges - value with _value === undefined (line 423) ─────
+    // ── ngOnChanges - value with _value === undefined ─────────────────
 
     describe('ngOnChanges - _value undefined branch', () => {
         it('should set _value when it is undefined on first value change', () => {
@@ -2984,7 +2984,7 @@ describe('Select2 Component - final coverage', () => {
         select2 = getSelect2(fixture);
     });
 
-    // ── ngOnInit - viewport ruler callback (lines 477-478) ──────────
+    // ── ngOnInit - viewport ruler callback ──────────────────────────
 
     describe('ngOnInit viewport ruler', () => {
         it('should subscribe to viewport ruler changes', () => {
@@ -3000,7 +3000,7 @@ describe('Select2 Component - final coverage', () => {
         });
     });
 
-    // ── select(null) when array has length (line 949) ────────────────
+    // ── select(null) when array has length ────────────────────────────
 
     describe('select null - array with length', () => {
         it('should set value to empty when clearing multiple selection via select(null)', async () => {
@@ -3018,7 +3018,7 @@ describe('Select2 Component - final coverage', () => {
         });
     });
 
-    // ── keyDown CLOSE_KEYS when open (line 1021) ─────────────────────
+    // ── keyDown CLOSE_KEYS when open ─────────────────────────────────
 
     describe('keyDown close keys directly', () => {
         it('should close on Escape via keyDown method directly', () => {
@@ -3034,7 +3034,7 @@ describe('Select2 Component - final coverage', () => {
         });
     });
 
-    // ── _setSelectionByValue null in multiple (lines 1353-1361) ──────
+    // ── _setSelectionByValue null in multiple ──────────────────────────
 
     describe('_setSelectionByValue null path', () => {
         it('should reset when writeValue(null) in multiple mode with existing selection', async () => {
@@ -3054,7 +3054,7 @@ describe('Select2 Component - final coverage', () => {
         });
     });
 
-    // ── _setSelectionByValue with _control but no _data (lines 1368-1369)
+    // ── _setSelectionByValue with _control but no _data ────────────────
 
     describe('_setSelectionByValue - _control without _data', () => {
         it('should call viewToModelUpdate when _data is empty and _control exists', async () => {
@@ -3069,7 +3069,7 @@ describe('Select2 Component - final coverage', () => {
         });
     });
 
-    // ── hasTemplate with TemplateRef-like objects (lines 680-697) ────
+    // ── hasTemplate with TemplateRef-like objects ────────────────────
 
     describe('hasTemplate - template object paths', () => {
         it('should check templates object with templateId key', () => {
@@ -3090,7 +3090,7 @@ describe('Select2 Component - final coverage', () => {
         });
     });
 
-    // ── containClasses/containAlmostOneClasses no classList (lines 876, 890)
+    // ── containClasses/containAlmostOneClasses no classList ────────────
 
     describe('DOM traversal edge cases', () => {
         it('should handle element without classList in clickDetection', () => {
@@ -3106,7 +3106,7 @@ describe('Select2 Component - final coverage', () => {
         });
     });
 
-    // ── updateScrollFromOption scroll branches (lines 1302, 1305) ────
+    // ── updateScrollFromOption scroll branches ────────────────────────
 
     describe('updateScrollFromOption - scroll branches', () => {
         it('should scroll down when option is below visible area', () => {
@@ -3151,7 +3151,7 @@ describe('Select2 Component - final coverage', () => {
         });
     });
 
-    // ── ngOnChanges _value === undefined (line 423) ──────────────────
+    // ── ngOnChanges _value === undefined ──────────────────────────────
 
     describe('ngOnChanges - first value set', () => {
         it('should set _value on first value change when _value is undefined', () => {
@@ -3169,7 +3169,7 @@ describe('Select2 Component - final coverage', () => {
         });
     });
 
-    // ── toggleOpenAndClose with hidden searchbox + re-open (line 597)
+    // ── toggleOpenAndClose with hidden searchbox + re-open ─────────
 
     describe('toggleOpenAndClose - searchbox hidden re-open', () => {
         it('should handle re-opening with hidden searchbox and event', () => {
@@ -3262,7 +3262,7 @@ describe('Select2 Component - remaining gaps', () => {
         select2 = getSelect2(fixture);
     });
 
-    // ── ngDoCheck dropdownRect height change (lines 526-527) ─────────
+    // ── ngDoCheck dropdownRect height change ─────────────────────────
 
     describe('ngDoCheck - dropdown rect changes', () => {
         it('should update overlayHeight when dropdownRect height changes', () => {
@@ -3307,7 +3307,7 @@ describe('Select2 Component - remaining gaps', () => {
         });
     });
 
-    // ── fixValue setTimeout callbacks (lines 538-542) ────────────────
+    // ── fixValue setTimeout callbacks ────────────────────────────────
 
     describe('fixValue - setTimeout execution', () => {
         it('should execute setTimeout callback for single-to-array conversion', async () => {
@@ -3335,7 +3335,7 @@ describe('Select2 Component - remaining gaps', () => {
         });
     });
 
-    // ── containAlmostOneClasses no classList (line 890) ──────────────
+    // ── containAlmostOneClasses no classList ──────────────────────────
 
     describe('containAlmostOneClasses - no classList', () => {
         it('should handle element without classList in focused click', () => {
@@ -3629,7 +3629,7 @@ describe('Select2 Component - targeted line coverage', () => {
         select2 = getSelect2(fixture);
     });
 
-    // ── Line 949: select(null) when selectedOption is truthy single ──
+    // ── select(null) when selectedOption is truthy single ──────────────
 
     describe('select null with truthy single selectedOption', () => {
         it('should set value to empty string when clearing single selection', () => {
@@ -3646,7 +3646,7 @@ describe('Select2 Component - targeted line coverage', () => {
         });
     });
 
-    // ── Line 1021: keyDown with CLOSE_KEYS when isOpen ───────────────
+    // ── keyDown with CLOSE_KEYS when isOpen ───────────────────────────
 
     describe('keyDown CLOSE_KEYS directly', () => {
         it('should close on Tab via keyDown when isOpen', () => {
@@ -3663,7 +3663,7 @@ describe('Select2 Component - targeted line coverage', () => {
         });
     });
 
-    // ── Line 423: ngOnChanges _value === undefined ───────────────────
+    // ── ngOnChanges _value === undefined ───────────────────────────────
 
     describe('ngOnChanges first value assignment', () => {
         it('should assign _value when undefined on first change', () => {
@@ -3684,7 +3684,7 @@ describe('Select2 Component - targeted line coverage', () => {
         });
     });
 
-    // ── Lines 1355-1361: _setSelectionByValue null in multiple ───────
+    // ── _setSelectionByValue null in multiple ───────────────────────
 
     describe('_setSelectionByValue null in multiple - direct', () => {
         it('should handle null value with diff check in multiple mode', () => {
@@ -3702,7 +3702,7 @@ describe('Select2 Component - targeted line coverage', () => {
         });
     });
 
-    // ── ngAfterViewInit position change subscription (lines 498-505) ─
+    // ── ngAfterViewInit position change subscription ─────────────────
 
     describe('ngAfterViewInit - position change', () => {
         it('should handle overlay position change in auto mode', () => {
@@ -3753,7 +3753,7 @@ describe('Select2 Component - scroll and keyDown coverage', () => {
         select2 = getSelect2(fixture);
     });
 
-    // ── Lines 1302, 1305: updateScrollFromOption scroll adjustments ──
+    // ── updateScrollFromOption scroll adjustments ──────────────────────
 
     describe('updateScrollFromOption scroll branches', () => {
         it('should scroll down when option is below visible area', () => {
@@ -3796,7 +3796,7 @@ describe('Select2 Component - scroll and keyDown coverage', () => {
                     });
                 }
 
-                // Call updateScrollFromOption - should trigger scroll down (line 1302)
+                // Call updateScrollFromOption - should trigger scroll down
                 const option = SIMPLE_DATA[0] as Select2Option;
                 (select2 as any).updateScrollFromOption(option);
                 // scrollTop should have been adjusted
@@ -3843,7 +3843,7 @@ describe('Select2 Component - scroll and keyDown coverage', () => {
                     });
                 }
 
-                // Call updateScrollFromOption - should trigger scroll up (line 1305)
+                // Call updateScrollFromOption - should trigger scroll up
                 const option = SIMPLE_DATA[0] as Select2Option;
                 (select2 as any).updateScrollFromOption(option);
                 expect(resultsEl.scrollTop).toBeLessThanOrEqual(0);
@@ -3851,7 +3851,7 @@ describe('Select2 Component - scroll and keyDown coverage', () => {
         });
     });
 
-    // ── Line 1021: openKey with CLOSE_KEYS when isOpen ─────────────
+    // ── openKey with CLOSE_KEYS when isOpen ─────────────────────────
 
     describe('openKey with CLOSE_KEYS when isOpen', () => {
         it('should close via openKey Escape when isOpen is true', () => {
@@ -3951,7 +3951,7 @@ describe('Select2 Component - branch coverage completion', () => {
         select2 = getSelect2(fixture);
     });
 
-    // ── Line 1160: drop() when selectedOption is NOT an array ────────
+    // ── drop() when selectedOption is NOT an array ────────────────────
     it('should do nothing in drop() when selectedOption is not an array (single mode)', () => {
         host.value = 'opt1';
         fixture.detectChanges();
@@ -3963,7 +3963,7 @@ describe('Select2 Component - branch coverage completion', () => {
         expect(select2.select2Option?.value).toBe('opt1');
     });
 
-    // ── Line 1322: selectByEnter when hoveringOption is null ─────────
+    // ── selectByEnter when hoveringOption is null ─────────────────────
     it('should do nothing in selectByEnter when no hovering option', () => {
         clickSelection(fixture);
         fixture.detectChanges();
@@ -3980,7 +3980,7 @@ describe('Select2 Component - branch coverage completion', () => {
         expect(select2.selectedOption).toBeFalsy();
     });
 
-    // ── Line 1396: _focusSearchbox when isSearchboxHidden is true ────
+    // ── _focusSearchbox when isSearchboxHidden is true ────────────────
     it('should not focus searchbox when isSearchboxHidden is true', () => {
         host.displaySearchStatus = 'hidden';
         fixture.detectChanges();
@@ -3992,7 +3992,7 @@ describe('Select2 Component - branch coverage completion', () => {
         expect(select2.isOpen).toBe(false);
     });
 
-    // ── Line 1007: keyDown with non-matching key when open ───────────
+    // ── keyDown with non-matching key when open ───────────────────────
     it('should not close on unrecognized key in keyDown when open', () => {
         clickSelection(fixture);
         fixture.detectChanges();
@@ -4006,7 +4006,7 @@ describe('Select2 Component - branch coverage completion', () => {
         expect(select2.isOpen).toBe(true);
     });
 
-    // ── Line 603: reset() with resetSelectedValue = undefined ────────
+    // ── reset() with resetSelectedValue = undefined ────────────────────
     it('should reset to null when resetSelectedValue is undefined', async () => {
         host.resettable = true;
         host.value = 'opt1';
@@ -4020,7 +4020,7 @@ describe('Select2 Component - branch coverage completion', () => {
         expect(select2.selectedOption).toBeNull();
     });
 
-    // ── Line 947: select single with closeOnSelect but NOT isOpen ────
+    // ── select single with closeOnSelect but NOT isOpen ────────────────
     it('should not close when selecting in single mode if not open', async () => {
         // Select without being open - closeOnSelect=true but isOpen=false
         select2.select({ value: 'opt1', label: 'Option 1' }, true, true);
@@ -4030,7 +4030,7 @@ describe('Select2 Component - branch coverage completion', () => {
         expect(select2.select2Option?.value).toBe('opt1');
     });
 
-    // ── Line 953: select(null) when selectedOption is empty array ─────
+    // ── select(null) when selectedOption is empty array ─────────────────
     it('should handle select(null) when selectedOption is empty array', () => {
         host.multiple = true;
         fixture.detectChanges();
@@ -4042,7 +4042,7 @@ describe('Select2 Component - branch coverage completion', () => {
         expect(select2.selectedOption).toBeNull();
     });
 
-    // ── Line 980: testDiffValue with array val1 ──────────────────────
+    // ── testDiffValue with array val1 ──────────────────────────────────
     it('should detect diff when val1 is array with different length', async () => {
         host.multiple = true;
         host.value = ['opt1'];
@@ -4062,7 +4062,7 @@ describe('Select2 Component - branch coverage completion', () => {
         expect(host.onUpdate).toHaveBeenCalled();
     });
 
-    // ── Line 1087: removeSelection without _control ──────────────────
+    // ── removeSelection without _control ──────────────────────────────
     it('should set _value directly in removeSelection when no _control', async () => {
         host.multiple = true;
         host.value = ['opt1', 'opt2'];
@@ -4082,7 +4082,7 @@ describe('Select2 Component - branch coverage completion', () => {
         expect((select2 as any)._value).toBeTruthy();
     });
 
-    // ── Line 1202: getElementId with element not found in data ───────
+    // ── getElementId with element not found in data ───────────────────
     it('should handle getElementId for element not in data', () => {
         const orphanOption: Select2Option = { value: 'orphan', label: 'Orphan' };
         const id = select2.getElementId(orphanOption);
@@ -4091,7 +4091,7 @@ describe('Select2 Component - branch coverage completion', () => {
         expect(id).toBeTruthy();
     });
 
-    // ── Line 644: toggleOpenAndClose with searchbox hidden, already open, with event
+    // ── toggleOpenAndClose with searchbox hidden, already open, with event
     it('should forward to keyDown when searchbox hidden, already open, same state', () => {
         host.displaySearchStatus = 'hidden';
         host.minCountForSearch = 999;
@@ -4109,7 +4109,7 @@ describe('Select2 Component - branch coverage completion', () => {
         fixture.detectChanges();
     });
 
-    // ── Line 658: toggleOpenAndClose with onOpenAction false ─────────
+    // ── toggleOpenAndClose with onOpenAction false ─────────────────────
     it('should open without onOpenAction when key is not in ON_OPEN_KEYS', () => {
         host.displaySearchStatus = 'always';
         fixture.detectChanges();
@@ -4122,7 +4122,7 @@ describe('Select2 Component - branch coverage completion', () => {
         expect(select2.isOpen).toBe(true);
     });
 
-    // ── Line 932: select in multiple when selectedOption is already set
+    // ── select in multiple when selectedOption is already set ──────────
     it('should use existing selectedOption array in multiple select (??= branch)', () => {
         host.multiple = true;
         host.value = ['opt1'];
@@ -4135,7 +4135,7 @@ describe('Select2 Component - branch coverage completion', () => {
         expect(select2.select2Options.length).toBe(2);
     });
 
-    // ── Line 853: isInSelect - second operand of || ──────────────────
+    // ── isInSelect - second operand of || ──────────────────────────────
     it('should detect element inside overlay via isInSelect', () => {
         host.overlay = true;
         fixture.detectChanges();
@@ -4151,7 +4151,7 @@ describe('Select2 Component - branch coverage completion', () => {
         expect(result).toBe(true);
     });
 
-    // ── Line 1172: _isErrorState when control is valid ───────────────
+    // ── _isErrorState when control is valid ───────────────────────────
     it('should return false for _isErrorState when control is valid', () => {
         const rfFixture = TestBed.createComponent(ReactiveFormHostComponent);
         rfFixture.detectChanges();
@@ -4160,7 +4160,7 @@ describe('Select2 Component - branch coverage completion', () => {
         expect(rfSelect2._isErrorState()).toBe(false);
     });
 
-    // ── Line 1273-1275: createAndAdd in single mode (non-array selectedOption)
+    // ── createAndAdd in single mode (non-array selectedOption) ────────
     it('should emit autoCreateItem with single selectedOption wrapped in array', () => {
         host.autoCreate = true;
         host.multiple = false;
@@ -4205,7 +4205,7 @@ describe('Select2 Component - branch coverage completion', () => {
         expect(emitted.options.length).toBe(1);
     });
 
-    // ── Line 1416-1417: _focus(false) when activeElement is NOT selection/searchInput
+    // ── _focus(false) when activeElement is NOT selection/searchInput ──
     it('should not blur when activeElement is not selection or searchInput', () => {
         // Focus on some other element
         const otherEl = document.createElement('input');
@@ -4219,7 +4219,7 @@ describe('Select2 Component - branch coverage completion', () => {
         document.body.removeChild(otherEl);
     });
 
-    // ── Line 366: resultsElement when resultContainer is undefined ────
+    // ── resultsElement when resultContainer is undefined ────────────────
     it('should return undefined for resultsElement when not open', () => {
         // When not open, resultContainer may not exist
         const result = (select2 as any).resultsElement;
@@ -4227,7 +4227,7 @@ describe('Select2 Component - branch coverage completion', () => {
         expect(result === undefined || result instanceof HTMLElement).toBe(true);
     });
 
-    // ── Line 489: ngOnInit without _control (uses this.value()) ──────
+    // ── ngOnInit without _control (uses this.value()) ──────────────────
     it('should use value() input in ngOnInit when no _control', () => {
         // The default TestHostComponent has no _control
         host.value = 'opt2';
@@ -4240,7 +4240,7 @@ describe('Select2 Component - branch coverage completion', () => {
         expect(select2.select2Option?.value).toBe('opt2');
     });
 
-    // ── Line 653: toggleOpenAndClose resultsElement.scrollTop when no selectedOption
+    // ── toggleOpenAndClose resultsElement.scrollTop when no selectedOption
     it('should reset scroll when opening with no selected option', () => {
         host.displaySearchStatus = 'always';
         fixture.detectChanges();
@@ -4254,14 +4254,14 @@ describe('Select2 Component - branch coverage completion', () => {
         expect(select2.isOpen).toBe(true);
     });
 
-    // ── Line 686-696: hasTemplate with select=true ───────────────────
+    // ── hasTemplate with select=true ───────────────────────────────────
     it('should check template with select=true', () => {
         const option: Select2Option = { value: 'x', label: 'X', templateSelectionId: 'selTpl' };
         const result = select2.hasTemplate(option, 'option', true);
         expect(result).toBe(false); // No actual TemplateRef set
     });
 
-    // ── Line 701: getTemplate with select=true ───────────────────────
+    // ── getTemplate with select=true ───────────────────────────────────
     it('should return undefined from getTemplate when no templates', () => {
         const option: Select2Option = { value: 'x', label: 'X' };
         const result = select2.getTemplate(option, 'option', true);
@@ -4404,7 +4404,7 @@ describe('Select2 - reactive form branch coverage', () => {
         rfSelect2 = rfFixture.debugElement.children[0].children[0].componentInstance as Select2;
     });
 
-    // ── Line 489: ngOnInit with _control (uses _control.value) ───────
+    // ── ngOnInit with _control (uses _control.value) ───────────────────
     it('should use _control.value in ngOnInit when _control exists', () => {
         expect(rfSelect2._control).toBeTruthy();
         rfSelect2.ngOnInit();
@@ -4412,7 +4412,7 @@ describe('Select2 - reactive form branch coverage', () => {
         expect(rfSelect2.select2Option?.value).toBe('opt1');
     });
 
-    // ── Line 1172: _isErrorState with submitted form ─────────────────
+    // ── _isErrorState with submitted form ─────────────────────────────
     it('should return true for _isErrorState when invalid and submitted', () => {
         // Make the control invalid
         const form = (rfFixture.componentInstance as any).form;
@@ -4459,7 +4459,7 @@ describe('Select2 - deep branch coverage', () => {
         select2 = getSelect2(fixture);
     });
 
-    // ── Branch 133 (line 932): selectedOption ??= [] when selectedOption is null in multiple
+    // ── selectedOption ??= [] when selectedOption is null in multiple ──
     it('should initialize selectedOption to [] via ??= when null in multiple select', () => {
         host.multiple = true;
         fixture.detectChanges();
@@ -4474,7 +4474,7 @@ describe('Select2 - deep branch coverage', () => {
         expect(select2.select2Options.length).toBe(1);
     });
 
-    // ── Branch 140 (line 953): select(null) with array selectedOption that has length
+    // ── select(null) with array selectedOption that has length ─────────
     it('should set value to empty string when select(null) with non-empty array', async () => {
         host.multiple = true;
         host.value = ['opt1', 'opt2'];
@@ -4495,7 +4495,7 @@ describe('Select2 - deep branch coverage', () => {
         expect(opt === null || (Array.isArray(opt) && opt.length === 0)).toBe(true);
     });
 
-    // ── Branch 149 (line 980): testDiffValue with array val1 same length
+    // ── testDiffValue with array val1 same length ─────────────────────
     it('should not emit when selecting same values in multiple mode', async () => {
         host.multiple = true;
         host.value = ['opt1'];
@@ -4511,7 +4511,7 @@ describe('Select2 - deep branch coverage', () => {
         expect(result2).toBe(true);
     });
 
-    // ── Branch 237 (line 1368): _setSelectionByValue isArray path with same value (no diff)
+    // ── _setSelectionByValue isArray path with same value (no diff) ────
     it('should not emit updateEvent when writing same array value', () => {
         host.multiple = true;
         host.value = ['opt1'];
@@ -4528,7 +4528,7 @@ describe('Select2 - deep branch coverage', () => {
         expect(host.onUpdate).not.toHaveBeenCalled();
     });
 
-    // ── Branch 238 (line 1377): _setSelectionByValue null path with same value (no diff)
+    // ── _setSelectionByValue null path with same value (no diff) ───────
     it('should not emit updateEvent when writing null with _value already empty', async () => {
         host.multiple = true;
         fixture.detectChanges();
@@ -4545,7 +4545,7 @@ describe('Select2 - deep branch coverage', () => {
         await new Promise(r => setTimeout(r, 50));
     });
 
-    // ── Branch 52 (line 602-603): reset with resetSelectedValue that doesn't exist in data
+    // ── reset with resetSelectedValue that doesn't exist in data ───────
     it('should reset to null when resetSelectedValue option not found in data', async () => {
         host.resettable = true;
         host.value = 'opt1';
@@ -4560,7 +4560,7 @@ describe('Select2 - deep branch coverage', () => {
         expect(select2.selectedOption).toBeNull();
     });
 
-    // ── Branch 183 (line 1087): removeSelection without _control sets _value directly
+    // ── removeSelection without _control sets _value directly ──────────
     it('should set _value directly in removeSelection without _control', () => {
         host.multiple = true;
         host.value = ['opt1', 'opt2'];
@@ -4577,7 +4577,7 @@ describe('Select2 - deep branch coverage', () => {
         expect((select2 as any)._value).toBeTruthy();
     });
 
-    // ── Branch 193 (line 1172): _isErrorState with _parentForm submitted
+    // ── _isErrorState with _parentForm submitted ───────────────────────
     it('should detect error state with parent form submitted', () => {
         const rfFixture = TestBed.createComponent(ReactiveFormHostComponent);
         rfFixture.detectChanges();
@@ -4592,7 +4592,7 @@ describe('Select2 - deep branch coverage', () => {
         expect(rfSelect2._isErrorState()).toBe(true);
     });
 
-    // ── Branch 202 (line 1202): toSuffix with undefined index
+    // ── toSuffix with undefined index ──────────────────────────────────
     it('should generate id with undefined suffix for orphan element', () => {
         const orphan: Select2Option = { value: 'orphan', label: 'Orphan' };
         // _getElementPath returns [] so destructuring gives undefined for both i and j
@@ -4605,7 +4605,7 @@ describe('Select2 - deep branch coverage', () => {
         expect(typeof id).toBe('string');
     });
 
-    // ── Branch 213 (line 1273-1275): createAndAdd with null selectedOption
+    // ── createAndAdd with null selectedOption ──────────────────────────
     it('should emit autoCreateItem with null options via createAndAdd', () => {
         host.autoCreate = true;
         host.multiple = true;
@@ -4633,7 +4633,7 @@ describe('Select2 - deep branch coverage', () => {
         expect(emitted.options).toBeTruthy();
     });
 
-    // ── Branch 947 (line 947): select single with closeOnSelect=true and isOpen=true
+    // ── select single with closeOnSelect=true and isOpen=true ──────────
     it('should close and focus selectionElement when selecting in single mode while open', async () => {
         clickSelection(fixture);
         fixture.detectChanges();
@@ -4646,7 +4646,7 @@ describe('Select2 - deep branch coverage', () => {
         expect(select2.isOpen).toBe(false);
     });
 
-    // ── Branches 38/41 (lines 543/552): fixValue when destroyed
+    // ── fixValue when destroyed ──────────────────────────────────────
     it('should not execute setTimeout callback in fixValue when destroyed (multiple->single)', async () => {
         host.multiple = true;
         host.value = ['opt1'];
@@ -4679,7 +4679,7 @@ describe('Select2 - deep branch coverage', () => {
         await new Promise(r => setTimeout(r, 50));
     });
 
-    // ── Branch 66 (line 644): toggleOpenAndClose searchbox visible, already open
+    // ── toggleOpenAndClose searchbox visible, already open ─────────────
     it('should not forward to keyDown when searchbox is visible', () => {
         host.displaySearchStatus = 'always';
         fixture.detectChanges();
@@ -4698,7 +4698,7 @@ describe('Select2 - deep branch coverage', () => {
         expect(select2.isOpen).toBe(true);
     });
 
-    // ── Branch 70 (line 658): onOpenAction is false
+    // ── onOpenAction is false ───────────────────────────────────────────
     it('should not call keyDown when onOpenAction is false', () => {
         host.displaySearchStatus = 'always';
         fixture.detectChanges();
@@ -4711,7 +4711,7 @@ describe('Select2 - deep branch coverage', () => {
         expect(select2.isOpen).toBe(true);
     });
 
-    // ── Branches 250/251 (lines 1416-1417): _focus(false) when selection/searchInput are null
+    // ── _focus(false) when selection/searchInput are null ──────────────
     it('should handle _focus(false) gracefully when selection nativeElement is not activeElement', () => {
         // Ensure nothing is focused
         (document.activeElement as HTMLElement)?.blur();
@@ -4923,7 +4923,7 @@ describe('Select2 - final branch coverage', () => {
         select2 = getSelect2(fixture);
     });
 
-    // ── Branch 38 (543): fixValue destroyed path for single->multiple
+    // ── fixValue destroyed path for single->multiple ──────────────────
     it('should guard fixValue setTimeout when destroyed (single to multiple transition)', async () => {
         host.value = 'opt1';
         fixture.detectChanges();
@@ -4942,7 +4942,7 @@ describe('Select2 - final branch coverage', () => {
         // No NG0953 error
     });
 
-    // ── Branch 140 (953): select(null) with array selectedOption
+    // ── select(null) with array selectedOption ─────────────────────────
     it('should handle select(null) when selectedOption is array with items (ternary array path)', () => {
         host.multiple = true;
         host.value = ['opt1'];
@@ -4957,7 +4957,7 @@ describe('Select2 - final branch coverage', () => {
         expect(select2.selectedOption).toBeNull();
     });
 
-    // ── Branch 149 (980): testDiffValue with array
+    // ── testDiffValue with array ────────────────────────────────────────
     it('should compare arrays in testDiffValue', () => {
         const diff1 = (select2 as any).testDiffValue(['a', 'b'], ['a']);
         expect(diff1).toBe(true); // different lengths
@@ -4969,7 +4969,7 @@ describe('Select2 - final branch coverage', () => {
         expect(diff3).toBe(true); // non-array path
     });
 
-    // ── Branch 183 (1087): removeSelection _control false path
+    // ── removeSelection _control false path ────────────────────────────
     it('should handle removeSelection without _control (direct _value assignment)', () => {
         host.multiple = true;
         host.value = ['opt1', 'opt2'];
@@ -4986,12 +4986,12 @@ describe('Select2 - final branch coverage', () => {
         expect(val).toBeTruthy();
     });
 
-    // ── Branch 193 (1172): _isErrorState false path
+    // ── _isErrorState false path ────────────────────────────────────────
     it('should return false for _isErrorState when not invalid', () => {
         expect(select2._isErrorState()).toBe(false);
     });
 
-    // ── Branch 202 (1202): toSuffix with undefined
+    // ── toSuffix with undefined ──────────────────────────────────────────
     it('should handle getElementId for element not in _data (undefined indices)', () => {
         const option: Select2Option = { value: 'notindata', label: 'Not In Data' };
         const id = select2.getElementId(option);
@@ -5000,7 +5000,7 @@ describe('Select2 - final branch coverage', () => {
         expect(id!.startsWith(select2.id())).toBe(true);
     });
 
-    // ── Branch 237/238 (1368/1377): _setSelectionByValue testDiffValue false paths
+    // ── _setSelectionByValue testDiffValue false paths ─────────────────
     it('should not emit updateEvent when _value matches in _setSelectionByValue array path', () => {
         host.multiple = true;
         host.value = ['opt1'];
@@ -5030,7 +5030,7 @@ describe('Select2 - final branch coverage', () => {
         fixture.detectChanges();
     });
 
-    // ── Branch 213 (1273-1275): createAndAdd ternary null path
+    // ── createAndAdd ternary null path ─────────────────────────────────
     it('should emit autoCreateItem with null options when selectedOption is null in createAndAdd', () => {
         host.autoCreate = true;
         host.multiple = false;
@@ -5045,7 +5045,7 @@ describe('Select2 - final branch coverage', () => {
         // will always be truthy after click(item)
     });
 
-    // ── Branch 66/70: toggleOpenAndClose with hidden searchbox
+    // ── toggleOpenAndClose with hidden searchbox ───────────────────────
     it('should handle toggleOpenAndClose with hidden searchbox and Home key', () => {
         host.displaySearchStatus = 'hidden';
         host.minCountForSearch = 999;
@@ -5059,7 +5059,7 @@ describe('Select2 - final branch coverage', () => {
         expect(select2.isOpen).toBe(true);
     });
 
-    // ── Branch 76 (701): getTemplate select=true returning selection template
+    // ── getTemplate select=true returning selection template ───────────
     it('should return selection template from getTemplate with select=true', () => {
         // Without actual TemplateRef, this returns undefined
         const option: Select2Option = { value: 'opt1', label: 'Option 1' };
@@ -5067,7 +5067,7 @@ describe('Select2 - final branch coverage', () => {
         expect(result).toBeUndefined();
     });
 
-    // ── Branch 137 (947): selectionElement?.focus() when undefined
+    // ── selectionElement?.focus() when undefined ───────────────────────
     it('should handle select in single mode when selectionElement is undefined', () => {
         // Remove selectionElement
         (select2 as any).selectionElement = undefined;
@@ -5080,7 +5080,7 @@ describe('Select2 - final branch coverage', () => {
         expect(select2.isOpen).toBe(false);
     });
 
-    // ── Branch 24 (line 479): _viewportRuler.change() when isOpen is false
+    // ── _viewportRuler.change() when isOpen is false ───────────────────
     it('should not call triggerRect when viewport changes and select is closed', () => {
         expect(select2.isOpen).toBe(false);
         const spy = vi.spyOn(select2, 'triggerRect');
@@ -5091,7 +5091,7 @@ describe('Select2 - final branch coverage', () => {
         expect(spy).not.toHaveBeenCalled();
     });
 
-    // ── Branch 66 (line 645): isSearchboxHidden && !changeEmit && event — false path
+    // ── isSearchboxHidden && !changeEmit && event — false path ─────────
     it('should not enter keyDown path when searchbox is visible', () => {
         // With searchbox visible (default), the isSearchboxHidden condition is false
         host.displaySearchStatus = 'always';
@@ -5104,7 +5104,7 @@ describe('Select2 - final branch coverage', () => {
         expect(select2.isOpen).toBe(true);
     });
 
-    // ── Branch 70 (line 659): onOpenAction false path — open without ON_OPEN_KEYS
+    // ── onOpenAction false path — open without ON_OPEN_KEYS ────────────
     it('should open without triggering onOpenAction when event is not an ON_OPEN_KEY', () => {
         // ArrowDown is in OPEN_KEYS but NOT in ON_OPEN_KEYS (Home, End, PageUp, PageDown)
         // So onOpenAction will be false
@@ -5114,7 +5114,7 @@ describe('Select2 - final branch coverage', () => {
         expect(select2.isOpen).toBe(true);
     });
 
-    // ── Branch 192 (line 1183): _parentFormGroup?.submitted true path
+    // ── _parentFormGroup?.submitted true path ───────────────────────────
     it('should return true for _isErrorState when control is invalid and parentFormGroup is submitted (not touched)', () => {
         const rfFixture = TestBed.createComponent(ReactiveFormHostComponent);
         rfFixture.detectChanges();
@@ -5132,7 +5132,7 @@ describe('Select2 - final branch coverage', () => {
         expect(rfSelect2._isErrorState()).toBe(true);
     });
 
-    // ── Branch 201 (line 1218): toSuffix false path — index is undefined
+    // ── toSuffix false path — index is undefined ───────────────────────
     it('should handle getElementId when element is not found in _data (toSuffix with undefined)', () => {
         // Create an option that is NOT in _data — _getElementPath returns []
         // So destructuring [i, j] gives i=undefined, j=undefined
@@ -5144,7 +5144,7 @@ describe('Select2 - final branch coverage', () => {
         expect(id).toBe(`${select2.id()}-option`);
     });
 
-    // ── Branch 236 (line 1386): testDiffValue false in isArray path of _setSelectionByValue
+    // ── testDiffValue false in isArray path of _setSelectionByValue ────
     it('should not emit updateEvent when _value matches new array value in _setSelectionByValue', () => {
         host.multiple = true;
         host.data = SIMPLE_DATA;
@@ -5167,7 +5167,7 @@ describe('Select2 - final branch coverage', () => {
         expect(host.onUpdate).not.toHaveBeenCalled();
     });
 
-    // ── Branch 237 (line 1395): testDiffValue false in null path of _setSelectionByValue
+    // ── testDiffValue false in null path of _setSelectionByValue ───────
     it('should not emit updateEvent when _value is already empty in null path of _setSelectionByValue', () => {
         host.multiple = true;
         host.data = SIMPLE_DATA;
@@ -5188,7 +5188,7 @@ describe('Select2 - final branch coverage', () => {
         fixture.detectChanges();
     });
 
-    // ── Branch 247/248 (lines 1436-1437): _focus(false) when selection/searchInput are undefined
+    // ── _focus(false) when selection/searchInput are undefined ──────────
     it('should handle _focus(false) when selection() and searchInput() return undefined', () => {
         // Mock the viewChild signals to return undefined
         const origSelection = Object.getOwnPropertyDescriptor(Object.getPrototypeOf(select2), 'selection');
@@ -5208,7 +5208,7 @@ describe('Select2 - final branch coverage', () => {
         (select2 as any).searchInput = searchInputSignal;
     });
 
-    // ── Branch 7 (line 367): resultsElement getter when resultContainer() returns undefined
+    // ── resultsElement getter when resultContainer() returns undefined ──
     it('should return undefined from resultsElement when resultContainer() is undefined', () => {
         // Mock resultContainer signal to return undefined
         const origResultContainer = select2.resultContainer;
@@ -5221,7 +5221,7 @@ describe('Select2 - final branch coverage', () => {
         (select2 as any).resultContainer = origResultContainer;
     });
 
-    // ── Branch 27 (line 490): _control ? _control.value : this.value() — false path
+    // ── _control ? _control.value : this.value() — false path ──────────
     it('should use this.value() in ngOnInit when no _control is present', () => {
         // The default TestHostComponent has no reactive form, so _control is null
         expect((select2 as any)._control).toBeNull();

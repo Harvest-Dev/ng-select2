@@ -415,7 +415,7 @@ describe('Select2Utils', () => {
 // ── Additional coverage tests ────────────────────────────────────────
 
 describe('Select2Utils - additional coverage', () => {
-    // ── getPreviousOption with grouped data (lines 85-91) ────────────
+    // ── getPreviousOption with grouped data ────────────────────────────
 
     describe('getPreviousOption with grouped data', () => {
         const groupedData: Select2Data = [
@@ -486,7 +486,7 @@ describe('Select2Utils - additional coverage', () => {
         });
     });
 
-    // ── getNextOption with grouped data (lines 113-119) ──────────────
+    // ── getNextOption with grouped data ──────────────────────────────
 
     describe('getNextOption with grouped data', () => {
         const groupedData: Select2Data = [
@@ -557,7 +557,7 @@ describe('Select2Utils - additional coverage', () => {
         });
     });
 
-    // ── getFilteredSelectedData edge case (line 226) ─────────────────
+    // ── getFilteredSelectedData edge case ───────────────────────────
 
     describe('getFilteredSelectedData - group fully filtered', () => {
         it('should remove entire group when all options are selected', () => {
@@ -622,7 +622,7 @@ describe('Select2Utils - remaining branch coverage', () => {
 // ── Final branch coverage tests ──────────────────────────────────────
 
 describe('Select2Utils - final branch coverage', () => {
-    // ── Line 278: removeSelection - iterate past non-matching items ──
+    // ── removeSelection - iterate past non-matching items ──────────────
 
     describe('removeSelection - non-matching iteration', () => {
         it('should skip non-matching items before finding the target', () => {
@@ -631,25 +631,25 @@ describe('Select2Utils - final branch coverage', () => {
                 { value: 'b', label: 'B' },
                 { value: 'c', label: 'C' },
             ];
-            // Remove 'c' - must iterate past 'a' and 'b' first (line 278 false branch)
+            // Remove 'c' - must iterate past 'a' and 'b' first
             Select2Utils.removeSelection(options, { value: 'c', label: 'C' });
             expect(options.length).toBe(2);
             expect(options.map(o => o.value)).toEqual(['a', 'b']);
         });
     });
 
-    // ── Line 305: containSearchText with null searchText ─────────────
+    // ── containSearchText with null searchText ──────────────────────
 
     describe('getFilteredData - containSearchText null path', () => {
         it('should include all items when searchText is effectively null via getFilteredData', () => {
             // containSearchText is private, but called by getFilteredData
-            // When searchText is null, it returns true (line 305)
+            // When searchText is null, it returns true
             const result = Select2Utils.getFilteredData(SIMPLE_DATA, null);
             expect(result).toBe(SIMPLE_DATA);
         });
     });
 
-    // ── Lines 140, 142: getFirstOption ?? null fallbacks ─────────────
+    // ── getFirstOption ?? null fallbacks ──────────────────────────────
 
     describe('getFirstOption - defensive null coalescing', () => {
         it('should return first option from flat data', () => {
@@ -664,17 +664,17 @@ describe('Select2Utils - final branch coverage', () => {
 
         it('should return null for group with empty options array', () => {
             const data: Select2Data = [{ label: 'G', options: [] }];
-            // options[0] is undefined, so ?? null kicks in (line 142)
+            // options[0] is undefined, so ?? null kicks in
             expect(Select2Utils.getFirstOption(data)).toBeNull();
         });
     });
 
-    // ── Line 154: getLastOption ?? null fallback ─────────────────────
+    // ── getLastOption ?? null fallback ────────────────────────────────
 
     describe('getLastOption - defensive null coalescing', () => {
         it('should return null for group with empty options array', () => {
             const data: Select2Data = [{ label: 'G', options: [] }];
-            // options.at(-1) is undefined, so ?? null kicks in (line 154)
+            // options.at(-1) is undefined, so ?? null kicks in
             expect(Select2Utils.getLastOption(data)).toBeNull();
         });
     });
