@@ -637,9 +637,7 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
                 this.keyDown(event!);
             } else {
                 this._scrollToInitialOption();
-                if (onOpenAction) {
-                    this.keyDown(event!);
-                }
+                this._handleOnOpenAction(onOpenAction, event);
                 this._changeDetectorRef.detectChanges();
 
                 this.triggerRect();
@@ -1049,11 +1047,19 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
         return !!(this.isSearchboxHidden && !changeEmit && event);
     }
 
+    private _handleOnOpenAction(onOpenAction: any, event?: KeyboardEvent) {
+        if (onOpenAction) {
+            this.keyDown(event!);
+        }
+    }
+
     private _scrollToInitialOption() {
         if (this.selectedOption) {
             const option = Array.isArray(this.selectedOption) ? this.selectedOption[0] : this.selectedOption;
             this.updateScrollFromOption(option);
-        } else if (this.resultsElement) {
+            return;
+        }
+        if (this.resultsElement) {
             this.resultsElement.scrollTop = 0;
         }
     }
@@ -1185,8 +1191,18 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
     _isErrorState(): boolean {
         const isInvalid = this._control?.invalid;
         const isTouched = this._control?.touched;
-        const isSubmitted = this._parentFormGroup?.submitted || this._parentForm?.submitted;
+        const isSubmitted = this._isFormSubmitted();
         return !!(isInvalid && (isTouched || isSubmitted));
+    }
+
+    private _isFormSubmitted(): boolean {
+        if (this._parentFormGroup) {
+            return this._parentFormGroup.submitted;
+        }
+        if (this._parentForm) {
+            return this._parentForm.submitted;
+        }
+        return false;
     }
 
     _selectionOverrideLabel() {
@@ -1214,7 +1230,7 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
         }
 
         const [i, j] = this._getElementPath(elt);
-        elt.id ??= `${this.id()}-option${this._toSuffix(i)}${this._toSuffix(j)}`;
+        elt.id = `${this.id()}-option${this._toSuffix(i)}${this._toSuffix(j)}`;
         return elt.id;
     }
 

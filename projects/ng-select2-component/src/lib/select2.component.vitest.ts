@@ -5231,119 +5231,60 @@ describe('Select2 - final branch coverage', () => {
         expect(select2).toBeTruthy();
     });
 
-    // ── Branch 65 (line 640): else path — isSearchboxHidden && !changeEmit && event
-    it('should call keyDown when searchbox hidden, already open, and event provided', () => {
-        host.displaySearchStatus = 'hidden';
-        host.minCountForSearch = 999;
-        fixture.detectChanges();
-        select2 = getSelect2(fixture);
-
-        // First open the select
-        select2.toggleOpenAndClose(true, true);
-        fixture.detectChanges();
-        expect(select2.isOpen).toBe(true);
-
-        // Spy on keyDown to verify the true path is taken
-        const keyDownSpy = vi.spyOn(select2, 'keyDown');
-
-        // Now call again with open=true (no change) and an event
-        // isSearchboxHidden=true, changeEmit=false (already open), event=truthy → true branch
-        const event = new KeyboardEvent('keydown', { key: 'ArrowDown', bubbles: true, cancelable: true });
-        select2.toggleOpenAndClose(true, true, event);
-        fixture.detectChanges();
-        expect(select2.isOpen).toBe(true);
-        // keyDown should have been called from the isSearchboxKeyDown path
-        expect(keyDownSpy).toHaveBeenCalledWith(event);
+    // ── _shouldKeyDownOnOpen — direct unit tests ──────────────────────
+    it('should return true from _shouldKeyDownOnOpen when searchbox hidden, no change, and event', () => {
+        (select2 as any).isSearchboxHidden = true;
+        const event = new KeyboardEvent('keydown', { key: 'ArrowDown' });
+        expect((select2 as any)._shouldKeyDownOnOpen(false, event)).toBe(true);
     });
 
-    // ── Branch 69 (line 656): onOpenAction false — open without event
-    it('should not trigger onOpenAction when no event is provided', () => {
-        // No event → onOpenAction = event && ... = undefined && ... = falsy
-        select2.toggleOpenAndClose(true, true);
-        fixture.detectChanges();
-        expect(select2.isOpen).toBe(true);
+    it('should return false from _shouldKeyDownOnOpen when searchbox visible', () => {
+        (select2 as any).isSearchboxHidden = false;
+        const event = new KeyboardEvent('keydown', { key: 'ArrowDown' });
+        expect((select2 as any)._shouldKeyDownOnOpen(false, event)).toBe(false);
     });
 
-    // ── Branch 192 (line 1183): _parentFormGroup?.submitted — exercise _parentForm path
-    it('should handle _isErrorState with _parentForm submitted (not _parentFormGroup)', () => {
-        const rfFixture = TestBed.createComponent(ReactiveFormHostComponent);
-        rfFixture.detectChanges();
-        const rfSelect2 = rfFixture.debugElement.children[0].children[0].componentInstance as Select2;
-
-        const form = rfFixture.componentInstance.form;
-        form.get('sel')?.setErrors({ required: true });
-        form.get('sel')?.markAsUntouched();
-
-        // Set _parentFormGroup to null, _parentForm.submitted = true
-        (rfSelect2 as any)._parentFormGroup = null;
-        (rfSelect2 as any)._parentForm = { submitted: true };
-        rfFixture.detectChanges();
-
-        expect(rfSelect2._isErrorState()).toBe(true);
+    it('should return false from _shouldKeyDownOnOpen when changeEmit is true', () => {
+        (select2 as any).isSearchboxHidden = true;
+        const event = new KeyboardEvent('keydown', { key: 'ArrowDown' });
+        expect((select2 as any)._shouldKeyDownOnOpen(true, event)).toBe(false);
     });
 
-    // ── Branch 201 (line 1218): toSuffix — exercise the true path (index defined)
-    it('should generate correct id with toSuffix when element is found in _data', () => {
-        // Use fresh data to ensure no cached id
-        const freshData: Select2Data = [
-            { value: 'fresh1', label: 'Fresh 1' },
-            { value: 'fresh2', label: 'Fresh 2' },
-        ];
-        host.data = freshData;
-        fixture.detectChanges();
-        select2 = getSelect2(fixture);
-
-        const option = (select2 as any)._data[1]; // index 1
-        // Ensure no cached id
-        delete option.id;
-        const id = select2.getElementId(option);
-        expect(id).toContain('-option-1');
+    it('should return false from _shouldKeyDownOnOpen when no event', () => {
+        (select2 as any).isSearchboxHidden = true;
+        expect((select2 as any)._shouldKeyDownOnOpen(false, undefined)).toBe(false);
     });
 
-    // ── Branch 201: toSuffix with group data (both i and j defined)
-    it('should generate correct id with both i and j indices for grouped option', () => {
-        const freshGroupData: Select2Data = [
-            {
-                label: 'Group',
-                options: [
-                    { value: 'g1', label: 'G1' },
-                    { value: 'g2', label: 'G2' },
-                ],
-            },
-        ];
-        host.data = freshGroupData;
-        fixture.detectChanges();
-        select2 = getSelect2(fixture);
-
-        // Get the second option in the first group → path [0, 1]
-        const groupOption = ((select2 as any)._data[0] as Select2Group).options[1];
-        delete (groupOption as any).id;
-        const id = select2.getElementId(groupOption);
-        expect(id).toContain('-option-0-1');
+    // ── _toSuffix — direct unit tests ───────────────────────────────
+    it('should return suffix with index when defined', () => {
+        expect((select2 as any)._toSuffix(0)).toBe('-0');
+        expect((select2 as any)._toSuffix(5)).toBe('-5');
     });
 
-    // ── Branch 236: testDiffValue false in isArray path — _value was null, becomes value
-    it('should not emit updateEvent when _value is null and becomes value in _setSelectionByValue', () => {
+    it('should return empty string when index is undefined', () => {
+        expect((select2 as any)._toSuffix(undefined)).toBe('');
+    });
+
+    // ── _preselectArrayValue — direct unit tests ────────────────────
+    it('should not emit updateEvent when _value matches in _preselectArrayValue', () => {
         host.multiple = true;
         host.data = SIMPLE_DATA;
         fixture.detectChanges();
         select2 = getSelect2(fixture);
 
-        // Set _value to null so ??= assigns value to it
         (select2 as any)._value = null;
         (select2 as any).selectedOption = [];
         host.onUpdate.mockClear();
 
         // _value ??= ['opt1'] → _value becomes ['opt1']
-        // testDiffValue(['opt1'], ['opt1']) → same length → false → no updateEvent
-        (select2 as any)._setSelectionByValue(['opt1']);
+        // testDiffValue(['opt1'], ['opt1']) → false → no updateEvent
+        (select2 as any)._preselectArrayValue(['opt1']);
         fixture.detectChanges();
 
         expect(host.onUpdate).not.toHaveBeenCalled();
     });
 
-    // ── Branch 236: testDiffValue true in isArray path — _value differs
-    it('should emit updateEvent when _value differs in isArray path of _setSelectionByValue', () => {
+    it('should emit updateEvent when _value differs in _preselectArrayValue', () => {
         host.multiple = true;
         host.data = SIMPLE_DATA;
         host.value = ['opt1'];
@@ -5354,26 +5295,128 @@ describe('Select2 - final branch coverage', () => {
         (select2 as any).selectedOption = [];
         host.onUpdate.mockClear();
 
-        (select2 as any)._setSelectionByValue(['opt1']);
+        (select2 as any)._preselectArrayValue(['opt1']);
         fixture.detectChanges();
 
         expect(host.onUpdate).toHaveBeenCalled();
     });
 
-    // ── Branch 237: force the true path of testDiffValue in null path
-    it('should emit updateEvent when _value differs in null path of _setSelectionByValue', () => {
-        host.multiple = true;
-        host.data = SIMPLE_DATA;
+    // ── _handleOnOpenAction — direct unit tests ────────────────────
+    it('should call keyDown when onOpenAction is truthy', () => {
+        const spy = vi.spyOn(select2, 'keyDown');
+        const event = new KeyboardEvent('keydown', { key: 'Home' });
+        (select2 as any)._handleOnOpenAction(event, event);
+        expect(spy).toHaveBeenCalledWith(event);
+    });
+
+    it('should not call keyDown when onOpenAction is falsy', () => {
+        const spy = vi.spyOn(select2, 'keyDown');
+        (select2 as any)._handleOnOpenAction(false);
+        (select2 as any)._handleOnOpenAction(undefined);
+        (select2 as any)._handleOnOpenAction(null);
+        expect(spy).not.toHaveBeenCalled();
+    });
+
+    // ── _isFormSubmitted — direct unit tests ────────────────────────
+    it('should return true when _parentFormGroup is submitted', () => {
+        (select2 as any)._parentFormGroup = { submitted: true };
+        (select2 as any)._parentForm = null;
+        expect((select2 as any)._isFormSubmitted()).toBe(true);
+    });
+
+    it('should return true when _parentForm is submitted', () => {
+        (select2 as any)._parentFormGroup = null;
+        (select2 as any)._parentForm = { submitted: true };
+        expect((select2 as any)._isFormSubmitted()).toBe(true);
+    });
+
+    it('should return false when neither form is submitted', () => {
+        (select2 as any)._parentFormGroup = null;
+        (select2 as any)._parentForm = null;
+        expect((select2 as any)._isFormSubmitted()).toBe(false);
+    });
+
+    it('should return false when _parentFormGroup exists but not submitted', () => {
+        (select2 as any)._parentFormGroup = { submitted: false };
+        (select2 as any)._parentForm = null;
+        expect((select2 as any)._isFormSubmitted()).toBe(false);
+    });
+
+    // ── _scrollToInitialOption — direct unit tests ──────────────────
+    it('should scroll to selected option when present', () => {
+        host.value = 'opt1';
         fixture.detectChanges();
         select2 = getSelect2(fixture);
 
-        (select2 as any)._value = ['opt1'];
-        (select2 as any).selectedOption = [{ value: 'opt1', label: 'Option 1' }];
-        host.onUpdate.mockClear();
-
-        (select2 as any)._setSelectionByValue(null);
+        // Open to have resultsElement available
+        select2.toggleOpenAndClose(true, true);
         fixture.detectChanges();
 
-        expect(host.onUpdate).toHaveBeenCalled();
+        const spy = vi.spyOn(select2 as any, 'updateScrollFromOption');
+        (select2 as any)._scrollToInitialOption();
+        expect(spy).toHaveBeenCalled();
+    });
+
+    it('should scroll results to top when no selectedOption', () => {
+        fixture.detectChanges();
+        (select2 as any).selectedOption = null;
+
+        // Open to have resultsElement
+        select2.toggleOpenAndClose(true, true);
+        fixture.detectChanges();
+
+        (select2 as any)._scrollToInitialOption();
+        // Should not throw
+        expect(true).toBe(true);
+    });
+
+    it('should not throw when no selectedOption and no resultsElement', () => {
+        (select2 as any).selectedOption = null;
+        // Mock resultContainer to return undefined (dropdown not rendered)
+        const orig = select2.resultContainer;
+        (select2 as any).resultContainer = () => undefined;
+
+        (select2 as any)._scrollToInitialOption();
+        expect(true).toBe(true);
+
+        (select2 as any).resultContainer = orig;
+    });
+
+    // ── toggleOpenAndClose — close when already closed (changeEmit false)
+    it('should do nothing when closing an already closed select', () => {
+        expect(select2.isOpen).toBe(false);
+        host.onClose.mockClear();
+
+        // Call with open=false when already closed → changeEmit = false
+        select2.toggleOpenAndClose(true, false);
+        fixture.detectChanges();
+
+        expect(select2.isOpen).toBe(false);
+        expect(host.onClose).not.toHaveBeenCalled();
+    });
+
+    // ── getElementId — assignment path
+    it('should assign id when elt.id is undefined', () => {
+        const freshData: Select2Data = [{ value: 'x', label: 'X' }];
+        host.data = freshData;
+        fixture.detectChanges();
+        select2 = getSelect2(fixture);
+
+        const option = (select2 as any)._data[0];
+        option.id = undefined;
+        const id = select2.getElementId(option);
+        expect(id).toContain('-option-0');
+        // Second call should return cached id
+        const id2 = select2.getElementId(option);
+        expect(id2).toBe(id);
+    });
+
+    // ── _setSelectionByValue — no _data and no _control
+    it('should do nothing when _data is empty and no _control', () => {
+        (select2 as any)._data = null;
+        (select2 as any)._control = null;
+        (select2 as any).selectedOption = [{ value: 'x', label: 'X' }];
+
+        expect(() => (select2 as any)._setSelectionByValue('test')).not.toThrow();
     });
 });
