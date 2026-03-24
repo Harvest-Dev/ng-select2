@@ -376,6 +376,7 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
     private _data: Select2Data = [];
 
     private _disabled = false;
+    private _destroyed = false;
 
     protected _value: Select2UpdateValue | null = null;
     private _previousNativeValue: Select2UpdateValue | undefined;
@@ -530,6 +531,7 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
     }
 
     ngOnDestroy(): void {
+        this._destroyed = true;
         this.toObservable.unsubscribe();
     }
 
@@ -538,15 +540,19 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
             const selectedOption = this.selectedOption;
             this.selectedOption = [];
             setTimeout(() => {
-                this.select(selectedOption);
-                this._changeDetectorRef.detectChanges();
+                if (!this._destroyed) {
+                    this.select(selectedOption);
+                    this._changeDetectorRef.detectChanges();
+                }
             });
         } else if (Array.isArray(this.selectedOption) && !this.multiple()) {
             const selectedOption = this.selectedOption[0];
             this.selectedOption = null;
             setTimeout(() => {
-                this.select(selectedOption);
-                this._changeDetectorRef.detectChanges();
+                if (!this._destroyed) {
+                    this.select(selectedOption);
+                    this._changeDetectorRef.detectChanges();
+                }
             });
         } else {
             this._changeDetectorRef.detectChanges();
@@ -963,7 +969,9 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
         if (emit) {
             this.writeValue(value);
             setTimeout(() => {
-                this.updateEvent(value);
+                if (!this._destroyed) {
+                    this.updateEvent(value);
+                }
             });
         }
     }
