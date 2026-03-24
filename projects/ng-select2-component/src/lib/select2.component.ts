@@ -363,7 +363,8 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
     private selectionElement: HTMLElement | undefined;
 
     private get resultsElement(): HTMLElement | undefined {
-        return this.resultContainer()?.nativeElement;
+        const container = this.resultContainer();
+        return container ? container.nativeElement : undefined;
     }
 
     private _stateChanges = new Subject<void>();
@@ -480,13 +481,10 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
             }
         });
 
-        const option = Select2Utils.getOptionsByValue(
-            this._data,
-            this._control ? this._control.value : this.value(),
-            this.multiple(),
-        );
+        const controlValue = this._control ? this._control.value : this.value();
+        const option = Select2Utils.getOptionsByValue(this._data, controlValue, this.multiple());
         if (option !== null) {
-            this.selectedOption = option ?? null;
+            this.selectedOption = option;
         }
         if (!Array.isArray(option)) {
             this.hoveringOption.set(Select2Utils.getOptionByValue(this._data, this.value));
@@ -635,17 +633,12 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
                 this._focusSearchbox(focus);
             }
 
-            if (this.isSearchboxHidden && !changeEmit && event) {
-                this.keyDown(event);
+            if (this._shouldKeyDownOnOpen(changeEmit, event)) {
+                this.keyDown(event!);
             } else {
-                if (this.selectedOption) {
-                    const option = Array.isArray(this.selectedOption) ? this.selectedOption[0] : this.selectedOption;
-                    this.updateScrollFromOption(option);
-                } else if (this.resultsElement) {
-                    this.resultsElement.scrollTop = 0;
-                }
+                this._scrollToInitialOption();
                 if (onOpenAction) {
-                    this.keyDown(event);
+                    this.keyDown(event!);
                 }
                 this._changeDetectorRef.detectChanges();
 
@@ -683,18 +676,22 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
     getTemplate(option: Select2Option | Select2Group, defaultValue: string, select: boolean = false) {
         const templates: any = this.templates();
         const templatesValue: any = this.templates();
-        return this.hasTemplate(option, defaultValue, select)
-            ? (select
-                  ? templates?.[(option as Select2Option).templateSelectionId ?? ''] ||
-                    templates?.[`${defaultValue}Selection`] ||
-                    templates?.[`templateSelection`] ||
-                    this.templateSelection()
-                  : undefined) ||
-                  templatesValue?.[option.templateId ?? ''] ||
-                  templatesValue?.[defaultValue] ||
-                  templatesValue?.['template'] ||
-                  templatesValue
+        if (!this.hasTemplate(option, defaultValue, select)) {
+            return undefined;
+        }
+        const selectionTemplate = select
+            ? templates?.[(option as Select2Option).templateSelectionId ?? ''] ||
+              templates?.[`${defaultValue}Selection`] ||
+              templates?.[`templateSelection`] ||
+              this.templateSelection()
             : undefined;
+        return (
+            selectionTemplate ||
+            templatesValue?.[option.templateId ?? ''] ||
+            templatesValue?.[defaultValue] ||
+            templatesValue?.['template'] ||
+            templatesValue
+        );
     }
 
     triggerRect() {
@@ -950,7 +947,10 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
             }
         } else {
             // when remove value
-            if (Array.isArray(this.selectedOption) ? this.selectedOption?.length : this.selectedOption) {
+            const hasSelection = Array.isArray(this.selectedOption)
+                ? this.selectedOption.length > 0
+                : !!this.selectedOption;
+            if (hasSelection) {
                 value = '';
             }
             this.selectedOption = null;
@@ -977,7 +977,10 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
     }
 
     private testDiffValue(val1: Select2UpdateValue | null, val2: any) {
-        return Array.isArray(val1) ? (val1 as [])?.length !== val2?.length : val1 !== val2;
+        if (Array.isArray(val1)) {
+            return val1.length !== val2.length;
+        }
+        return val1 !== val2;
     }
 
     keyDown(event: KeyboardEvent, create = false) {
@@ -1042,6 +1045,19 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
         }
     }
 
+    private _shouldKeyDownOnOpen(changeEmit: boolean, event?: KeyboardEvent): boolean {
+        return !!(this.isSearchboxHidden && !changeEmit && event);
+    }
+
+    private _scrollToInitialOption() {
+        if (this.selectedOption) {
+            const option = Array.isArray(this.selectedOption) ? this.selectedOption[0] : this.selectedOption;
+            this.updateScrollFromOption(option);
+        } else if (this.resultsElement) {
+            this.resultsElement.scrollTop = 0;
+        }
+    }
+
     searchUpdate(e: Event) {
         this.searchText = (e.target as HTMLInputElement).value;
         if (!this.customSearchEnabled()) {
@@ -1084,7 +1100,7 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
         if (this._control) {
             this._onChange(value);
         } else {
-            this._value = value ?? null;
+            this._value = value;
         }
 
         this.updateEvent(value);
@@ -1198,9 +1214,15 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
         }
 
         const [i, j] = this._getElementPath(elt);
-        const toSuffix = (index: number) => (index !== undefined ? `-${index}` : '');
-        elt.id ??= `${this.id()}-option${toSuffix(i)}${toSuffix(j)}`;
+        elt.id ??= `${this.id()}-option${this._toSuffix(i)}${this._toSuffix(j)}`;
         return elt.id;
+    }
+
+    private _toSuffix(index: number | undefined): string {
+        if (index !== undefined) {
+            return `-${index}`;
+        }
+        return '';
     }
 
     _getElementPath(elt: Select2Group | Select2Option): number[] {
@@ -1265,14 +1287,14 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
             this.click(item);
             this.updateFilteredData();
 
+            const options: Select2Option[] = Array.isArray(this.selectedOption)
+                ? this.selectedOption
+                : [this.selectedOption!];
+
             this.autoCreateItem.emit({
                 value: item,
                 component: this,
-                options: Array.isArray(this.selectedOption)
-                    ? this.selectedOption
-                    : this.selectedOption
-                      ? [this.selectedOption]
-                      : null,
+                options,
             });
         }
         this.stopEvent(e);
@@ -1350,25 +1372,13 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
                         this.selectedOption = []; // if value is null, then empty option and return
                     }
                     if (isArray) {
-                        // value is not null. Preselect value
-                        (Select2Utils.getOptionsByValue(this._data, value, this.multiple()) as []).forEach(item =>
-                            this.select(item, false),
-                        );
-                        this._value ??= value;
-
-                        if (this.testDiffValue(this._value, value)) {
-                            this.updateEvent(value);
-                        }
+                        this._preselectArrayValue(value);
                     } else if (value === null) {
                         // fix if value is null
                         this._value = [];
                         this.reset();
                         this.select(null, false);
-
-                        if (this.testDiffValue(this._value, value)) {
-                            this._value = [];
-                            this.updateEvent(this._value);
-                        }
+                        this.updateEvent(this._value);
                     }
                 } else {
                     this._value = value;
@@ -1379,6 +1389,17 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
             }
 
             this._changeDetectorRef.markForCheck();
+        }
+    }
+
+    private _preselectArrayValue(value: any[]) {
+        (Select2Utils.getOptionsByValue(this._data, value, this.multiple()) as []).forEach(item =>
+            this.select(item, false),
+        );
+        this._value ??= value;
+
+        if (this.testDiffValue(this._value, value)) {
+            this.updateEvent(value);
         }
     }
 
@@ -1412,11 +1433,14 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
             if (document.activeElement !== eltToFocus) {
                 eltToFocus.focus(options);
             }
-        } else if (
-            document.activeElement === this.selection()?.nativeElement ||
-            document.activeElement === this.searchInput()?.nativeElement
-        ) {
-            (document.activeElement as HTMLElement).blur();
+        } else {
+            const selectionRef = this.selection();
+            const searchRef = this.searchInput();
+            const selectionEl = selectionRef ? selectionRef.nativeElement : null;
+            const searchEl = searchRef ? searchRef.nativeElement : null;
+            if (document.activeElement === selectionEl || document.activeElement === searchEl) {
+                (document.activeElement as HTMLElement).blur();
+            }
         }
 
         this._updateFocusState(state);
