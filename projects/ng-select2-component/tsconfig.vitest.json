@@ -1,0 +1,13 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "outDir": "../../out-tsc/vitest",
+    "types": ["vitest/globals", "node"],
+    "target": "ES2022",
+    "module": "ES2022",
+    "moduleResolution": "bundler",
+    "esModuleInterop": true
+  },
+  "include": ["**/*.vitest.ts", "**/*.ts", "**/*.d.ts"],
+  "exclude": ["**/*.spec.ts"]
+}

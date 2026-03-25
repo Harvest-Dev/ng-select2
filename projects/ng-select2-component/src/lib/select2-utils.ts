@@ -1,21 +1,18 @@
 import { defaultMinCountForSearch, protectRegexp, unicodePatterns } from './select2-const';
 import { Select2Data, Select2Group, Select2Option, Select2UpdateValue, Select2Value } from './select2-interfaces';
 
-
 export class Select2Utils {
-    static getOptionByValue(data: Select2Data, value: Select2Value ) {
-        if (Array.isArray(data)) {
-            for (const groupOrOption of data) {
-                const options = (groupOrOption as Select2Group).options;
-                if (options) {
-                    for (const option of options) {
-                        if (option.value === value) {
-                            return option;
-                        }
+    static getOptionByValue(data: Select2Data, value: Select2Value) {
+        for (const groupOrOption of data) {
+            const options = (groupOrOption as Select2Group).options;
+            if (options) {
+                for (const option of options) {
+                    if (option.value === value) {
+                        return option;
                     }
-                } else if ((groupOrOption as Select2Option).value === value) {
-                    return groupOrOption as Select2Option;
                 }
+            } else if ((groupOrOption as Select2Option).value === value) {
+                return groupOrOption as Select2Option;
             }
         }
         return null;
@@ -41,20 +38,18 @@ export class Select2Utils {
     }
 
     static getFirstAvailableOption(data: Select2Data): Select2Option | null {
-        if (Array.isArray(data)) {
-            for (const groupOrOption of data) {
-                const options = (groupOrOption as Select2Group).options;
-                if (options) {
-                    for (const option of options) {
-                        if (!option.disabled) {
-                            return option;
-                        }
-                    }
-                } else {
-                    const option = groupOrOption as Select2Option;
+        for (const groupOrOption of data) {
+            const options = (groupOrOption as Select2Group).options;
+            if (options) {
+                for (const option of options) {
                     if (!option.disabled) {
                         return option;
                     }
+                }
+            } else {
+                const option = groupOrOption as Select2Option;
+                if (!option.disabled) {
+                    return option;
                 }
             }
         }
@@ -115,7 +110,7 @@ export class Select2Utils {
                             if (!option.disabled && !option.hide) {
                                 return option;
                             }
-                        } else if (!findIt) {
+                        } else {
                             findIt = option === hoveringOption;
                         }
                     }
@@ -125,7 +120,7 @@ export class Select2Utils {
                         if (!option.disabled && !option.hide) {
                             return option;
                         }
-                    } else if (!findIt) {
+                    } else {
                         findIt = option === hoveringOption;
                     }
                 }
@@ -137,7 +132,7 @@ export class Select2Utils {
     static getFirstOption(filteredData: Select2Data): Select2Option | null {
         const firstElement = filteredData[0];
         if (this.isOption(firstElement)) {
-            return firstElement ?? null;
+            return firstElement;
         } else {
             return firstElement.options[0] ?? null;
         }
@@ -299,14 +294,14 @@ export class Select2Utils {
 
     private static containSearchText(
         label: string,
-        searchText: string | null,
+        searchText: string,
         editPattern: ((str: string) => string) | undefined,
     ): boolean {
-        return searchText
-            ? Select2Utils.formatSansUnicode(label).match(
-                  new RegExp(Select2Utils.formatPattern(searchText, editPattern), 'i'),
-              ) !== null
-            : true;
+        return (
+            Select2Utils.formatSansUnicode(label).match(
+                new RegExp(Select2Utils.formatPattern(searchText, editPattern), 'i'),
+            ) !== null
+        );
     }
 
     private static protectPattern(str: string): string {
