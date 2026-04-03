@@ -13,12 +13,10 @@ npm i ng-select2-component --save
 ## Requirements
 
 - peerDependencies:
-
     - `angular` `^18.1.0` to `^21.0.0`
     - `angular/cdk` `^18.1.0` to `^21.0.0`
 
 - dependencies (include):
-
     - `ngx-infinite-scroll` `^19.0.0` to `^21.0.0`
 
 ### Notes
@@ -66,6 +64,8 @@ npm i ng-select2-component --save
 
 ### example
 
+#### TS
+
 ```ts
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
@@ -80,8 +80,25 @@ import { Select2, Select2Hint, Select2Label } from 'ng-select2-component';
 class MyComponent {}
 ```
 
+#### HTML template
+
 ```html
-<select2 [data]="data" [value]="value" (update)="update($event)"> </select2>
+<select2 [data]="data" [value]="value" (update)="update($event)"></select2>
+```
+
+or
+
+```html
+<ng-select2 [data]="data" [value]="value" (update)="update($event)" />
+```
+
+or
+
+```html
+<ng-select2 [data]="data" [value]="value" (update)="update($event)">
+    <ng-select2-label>label</ng-select2-label>
+    <ng-select2-hint>hint</ng-select2-hint>
+</ng-select2>
 ```
 
 ### properties and events of the component
@@ -452,15 +469,33 @@ It's possible to change different colors (and more) with CSS variables without h
 
 ## Publishing the library
 
-```
+```sh
 npm run build:lib
 npm run publish:lib
 ```
 
 ## Update Demo
 
-```
+```sh
 npm run build:demo
+```
+
+## Tests
+
+```sh
+# run tests
+npm run test
+npm run test:vitest
+```
+
+```sh
+# run tests with coverage
+npm run test:vitest:coverage
+```
+
+```sh
+# run tests with watch
+npm run test:vitest:watch
 ```
 
 ## License
