@@ -1,6 +1,6 @@
 # Changelog of ng-select2
 
-## V17.2.10 (2026-03-05)
+## V17.2.10 (2026-04-04)
 
 > Added near-complete code coverage with Vitest.\
 > Some of the code has been fixed (dead code, untestable code, etc.).
