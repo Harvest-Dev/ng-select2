@@ -30,7 +30,7 @@ export class ExemplesAutoCreateComponent extends Examples {
     exemple32 = computed(() =>
         new Json2html(
             {
-                tag: 'select2',
+                tag: 'ng-select2',
                 attrs: {
                     ...this.overlayExempleJson(),
                     ...this.styleModeExempleJson(),
@@ -49,7 +49,7 @@ export class ExemplesAutoCreateComponent extends Examples {
     exemple29 = computed(() =>
         new Json2html(
             {
-                tag: 'select2',
+                tag: 'ng-select2',
                 attrs: {
                     ...this.overlayExempleJson(),
                     ...this.styleModeExempleJson(),
@@ -66,7 +66,7 @@ export class ExemplesAutoCreateComponent extends Examples {
     exemple29b = computed(() =>
         new Json2html(
             {
-                tag: 'select2',
+                tag: 'ng-select2',
                 attrs: {
                     ...this.overlayExempleJson(),
                     ...this.styleModeExempleJson(),
