@@ -140,4 +140,99 @@ describe('HighlightPipe', () => {
             expect(result).toBe('The digraph <span class="select2-highlight-text">ǉ</span> is rare');
         });
     });
+
+    describe('Japanese Hiragana/Katakana Support', () => {
+        it('should match hiragana with katakana', () => {
+            const result = pipe.transform('こんにちは', 'コンニチハ');
+            expect(result).toBe('<span class="select2-highlight-text">こんにちは</span>');
+        });
+
+        it('should match katakana with hiragana', () => {
+            const result = pipe.transform('コンピュータ', 'こんぴゅーた');
+            expect(result).toBe('<span class="select2-highlight-text">コンピュータ</span>');
+        });
+
+        it('should match small kana with normal kana (tsu)', () => {
+            const result = pipe.transform('がっこう', 'かつこう');
+            expect(result).toBe('<span class="select2-highlight-text">がっこう</span>');
+        });
+
+        it('should match small ya/yu/yo with normal ya/yu/yo', () => {
+            const result = pipe.transform('きょう', 'きよう');
+            expect(result).toBe('<span class="select2-highlight-text">きょう</span>');
+        });
+
+        it('should match small vowels with normal vowels', () => {
+            const result = pipe.transform('ちぃさい', 'ちいさい');
+            expect(result).toBe('<span class="select2-highlight-text">ちぃさい</span>');
+        });
+
+        it('should match dakuten variants (ka/ga)', () => {
+            const result = pipe.transform('かがみ', 'かかみ');
+            expect(result).toBe('<span class="select2-highlight-text">かがみ</span>');
+        });
+
+        it('should match handakuten variants (ha/ba/pa)', () => {
+            const result = pipe.transform('はっぱ', 'はつは');
+            expect(result).toBe('<span class="select2-highlight-text">はっぱ</span>');
+        });
+
+        it('should match combining dakuten (が with が)', () => {
+            const result = pipe.transform('がき', 'がき');
+            expect(result).toBe('<span class="select2-highlight-text">がき</span>');
+        });
+
+        it('should match combining handakuten (ぱ with ぱ)', () => {
+            const result = pipe.transform('ぱん', 'ぱん');
+            expect(result).toBe('<span class="select2-highlight-text">ぱん</span>');
+        });
+
+        it('should match vowels with combining dakuten (あ゙)', () => {
+            const result = pipe.transform('あ゙い', 'あい');
+            expect(result).toBe('<span class="select2-highlight-text">あ゙い</span>');
+        });
+
+        it('should match vu (ゔ) with u', () => {
+            const result = pipe.transform('ゔぁいおりん', 'うぁいおりん');
+            expect(result).toBe('<span class="select2-highlight-text">ゔぁいおりん</span>');
+        });
+
+        it('should match rare katakana with dakuten (ヷ with わ)', () => {
+            const result = pipe.transform('ヷヸヹヺ', 'わゐゑを');
+            expect(result).toBe('<span class="select2-highlight-text">ヷヸヹヺ</span>');
+        });
+
+        it('should match mixed hiragana and katakana in same text', () => {
+            const result = pipe.transform('ひらがなとカタカナ', 'ヒラガナトかたかな');
+            expect(result).toBe('<span class="select2-highlight-text">ひらがなとカタカナ</span>');
+        });
+
+        it('should handle partial matches with mixed scripts', () => {
+            const result = pipe.transform('日本語のテスト', 'てすと');
+            expect(result).toBe('日本語の<span class="select2-highlight-text">テスト</span>');
+        });
+
+        it('should match づ/ヅ with つ/ツ', () => {
+            const result = pipe.transform('つづく', 'つつく');
+            expect(result).toBe('<span class="select2-highlight-text">つづく</span>');
+        });
+
+        it('should match small wa (ゎ) with normal wa (わ)', () => {
+            const result = pipe.transform('くゎし', 'くわし');
+            expect(result).toBe('<span class="select2-highlight-text">くゎし</span>');
+        });
+
+        it('should preserve original text casing in highlights', () => {
+            const result = pipe.transform('カタカナ', 'かたかな');
+            expect(result).toBe('<span class="select2-highlight-text">カタカナ</span>');
+        });
+
+        it('should handle multiple occurrences of Japanese characters', () => {
+            const result = pipe.transform('あいうえお あいうえお', 'アイウエオ');
+            expect(result).toBe(
+                '<span class="select2-highlight-text">あいうえお</span> ' +
+                    '<span class="select2-highlight-text">あいうえお</span>',
+            );
+        });
+    });
 });
