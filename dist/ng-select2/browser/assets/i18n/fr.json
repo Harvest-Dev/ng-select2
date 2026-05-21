@@ -138,5 +138,10 @@
   "Form Control": "Form Control",
   "Position": "Position",
   "Template": "Template",
-  "Style": "Style"
+  "Style": "Style",
+
+  "Highlight the search": "Surligner la recherche",
+  "Highlight the search in the options": "Surligner la recherche dans les options",
+  "With template": "Avec template",
+  "Japanese": "Japonais"
 }

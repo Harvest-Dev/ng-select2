@@ -1,5 +1,10 @@
 # Changelog of ng-select2
 
+## V17.3.1 (2026-05-21)
+
+- feat: searches done in Japanese (e.g. はハばバぱパ are considered the same character)
+- feat: highlight ongoing searches done in Japaneseks
+
 ## V17.3.0 (2026-05-21)
 
 ### Change
