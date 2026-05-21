@@ -6,7 +6,7 @@
 
     <label class="col-12"><input id="no-wrap" type="checkbox" [(ngModel)]="selectionNoWrap2" /> selectionNoWrap</label>
 
-    <select2
+    <ng-select2
       class="col-6"
       [overlay]="overlay"
       [styleMode]="styleMode"
@@ -17,7 +17,7 @@
       hideSelectedItems="true"
       id="select2-10"
       [selectionNoWrap]="selectionNoWrap2"
-    ></select2>
+    />
     <div class="col-12 value">
       <span>{{ 'value:' | transloco }}</span
       ><code>{{ value10 | json }}</code>
@@ -27,7 +27,7 @@
 
     <label class="col-12"><input id="no-wrap" type="checkbox" [(ngModel)]="selectionNoWrap" /> selectionNoWrap</label>
 
-    <select2
+    <ng-select2
       class="col-6"
       [selectionOverride]="selectionOverride"
       [selectionNoWrap]="selectionNoWrap"
@@ -38,8 +38,7 @@
       id="select2-36-mf"
       (update)="update('value36mf', $event)"
       multiple
-    >
-    </select2>
+    />
     <div class="col-12 value">
       <span>{{ 'value:' | transloco }}</span
       ><code>{{ value36mf | json }}</code>

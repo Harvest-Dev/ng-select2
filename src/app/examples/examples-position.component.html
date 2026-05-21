@@ -4,7 +4,7 @@
   <div class="row">
     <h3 class="col-12" id="ex-19">{{ 'Dropdown list position: above' | transloco }}</h3>
 
-    <select2
+    <ng-select2
       class="col-6"
       [overlay]="overlay"
       [styleMode]="styleMode"
@@ -13,11 +13,10 @@
       (update)="update('value19', $event)"
       listPosition="above"
       id="select2-19"
-    >
-    </select2>
+    />
 
     <h3 class="col-12" id="ex-27">{{ 'Position auto (overlay only)' | transloco }}</h3>
-    <select2
+    <ng-select2
       class="col-6"
       [overlay]="overlay"
       [styleMode]="styleMode"
@@ -26,6 +25,6 @@
       listPosition="auto"
       (update)="update('value2', $event)"
       id="select2-27"
-    ></select2>
+    />
   </div>
 </div>

@@ -11,7 +11,7 @@
       </select>
 
       <div>{{ 'Single value:' | transloco }}</div>
-      <select2
+      <ng-select2
         [overlay]="overlay"
         [styleMode]="styleMode"
         [data]="data31"
@@ -19,9 +19,9 @@
         id="select2-31"
         (update)="update('value31', $event)"
       >
-      </select2>
+      </ng-select2>
       <div>{{ 'Multiple value:' | transloco }}</div>
-      <select2
+      <ng-select2
         [overlay]="overlay"
         [styleMode]="styleMode"
         [data]="data31"
@@ -30,23 +30,23 @@
         (update)="update('value31m', $event)"
         multiple
       >
-      </select2>
+      </ng-select2>
       <br />
 
       <div>NgModel:</div>
-      <select2
+      <ng-select2
         [overlay]="overlay"
         [styleMode]="styleMode"
         [data]="data31"
         [(ngModel)]="value31b"
         id="select2-31b"
         (update)="update('value31b', $event)"
-      ></select2>
+      />
     </div>
 
     <h3 class="col-12" id="ex-21">{{ 'Update to empty/null/undefined' | transloco }}</h3>
     <div class="col-6">
-      <select2
+      <ng-select2
         [overlay]="overlay"
         [styleMode]="styleMode"
         [data]="data21"
@@ -55,7 +55,7 @@
         listPosition="above"
         id="select2-21"
       >
-      </select2>
+      </ng-select2>
     </div>
     <div class="col-12 value">
       <div>
@@ -72,7 +72,7 @@
 
     <h3 class="col-12" id="ex-41">{{ 'Multiple value changing data' | transloco }}</h3>
     <div class="col-6">
-      <select2
+      <ng-select2
         [overlay]="overlay"
         [styleMode]="styleMode"
         [data]="data41"
@@ -81,7 +81,7 @@
         (update)="update('value41m', $event)"
         multiple
       >
-      </select2>
+      </ng-select2>
     </div>
     <div class="col-12 value">
       <div>

@@ -3,13 +3,13 @@
 <div class="container">
   <div class="row">
     <div class="col-6">
-      <select2 [overlay]="overlay" [data]="data3" id="select2-0a" title="title">
-        <select2-label>{{ 'Label' | transloco }}</select2-label>
-      </select2>
+      <ng-select2 [overlay]="overlay" [data]="data3" id="select2-0a" title="title">
+        <ng-select2-label>{{ 'Label' | transloco }}</ng-select2-label>
+      </ng-select2>
 
       <div id="select2-0b-custom-label">{{ 'External label' | transloco }}</div>
       <div id="select2-0b-description">{{ 'External description' | transloco }}</div>
-      <select2
+      <ng-select2
         [overlay]="overlay"
         [styleMode]="styleMode"
         [data]="data3"
@@ -17,25 +17,25 @@
         title="title"
         ariaLabelledby="select2-0b-custom-label"
         ariaDescribedby="select2-0b-description"
-      ></select2>
+      />
 
-      <select2 [overlay]="overlay" [data]="data3" id="select2-0c" ariaInvalid>
-        <select2-label>{{ 'Invalid field' | transloco }}</select2-label>
-      </select2>
+      <ng-select2 [overlay]="overlay" [data]="data3" id="select2-0c" ariaInvalid>
+        <ng-select2-label>{{ 'Invalid field' | transloco }}</ng-select2-label>
+      </ng-select2>
 
-      <select2 [overlay]="overlay" [data]="data3" id="select2-0d" required>
-        <select2-label>{{ 'Required field' | transloco }}</select2-label>
-      </select2>
+      <ng-select2 [overlay]="overlay" [data]="data3" id="select2-0d" required>
+        <ng-select2-label>{{ 'Required field' | transloco }}</ng-select2-label>
+      </ng-select2>
 
-      <select2 [overlay]="overlay" [data]="data3" id="select2-0e" readonly value="foo">
-        <select2-label>{{ 'Readonly field' | transloco }}</select2-label>
-      </select2>
+      <ng-select2 [overlay]="overlay" [data]="data3" id="select2-0e" readonly value="foo">
+        <ng-select2-label>{{ 'Readonly field' | transloco }}</ng-select2-label>
+      </ng-select2>
 
-      <select2 [overlay]="overlay" [data]="data3" id="select2-0f" disabled value="foo">
-        <select2-label>{{ 'Disabled field' | transloco }}</select2-label>
-      </select2>
+      <ng-select2 [overlay]="overlay" [data]="data3" id="select2-0f" disabled value="foo">
+        <ng-select2-label>{{ 'Disabled field' | transloco }}</ng-select2-label>
+      </ng-select2>
 
-      <select2
+      <ng-select2
         [overlay]="overlay"
         [styleMode]="styleMode"
         [data]="data3"
@@ -44,8 +44,8 @@
         value="foo"
         ariaResetButtonDescription="Clear the field"
       >
-        <select2-label>{{ 'Resettable field' | transloco }}</select2-label>
-      </select2>
+        <ng-select2-label>{{ 'Resettable field' | transloco }}</ng-select2-label>
+      </ng-select2>
     </div>
   </div>
 </div>

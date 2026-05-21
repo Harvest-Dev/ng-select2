@@ -3,22 +3,21 @@
 <div class="container">
   <div class="row">
     <h3 class="col-12" id="ex-17">{{ 'With two labels per option' | transloco }}</h3>
-    <select2
+    <ng-select2
       class="col-6"
       [overlay]="overlay"
       [data]="data17"
       [value]="value17"
       (update)="update('value17', $event)"
       id="select2-17"
-    >
-    </select2>
+    />
     <div class="col-12 value">
       <span>{{ 'value:' | transloco }}</span
       ><code>{{ value17 | json }}</code>
     </div>
 
     <h3 class="col-12" id="ex-22">{{ 'With classes and id for items' | transloco }}</h3>
-    <select2
+    <ng-select2
       class="col-6 flower-list"
       [overlay]="overlay"
       [data]="data22"
@@ -26,8 +25,7 @@
       (update)="update('value22', $event)"
       listPosition="auto"
       id="select2-22"
-    >
-    </select2>
+    />
     <div class="col-12 value">
       <span>{{ 'value:' | transloco }}</span
       ><code>{{ value22 | json }}</code>

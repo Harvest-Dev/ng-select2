@@ -6,7 +6,7 @@
       {{ 'Search box always show' | transloco }} (minCountForSearch = <code>infinity</code>) ({{ value5 }})
     </h3>
     <form [formGroup]="ctrlForm2" class="col-6">
-      <select2
+      <ng-select2
         [overlay]="overlay"
         [styleMode]="styleMode"
         [data]="data5"
@@ -14,7 +14,7 @@
         [minCountForSearch]="minCountForSearch"
         (update)="update('value5', $event)"
         id="select2-5"
-      ></select2>
+      />
     </form>
 
     <div class="col-12 value">
@@ -38,7 +38,7 @@
       <button type="button" (click)="removeItem()">{{ 'Remove item' | transloco }}</button>
     </div>
 
-    <select2
+    <ng-select2
       class="col-6"
       [overlay]="overlay"
       [styleMode]="styleMode"
@@ -48,7 +48,7 @@
       [displaySearchStatus]="$any(status.value)"
       (update)="update('value6', $event)"
       id="select2-6"
-    ></select2>
+    />
 
     <div class="col-12 value">
       <div>
@@ -62,7 +62,7 @@
       <label>{{ 'Limit:' | transloco }} <input type="number" size="3" [(ngModel)]="limitSelection" /></label>
       {{ '(0 = no limit)' | transloco }}
     </div>
-    <select2
+    <ng-select2
       class="col-6"
       [overlay]="overlay"
       [data]="data9"
@@ -71,8 +71,7 @@
       [limitSelection]="limitSelection"
       customSearchEnabled
       id="select2-9"
-    >
-    </select2>
+    />
     <div class="col-12 value">
       <div>
         <span>{{ 'value:' | transloco }}</span
@@ -81,7 +80,7 @@
     </div>
 
     <h3 class="col-12" id="ex-28">{{ 'Max results (50)' | transloco }}</h3>
-    <select2
+    <ng-select2
       class="col-6"
       [overlay]="overlay"
       [styleMode]="styleMode"
@@ -92,7 +91,7 @@
       (update)="update('value28', $event)"
       maxResults="50"
       [maxResultsMessage]="'Too much results in this list.' | transloco"
-    ></select2>
+    />
     <div class="col-12 value">
       <div>
         <span>{{ 'value:' | transloco }}</span
@@ -101,7 +100,7 @@
     </div>
 
     <h3 class="col-12" id="ex-18">{{ 'Search starts with 3 chars' | transloco }}</h3>
-    <select2
+    <ng-select2
       class="col-6"
       [overlay]="overlay"
       [data]="data18"
@@ -109,8 +108,7 @@
       (update)="update('value18', $event)"
       minCharForSearch="3"
       id="select2-18"
-    >
-    </select2>
+    />
     <div class="col-12 value">
       <div>
         <span>{{ 'value:' | transloco }}</span

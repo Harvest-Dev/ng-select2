@@ -3,7 +3,7 @@
 <div class="container">
   <div class="row">
     <h3 class="col-12" id="ex-10a">{{ 'Multiple selection with drag selection' | transloco }}</h3>
-    <select2
+    <ng-select2
       class="col-6"
       [overlay]="overlay"
       [styleMode]="styleMode"
@@ -13,7 +13,7 @@
       multipleDrag
       (update)="update('value10a', $event)"
       id="select2-10a"
-    ></select2>
+    />
     <div class="col-12 value">
       <span>{{ 'value:' | transloco }}</span
       ><code>{{ value10a | json }}</code>

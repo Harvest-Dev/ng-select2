@@ -3,7 +3,7 @@
 <div class="container">
   <div class="row">
     <h3 class="col-12" id="ex-30">{{ 'Reset value when × is clicked' | transloco }}</h3>
-    <select2
+    <ng-select2
       class="col-6"
       [overlay]="overlay"
       [styleMode]="styleMode"
@@ -12,8 +12,7 @@
       resettable
       id="select2-30"
       (update)="update('value30', $event)"
-    >
-    </select2>
+    />
     <div class="col-12 value">
       <div>
         <span>{{ 'value:' | transloco }}</span
@@ -22,7 +21,7 @@
     </div>
 
     <h3 class="col-12" id="ex-30">{{ 'Reset value when × is clicked in multiple' | transloco }}</h3>
-    <select2
+    <ng-select2
       class="col-6"
       [overlay]="overlay"
       [styleMode]="styleMode"
@@ -32,8 +31,7 @@
       multiple
       id="select2-30a"
       (update)="update('value30a', $event)"
-    >
-    </select2>
+    />
     <div class="col-12 value">
       <div>
         <span>{{ 'value:' | transloco }}</span
@@ -42,7 +40,7 @@
     </div>
 
     <h3 class="col-12" id="ex-30b">{{ 'Selected a default option when × is clicked' | transloco }}</h3>
-    <select2
+    <ng-select2
       class="col-6"
       [overlay]="overlay"
       [styleMode]="styleMode"
@@ -52,8 +50,7 @@
       resetSelectedValue="CA"
       id="select2-30b"
       (update)="update('value30b', $event)"
-    >
-    </select2>
+    />
     <div class="col-12 value">
       <div>
         <span>{{ 'value:' | transloco }}</span

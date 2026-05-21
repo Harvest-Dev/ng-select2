@@ -4,7 +4,7 @@
   <div class="row">
     <h3 class="col-12" id="ex-11">ngModel</h3>
     <form [formGroup]="ctrlForm" class="col-6">
-      <select2
+      <ng-select2
         [overlay]="overlay"
         [(ngModel)]="value11"
         [data]="data11"
@@ -12,7 +12,7 @@
         placeholder="Select a state"
         id="select2-11"
         (update)="update('value11', $event)"
-      ></select2>
+      />
     </form>
     <div class="col-12">
       <button (click)="reset11()">{{ 'Reset' | transloco }}</button>
@@ -28,13 +28,13 @@
 
     <h3 id="ex-33">{{ 'FormControl & reset form multiple' | transloco }}</h3>
     <form [formGroup]="ctrlForm2" class="col-6">
-      <select2
+      <ng-select2
         [data]="data32"
         formControlName="test33"
         multiple="true"
         (update)="update('value33', $event)"
         id="select2-33"
-      ></select2>
+      />
     </form>
     <div class="col-12">
       <button (click)="reset()">{{ 'Reset' | transloco }}</button>
@@ -49,7 +49,7 @@
 
     <h3 class="col-12" id="ex-14">{{ 'FormControl & reset a specific value' | transloco }}</h3>
     <form [formGroup]="ctrlForm3" class="col-6">
-      <select2
+      <ng-select2
         class="col-6"
         [overlay]="overlay"
         [styleMode]="styleMode"
@@ -58,7 +58,7 @@
         id="select2-14"
         formControlName="state"
         (update)="update('value14', $event)"
-      ></select2>
+      />
     </form>
     <div class="col-12">
       <button (click)="print()">{{ 'Selection log (See F12)' | transloco }}</button>

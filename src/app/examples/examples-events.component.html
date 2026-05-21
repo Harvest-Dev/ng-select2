@@ -3,7 +3,7 @@
 <div class="container">
   <div class="row">
     <h3 class="col-12" id="ex-8" [innerHTML]="'List events' | transloco"></h3>
-    <select2
+    <ng-select2
       class="col-6"
       [overlay]="overlay"
       [styleMode]="styleMode"
@@ -17,7 +17,7 @@
       (search)="search('search', $event)"
       (autoCreateItem)="autoCreate('autoCreateItem', $event)"
       id="select2-8"
-    ></select2>
+    />
 
     <div class="col-12 value">
       <span>{{ 'value:' | transloco }}</span

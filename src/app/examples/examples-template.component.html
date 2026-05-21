@@ -4,7 +4,7 @@
   <div class="row">
     <h3 class="col-12" id="ex-23">{{ 'Only one template for options/groups & one for selection' | transloco }}</h3>
 
-    <select2
+    <ng-select2
       class="col-6 flower-list"
       [overlay]="overlay"
       [styleMode]="styleMode"
@@ -22,7 +22,7 @@
       <ng-template #templateSelection let-data="data"
         ><strong>{{ data?.color }}</strong> ({{ data?.name }})</ng-template
       >
-    </select2>
+    </ng-select2>
     <div class="col-12 value">
       <div>
         <span>{{ 'value:' | transloco }}</span
@@ -31,7 +31,7 @@
     </div>
 
     <h3 class="col-12" id="ex-24">{{ 'Templates for options & groups' | transloco }}</h3>
-    <select2
+    <ng-select2
       class="col-6 flower-list"
       [overlay]="overlay"
       [styleMode]="styleMode"
@@ -48,7 +48,7 @@
       <ng-template #templateGroup let-label="label"
         ><strong>({{ label }})</strong></ng-template
       >
-    </select2>
+    </ng-select2>
     <div class="col-12 value">
       <div>
         <span>{{ 'value:' | transloco }}</span
@@ -57,7 +57,7 @@
     </div>
 
     <h3 id="ex-25">{{ 'With templates Ids' | transloco }}</h3>
-    <select2
+    <ng-select2
       class="col-6 flower-list"
       [overlay]="overlay"
       [styleMode]="styleMode"
@@ -75,7 +75,7 @@
         >: {{ data?.name }}</ng-template
       >
       <ng-template #template3 let-data="data">{{ data | json }}</ng-template>
-    </select2>
+    </ng-select2>
     <div class="col-12 value">
       <div>
         <span>{{ 'value:' | transloco }}</span
@@ -84,7 +84,7 @@
     </div>
 
     <h3 class="col-26" id="ex-26">{{ 'Highlight' | transloco }}</h3>
-    <select2
+    <ng-select2
       class="col-26 flower-list"
       [overlay]="overlay"
       [styleMode]="styleMode"
@@ -103,7 +103,7 @@
       <ng-template #templateSelection26 let-data="data"
         ><strong>{{ data?.color }}</strong> ({{ data?.name }})</ng-template
       >
-    </select2>
+    </ng-select2>
     <div class="col-12 value">
       <div>
         <span>{{ 'value:' | transloco }}</span

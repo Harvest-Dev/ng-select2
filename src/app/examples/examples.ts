@@ -1,4 +1,4 @@
-import { Directive, inject } from '@angular/core';
+import { Directive, inject, signal } from '@angular/core';
 
 import {
     Select2,
@@ -17,11 +17,24 @@ export class Examples {
     overlay = false;
     styleMode: 'material' | 'noStyle' | 'borderless' | 'default' = 'default';
 
+    overlayExemple = signal('');
+    styleModeExemple = signal('');
+
     constructor() {
-        this.overlay = this.examplesService.overlay ?? false;
-        this.styleMode = this.examplesService.styleMode;
-        this.examplesService.updateOverlay.subscribe(overlay => (this.overlay = overlay));
-        this.examplesService.updateStyleMode.subscribe(styleMode => (this.styleMode = styleMode));
+        this.updateOverlay();
+        this.updateStyleMode();
+        this.examplesService.updateOverlay.subscribe(overlay => this.updateOverlay(overlay));
+        this.examplesService.updateStyleMode.subscribe(styleMode => this.updateStyleMode(styleMode));
+    }
+
+    updateOverlay(overlay?: boolean) {
+        this.overlay = overlay ?? this.examplesService.overlay ?? false;
+        this.overlayExemple.set(this.overlay ? '\n    overlay' : '');
+    }
+
+    updateStyleMode(styleMode?: 'material' | 'noStyle' | 'borderless' | 'default') {
+        this.styleMode = styleMode ?? this.examplesService.styleMode;
+        this.styleModeExemple.set(this.styleMode !== 'default' ? `\n    styleMode="${this.styleMode}"` : '');
     }
 
     open(key: string, event: Select2) {
