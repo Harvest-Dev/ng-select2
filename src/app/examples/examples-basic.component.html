@@ -171,34 +171,5 @@
         </div>
       </div>
     </div>
-
-    <h3 class="col-12" id="ex-14">{{ 'Highlight' | transloco }}</h3>
-    <div class="container">
-      <div class="row">
-        <div class="col-6">
-          <ng-select2
-            [overlay]="overlay"
-            [styleMode]="styleMode"
-            [data]="data14"
-            [value]="value14"
-            highlightText
-            (update)="update('value14', $event)"
-            id="select2-14"
-          />
-          <div class="value">
-            <div>
-              <span>{{ 'value:' | transloco }}</span
-              ><code>{{ value14 | json }}</code>
-            </div>
-          </div>
-        </div>
-
-        <div class="col-6">
-          <div class="code">
-            <code><pre [highlight]="exemple14()" language="html"></pre></code>
-          </div>
-        </div>
-      </div>
-    </div>
   </div>
 </div>

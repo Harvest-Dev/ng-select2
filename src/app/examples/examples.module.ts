@@ -94,6 +94,10 @@ const routes: Routes = [
                     import('./examples-native-keyboard.component').then(m => m.ExemplesNativeKeyboardComponent),
             },
             {
+                path: 'highlight',
+                loadComponent: () => import('./examples-highlight.component').then(m => m.ExemplesHighlightComponent),
+            },
+            {
                 path: 'others',
                 loadComponent: () => import('./examples-others.component').then(m => m.ExemplesOthersComponent),
             },

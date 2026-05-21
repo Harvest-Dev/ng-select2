@@ -1,0 +1,103 @@
+<h2>{{ 'Highlight the search in the options' | transloco }}</h2>
+
+<div class="container">
+  <div class="row">
+    <h3 class="col-12" id="ex-14">{{ 'Basic' | transloco }}</h3>
+    <div class="container">
+      <div class="row">
+        <div class="col-6">
+          <ng-select2
+            [overlay]="overlay"
+            [styleMode]="styleMode"
+            [data]="data14"
+            [value]="value14"
+            highlightText
+            (update)="update('value14', $event)"
+            id="select2-14"
+          />
+          <div class="value">
+            <div>
+              <span>{{ 'value:' | transloco }}</span
+              ><code>{{ value14 | json }}</code>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-6">
+          <div class="code">
+            <code><pre [highlight]="exemple14()" language="html"></pre></code>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <h3 class="col-26" id="ex-26">{{ 'With template' | transloco }}</h3>
+    <div class="container">
+      <div class="row">
+        <div class="col-6">
+          <ng-select2
+            class="flower-list"
+            [overlay]="overlay"
+            [styleMode]="styleMode"
+            [data]="data26"
+            [value]="value26"
+            (update)="update('value26', $event)"
+            highlightText
+            [templates]="template26"
+            [templateSelection]="templateSelection26"
+            id="select2-26"
+          >
+            <ng-template #template26 let-data="data" let-searchText="searchText" let-highlightText="highlightText"
+              ><strong>{{ data?.color }}</strong
+              >: <span [innerHTML]="data?.name | highlightText: searchText : !highlightText"></span>
+            </ng-template>
+            <ng-template #templateSelection26 let-data="data"
+              ><strong>{{ data?.color }}</strong> ({{ data?.name }})</ng-template
+            >
+          </ng-select2>
+          <div class="value">
+            <div>
+              <span>{{ 'value:' | transloco }}</span
+              ><code>{{ value26 | json }}</code>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-6">
+          <div class="code">
+            <code><pre [highlight]="exemple26()" language="html"></pre></code>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <h3 class="col-12" id="ex-36">{{ 'Japanese' | transloco }}</h3>
+    <div class="container">
+      <div class="row">
+        <div class="col-6">
+          <ng-select2
+            [overlay]="overlay"
+            [styleMode]="styleMode"
+            [data]="data36"
+            [value]="value36"
+            highlightText
+            (update)="update('value36', $event)"
+            id="select2-36"
+          />
+          <div class="value">
+            <div>
+              <span>{{ 'value:' | transloco }}</span
+              ><code>{{ value36 | json }}</code>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-6">
+          <div class="code">
+            <code><pre [highlight]="exemple36()" language="html"></pre></code>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

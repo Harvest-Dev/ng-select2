@@ -1,6 +1,6 @@
 export const timeout = 200;
 
-export const unicodePatterns: { l: string | string[]; s: RegExp; e?: string }[] = [
+export const unicodePatterns: { l: string; s: RegExp; e?: string }[] = [
     // Latin
     { l: 'a', s: /[ⓐａẚàáâầấẫẩãāăằắẵẳȧǡäǟảåǻǎȁȃạậặḁąⱥɐ]/gi, e: 'a(?![aeouvy])' },
     { l: 'aa', s: /ꜳ/gi },

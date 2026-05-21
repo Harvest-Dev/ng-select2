@@ -25,7 +25,6 @@ export class ExemplesBasicComponent extends Examples {
     data4: Select2Data = JSON.parse(JSON.stringify(data3));
     data7: Select2Data = JSON.parse(JSON.stringify(data3));
     data13 = data13;
-    data14 = data1;
 
     value1 = 'CA';
     value2 = 'CA';
@@ -33,7 +32,6 @@ export class ExemplesBasicComponent extends Examples {
     value4 = 'bar';
     value7 = '';
     value13 = true;
-    value14 = 'CA';
 
     exemple1 = computed(() =>
         new Json2html(
@@ -121,22 +119,6 @@ export class ExemplesBasicComponent extends Examples {
                     ...this.styleModeExempleJson(),
                     '[data]': 'data',
                     '[value]': 'value',
-                },
-            },
-            { webComponentSelfClosing: true, attrPosition: 'prettier' },
-        ).toString(),
-    );
-
-    exemple14 = computed(() =>
-        new Json2html(
-            {
-                tag: 'ng-select2',
-                attrs: {
-                    ...this.overlayExempleJson(),
-                    ...this.styleModeExempleJson(),
-                    '[data]': 'data',
-                    '[value]': 'value',
-                    highlightText: null,
                 },
             },
             { webComponentSelfClosing: true, attrPosition: 'prettier' },

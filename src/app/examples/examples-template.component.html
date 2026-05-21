@@ -118,44 +118,5 @@
       </div>
     </div>
 
-    <h3 class="col-26" id="ex-26">{{ 'Highlight' | transloco }}</h3>
-    <div class="container">
-      <div class="row">
-        <div class="col-6">
-          <ng-select2
-            class="flower-list"
-            [overlay]="overlay"
-            [styleMode]="styleMode"
-            [data]="data26"
-            [value]="value26"
-            (update)="update('value26', $event)"
-            highlightText
-            [templates]="template26"
-            [templateSelection]="templateSelection26"
-            id="select2-26"
-          >
-            <ng-template #template26 let-data="data" let-searchText="searchText" let-highlightText="highlightText"
-              ><strong>{{ data?.color }}</strong
-              >: <span [innerHTML]="data?.name | highlightText: searchText : !highlightText"></span>
-            </ng-template>
-            <ng-template #templateSelection26 let-data="data"
-              ><strong>{{ data?.color }}</strong> ({{ data?.name }})</ng-template
-            >
-          </ng-select2>
-          <div class="value">
-            <div>
-              <span>{{ 'value:' | transloco }}</span
-              ><code>{{ value26 | json }}</code>
-            </div>
-          </div>
-        </div>
-
-        <div class="col-6">
-          <div class="code">
-            <code><pre [highlight]="exemple26()" language="html"></pre></code>
-          </div>
-        </div>
-      </div>
-    </div>
   </div>
 </div>
