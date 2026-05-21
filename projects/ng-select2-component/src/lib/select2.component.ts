@@ -208,7 +208,7 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
     /** like native select keyboard navigation (only single mode) */
     readonly nativeKeyboard = input<boolean, unknown>(false, { transform: booleanAttribute });
 
-    /** highlight search */
+    /** highlight search text */
     readonly highlightText = input<boolean, unknown>(false, { transform: booleanAttribute });
 
     /** grid: item by line

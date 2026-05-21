@@ -490,7 +490,7 @@ export class AppGenComponent implements AfterContentInit {
             attrs['(search)'] = '_search($event)';
         }
 
-        this.html = new Json2html(json).toString();
+        this.html = new Json2html(json, { webComponentSelfClosing: true }).toString();
     }
 
     changeJson(value: string): void {

@@ -490,7 +490,7 @@
         color: var(--select2-option-highlighted-text-color, #fff);
 
         & ::ng-deep .select2-highlight-text {
-            background: var(--select2-highlighted-highlight-background, transparent);
+            background: var(--select2-highlighted-highlight-text-background, transparent);
             color: var(--select2-highlighted-highlight-text-color, inherit);
             font-weight: var(--select2-highlighted-highlight-text-font-weight, 800);
         }
