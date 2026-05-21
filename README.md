@@ -21,20 +21,20 @@ npm i ng-select2-component --save
 
 ### Notes
 
-| Version   | For **Angular**  | Notes             |
-| --------- | ---------------- | ----------------- |
-| `17.2.x`  | 18.1, 19, 20, 21 | Ivy / Stand-alone |
-| `17.1.0`  | 19               | Ivy / Stand-alone |
-| `16.0.0`  | 19               | Ivy / Module      |
-| `15.4.0`  | 18               | Ivy               |
-| `14.0.1`  | 17               | Ivy               |
-| `13.0.12` | 16.1             | Ivy               |
-| `12.1.0`  | 16               | Ivy               |
-| `11.1.0`  | 15               | Ivy               |
-| `10.0.0`  | 14               | Ivy               |
-| `9.0.0`   | 13               | Ivy               |
-| `8.1.0`   | 10, 11 and 12    | View Engine       |
-| `7.3.1`   | 7, 8 and 9       | View Engine       |
+| Version              | For **Angular**  | Notes             |
+| -------------------- | ---------------- | ----------------- |
+| `17.2.11` / `17.3.0` | 18.1, 19, 20, 21 | Ivy / Stand-alone |
+| `17.1.0`             | 19               | Ivy / Stand-alone |
+| `16.0.0`             | 19               | Ivy / Module      |
+| `15.4.0`             | 18               | Ivy               |
+| `14.0.1`             | 17               | Ivy               |
+| `13.0.12`            | 16.1             | Ivy               |
+| `12.1.0`             | 16               | Ivy               |
+| `11.1.0`             | 15               | Ivy               |
+| `10.0.0`             | 14               | Ivy               |
+| `9.0.0`              | 13               | Ivy               |
+| `8.1.0`              | 10, 11 and 12    | View Engine       |
+| `7.3.1`              | 7, 8 and 9       | View Engine       |
 
 ## Demo
 
@@ -134,12 +134,13 @@ or
 | `templateSelection`                                                       | `TemplateRef`                                                                                        |                      | use templates for formatting content (see [Templating](#templating))                                                    |                                 |
 | `noLabelTemplate`                                                         | `boolean`                                                                                            | `false`              | do not use the template in the selection, stay in text mode                                                             |                                 |
 | `selectionOverride`                                                       | [`Select2SelectionOverride`](#select2-data-structure)                                                |                      | Replace selection by a text<br>`string`: `%size%` = total selected options<br>`function`: juste show the string         |                                 |
-| `selectionNoWrap`                                                         | `boolean`                                                                                            | `false`              | Force selection on one line                                                                                             |                                 |
+| `selectionNoWrap`                                                         | `boolean`                                                                                            | `false`              | force selection on one line                                                                                             |                                 |
 | `showSelectAll`                                                           | `boolean`                                                                                            | `false`              | Add an option to select all options                                                                                     | with `multiple`                 |
 | `selectAllText`                                                           | `string`                                                                                             | `'Select all'`       | Text when all options as not selected                                                                                   | with `multiple`                 |
-| `removeAllText`                                                           | `string`                                                                                             | `'Remove all'`       | Text when all options as selected                                                                                       | with `multiple`                 |
+| `removeAllText`                                                           | `string`                                                                                             | `'Remove all'`       | text when all options as selected                                                                                       | with `multiple`                 |
 | `editPattern`                                                             | `(str: string) => string`                                                                            |                      | use it for change the pattern of the filter search                                                                      |                                 |
-| `nativeKeyboard`                                                          | `boolean`                                                                                            | `false`              | Use the keyboard navigation like native HTML select component                                                           | not with `multiple`             |
+| `nativeKeyboard`                                                          | `boolean`                                                                                            | `false`              | use the keyboard navigation like native HTML select component                                                           | not with `multiple`             |
+| `highlightText`                                                           | `boolean`                                                                                            | `false`              | use to highlight search text in dropdown options (with template see code generator)                                     |                                 |
 | `ngModel`<br>`id`<br>`required`<br>`disabled`<br>`readonly`<br>`tabIndex` |                                                                                                      |                      | just like a `select` control                                                                                            |                                 |
 | `(update)`                                                                | `(event: `[`Select2UpdateEvent`](#select2-data-structure)`) => void`                                 |                      | triggered when user select an option                                                                                    |                                 |
 | `(open)`                                                                  | `(event: Select2) => void`                                                                           |                      | triggered when user open the options                                                                                    |                                 |
@@ -255,9 +256,9 @@ export type Select2Template = TemplateRef<any> | { [key: string]: TemplateRef<an
 #### Unique template
 
 ```html
-<select2 [data]="data" [templates]="template">
+<ng-select2 [data]="data" [templates]="template">
     <ng-template #template let-data="data"><strong>{{data?.color}}</strong>: {{data?.name}}</ng-template>
-</select2>
+</ng-select2>
 ```
 
 ```ts
@@ -278,10 +279,10 @@ const data: Select2Data = [
 #### Template group & option
 
 ```html
-<select2 [data]="data" [templates]="{option : option, group: group}">
+<ng-select2 [data]="data" [templates]="{option : option, group: group}">
     <ng-template #option let-data="data">{{data?.name}}</ng-template>
     <ng-template #group let-label="label">Group: {{label}}</ng-template>
-</select2>
+</ng-select2>
 ```
 
 No difference in data structure.
@@ -290,10 +291,10 @@ The template is defined by its type, option or group, automatically.
 #### Template by templateId
 
 ```html
-<select2 [data]="data" [templates]="{template1 : template1, template2: template2}">
+<ng-elect2 [data]="data" [templates]="{template1 : template1, template2: template2}">
     <ng-template #template1 let-data="data">{{data?.name}}</ng-template>
     <ng-template #template2 let-label="label" let-data="data">{{label}} : {{data?.color}}</ng-template>
-</select2>
+</ng-elect2>
 ```
 
 ```ts
@@ -316,9 +317,9 @@ const data: Select2Data = [
 #### Template for change the selection
 
 ```html
-<select2 [data]="data" [templateSelection]="templateSelection">
+<ng-select2 [data]="data" [templateSelection]="templateSelection">
     <ng-template #templateSelection let-data="data"><strong>{{ data?.color }}</strong> ({{ data?.name }})</ng-template>
-</select2>
+</ng-select2>
 ```
 
 #### Possible object
@@ -448,6 +449,14 @@ It's possible to change different colors (and more) with CSS variables without h
 
     /* hint */
     --select2-hint-text-color: #888;
+
+    /* highlight search text */
+    --select2-highlight-text-background: transparent;
+    --select2-highlight-text-color: inherit;
+    --select2-highlight-font-weight: 800;
+    --select2-highlighted-highlight-text-background: transparent;
+    --select2-highlighted-highlight-text-color: inherit;
+    --select2-highlighted-highlight-font-weight: 800;
 
     /* for Material ------------------------------------------*/
     --select2-material-underline: #ddd;

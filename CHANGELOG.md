@@ -1,5 +1,20 @@
 # Changelog of ng-select2
 
+## V17.3.0 (2026-05-21)
+
+### Change
+
+- feat: highlighting ongoing research #95
+    - add `highlightText` parameter on `ng-select2` (`select2`) tag
+    - add `highlightText` pipe (`Select2HighlightPipe`)
+    - add CSS variables:
+        - `--select2-highlight-text-background`
+        - `--select2-highlight-text-color`
+        - `--select2-highlight-font-weight`
+        - `--select2-highlighted-highlight-text-background`
+        - `--select2-highlighted-highlight-text-color`
+        - `--select2-highlighted-highlight-font-weight`
+
 ## V17.2.10 (2026-04-04)
 
 > Added near-complete code coverage with Vitest.\
