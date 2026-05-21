@@ -33,5 +33,5 @@ export class AppHomeComponent {
     ];
 }
     `;
-    html = `<select2 [data]="data"></select2>`;
+    html = `<ng-select2 [data]="data" />`;
 }
