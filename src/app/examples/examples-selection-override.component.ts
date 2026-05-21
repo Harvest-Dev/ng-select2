@@ -2,6 +2,7 @@ import { JsonPipe } from '@angular/common';
 import { Component, computed } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
+import { Json2html } from '@ikilote/json2html';
 import { TranslocoModule } from '@jsverse/transloco';
 
 import { Highlight } from 'ngx-highlightjs';
@@ -31,24 +32,38 @@ export class ExemplesSelectionOverrideComponent extends Examples {
         }) `;
     };
 
-    exemple36 = computed(
-        () =>
-            `<ng-select2
-    selectionOverride="Test (%size%)"
-    resettable${this.overlayExemple()}${this.styleModeExemple()}
-    [data]="data"
-    [value]="value"
-/>`,
+    exemple36 = computed(() =>
+        new Json2html(
+            {
+                tag: 'ng-select2',
+                attrs: {
+                    selectionOverride: 'Test (%size%)',
+                    resettable: null,
+                    ...this.overlayExempleJson(),
+                    ...this.styleModeExempleJson(),
+                    '[data]': 'data',
+                    '[value]': 'value',
+                },
+            },
+            { webComponentSelfClosing: true, attrPosition: 'prettier' },
+        ).toString(),
     );
 
-    exemple36m = computed(
-        () =>
-            `<ng-select2
-    selectionOverride="Test (%size%)"
-    resettable${this.overlayExemple()}${this.styleModeExemple()}
-    [data]="data"
-    [value]="value"
-    multiple
-/>`,
+    exemple36m = computed(() =>
+        new Json2html(
+            {
+                tag: 'ng-select2',
+                attrs: {
+                    selectionOverride: 'Test (%size%)',
+                    resettable: null,
+                    ...this.overlayExempleJson(),
+                    ...this.styleModeExempleJson(),
+                    '[data]': 'data',
+                    '[value]': 'value',
+                    multiple: null,
+                },
+            },
+            { webComponentSelfClosing: true, attrPosition: 'prettier' },
+        ).toString(),
     );
 }

@@ -9,6 +9,7 @@ import {
     Validators,
 } from '@angular/forms';
 
+import { Json2html } from '@ikilote/json2html';
 import { TranslocoModule } from '@jsverse/transloco';
 
 import { Highlight } from 'ngx-highlightjs';
@@ -46,56 +47,93 @@ export class ExamplesLimitsComponent extends Examples {
 
     ctrlForm2: UntypedFormGroup;
 
-    exemple5 = computed(
-        () =>
-            `<form [formGroup]="ctrlForm">
-  <ng-select2${this.overlayExemple()}${this.styleModeExemple()}
-    [data]="data"
-    formControlName="test"
-    [minCountForSearch]="Infinity"
-  />
-</form>`,
+    exemple5 = computed(() =>
+        new Json2html(
+            {
+                tag: 'form',
+                attrs: { '[formGroup]': 'ctrlForm' },
+                body: [
+                    {
+                        tag: 'ng-select2',
+                        attrs: {
+                            ...this.overlayExempleJson(),
+                            ...this.styleModeExempleJson(),
+                            '[data]': 'data',
+                            formControlName: 'test',
+                            '[minCountForSearch]': 'Infinity',
+                        },
+                    },
+                ],
+            },
+            { webComponentSelfClosing: true, attrPosition: 'prettier' },
+        ).toString(),
     );
 
-    exemple6 = computed(
-        () =>
-            `<ng-select2${this.overlayExemple()}${this.styleModeExemple()}
-    [data]="data"
-    [value]="value"
-    [minCountForSearch]="7"
-    [displaySearchStatus]="'default'"
-/>`,
+    exemple6 = computed(() =>
+        new Json2html(
+            {
+                tag: 'ng-select2',
+                attrs: {
+                    ...this.overlayExempleJson(),
+                    ...this.styleModeExempleJson(),
+                    '[data]': 'data',
+                    '[value]': 'value',
+                    '[minCountForSearch]': '7',
+                    '[displaySearchStatus]': "'default'",
+                },
+            },
+            { webComponentSelfClosing: true, attrPosition: 'prettier' },
+        ).toString(),
     );
 
-    exemple9 = computed(
-        () =>
-            `<ng-select2${this.overlayExemple()}
-    [data]="data"
-    [value]="value"
-    multiple
-    [limitSelection]="0"
-    customSearchEnabled
-/>`,
+    exemple9 = computed(() =>
+        new Json2html(
+            {
+                tag: 'ng-select2',
+                attrs: {
+                    ...this.overlayExempleJson(),
+                    '[data]': 'data',
+                    '[value]': 'value',
+                    multiple: null,
+                    '[limitSelection]': '0',
+                    customSearchEnabled: null,
+                },
+            },
+            { webComponentSelfClosing: true, attrPosition: 'prettier' },
+        ).toString(),
     );
 
-    exemple28 = computed(
-        () =>
-            `<ng-select2${this.overlayExemple()}${this.styleModeExemple()}
-    [data]="data"
-    [value]="value"
-    listPosition="auto"
-    maxResults="50"
-    [maxResultsMessage]="'Too much results in this list.'"
-/>`,
+    exemple28 = computed(() =>
+        new Json2html(
+            {
+                tag: 'ng-select2',
+                attrs: {
+                    ...this.overlayExempleJson(),
+                    ...this.styleModeExempleJson(),
+                    '[data]': 'data',
+                    '[value]': 'value',
+                    listPosition: 'auto',
+                    maxResults: '50',
+                    '[maxResultsMessage]': "'Too much results in this list.'",
+                },
+            },
+            { webComponentSelfClosing: true, attrPosition: 'prettier' },
+        ).toString(),
     );
 
-    exemple18 = computed(
-        () =>
-            `<ng-select2${this.overlayExemple()}
-    [data]="data"
-    [value]="value"
-    minCharForSearch="3"
-/>`,
+    exemple18 = computed(() =>
+        new Json2html(
+            {
+                tag: 'ng-select2',
+                attrs: {
+                    ...this.overlayExempleJson(),
+                    '[data]': 'data',
+                    '[value]': 'value',
+                    minCharForSearch: '3',
+                },
+            },
+            { webComponentSelfClosing: true, attrPosition: 'prettier' },
+        ).toString(),
     );
 
     constructor(private fb: UntypedFormBuilder) {

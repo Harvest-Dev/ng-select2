@@ -1,6 +1,7 @@
 import { JsonPipe } from '@angular/common';
 import { Component, computed } from '@angular/core';
 
+import { Json2html } from '@ikilote/json2html';
 import { TranslocoModule } from '@jsverse/transloco';
 
 import { Highlight } from 'ngx-highlightjs';
@@ -24,21 +25,35 @@ export class ExemplesPositionComponent extends Examples {
     value19 = '';
     value2 = '';
 
-    exemple19 = computed(
-        () =>
-            `<ng-select2${this.overlayExemple()}${this.styleModeExemple()}
-    [data]="data"
-    [value]="value"
-    listPosition="above"
-/>`,
+    exemple19 = computed(() =>
+        new Json2html(
+            {
+                tag: 'ng-select2',
+                attrs: {
+                    ...this.overlayExempleJson(),
+                    ...this.styleModeExempleJson(),
+                    '[data]': 'data',
+                    '[value]': 'value',
+                    listPosition: 'above',
+                },
+            },
+            { webComponentSelfClosing: true, attrPosition: 'prettier' },
+        ).toString(),
     );
 
-    exemple27 = computed(
-        () =>
-            `<ng-select2${this.overlayExemple()}${this.styleModeExemple()}
-    [data]="data"
-    [value]="value"
-    listPosition="auto"
-/>`,
+    exemple27 = computed(() =>
+        new Json2html(
+            {
+                tag: 'ng-select2',
+                attrs: {
+                    ...this.overlayExempleJson(),
+                    ...this.styleModeExempleJson(),
+                    '[data]': 'data',
+                    '[value]': 'value',
+                    listPosition: 'auto',
+                },
+            },
+            { webComponentSelfClosing: true, attrPosition: 'prettier' },
+        ).toString(),
     );
 }

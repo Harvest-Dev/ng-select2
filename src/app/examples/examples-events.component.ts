@@ -2,6 +2,7 @@ import { JsonPipe } from '@angular/common';
 import { Component, computed } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
+import { Json2html } from '@ikilote/json2html';
 import { TranslocoModule } from '@jsverse/transloco';
 
 import { Highlight } from 'ngx-highlightjs';
@@ -31,19 +32,26 @@ export class ExemplesEventsComponent extends Examples {
 
     event: { key: string; type: string; event?: any }[] = [];
 
-    exemple8 = computed(
-        () =>
-            `<ng-select2${this.overlayExemple()}${this.styleModeExemple()}
-    [data]="data"
-    autoCreate
-    (update)="update('update', $event)"
-    (blur)="blur('blur', $event)"
-    (focus)="focus('focus', $event)"
-    (open)="open('open', $event)"
-    (close)="close('close', $event)"
-    (search)="search('search', $event)"
-    (autoCreateItem)="autoCreate('autoCreateItem', $event)"
-/>`,
+    exemple8 = computed(() =>
+        new Json2html(
+            {
+                tag: 'ng-select2',
+                attrs: {
+                    ...this.overlayExempleJson(),
+                    ...this.styleModeExempleJson(),
+                    '[data]': 'data',
+                    autoCreate: null,
+                    '(update)': "update('update', $event)",
+                    '(blur)': "blur('blur', $event)",
+                    '(focus)': "focus('focus', $event)",
+                    '(open)': "open('open', $event)",
+                    '(close)': "close('close', $event)",
+                    '(search)': "search('search', $event)",
+                    '(autoCreateItem)': "autoCreate('autoCreateItem', $event)",
+                },
+            },
+            { webComponentSelfClosing: true, attrPosition: 'prettier' },
+        ).toString(),
     );
 
     override open(key: string, event: Select2) {

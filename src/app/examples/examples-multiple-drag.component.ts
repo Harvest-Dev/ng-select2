@@ -2,6 +2,7 @@ import { JsonPipe } from '@angular/common';
 import { Component, computed } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
+import { Json2html } from '@ikilote/json2html';
 import { TranslocoModule } from '@jsverse/transloco';
 
 import { Highlight } from 'ngx-highlightjs';
@@ -27,13 +28,20 @@ export class ExemplesMultipleDragComponent extends Examples {
     value10 = ['NY', 'NC', 'RI', 'WV', 'VT', 'VA', 'AR', 'IA'];
     value10b = ['NY', 'NC', 'RI', 'WV', 'VT', 'VA', 'AR', 'IA'];
 
-    exemple10a = computed(
-        () =>
-            `<ng-select2${this.overlayExemple()}${this.styleModeExemple()}
-    [data]="data"
-    [value]="value"
-    multiple
-    multipleDrag
-/>`,
+    exemple10a = computed(() =>
+        new Json2html(
+            {
+                tag: 'ng-select2',
+                attrs: {
+                    ...this.overlayExempleJson(),
+                    ...this.styleModeExempleJson(),
+                    '[data]': 'data',
+                    '[value]': 'value',
+                    multiple: null,
+                    multipleDrag: null,
+                },
+            },
+            { webComponentSelfClosing: true, attrPosition: 'prettier' },
+        ).toString(),
     );
 }

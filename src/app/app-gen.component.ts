@@ -97,7 +97,7 @@ export class AppGenComponent implements AfterContentInit {
             templateSelection: new UntypedFormControl(),
             noLabelTemplate: new UntypedFormControl(),
             // HTML standard
-            guideLineName: new UntypedFormControl(),
+            guideLineName: new UntypedFormControl(true),
             nativeKeyboard: new UntypedFormControl(),
             // event
             update: new UntypedFormControl(),
@@ -490,7 +490,7 @@ export class AppGenComponent implements AfterContentInit {
             attrs['(search)'] = '_search($event)';
         }
 
-        this.html = new Json2html(json, { webComponentSelfClosing: true }).toString();
+        this.html = new Json2html(json, { webComponentSelfClosing: true, attrPosition: 'prettier' }).toString();
     }
 
     changeJson(value: string): void {

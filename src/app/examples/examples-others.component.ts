@@ -2,6 +2,7 @@ import { JsonPipe } from '@angular/common';
 import { Component, computed } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
+import { Json2html } from '@ikilote/json2html';
 import { TranslocoModule } from '@jsverse/transloco';
 
 import { Highlight } from 'ngx-highlightjs';
@@ -31,22 +32,51 @@ export class ExemplesOthersComponent extends Examples {
 
     value41m: Array<Select2Value> = ['english'];
 
-    exemple21 = computed(
-        () =>
-            `<ng-select2${this.overlayExemple()}${this.styleModeExemple()}
-    [data]="data"
-    [value]="value"
-    listPosition="above"
-/>`,
+    exemple31 = computed(() =>
+        new Json2html(
+            {
+                tag: 'ng-select2',
+                attrs: {
+                    ...this.overlayExempleJson(),
+                    ...this.styleModeExempleJson(),
+                    '[data]': 'data',
+                    '[value]': 'value',
+                },
+            },
+            { webComponentSelfClosing: true, attrPosition: 'prettier' },
+        ).toString(),
     );
 
-    exemple41 = computed(
-        () =>
-            `<ng-select2${this.overlayExemple()}${this.styleModeExemple()}
-    [data]="data"
-    [value]="value"
-    multiple
-/>`,
+    exemple21 = computed(() =>
+        new Json2html(
+            {
+                tag: 'ng-select2',
+                attrs: {
+                    ...this.overlayExempleJson(),
+                    ...this.styleModeExempleJson(),
+                    '[data]': 'data',
+                    '[value]': 'value',
+                    listPosition: 'above',
+                },
+            },
+            { webComponentSelfClosing: true, attrPosition: 'prettier' },
+        ).toString(),
+    );
+
+    exemple41 = computed(() =>
+        new Json2html(
+            {
+                tag: 'ng-select2',
+                attrs: {
+                    ...this.overlayExempleJson(),
+                    ...this.styleModeExempleJson(),
+                    '[data]': 'data',
+                    '[value]': 'value',
+                    multiple: null,
+                },
+            },
+            { webComponentSelfClosing: true, attrPosition: 'prettier' },
+        ).toString(),
     );
 
     changeData31(event: string) {

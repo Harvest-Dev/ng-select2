@@ -1,6 +1,7 @@
 import { JsonPipe } from '@angular/common';
 import { Component, computed } from '@angular/core';
 
+import { Json2html } from '@ikilote/json2html';
 import { TranslocoModule } from '@jsverse/transloco';
 
 import { Highlight } from 'ngx-highlightjs';
@@ -24,21 +25,33 @@ export class ExamplesStyleComponent extends Examples {
     value17 = '';
     value22 = '';
 
-    exemple17 = computed(
-        () =>
-            `<ng-select2${this.overlayExemple()}
-    [data]="data"
-    [value]="value"
-/>`,
+    exemple17 = computed(() =>
+        new Json2html(
+            {
+                tag: 'ng-select2',
+                attrs: {
+                    ...this.overlayExempleJson(),
+                    '[data]': 'data',
+                    '[value]': 'value',
+                },
+            },
+            { webComponentSelfClosing: true, attrPosition: 'prettier' },
+        ).toString(),
     );
 
-    exemple22 = computed(
-        () =>
-            `<ng-select2
-    class="flower-list"${this.overlayExemple()}
-    [data]="data"
-    [value]="value"
-    listPosition="auto"
-/>`,
+    exemple22 = computed(() =>
+        new Json2html(
+            {
+                tag: 'ng-select2',
+                attrs: {
+                    class: 'flower-list',
+                    ...this.overlayExempleJson(),
+                    '[data]': 'data',
+                    '[value]': 'value',
+                    listPosition: 'auto',
+                },
+            },
+            { webComponentSelfClosing: true, attrPosition: 'prettier' },
+        ).toString(),
     );
 }

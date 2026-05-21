@@ -2,6 +2,7 @@ import { JsonPipe } from '@angular/common';
 import { Component, computed } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
+import { Json2html } from '@ikilote/json2html';
 import { TranslocoModule } from '@jsverse/transloco';
 
 import { Highlight } from 'ngx-highlightjs';
@@ -36,34 +37,70 @@ export class ExemplesTagsComponent extends Examples {
     value16 = '';
     value16b = '';
 
-    exemple15 = computed(
-        () =>
-            `<ng-select2${this.overlayExemple()}${this.styleModeExemple()}
-    [data]="data"
-    [value]="value"
->
-  <ng-select2-label>Select a state</ng-select2-label>
-</ng-select2>`,
+    exemple15 = computed(() =>
+        new Json2html(
+            {
+                tag: 'ng-select2',
+                attrs: {
+                    ...this.overlayExempleJson(),
+                    ...this.styleModeExempleJson(),
+                    '[data]': 'data',
+                    '[value]': 'value',
+                },
+                body: [
+                    {
+                        tag: 'ng-select2-label',
+                        body: 'Select a state',
+                        inline: true,
+                    },
+                ],
+            },
+            { webComponentSelfClosing: true, attrPosition: 'prettier' },
+        ).toString(),
     );
 
-    exemple16 = computed(
-        () =>
-            `<ng-select2${this.overlayExemple()}${this.styleModeExemple()}
-    [data]="data"
-    [value]="value"
-    required
->
-  <ng-select2-label>Select a state</ng-select2-label>
-</ng-select2>`,
+    exemple16 = computed(() =>
+        new Json2html(
+            {
+                tag: 'ng-select2',
+                attrs: {
+                    ...this.overlayExempleJson(),
+                    ...this.styleModeExempleJson(),
+                    '[data]': 'data',
+                    '[value]': 'value',
+                    required: null,
+                },
+                body: [
+                    {
+                        tag: 'ng-select2-label',
+                        body: 'Select a state',
+                        inline: true,
+                    },
+                ],
+            },
+            { webComponentSelfClosing: true, attrPosition: 'prettier' },
+        ).toString(),
     );
 
-    exemple16b = computed(
-        () =>
-            `<ng-select2${this.overlayExemple()}${this.styleModeExemple()}
-    [data]="data"
-    [value]="value"
->
-  <ng-select2-hint>Description in hint</ng-select2-hint>
-</ng-select2>`,
+    exemple16b = computed(() =>
+        new Json2html(
+            {
+                tag: 'ng-select2',
+                attrs: {
+                    ...this.overlayExempleJson(),
+                    ...this.styleModeExempleJson(),
+                    '[data]': 'data',
+                    '[value]': 'value',
+                },
+                body: [
+                    {
+                        tag: 'ng-select2-hint',
+                        body: 'Description in hint',
+                        inline: true,
+                    },
+                ],
+            },
+            { webComponentSelfClosing: true, attrPosition: 'prettier' },
+        ).toString(),
     );
 }

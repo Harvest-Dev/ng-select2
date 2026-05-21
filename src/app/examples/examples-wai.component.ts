@@ -1,5 +1,6 @@
 import { Component, computed } from '@angular/core';
 
+import { Json2html } from '@ikilote/json2html';
 import { TranslocoModule } from '@jsverse/transloco';
 
 import { Highlight } from 'ngx-highlightjs';
@@ -19,61 +20,138 @@ import { data3 } from '../app.data';
 export class ExemplesWaiComponent extends Examples {
     data3 = data3;
 
-    exempleWai = computed(
-        () =>
-            `<ng-select2${this.overlayExemple()}
-    [data]="data"
-    title="title"
->
-  <ng-select2-label>Label</ng-select2-label>
-</ng-select2>
+    exempleWai = computed(() => {
+        const examples = [
+            new Json2html(
+                {
+                    tag: 'ng-select2',
+                    attrs: {
+                        ...this.overlayExempleJson(),
+                        '[data]': 'data',
+                        title: 'title',
+                    },
+                    body: [
+                        {
+                            tag: 'ng-select2-label',
+                            body: 'Label',
+                            inline: true,
+                        },
+                    ],
+                },
+                { webComponentSelfClosing: true, attrPosition: 'prettier' },
+            ).toString(),
+            '\n\n<div id="custom-label">External label</div>\n<div id="description">External description</div>\n' +
+                new Json2html(
+                    {
+                        tag: 'ng-select2',
+                        attrs: {
+                            ...this.overlayExempleJson(),
+                            ...this.styleModeExempleJson(),
+                            '[data]': 'data',
+                            title: 'title',
+                            ariaLabelledby: 'custom-label',
+                            ariaDescribedby: 'description',
+                        },
+                    },
+                    { webComponentSelfClosing: true, attrPosition: 'prettier' },
+                ).toString(),
+            new Json2html(
+                {
+                    tag: 'ng-select2',
+                    attrs: {
+                        ...this.overlayExempleJson(),
+                        '[data]': 'data',
+                        ariaInvalid: null,
+                    },
+                    body: [
+                        {
+                            tag: 'ng-select2-label',
+                            body: 'Invalid field',
+                            inline: true,
+                        },
+                    ],
+                },
+                { webComponentSelfClosing: true, attrPosition: 'prettier' },
+            ).toString(),
+            new Json2html(
+                {
+                    tag: 'ng-select2',
+                    attrs: {
+                        ...this.overlayExempleJson(),
+                        '[data]': 'data',
+                        required: null,
+                    },
+                    body: [
+                        {
+                            tag: 'ng-select2-label',
+                            body: 'Required field',
+                            inline: true,
+                        },
+                    ],
+                },
+                { webComponentSelfClosing: true, attrPosition: 'prettier' },
+            ).toString(),
+            new Json2html(
+                {
+                    tag: 'ng-select2',
+                    attrs: {
+                        ...this.overlayExempleJson(),
+                        '[data]': 'data',
+                        readonly: null,
+                        value: 'foo',
+                    },
+                    body: [
+                        {
+                            tag: 'ng-select2-label',
+                            body: 'Readonly field',
+                            inline: true,
+                        },
+                    ],
+                },
+                { webComponentSelfClosing: true, attrPosition: 'prettier' },
+            ).toString(),
+            new Json2html(
+                {
+                    tag: 'ng-select2',
+                    attrs: {
+                        ...this.overlayExempleJson(),
+                        '[data]': 'data',
+                        disabled: null,
+                        value: 'foo',
+                    },
+                    body: [
+                        {
+                            tag: 'ng-select2-label',
+                            body: 'Disabled field',
+                            inline: true,
+                        },
+                    ],
+                },
+                { webComponentSelfClosing: true, attrPosition: 'prettier' },
+            ).toString(),
+            new Json2html(
+                {
+                    tag: 'ng-select2',
+                    attrs: {
+                        ...this.overlayExempleJson(),
+                        ...this.styleModeExempleJson(),
+                        '[data]': 'data',
+                        resettable: null,
+                        value: 'foo',
+                        ariaResetButtonDescription: 'Clear the field',
+                    },
+                    body: [
+                        {
+                            tag: 'ng-select2-label',
+                            body: 'Resettable field',
+                            inline: true,
+                        },
+                    ],
+                },
+                { webComponentSelfClosing: true, attrPosition: 'prettier' },
+            ).toString(),
+        ];
 
-<div id="custom-label">External label</div>
-<div id="description">External description</div>
-<ng-select2${this.overlayExemple()}${this.styleModeExemple()}
-    [data]="data"
-    title="title"
-    ariaLabelledby="custom-label"
-    ariaDescribedby="description"
-/>
-
-<ng-select2${this.overlayExemple()}
-    [data]="data"
-    ariaInvalid
->
-  <ng-select2-label>Invalid field</ng-select2-label>
-</ng-select2>
-
-<ng-select2${this.overlayExemple()}
-    [data]="data"
-    required
->
-  <ng-select2-label>Required field</ng-select2-label>
-</ng-select2>
-
-<ng-select2${this.overlayExemple()}
-    [data]="data"
-    readonly
-    value="foo"
->
-  <ng-select2-label>Readonly field</ng-select2-label>
-</ng-select2>
-
-<ng-select2${this.overlayExemple()}
-    [data]="data"
-    disabled
-    value="foo"
->
-  <ng-select2-label>Disabled field</ng-select2-label>
-</ng-select2>
-
-<ng-select2${this.overlayExemple()}${this.styleModeExemple()}
-    [data]="data"
-    resettable
-    value="foo"
-    ariaResetButtonDescription="Clear the field"
->
-  <ng-select2-label>Resettable field</ng-select2-label>
-</ng-select2>`,
-    );
+        return examples.join('\n\n');
+    });
 }

@@ -9,6 +9,7 @@ import {
     Validators,
 } from '@angular/forms';
 
+import { Json2html } from '@ikilote/json2html';
 import { TranslocoModule } from '@jsverse/transloco';
 
 import { Highlight } from 'ngx-highlightjs';
@@ -39,41 +40,71 @@ export class ExemplesFormControlComponent extends Examples {
         state: new UntypedFormControl(),
     });
 
-    exemple11 = computed(
-        () =>
-            `<form [formGroup]="ctrlForm">
-  <ng-select2${this.overlayExemple()}
-    [(ngModel)]="value"
-    [data]="data"
-    formControlName="test"
-    placeholder="Select a state"
-    (update)="update('value', $event)"
-  />
-</form>`,
+    exemple11 = computed(() =>
+        new Json2html(
+            {
+                tag: 'form',
+                attrs: { '[formGroup]': 'ctrlForm' },
+                body: [
+                    {
+                        tag: 'ng-select2',
+                        attrs: {
+                            ...this.overlayExempleJson(),
+                            '[(ngModel)]': 'value',
+                            '[data]': 'data',
+                            formControlName: 'test',
+                            placeholder: 'Select a state',
+                            '(update)': "update('value', $event)",
+                        },
+                    },
+                ],
+            },
+            { webComponentSelfClosing: true, attrPosition: 'prettier' },
+        ).toString(),
     );
 
-    exemple33 = computed(
-        () =>
-            `<form [formGroup]="ctrlForm">
-  <ng-select2
-    [data]="data"
-    formControlName="test"
-    multiple
-    (update)="update('value', $event)"
-  />
-</form>`,
+    exemple33 = computed(() =>
+        new Json2html(
+            {
+                tag: 'form',
+                attrs: { '[formGroup]': 'ctrlForm' },
+                body: [
+                    {
+                        tag: 'ng-select2',
+                        attrs: {
+                            '[data]': 'data',
+                            formControlName: 'test',
+                            multiple: null,
+                            '(update)': "update('value', $event)",
+                        },
+                    },
+                ],
+            },
+            { webComponentSelfClosing: true, attrPosition: 'prettier' },
+        ).toString(),
     );
 
-    exemple14 = computed(
-        () =>
-            `<form [formGroup]="ctrlForm">
-  <ng-select2${this.overlayExemple()}${this.styleModeExemple()}
-    [data]="data"
-    multiple
-    formControlName="state"
-    (update)="update('value', $event)"
-  />
-</form>`,
+    exemple14 = computed(() =>
+        new Json2html(
+            {
+                tag: 'form',
+                attrs: { '[formGroup]': 'ctrlForm' },
+                body: [
+                    {
+                        tag: 'ng-select2',
+                        attrs: {
+                            ...this.overlayExempleJson(),
+                            ...this.styleModeExempleJson(),
+                            '[data]': 'data',
+                            multiple: null,
+                            formControlName: 'state',
+                            '(update)': "update('value', $event)",
+                        },
+                    },
+                ],
+            },
+            { webComponentSelfClosing: true, attrPosition: 'prettier' },
+        ).toString(),
     );
 
     constructor(private fb: UntypedFormBuilder) {
@@ -86,7 +117,6 @@ export class ExemplesFormControlComponent extends Examples {
         });
 
         this.ctrlForm3.setValue(this.formData());
-        // this.ctrlForm3.get('state')!.setValue(['CA', 'NV']);
     }
 
     reset() {

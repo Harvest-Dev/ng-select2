@@ -1,6 +1,7 @@
 import { JsonPipe } from '@angular/common';
 import { Component, computed } from '@angular/core';
 
+import { Json2html } from '@ikilote/json2html';
 import { TranslocoModule } from '@jsverse/transloco';
 
 import { Highlight } from 'ngx-highlightjs';
@@ -26,35 +27,56 @@ export class ExemplesAutoCreateComponent extends Examples {
     value29b: string[] = [];
     value32 = '';
 
-    exemple32 = computed(
-        () =>
-            `<select2${this.overlayExemple()}${this.styleModeExemple()}
-    [data]="data"
-    [value]="value"
-    resettable
-    autoCreate
-    resetSelectedValue="CA"
-    (autoCreateItem)="autoCreateItem('value', $event)"
-/>`,
+    exemple32 = computed(() =>
+        new Json2html(
+            {
+                tag: 'select2',
+                attrs: {
+                    ...this.overlayExempleJson(),
+                    ...this.styleModeExempleJson(),
+                    '[data]': 'data',
+                    '[value]': 'value',
+                    resettable: null,
+                    autoCreate: null,
+                    resetSelectedValue: 'CA',
+                    '(autoCreateItem)': "autoCreateItem('value', $event)",
+                },
+            },
+            { webComponentSelfClosing: true, attrPosition: 'prettier' },
+        ).toString(),
     );
 
-    exemple29 = computed(
-        () =>
-            `<select2${this.overlayExemple()}${this.styleModeExemple()}
-    [data]="data"
-    [value]="value"
-    multiple
-    autoCreate
-/>`,
+    exemple29 = computed(() =>
+        new Json2html(
+            {
+                tag: 'select2',
+                attrs: {
+                    ...this.overlayExempleJson(),
+                    ...this.styleModeExempleJson(),
+                    '[data]': 'data',
+                    '[value]': 'value',
+                    multiple: null,
+                    autoCreate: null,
+                },
+            },
+            { webComponentSelfClosing: true, attrPosition: 'prettier' },
+        ).toString(),
     );
 
-    exemple29b = computed(
-        () =>
-            `<select2${this.overlayExemple()}${this.styleModeExemple()}
-    [data]="data"
-    [value]="value"
-    multiple
-    autoCreate
-/>`,
+    exemple29b = computed(() =>
+        new Json2html(
+            {
+                tag: 'select2',
+                attrs: {
+                    ...this.overlayExempleJson(),
+                    ...this.styleModeExempleJson(),
+                    '[data]': 'data',
+                    '[value]': 'value',
+                    multiple: null,
+                    autoCreate: null,
+                },
+            },
+            { webComponentSelfClosing: true, attrPosition: 'prettier' },
+        ).toString(),
     );
 }

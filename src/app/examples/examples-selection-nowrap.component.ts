@@ -2,6 +2,7 @@ import { JsonPipe } from '@angular/common';
 import { Component, computed } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
+import { Json2html } from '@ikilote/json2html';
 import { TranslocoModule } from '@jsverse/transloco';
 
 import { Highlight } from 'ngx-highlightjs';
@@ -34,25 +35,39 @@ export class ExemplesSelectionNowrapComponent extends Examples {
         }) `;
     };
 
-    exemple10 = computed(
-        () =>
-            `<ng-select2${this.overlayExemple()}${this.styleModeExemple()}
-    [data]="data"
-    [value]="value"
-    multiple
-    hideSelectedItems
-    [selectionNoWrap]="true"
-/>`,
+    exemple10 = computed(() =>
+        new Json2html(
+            {
+                tag: 'ng-select2',
+                attrs: {
+                    ...this.overlayExempleJson(),
+                    ...this.styleModeExempleJson(),
+                    '[data]': 'data',
+                    '[value]': 'value',
+                    multiple: null,
+                    hideSelectedItems: null,
+                    '[selectionNoWrap]': 'true',
+                },
+            },
+            { webComponentSelfClosing: true, attrPosition: 'prettier' },
+        ).toString(),
     );
 
-    exemple36mf = computed(
-        () =>
-            `<ng-select2
-    [selectionOverride]="selectionOverride"
-    [selectionNoWrap]="true"${this.overlayExemple()}${this.styleModeExemple()}
-    [data]="data"
-    [value]="value"
-    multiple
-/>`,
+    exemple36mf = computed(() =>
+        new Json2html(
+            {
+                tag: 'ng-select2',
+                attrs: {
+                    '[selectionOverride]': 'selectionOverride',
+                    '[selectionNoWrap]': 'true',
+                    ...this.overlayExempleJson(),
+                    ...this.styleModeExempleJson(),
+                    '[data]': 'data',
+                    '[value]': 'value',
+                    multiple: null,
+                },
+            },
+            { webComponentSelfClosing: true, attrPosition: 'prettier' },
+        ).toString(),
     );
 }

@@ -1,6 +1,7 @@
 import { JsonPipe } from '@angular/common';
 import { Component, computed } from '@angular/core';
 
+import { Json2html } from '@ikilote/json2html';
 import { TranslocoModule } from '@jsverse/transloco';
 
 import { Highlight } from 'ngx-highlightjs';
@@ -28,78 +29,147 @@ export class ExemplesTemplateComponent extends Examples {
     value25 = '';
     value26 = '';
 
-    exemple23 = computed(
-        () =>
-            `<ng-select2
-    class="flower-list"${this.overlayExemple()}${this.styleModeExemple()}
-    [data]="data"
-    [value]="value"
-    [templates]="template"
-    [templateSelection]="templateSelection"
->
-  <ng-template #template let-data="data">
-    <strong>{{ data?.color }}</strong>: {{ data?.name }}
-  </ng-template>
-  <ng-template #templateSelection let-data="data">
-    <strong>{{ data?.color }}</strong> ({{ data?.name }})
-  </ng-template>
-</ng-select2>`,
+    exemple23 = computed(() =>
+        new Json2html(
+            {
+                tag: 'ng-select2',
+                attrs: {
+                    class: 'flower-list',
+                    ...this.overlayExempleJson(),
+                    ...this.styleModeExempleJson(),
+                    '[data]': 'data',
+                    '[value]': 'value',
+                    '[templates]': 'template',
+                    '[templateSelection]': 'templateSelection',
+                },
+                body: [
+                    {
+                        tag: 'ng-template',
+                        attrs: { '#template': null, 'let-data': 'data' },
+                        body: [{ tag: 'strong', body: '{{ data?.color }}', inline: true }, ': {{ data?.name }}'],
+                    },
+                    {
+                        tag: 'ng-template',
+                        attrs: { '#templateSelection': null, 'let-data': 'data' },
+                        body: [{ tag: 'strong', body: '{{ data?.color }}', inline: true }, ' ({{ data?.name }})'],
+                    },
+                ],
+            },
+            { webComponentSelfClosing: true, attrPosition: 'prettier' },
+        ).toString(),
     );
 
-    exemple24 = computed(
-        () =>
-            `<ng-select2
-    class="flower-list"${this.overlayExemple()}${this.styleModeExemple()}
-    [data]="data"
-    [value]="value"
-    [templates]="{ option: templateOption, group: templateGroup }"
->
-  <ng-template #templateOption let-data="data">
-    <strong>{{ data?.color }}</strong>: {{ data?.name }}
-  </ng-template>
-  <ng-template #templateGroup let-label="label">
-    <strong>({{ label }})</strong>
-  </ng-template>
-</ng-select2>`,
+    exemple24 = computed(() =>
+        new Json2html(
+            {
+                tag: 'ng-select2',
+                attrs: {
+                    class: 'flower-list',
+                    ...this.overlayExempleJson(),
+                    ...this.styleModeExempleJson(),
+                    '[data]': 'data',
+                    '[value]': 'value',
+                    '[templates]': '{ option: templateOption, group: templateGroup }',
+                },
+                body: [
+                    {
+                        tag: 'ng-template',
+                        attrs: { '#templateOption': null, 'let-data': 'data' },
+                        body: [{ tag: 'strong', body: '{{ data?.color }}', inline: true }, ': {{ data?.name }}'],
+                    },
+                    {
+                        tag: 'ng-template',
+                        attrs: { '#templateGroup': null, 'let-label': 'label' },
+                        body: [{ tag: 'strong', body: '({{ label }})', inline: true }],
+                    },
+                ],
+            },
+            { webComponentSelfClosing: true, attrPosition: 'prettier' },
+        ).toString(),
     );
 
-    exemple25 = computed(
-        () =>
-            `<ng-select2
-    class="flower-list"${this.overlayExemple()}${this.styleModeExemple()}
-    [data]="data"
-    [value]="value"
-    [templates]="{ template1: template1, template2: template2, template3: template3 }"
->
-  <ng-template #template1 let-data="data">
-    <span [style.background]="data?.color">{{ data?.name }}</span>
-  </ng-template>
-  <ng-template #template2 let-data="data">
-    <strong>{{ data?.color }}</strong>: {{ data?.name }}
-  </ng-template>
-  <ng-template #template3 let-data="data">
-    {{ data | json }}
-  </ng-template>
-</ng-select2>`,
+    exemple25 = computed(() =>
+        new Json2html(
+            {
+                tag: 'ng-select2',
+                attrs: {
+                    class: 'flower-list',
+                    ...this.overlayExempleJson(),
+                    ...this.styleModeExempleJson(),
+                    '[data]': 'data',
+                    '[value]': 'value',
+                    '[templates]': '{ template1: template1, template2: template2, template3: template3 }',
+                },
+                body: [
+                    {
+                        tag: 'ng-template',
+                        attrs: { '#template1': null, 'let-data': 'data' },
+                        body: [
+                            {
+                                tag: 'span',
+                                attrs: { '[style.background]': 'data?.color' },
+                                body: '{{ data?.name }}',
+                                inline: true,
+                            },
+                        ],
+                    },
+                    {
+                        tag: 'ng-template',
+                        attrs: { '#template2': null, 'let-data': 'data' },
+                        body: [{ tag: 'strong', body: '{{ data?.color }}', inline: true }, ': {{ data?.name }}'],
+                    },
+                    {
+                        tag: 'ng-template',
+                        attrs: { '#template3': null, 'let-data': 'data' },
+                        body: '{{ data | json }}',
+                    },
+                ],
+            },
+            { webComponentSelfClosing: true, attrPosition: 'prettier' },
+        ).toString(),
     );
 
-    exemple26 = computed(
-        () =>
-            `<ng-select2
-    class="flower-list"${this.overlayExemple()}${this.styleModeExemple()}
-    [data]="data"
-    [value]="value"
-    highlightText
-    [templates]="template"
-    [templateSelection]="templateSelection"
->
-  <ng-template #template let-data="data" let-searchText="searchText" let-highlightText="highlightText">
-    <strong>{{ data?.color }}</strong>: 
-    <span [innerHTML]="data?.name | highlightText: searchText : !highlightText"></span>
-  </ng-template>
-  <ng-template #templateSelection let-data="data">
-    <strong>{{ data?.color }}</strong> ({{ data?.name }})
-  </ng-template>
-</ng-select2>`,
+    exemple26 = computed(() =>
+        new Json2html(
+            {
+                tag: 'ng-select2',
+                attrs: {
+                    class: 'flower-list',
+                    ...this.overlayExempleJson(),
+                    ...this.styleModeExempleJson(),
+                    '[data]': 'data',
+                    '[value]': 'value',
+                    highlightText: null,
+                    '[templates]': 'template',
+                    '[templateSelection]': 'templateSelection',
+                },
+                body: [
+                    {
+                        tag: 'ng-template',
+                        attrs: {
+                            '#template': null,
+                            'let-data': 'data',
+                            'let-searchText': 'searchText',
+                            'let-highlightText': 'highlightText',
+                        },
+                        body: [
+                            { tag: 'strong', body: '{{ data?.color }}', inline: true },
+                            ': ',
+                            {
+                                tag: 'span',
+                                attrs: { '[innerHTML]': 'data?.name | highlightText: searchText : !highlightText' },
+                                inline: true,
+                            },
+                        ],
+                    },
+                    {
+                        tag: 'ng-template',
+                        attrs: { '#templateSelection': null, 'let-data': 'data' },
+                        body: [{ tag: 'strong', body: '{{ data?.color }}', inline: true }, ' ({{ data?.name }})'],
+                    },
+                ],
+            },
+            { webComponentSelfClosing: true, attrPosition: 'prettier' },
+        ).toString(),
     );
 }

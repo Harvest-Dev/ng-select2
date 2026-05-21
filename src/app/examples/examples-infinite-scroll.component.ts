@@ -1,6 +1,7 @@
 import { JsonPipe } from '@angular/common';
 import { Component, computed } from '@angular/core';
 
+import { Json2html } from '@ikilote/json2html';
 import { TranslocoModule } from '@jsverse/transloco';
 
 import { Highlight } from 'ngx-highlightjs';
@@ -22,16 +23,23 @@ export class ExemplesInfiniteScrollComponent extends Examples {
 
     value26 = '';
 
-    exemple26 = computed(
-        () =>
-            `<ng-select2${this.overlayExemple()}${this.styleModeExemple()}
-    [data]="data"
-    [value]="value"
-    infiniteScroll
-    infiniteScrollDistance="1.5"
-    infiniteScrollThrottle="150"
-    (scroll)="scroll($event)"
-/>`,
+    exemple26 = computed(() =>
+        new Json2html(
+            {
+                tag: 'ng-select2',
+                attrs: {
+                    ...this.overlayExempleJson(),
+                    ...this.styleModeExempleJson(),
+                    '[data]': 'data',
+                    '[value]': 'value',
+                    infiniteScroll: null,
+                    infiniteScrollDistance: '1.5',
+                    infiniteScrollThrottle: '150',
+                    '(scroll)': 'scroll($event)',
+                },
+            },
+            { webComponentSelfClosing: true, attrPosition: 'prettier' },
+        ).toString(),
     );
 
     scroll26(event: Select2ScrollEvent) {
