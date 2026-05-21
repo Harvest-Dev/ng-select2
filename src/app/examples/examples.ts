@@ -1,6 +1,4 @@
-import { Directive, inject } from '@angular/core';
-
-import { Json2htmlAttr } from '@ikilote/json2html';
+import { Directive, inject, signal } from '@angular/core';
 
 import {
     Select2,
@@ -19,6 +17,9 @@ export class Examples {
     overlay = false;
     styleMode: 'material' | 'noStyle' | 'borderless' | 'default' = 'default';
 
+    styleModeExempleJson = signal({});
+    overlayExempleJson = signal({});
+
     constructor() {
         this.updateOverlay();
         this.updateStyleMode();
@@ -28,18 +29,12 @@ export class Examples {
 
     updateOverlay(overlay?: boolean) {
         this.overlay = overlay ?? this.examplesService.overlay ?? false;
+        this.overlayExempleJson.set(this.overlay ? { overlay: null } : {});
     }
 
     updateStyleMode(styleMode?: 'material' | 'noStyle' | 'borderless' | 'default') {
         this.styleMode = styleMode ?? this.examplesService.styleMode;
-    }
-
-    overlayExempleJson(): Json2htmlAttr {
-        return this.overlay ? { overlay: null } : {};
-    }
-
-    styleModeExempleJson(): Json2htmlAttr {
-        return this.styleMode !== 'default' ? { styleMode: this.styleMode } : {};
+        this.styleModeExempleJson.set(this.styleMode !== 'default' ? { styleMode: this.styleMode } : {});
     }
 
     open(key: string, event: Select2) {
