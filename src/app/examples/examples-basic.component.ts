@@ -39,6 +39,58 @@ export class ExemplesBasicComponent extends Examples {
             `<ng-select2${this.overlayExemple()}${this.styleModeExemple()}
     [data]="data"
     [value]="value"
+    resettable
+    customSearchEnabled
+/>`,
+    );
+
+    exemple2 = computed(
+        () =>
+            `<ng-select2${this.overlayExemple()}${this.styleModeExemple()}
+    [data]="data"
+    [value]="value"
+/>`,
+    );
+
+    exemple3 = computed(
+        () =>
+            `<ng-select2${this.overlayExemple()}${this.styleModeExemple()}
+    [data]="data"
+    [value]="value"
+/>`,
+    );
+
+    exemple4 = computed(
+        () =>
+            `<ng-select2${this.overlayExemple()}
+    [data]="data"
+    [value]="value"
+    disabled
+/>`,
+    );
+
+    exemple7 = computed(
+        () =>
+            `<ng-select2${this.overlayExemple()}${this.styleModeExemple()}
+    [data]="data"
+    placeholder="select an item"
+/>`,
+    );
+
+    exemple13 = computed(
+        () =>
+            `<ng-select2${this.overlayExemple()}${this.styleModeExemple()}
+    [data]="data"
+    [value]="value"
+/>`,
+    );
+
+    exemple14 = computed(
+        () =>
+            `<ng-select2${this.overlayExemple()}${this.styleModeExemple()}
+    [data]="data"
+    [value]="value"
+    highlightText
 />`,
     );
 }

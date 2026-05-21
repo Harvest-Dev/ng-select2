@@ -3,63 +3,94 @@
 <div class="container">
   <div class="row">
     <h3 class="col-12" id="ex-32">{{ 'Single for create new item with search box & resettable' | transloco }}</h3>
-    <select2
-      class="col-6"
-      [overlay]="overlay"
-      [styleMode]="styleMode"
-      [data]="data32"
-      [value]="value32"
-      resettable
-      autoCreate
-      resetSelectedValue="CA"
-      id="select2-32"
-      (autoCreateItem)="autoCreateItem('value32', $event)"
-      (update)="update('value32', $event)"
-    ></select2>
-    <div class="col-12 value">
-      <div>
-        <span>{{ 'value:' | transloco }}</span
-        ><code>{{ value32 | json }}</code>
+    <div class="container">
+      <div class="row">
+        <div class="col-6">
+          <select2
+            [overlay]="overlay"
+            [styleMode]="styleMode"
+            [data]="data32"
+            [value]="value32"
+            resettable
+            autoCreate
+            resetSelectedValue="CA"
+            id="select2-32"
+            (autoCreateItem)="autoCreateItem('value32', $event)"
+            (update)="update('value32', $event)"
+          />
+          <div class="value">
+            <div>
+              <span>{{ 'value:' | transloco }}</span
+              ><code>{{ value32 | json }}</code>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-6">
+          <div class="code">
+            <code><pre [highlight]="exemple32()" language="html"></pre></code>
+          </div>
+        </div>
       </div>
     </div>
 
     <h3 class="col-12" id="ex-29">{{ 'Multiple with input for create new item in selection zone' | transloco }}</h3>
-    <select2
-      class="col-6"
-      [overlay]="overlay"
-      [styleMode]="styleMode"
-      [data]="data29"
-      [value]="value29"
-      multiple
-      autoCreate
-      id="select2-29"
-      (update)="update('value29', $event)"
-    >
-    </select2>
-    <div class="col-12 value">
-      <div>
-        <span>{{ 'value:' | transloco }}</span
-        ><code>{{ value29 | json }}</code>
+    <div class="container">
+      <div class="row">
+        <div class="col-6">
+          <select2
+            [overlay]="overlay"
+            [styleMode]="styleMode"
+            [data]="data29"
+            [value]="value29"
+            multiple
+            autoCreate
+            id="select2-29"
+            (update)="update('value29', $event)"
+          />
+          <div class="value">
+            <div>
+              <span>{{ 'value:' | transloco }}</span
+              ><code>{{ value29 | json }}</code>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-6">
+          <div class="code">
+            <code><pre [highlight]="exemple29()" language="html"></pre></code>
+          </div>
+        </div>
       </div>
     </div>
 
     <h3 class="col-12" id="ex-29b">{{ 'Multiple for create new item with search box' | transloco }}</h3>
-    <select2
-      class="col-6"
-      [overlay]="overlay"
-      [styleMode]="styleMode"
-      [data]="data29b"
-      [value]="value29b"
-      multiple
-      autoCreate
-      id="select2-29b"
-      (update)="update('value29b', $event)"
-    >
-    </select2>
-    <div class="col-12 value">
-      <div>
-        <span>{{ 'value:' | transloco }}</span
-        ><code>{{ value29b | json }}</code>
+    <div class="container">
+      <div class="row">
+        <div class="col-6">
+          <select2
+            [overlay]="overlay"
+            [styleMode]="styleMode"
+            [data]="data29b"
+            [value]="value29b"
+            multiple
+            autoCreate
+            id="select2-29b"
+            (update)="update('value29b', $event)"
+          />
+          <div class="value">
+            <div>
+              <span>{{ 'value:' | transloco }}</span
+              ><code>{{ value29b | json }}</code>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-6">
+          <div class="code">
+            <code><pre [highlight]="exemple29b()" language="html"></pre></code>
+          </div>
+        </div>
       </div>
     </div>
   </div>

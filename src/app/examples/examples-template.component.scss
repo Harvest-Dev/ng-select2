@@ -1,3 +1,7 @@
+pre {
+    margin: 0;
+}
+
 .flower-list ::ng-deep .flower {
     &.white::before {
         content: '🌼 ';

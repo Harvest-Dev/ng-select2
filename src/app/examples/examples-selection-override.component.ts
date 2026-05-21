@@ -1,9 +1,10 @@
 import { JsonPipe } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, computed } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
 import { TranslocoModule } from '@jsverse/transloco';
 
+import { Highlight } from 'ngx-highlightjs';
 import { Select2, Select2SelectionOverride } from 'projects/ng-select2-component/src/public_api';
 
 import { Examples } from './examples';
@@ -15,7 +16,7 @@ import { data1 } from '../app.data';
     templateUrl: './examples-selection-override.component.html',
     styleUrls: ['./examples-selection-override.component.scss'],
     standalone: true,
-    imports: [FormsModule, Select2, JsonPipe, TranslocoModule],
+    imports: [FormsModule, Select2, JsonPipe, TranslocoModule, Highlight],
 })
 export class ExemplesSelectionOverrideComponent extends Examples {
     value36 = '';
@@ -29,4 +30,25 @@ export class ExemplesSelectionOverrideComponent extends Examples {
             (params.options?.length || 0) > 0 ? ': ' + params.options!.map(e => e.label).join(', ') : ''
         }) `;
     };
+
+    exemple36 = computed(
+        () =>
+            `<ng-select2
+    selectionOverride="Test (%size%)"
+    resettable${this.overlayExemple()}${this.styleModeExemple()}
+    [data]="data"
+    [value]="value"
+/>`,
+    );
+
+    exemple36m = computed(
+        () =>
+            `<ng-select2
+    selectionOverride="Test (%size%)"
+    resettable${this.overlayExemple()}${this.styleModeExemple()}
+    [data]="data"
+    [value]="value"
+    multiple
+/>`,
+    );
 }

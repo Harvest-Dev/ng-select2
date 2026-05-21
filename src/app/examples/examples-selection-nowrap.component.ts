@@ -1,9 +1,10 @@
 import { JsonPipe } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, computed } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
 import { TranslocoModule } from '@jsverse/transloco';
 
+import { Highlight } from 'ngx-highlightjs';
 import { Select2, Select2Data, Select2SelectionOverride } from 'projects/ng-select2-component/src/public_api';
 
 import { Examples } from './examples';
@@ -15,7 +16,7 @@ import { data1 } from '../app.data';
     templateUrl: './examples-selection-nowrap.component.html',
     styleUrls: ['./examples-selection-nowrap.component.scss'],
     standalone: true,
-    imports: [FormsModule, Select2, JsonPipe, TranslocoModule],
+    imports: [FormsModule, Select2, JsonPipe, TranslocoModule, Highlight],
 })
 export class ExemplesSelectionNowrapComponent extends Examples {
     value36mf = ['NY', 'NC', 'RI', 'WV', 'VT', 'VA', 'AR', 'IA'];
@@ -32,4 +33,26 @@ export class ExemplesSelectionNowrapComponent extends Examples {
             (params.options?.length || 0) > 0 ? ': ' + params.options!.map(e => e.label).join(', ') : ''
         }) `;
     };
+
+    exemple10 = computed(
+        () =>
+            `<ng-select2${this.overlayExemple()}${this.styleModeExemple()}
+    [data]="data"
+    [value]="value"
+    multiple
+    hideSelectedItems
+    [selectionNoWrap]="true"
+/>`,
+    );
+
+    exemple36mf = computed(
+        () =>
+            `<ng-select2
+    [selectionOverride]="selectionOverride"
+    [selectionNoWrap]="true"${this.overlayExemple()}${this.styleModeExemple()}
+    [data]="data"
+    [value]="value"
+    multiple
+/>`,
+    );
 }

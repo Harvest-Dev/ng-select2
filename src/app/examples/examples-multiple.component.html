@@ -3,54 +3,92 @@
 <div class="container">
   <div class="row">
     <h3 class="col-12" id="ex-10a">{{ 'Basic usage' | transloco }}</h3>
-    <ng-select2
-      class="col-6"
-      [overlay]="overlay"
-      [styleMode]="styleMode"
-      [data]="data10a"
-      [value]="value10a"
-      multiple
-      (update)="update('value10a', $event)"
-      id="select2-10a"
-    />
-    <div class="col-12 value">
-      <span>{{ 'value:' | transloco }}</span
-      ><code>{{ value10a | json }}</code>
+    <div class="container">
+      <div class="row">
+        <div class="col-6">
+          <ng-select2
+            [overlay]="overlay"
+            [styleMode]="styleMode"
+            [data]="data10a"
+            [value]="value10a"
+            multiple
+            (update)="update('value10a', $event)"
+            id="select2-10a"
+          />
+          <div class="value">
+            <div>
+              <span>{{ 'value:' | transloco }}</span
+              ><code>{{ value10a | json }}</code>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-6">
+          <div class="code">
+            <code><pre [highlight]="exemple10a()" language="html"></pre></code>
+          </div>
+        </div>
+      </div>
     </div>
 
     <h3 class="col-12" id="ex-10">{{ 'With hide selected items' | transloco }}</h3>
+    <div class="container">
+      <div class="row">
+        <div class="col-6">
+          <ng-select2
+            [overlay]="overlay"
+            [styleMode]="styleMode"
+            [data]="data10"
+            [value]="value10"
+            multiple
+            (update)="update('value10', $event)"
+            hideSelectedItems
+            id="select2-10"
+          />
+          <div class="value">
+            <div>
+              <span>{{ 'value:' | transloco }}</span
+              ><code>{{ value10 | json }}</code>
+            </div>
+          </div>
+        </div>
 
-    <ng-select2
-      class="col-6"
-      [overlay]="overlay"
-      [styleMode]="styleMode"
-      [data]="data10"
-      [value]="value10"
-      multiple
-      (update)="update('value10', $event)"
-      hideSelectedItems
-      id="select2-10"
-    />
-    <div class="col-12 value">
-      <span>{{ 'value:' | transloco }}</span
-      ><code>{{ value10 | json }}</code>
+        <div class="col-6">
+          <div class="code">
+            <code><pre [highlight]="exemple10()" language="html"></pre></code>
+          </div>
+        </div>
+      </div>
     </div>
 
     <h3 class="col-12" id="ex-10b">{{ 'Basic with placeholder' | transloco }}</h3>
-    <ng-select2
-      class="col-6"
-      [overlay]="overlay"
-      [styleMode]="styleMode"
-      placeholder="select items"
-      [data]="data10b"
-      [value]="value10b"
-      multiple
-      (update)="update('value10b', $event)"
-      id="select2-10b"
-    />
-    <div class="col-12 value">
-      <span>{{ 'value:' | transloco }}</span
-      ><code>{{ value10b | json }}</code>
+    <div class="container">
+      <div class="row">
+        <div class="col-6">
+          <ng-select2
+            [overlay]="overlay"
+            [styleMode]="styleMode"
+            placeholder="select items"
+            [data]="data10b"
+            [value]="value10b"
+            multiple
+            (update)="update('value10b', $event)"
+            id="select2-10b"
+          />
+          <div class="value">
+            <div>
+              <span>{{ 'value:' | transloco }}</span
+              ><code>{{ value10b | json }}</code>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-6">
+          <div class="code">
+            <code><pre [highlight]="exemple10b()" language="html"></pre></code>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </div>

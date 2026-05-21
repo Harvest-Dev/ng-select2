@@ -1,8 +1,9 @@
 import { JsonPipe } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, computed } from '@angular/core';
 
 import { TranslocoModule } from '@jsverse/transloco';
 
+import { Highlight } from 'ngx-highlightjs';
 import { Select2, Select2ScrollEvent } from 'projects/ng-select2-component/src/public_api';
 
 import { Examples } from './examples';
@@ -14,12 +15,24 @@ import { data26 } from '../app.data';
     templateUrl: './examples-infinite-scroll.component.html',
     styleUrls: ['./examples-infinite-scroll.component.scss'],
     standalone: true,
-    imports: [Select2, JsonPipe, TranslocoModule],
+    imports: [Select2, JsonPipe, TranslocoModule, Highlight],
 })
 export class ExemplesInfiniteScrollComponent extends Examples {
     data26 = data26;
 
     value26 = '';
+
+    exemple26 = computed(
+        () =>
+            `<ng-select2${this.overlayExemple()}${this.styleModeExemple()}
+    [data]="data"
+    [value]="value"
+    infiniteScroll
+    infiniteScrollDistance="1.5"
+    infiniteScrollThrottle="150"
+    (scroll)="scroll($event)"
+/>`,
+    );
 
     scroll26(event: Select2ScrollEvent) {
         console.log('scroll26', event);

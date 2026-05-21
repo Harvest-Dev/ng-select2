@@ -13,38 +13,60 @@
 <div class="container">
   <div class="row">
     <h3 class="col-12" id="ex-2">{{ 'Basic list of options' | transloco }}</h3>
-    <ng-select2
-      class="col-6"
-      [overlay]="overlay"
-      [styleMode]="styleMode"
-      [data]="data2"
-      [value]="value2"
-      (update)="update('value2', $event)"
-      nativeKeyboard
-      id="select2"
-    />
-    <div class="col-12 value">
-      <div>
-        <span>{{ 'value:' | transloco }}</span
-        ><code>{{ value2 | json }}</code>
+    <div class="container">
+      <div class="row">
+        <div class="col-6">
+          <ng-select2
+            [overlay]="overlay"
+            [styleMode]="styleMode"
+            [data]="data2"
+            [value]="value2"
+            (update)="update('value2', $event)"
+            nativeKeyboard
+            id="select2"
+          />
+          <div class="value">
+            <div>
+              <span>{{ 'value:' | transloco }}</span
+              ><code>{{ value2 | json }}</code>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-6">
+          <div class="code">
+            <code><pre [highlight]="exemple2()" language="html"></pre></code>
+          </div>
+        </div>
       </div>
     </div>
 
     <h3 class="col-12" id="ex-2">{{ 'Basic list with groups' | transloco }}</h3>
-    <ng-select2
-      class="col-6"
-      [overlay]="overlay"
-      [styleMode]="styleMode"
-      [data]="data1"
-      [value]="value1"
-      (update)="update('value1', $event)"
-      nativeKeyboard
-      id="select1"
-    />
-    <div class="col-12 value">
-      <div>
-        <span>{{ 'value:' | transloco }}</span
-        ><code>{{ value1 | json }}</code>
+    <div class="container">
+      <div class="row">
+        <div class="col-6">
+          <ng-select2
+            [overlay]="overlay"
+            [styleMode]="styleMode"
+            [data]="data1"
+            [value]="value1"
+            (update)="update('value1', $event)"
+            nativeKeyboard
+            id="select1"
+          />
+          <div class="value">
+            <div>
+              <span>{{ 'value:' | transloco }}</span
+              ><code>{{ value1 | json }}</code>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-6">
+          <div class="code">
+            <code><pre [highlight]="exemple1()" language="html"></pre></code>
+          </div>
+        </div>
       </div>
     </div>
   </div>

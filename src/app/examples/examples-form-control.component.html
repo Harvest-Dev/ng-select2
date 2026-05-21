@@ -3,72 +3,107 @@
 <div class="container">
   <div class="row">
     <h3 class="col-12" id="ex-11">ngModel</h3>
-    <form [formGroup]="ctrlForm" class="col-6">
-      <ng-select2
-        [overlay]="overlay"
-        [(ngModel)]="value11"
-        [data]="data11"
-        formControlName="test11"
-        placeholder="Select a state"
-        id="select2-11"
-        (update)="update('value11', $event)"
-      />
-    </form>
-    <div class="col-12">
-      <button (click)="reset11()">{{ 'Reset' | transloco }}</button>
-      <button (click)="change11()">Utah (via formGroup)</button>
-      <button (click)="changeValue11()">California (via ngModel)</button>
-    </div>
-    <div class="col-12 value">
-      <div>
-        <span>{{ 'value:' | transloco }}</span
-        ><code>{{ value11 | json }}</code>
+    <div class="container">
+      <div class="row">
+        <div class="col-6">
+          <form [formGroup]="ctrlForm">
+            <ng-select2
+              [overlay]="overlay"
+              [(ngModel)]="value11"
+              [data]="data11"
+              formControlName="test11"
+              placeholder="Select a state"
+              id="select2-11"
+              (update)="update('value11', $event)"
+            />
+          </form>
+          <div>
+            <button (click)="reset11()">{{ 'Reset' | transloco }}</button>
+            <button (click)="change11()">Utah (via formGroup)</button>
+            <button (click)="changeValue11()">California (via ngModel)</button>
+          </div>
+          <div class="value">
+            <div>
+              <span>{{ 'value:' | transloco }}</span
+              ><code>{{ value11 | json }}</code>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-6">
+          <div class="code">
+            <code><pre [highlight]="exemple11()" language="html"></pre></code>
+          </div>
+        </div>
       </div>
     </div>
 
     <h3 id="ex-33">{{ 'FormControl & reset form multiple' | transloco }}</h3>
-    <form [formGroup]="ctrlForm2" class="col-6">
-      <ng-select2
-        [data]="data32"
-        formControlName="test33"
-        multiple="true"
-        (update)="update('value33', $event)"
-        id="select2-33"
-      />
-    </form>
-    <div class="col-12">
-      <button (click)="reset()">{{ 'Reset' | transloco }}</button>
-    </div>
+    <div class="container">
+      <div class="row">
+        <div class="col-6">
+          <form [formGroup]="ctrlForm2">
+            <ng-select2
+              [data]="data32"
+              formControlName="test33"
+              multiple
+              (update)="update('value33', $event)"
+              id="select2-33"
+            />
+          </form>
+          <div>
+            <button (click)="reset()">{{ 'Reset' | transloco }}</button>
+          </div>
 
-    <div class="col-12 value">
-      <div>
-        <span>{{ 'value:' | transloco }}</span
-        ><code>{{ ctrlForm2.get('test33')?.value | json }}</code>
+          <div class="value">
+            <div>
+              <span>{{ 'value:' | transloco }}</span
+              ><code>{{ ctrlForm2.get('test33')?.value | json }}</code>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-6">
+          <div class="code">
+            <code><pre [highlight]="exemple33()" language="html"></pre></code>
+          </div>
+        </div>
       </div>
     </div>
 
     <h3 class="col-12" id="ex-14">{{ 'FormControl & reset a specific value' | transloco }}</h3>
-    <form [formGroup]="ctrlForm3" class="col-6">
-      <ng-select2
-        class="col-6"
-        [overlay]="overlay"
-        [styleMode]="styleMode"
-        [data]="data9"
-        multiple="true"
-        id="select2-14"
-        formControlName="state"
-        (update)="update('value14', $event)"
-      />
-    </form>
-    <div class="col-12">
-      <button (click)="print()">{{ 'Selection log (See F12)' | transloco }}</button>
-      <button (click)="resetForm()">{{ 'Reset form to value:' | transloco }} <code>['CA', 'NV']</code></button>
-      <button (click)="setValue()">{{ 'SetValue form to value:' | transloco }} <code>['CA', 'NV']</code></button>
-    </div>
-    <div class="col-12 value">
-      <div>
-        <span>{{ 'value:' | transloco }}</span
-        ><code>{{ ctrlForm3.get('state')!.value | json }}</code>
+    <div class="container">
+      <div class="row">
+        <div class="col-6">
+          <form [formGroup]="ctrlForm3">
+            <ng-select2
+              [overlay]="overlay"
+              [styleMode]="styleMode"
+              [data]="data9"
+              multiple
+              id="select2-14"
+              formControlName="state"
+              (update)="update('value14', $event)"
+            />
+          </form>
+          <div>
+            <button (click)="print()">{{ 'Selection log (See F12)' | transloco }}</button>
+            <button (click)="resetForm()">{{ 'Reset form to value:' | transloco }} <code>['CA', 'NV']</code></button>
+            <button (click)="setValue()">{{ 'SetValue form to value:' | transloco }} <code>['CA', 'NV']</code></button>
+          </div>
+          <div class="value">
+            <div>
+              <span>{{ 'value:' | transloco }}</span
+              ><code>{{ ctrlForm3.get('state')!.value | json }}</code>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-6">
+          <div class="code">
+            <code><pre [highlight]="exemple14()" language="html"></pre></code>
+          </div>
+        </div>
       </div>
     </div>
   </div>

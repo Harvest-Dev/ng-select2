@@ -2,20 +2,33 @@
 
 <div class="container">
   <div class="row">
-    <ng-select2
-      class="col-6"
-      showSelectAll
-      [overlay]="overlay"
-      [styleMode]="styleMode"
-      [data]="data37"
-      [value]="value37"
-      id="select2-select-all"
-      (update)="update('value37', $event)"
-      multiple
-    />
-    <div class="col-12 value">
-      <span>{{ 'value:' | transloco }}</span
-      ><code>{{ value37 | json }}</code>
+    <div class="container">
+      <div class="row">
+        <div class="col-6">
+          <ng-select2
+            showSelectAll
+            [overlay]="overlay"
+            [styleMode]="styleMode"
+            [data]="data37"
+            [value]="value37"
+            id="select2-select-all"
+            (update)="update('value37', $event)"
+            multiple
+          />
+          <div class="value">
+            <div>
+              <span>{{ 'value:' | transloco }}</span
+              ><code>{{ value37 | json }}</code>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-6">
+          <div class="code">
+            <code><pre [highlight]="exemple37()" language="html"></pre></code>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </div>

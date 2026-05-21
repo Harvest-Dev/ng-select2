@@ -3,111 +3,158 @@
 <div class="container">
   <div class="row">
     <h3 class="col-12" id="ex-23">{{ 'Only one template for options/groups & one for selection' | transloco }}</h3>
+    <div class="container">
+      <div class="row">
+        <div class="col-6">
+          <ng-select2
+            class="flower-list"
+            [overlay]="overlay"
+            [styleMode]="styleMode"
+            [data]="data23"
+            [value]="value23"
+            (update)="update('value23', $event)"
+            [templates]="template"
+            [templateSelection]="templateSelection"
+            id="select2-23"
+          >
+            <ng-template #template let-data="data"
+              ><strong>{{ data?.color }}</strong
+              >: {{ data?.name }}</ng-template
+            >
+            <ng-template #templateSelection let-data="data"
+              ><strong>{{ data?.color }}</strong> ({{ data?.name }})</ng-template
+            >
+          </ng-select2>
+          <div class="value">
+            <div>
+              <span>{{ 'value:' | transloco }}</span
+              ><code>{{ value23 | json }}</code>
+            </div>
+          </div>
+        </div>
 
-    <ng-select2
-      class="col-6 flower-list"
-      [overlay]="overlay"
-      [styleMode]="styleMode"
-      [data]="data23"
-      [value]="value23"
-      (update)="update('value23', $event)"
-      [templates]="template"
-      [templateSelection]="templateSelection"
-      id="select2-23"
-    >
-      <ng-template #template let-data="data"
-        ><strong>{{ data?.color }}</strong
-        >: {{ data?.name }}</ng-template
-      >
-      <ng-template #templateSelection let-data="data"
-        ><strong>{{ data?.color }}</strong> ({{ data?.name }})</ng-template
-      >
-    </ng-select2>
-    <div class="col-12 value">
-      <div>
-        <span>{{ 'value:' | transloco }}</span
-        ><code>{{ value23 | json }}</code>
+        <div class="col-6">
+          <div class="code">
+            <code><pre [highlight]="exemple23()" language="html"></pre></code>
+          </div>
+        </div>
       </div>
     </div>
 
     <h3 class="col-12" id="ex-24">{{ 'Templates for options & groups' | transloco }}</h3>
-    <ng-select2
-      class="col-6 flower-list"
-      [overlay]="overlay"
-      [styleMode]="styleMode"
-      [data]="data24"
-      [value]="value24"
-      (update)="update('value24', $event)"
-      [templates]="{ option: templateOption, group: templateGroup }"
-      id="select2-24"
-    >
-      <ng-template #templateOption let-data="data"
-        ><strong>{{ data?.color }}</strong
-        >: {{ data?.name }}</ng-template
-      >
-      <ng-template #templateGroup let-label="label"
-        ><strong>({{ label }})</strong></ng-template
-      >
-    </ng-select2>
-    <div class="col-12 value">
-      <div>
-        <span>{{ 'value:' | transloco }}</span
-        ><code>{{ value24 | json }}</code>
+    <div class="container">
+      <div class="row">
+        <div class="col-6">
+          <ng-select2
+            class="flower-list"
+            [overlay]="overlay"
+            [styleMode]="styleMode"
+            [data]="data24"
+            [value]="value24"
+            (update)="update('value24', $event)"
+            [templates]="{ option: templateOption, group: templateGroup }"
+            id="select2-24"
+          >
+            <ng-template #templateOption let-data="data"
+              ><strong>{{ data?.color }}</strong
+              >: {{ data?.name }}</ng-template
+            >
+            <ng-template #templateGroup let-label="label"
+              ><strong>({{ label }})</strong></ng-template
+            >
+          </ng-select2>
+          <div class="value">
+            <div>
+              <span>{{ 'value:' | transloco }}</span
+              ><code>{{ value24 | json }}</code>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-6">
+          <div class="code">
+            <code><pre [highlight]="exemple24()" language="html"></pre></code>
+          </div>
+        </div>
       </div>
     </div>
 
     <h3 id="ex-25">{{ 'With templates Ids' | transloco }}</h3>
-    <ng-select2
-      class="col-6 flower-list"
-      [overlay]="overlay"
-      [styleMode]="styleMode"
-      [data]="data25"
-      [value]="value25"
-      (update)="update('value25', $event)"
-      [templates]="{ template1: template1, template2: template2, template3: template3 }"
-      id="select2-25"
-    >
-      <ng-template #template1 let-data="data"
-        ><span [style.background]="data?.color">{{ data?.name }}</span></ng-template
-      >
-      <ng-template #template2 let-data="data"
-        ><strong>{{ data?.color }}</strong
-        >: {{ data?.name }}</ng-template
-      >
-      <ng-template #template3 let-data="data">{{ data | json }}</ng-template>
-    </ng-select2>
-    <div class="col-12 value">
-      <div>
-        <span>{{ 'value:' | transloco }}</span
-        ><code>{{ value25 | json }}</code>
+    <div class="container">
+      <div class="row">
+        <div class="col-6">
+          <ng-select2
+            class="flower-list"
+            [overlay]="overlay"
+            [styleMode]="styleMode"
+            [data]="data25"
+            [value]="value25"
+            (update)="update('value25', $event)"
+            [templates]="{ template1: template1, template2: template2, template3: template3 }"
+            id="select2-25"
+          >
+            <ng-template #template1 let-data="data"
+              ><span [style.background]="data?.color">{{ data?.name }}</span></ng-template
+            >
+            <ng-template #template2 let-data="data"
+              ><strong>{{ data?.color }}</strong
+              >: {{ data?.name }}</ng-template
+            >
+            <ng-template #template3 let-data="data">{{ data | json }}</ng-template>
+          </ng-select2>
+          <div class="value">
+            <div>
+              <span>{{ 'value:' | transloco }}</span
+              ><code>{{ value25 | json }}</code>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-6">
+          <div class="code">
+            <code><pre [highlight]="exemple25()" language="html"></pre></code>
+          </div>
+        </div>
       </div>
     </div>
 
     <h3 class="col-26" id="ex-26">{{ 'Highlight' | transloco }}</h3>
-    <ng-select2
-      class="col-26 flower-list"
-      [overlay]="overlay"
-      [styleMode]="styleMode"
-      [data]="data26"
-      [value]="value26"
-      (update)="update('value26', $event)"
-      highlightText
-      [templates]="template26"
-      [templateSelection]="templateSelection26"
-      id="select2-26"
-    >
-      <ng-template #template26 let-data="data" let-searchText="searchText" let-highlightText="highlightText"
-        ><strong>{{ data?.color }}</strong
-        >: <span [innerHTML]="data?.name | highlightText: searchText : !highlightText"></span>
-      </ng-template>
-      <ng-template #templateSelection26 let-data="data"
-        ><strong>{{ data?.color }}</strong> ({{ data?.name }})</ng-template
-      >
-    </ng-select2>
-    <div class="col-12 value">
-      <div>
-        <span>{{ 'value:' | transloco }}</span
-        ><code>{{ value26 | json }}</code>
+    <div class="container">
+      <div class="row">
+        <div class="col-6">
+          <ng-select2
+            class="flower-list"
+            [overlay]="overlay"
+            [styleMode]="styleMode"
+            [data]="data26"
+            [value]="value26"
+            (update)="update('value26', $event)"
+            highlightText
+            [templates]="template26"
+            [templateSelection]="templateSelection26"
+            id="select2-26"
+          >
+            <ng-template #template26 let-data="data" let-searchText="searchText" let-highlightText="highlightText"
+              ><strong>{{ data?.color }}</strong
+              >: <span [innerHTML]="data?.name | highlightText: searchText : !highlightText"></span>
+            </ng-template>
+            <ng-template #templateSelection26 let-data="data"
+              ><strong>{{ data?.color }}</strong> ({{ data?.name }})</ng-template
+            >
+          </ng-select2>
+          <div class="value">
+            <div>
+              <span>{{ 'value:' | transloco }}</span
+              ><code>{{ value26 | json }}</code>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-6">
+          <div class="code">
+            <code><pre [highlight]="exemple26()" language="html"></pre></code>
+          </div>
+        </div>
       </div>
     </div>
   </div>

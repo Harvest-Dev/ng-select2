@@ -1,5 +1,5 @@
 import { JsonPipe } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, computed } from '@angular/core';
 import {
     FormsModule,
     ReactiveFormsModule,
@@ -11,6 +11,7 @@ import {
 
 import { TranslocoModule } from '@jsverse/transloco';
 
+import { Highlight } from 'ngx-highlightjs';
 import { Select2, Select2Data } from 'projects/ng-select2-component/src/public_api';
 
 import { Examples } from './examples';
@@ -22,7 +23,7 @@ import { data1, data3, data5, data6, data18, data28 } from '../app.data';
     templateUrl: './examples-limits.component.html',
     styleUrls: ['./examples-limits.component.scss'],
     standalone: true,
-    imports: [FormsModule, ReactiveFormsModule, Select2, TranslocoModule, JsonPipe],
+    imports: [FormsModule, ReactiveFormsModule, Select2, TranslocoModule, JsonPipe, Highlight],
 })
 export class ExamplesLimitsComponent extends Examples {
     data5 = data5;
@@ -44,6 +45,58 @@ export class ExamplesLimitsComponent extends Examples {
     limitSelection = 0;
 
     ctrlForm2: UntypedFormGroup;
+
+    exemple5 = computed(
+        () =>
+            `<form [formGroup]="ctrlForm">
+  <ng-select2${this.overlayExemple()}${this.styleModeExemple()}
+    [data]="data"
+    formControlName="test"
+    [minCountForSearch]="Infinity"
+  />
+</form>`,
+    );
+
+    exemple6 = computed(
+        () =>
+            `<ng-select2${this.overlayExemple()}${this.styleModeExemple()}
+    [data]="data"
+    [value]="value"
+    [minCountForSearch]="7"
+    [displaySearchStatus]="'default'"
+/>`,
+    );
+
+    exemple9 = computed(
+        () =>
+            `<ng-select2${this.overlayExemple()}
+    [data]="data"
+    [value]="value"
+    multiple
+    [limitSelection]="0"
+    customSearchEnabled
+/>`,
+    );
+
+    exemple28 = computed(
+        () =>
+            `<ng-select2${this.overlayExemple()}${this.styleModeExemple()}
+    [data]="data"
+    [value]="value"
+    listPosition="auto"
+    maxResults="50"
+    [maxResultsMessage]="'Too much results in this list.'"
+/>`,
+    );
+
+    exemple18 = computed(
+        () =>
+            `<ng-select2${this.overlayExemple()}
+    [data]="data"
+    [value]="value"
+    minCharForSearch="3"
+/>`,
+    );
 
     constructor(private fb: UntypedFormBuilder) {
         super();

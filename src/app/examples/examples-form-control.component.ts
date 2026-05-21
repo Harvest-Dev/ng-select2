@@ -1,5 +1,5 @@
 import { JsonPipe } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, computed } from '@angular/core';
 import {
     FormsModule,
     ReactiveFormsModule,
@@ -11,6 +11,7 @@ import {
 
 import { TranslocoModule } from '@jsverse/transloco';
 
+import { Highlight } from 'ngx-highlightjs';
 import { Select2, Select2Data } from 'projects/ng-select2-component/src/public_api';
 
 import { Examples } from './examples';
@@ -22,7 +23,7 @@ import { data1 } from '../app.data';
     templateUrl: './examples-form-control.component.html',
     styleUrls: ['./examples-form-control.component.scss'],
     standalone: true,
-    imports: [FormsModule, ReactiveFormsModule, Select2, JsonPipe, TranslocoModule],
+    imports: [FormsModule, ReactiveFormsModule, Select2, JsonPipe, TranslocoModule, Highlight],
 })
 export class ExemplesFormControlComponent extends Examples {
     data9: Select2Data = JSON.parse(JSON.stringify(data1));
@@ -37,6 +38,43 @@ export class ExemplesFormControlComponent extends Examples {
     ctrlForm3: UntypedFormGroup = new UntypedFormGroup({
         state: new UntypedFormControl(),
     });
+
+    exemple11 = computed(
+        () =>
+            `<form [formGroup]="ctrlForm">
+  <ng-select2${this.overlayExemple()}
+    [(ngModel)]="value"
+    [data]="data"
+    formControlName="test"
+    placeholder="Select a state"
+    (update)="update('value', $event)"
+  />
+</form>`,
+    );
+
+    exemple33 = computed(
+        () =>
+            `<form [formGroup]="ctrlForm">
+  <ng-select2
+    [data]="data"
+    formControlName="test"
+    multiple
+    (update)="update('value', $event)"
+  />
+</form>`,
+    );
+
+    exemple14 = computed(
+        () =>
+            `<form [formGroup]="ctrlForm">
+  <ng-select2${this.overlayExemple()}${this.styleModeExemple()}
+    [data]="data"
+    multiple
+    formControlName="state"
+    (update)="update('value', $event)"
+  />
+</form>`,
+    );
 
     constructor(private fb: UntypedFormBuilder) {
         super();

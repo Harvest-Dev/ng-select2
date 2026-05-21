@@ -3,25 +3,38 @@
 <div class="container">
   <div class="row">
     <h3 class="col-12" id="ex-8" [innerHTML]="'List events' | transloco"></h3>
-    <ng-select2
-      class="col-6"
-      [overlay]="overlay"
-      [styleMode]="styleMode"
-      [data]="data8"
-      autoCreate
-      (update)="update('update', $event)"
-      (blur)="blur('blur', $event)"
-      (focus)="focus('focus', $event)"
-      (open)="open('open', $event)"
-      (close)="close('close', $event)"
-      (search)="search('search', $event)"
-      (autoCreateItem)="autoCreate('autoCreateItem', $event)"
-      id="select2-8"
-    />
+    <div class="container">
+      <div class="row">
+        <div class="col-6">
+          <ng-select2
+            [overlay]="overlay"
+            [styleMode]="styleMode"
+            [data]="data8"
+            autoCreate
+            (update)="update('update', $event)"
+            (blur)="blur('blur', $event)"
+            (focus)="focus('focus', $event)"
+            (open)="open('open', $event)"
+            (close)="close('close', $event)"
+            (search)="search('search', $event)"
+            (autoCreateItem)="autoCreate('autoCreateItem', $event)"
+            id="select2-8"
+          />
 
-    <div class="col-12 value">
-      <span>{{ 'value:' | transloco }}</span
-      ><code>{{ value8 | json }}</code>
+          <div class="value">
+            <div>
+              <span>{{ 'value:' | transloco }}</span
+              ><code>{{ value8 | json }}</code>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-6">
+          <div class="code">
+            <code><pre [highlight]="exemple8()" language="html"></pre></code>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 

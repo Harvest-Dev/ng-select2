@@ -3,55 +3,94 @@
 <div class="container">
   <div class="row">
     <h3 class="col-12" id="ex-15">{{ 'With label' | transloco }}</h3>
-    <ng-select2
-      class="col-6"
-      [overlay]="overlay"
-      [styleMode]="styleMode"
-      [data]="data15"
-      [value]="value15"
-      (update)="update('value15', $event)"
-      id="select2-15"
-    >
-      <ng-select2-label>{{ 'Select a state' | transloco }}</ng-select2-label>
-    </ng-select2>
-    <div class="col-12 value">
-      <span>{{ 'value:' | transloco }}</span
-      ><code>{{ value15 | json }}</code>
+    <div class="container">
+      <div class="row">
+        <div class="col-6">
+          <ng-select2
+            [overlay]="overlay"
+            [styleMode]="styleMode"
+            [data]="data15"
+            [value]="value15"
+            (update)="update('value15', $event)"
+            id="select2-15"
+          >
+            <ng-select2-label>{{ 'Select a state' | transloco }}</ng-select2-label>
+          </ng-select2>
+          <div class="value">
+            <div>
+              <span>{{ 'value:' | transloco }}</span
+              ><code>{{ value15 | json }}</code>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-6">
+          <div class="code">
+            <code><pre [highlight]="exemple15()" language="html"></pre></code>
+          </div>
+        </div>
+      </div>
     </div>
 
     <h3 class="col-12" id="ex-16">{{ 'Required with label' | transloco }}</h3>
-    <ng-select2
-      class="col-6"
-      [overlay]="overlay"
-      [styleMode]="styleMode"
-      [data]="data16"
-      [value]="value16"
-      (update)="update('value16', $event)"
-      required
-      id="select2-16"
-    >
-      <ng-select2-label>{{ 'Select a state' | transloco }}</ng-select2-label>
-    </ng-select2>
-    <div class="col-12 value">
-      <span>{{ 'value:' | transloco }}</span
-      ><code>{{ value16 | json }}</code>
+    <div class="container">
+      <div class="row">
+        <div class="col-6">
+          <ng-select2
+            [overlay]="overlay"
+            [styleMode]="styleMode"
+            [data]="data16"
+            [value]="value16"
+            (update)="update('value16', $event)"
+            required
+            id="select2-16"
+          >
+            <ng-select2-label>{{ 'Select a state' | transloco }}</ng-select2-label>
+          </ng-select2>
+          <div class="value">
+            <div>
+              <span>{{ 'value:' | transloco }}</span
+              ><code>{{ value16 | json }}</code>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-6">
+          <div class="code">
+            <code><pre [highlight]="exemple16()" language="html"></pre></code>
+          </div>
+        </div>
+      </div>
     </div>
 
     <h3 class="col-12" id="ex-16">{{ 'With hint' | transloco }}</h3>
-    <ng-select2
-      class="col-6"
-      [overlay]="overlay"
-      [styleMode]="styleMode"
-      [data]="data16b"
-      [value]="value16b"
-      (update)="update('value16b', $event)"
-      id="select2-16"
-    >
-      <ng-select2-hint>{{ 'Description in hint' | transloco }}</ng-select2-hint>
-    </ng-select2>
-    <div class="col-12 value">
-      <span>{{ 'value:' | transloco }}</span
-      ><code>{{ value16b | json }}</code>
+    <div class="container">
+      <div class="row">
+        <div class="col-6">
+          <ng-select2
+            [overlay]="overlay"
+            [styleMode]="styleMode"
+            [data]="data16b"
+            [value]="value16b"
+            (update)="update('value16b', $event)"
+            id="select2-16"
+          >
+            <ng-select2-hint>{{ 'Description in hint' | transloco }}</ng-select2-hint>
+          </ng-select2>
+          <div class="value">
+            <div>
+              <span>{{ 'value:' | transloco }}</span
+              ><code>{{ value16b | json }}</code>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-6">
+          <div class="code">
+            <code><pre [highlight]="exemple16b()" language="html"></pre></code>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </div>

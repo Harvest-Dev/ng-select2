@@ -3,28 +3,61 @@
 <div class="container">
   <div class="row">
     <h3 class="col-12" id="ex-19">{{ 'Dropdown list position: above' | transloco }}</h3>
+    <div class="container">
+      <div class="row">
+        <div class="col-6">
+          <ng-select2
+            [overlay]="overlay"
+            [styleMode]="styleMode"
+            [data]="data19"
+            [value]="value19"
+            (update)="update('value19', $event)"
+            listPosition="above"
+            id="select2-19"
+          />
+          <div class="value">
+            <div>
+              <span>{{ 'value:' | transloco }}</span
+              ><code>{{ value19 | json }}</code>
+            </div>
+          </div>
+        </div>
 
-    <ng-select2
-      class="col-6"
-      [overlay]="overlay"
-      [styleMode]="styleMode"
-      [data]="data19"
-      [value]="value19"
-      (update)="update('value19', $event)"
-      listPosition="above"
-      id="select2-19"
-    />
+        <div class="col-6">
+          <div class="code">
+            <code><pre [highlight]="exemple19()" language="html"></pre></code>
+          </div>
+        </div>
+      </div>
+    </div>
 
     <h3 class="col-12" id="ex-27">{{ 'Position auto (overlay only)' | transloco }}</h3>
-    <ng-select2
-      class="col-6"
-      [overlay]="overlay"
-      [styleMode]="styleMode"
-      [data]="data2"
-      [value]="value2"
-      listPosition="auto"
-      (update)="update('value2', $event)"
-      id="select2-27"
-    />
+    <div class="container">
+      <div class="row">
+        <div class="col-6">
+          <ng-select2
+            [overlay]="overlay"
+            [styleMode]="styleMode"
+            [data]="data2"
+            [value]="value2"
+            listPosition="auto"
+            (update)="update('value2', $event)"
+            id="select2-27"
+          />
+          <div class="value">
+            <div>
+              <span>{{ 'value:' | transloco }}</span
+              ><code>{{ value2 | json }}</code>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-6">
+          <div class="code">
+            <code><pre [highlight]="exemple27()" language="html"></pre></code>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </div>

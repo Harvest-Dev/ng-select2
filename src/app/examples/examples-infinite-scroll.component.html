@@ -2,24 +2,35 @@
 
 <div class="container">
   <div class="row">
-    <ng-select2
-      class="col-6"
-      [overlay]="overlay"
-      [styleMode]="styleMode"
-      [data]="data26"
-      [value]="value26"
-      (update)="update('value26', $event)"
-      infiniteScroll
-      infiniteScrollDistance="1.5"
-      infiniteScrollThrottle="150"
-      (scroll)="scroll26($event)"
-      id="select2-26"
-    />
+    <div class="container">
+      <div class="row">
+        <div class="col-6">
+          <ng-select2
+            [overlay]="overlay"
+            [styleMode]="styleMode"
+            [data]="data26"
+            [value]="value26"
+            infiniteScroll
+            infiniteScrollDistance="1.5"
+            infiniteScrollThrottle="150"
+            (scroll)="scroll26($event)"
+            (update)="update('value26', $event)"
+            id="select2-26"
+          />
 
-    <div class="col-12 value">
-      <div>
-        <span>{{ 'value:' | transloco }}</span
-        ><code>{{ value26 | json }}</code>
+          <div class="value">
+            <div>
+              <span>{{ 'value:' | transloco }}</span
+              ><code>{{ value26 | json }}</code>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-6">
+          <div class="code">
+            <code><pre [highlight]="exemple26()" language="html"></pre></code>
+          </div>
+        </div>
       </div>
     </div>
   </div>

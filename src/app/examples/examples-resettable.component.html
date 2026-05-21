@@ -3,60 +3,93 @@
 <div class="container">
   <div class="row">
     <h3 class="col-12" id="ex-30">{{ 'Reset value when × is clicked' | transloco }}</h3>
-    <ng-select2
-      class="col-6"
-      [overlay]="overlay"
-      [styleMode]="styleMode"
-      [data]="data30"
-      [value]="value30"
-      resettable
-      id="select2-30"
-      (update)="update('value30', $event)"
-    />
-    <div class="col-12 value">
-      <div>
-        <span>{{ 'value:' | transloco }}</span
-        ><code>{{ value30 | json }}</code>
+    <div class="container">
+      <div class="row">
+        <div class="col-6">
+          <ng-select2
+            [overlay]="overlay"
+            [styleMode]="styleMode"
+            [data]="data30"
+            [value]="value30"
+            resettable
+            id="select2-30"
+            (update)="update('value30', $event)"
+          />
+          <div class="value">
+            <div>
+              <span>{{ 'value:' | transloco }}</span
+              ><code>{{ value30 | json }}</code>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-6">
+          <div class="code">
+            <code><pre [highlight]="exemple30()" language="html"></pre></code>
+          </div>
+        </div>
       </div>
     </div>
 
     <h3 class="col-12" id="ex-30">{{ 'Reset value when × is clicked in multiple' | transloco }}</h3>
-    <ng-select2
-      class="col-6"
-      [overlay]="overlay"
-      [styleMode]="styleMode"
-      [data]="data30a"
-      [value]="value30a"
-      resettable
-      multiple
-      id="select2-30a"
-      (update)="update('value30a', $event)"
-    />
-    <div class="col-12 value">
-      <div>
-        <span>{{ 'value:' | transloco }}</span
-        ><code>{{ value30a | json }}</code>
+    <div class="container">
+      <div class="row">
+        <div class="col-6">
+          <ng-select2
+            [overlay]="overlay"
+            [styleMode]="styleMode"
+            [data]="data30a"
+            [value]="value30a"
+            resettable
+            multiple
+            id="select2-30a"
+            (update)="update('value30a', $event)"
+          />
+          <div class="value">
+            <div>
+              <span>{{ 'value:' | transloco }}</span
+              ><code>{{ value30a | json }}</code>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-6">
+          <div class="code">
+            <code><pre [highlight]="exemple30a()" language="html"></pre></code>
+          </div>
+        </div>
       </div>
     </div>
 
     <h3 class="col-12" id="ex-30b">{{ 'Selected a default option when × is clicked' | transloco }}</h3>
-    <ng-select2
-      class="col-6"
-      [overlay]="overlay"
-      [styleMode]="styleMode"
-      [data]="data30b"
-      [value]="value30b"
-      resettable
-      resetSelectedValue="CA"
-      id="select2-30b"
-      (update)="update('value30b', $event)"
-    />
-    <div class="col-12 value">
-      <div>
-        <span>{{ 'value:' | transloco }}</span
-        ><code>{{ value30b | json }}</code>
+    <div class="container">
+      <div class="row">
+        <div class="col-6">
+          <ng-select2
+            [overlay]="overlay"
+            [styleMode]="styleMode"
+            [data]="data30b"
+            [value]="value30b"
+            resettable
+            resetSelectedValue="CA"
+            id="select2-30b"
+            (update)="update('value30b', $event)"
+          />
+          <div class="value">
+            <div>
+              <span>{{ 'value:' | transloco }}</span
+              ><code>{{ value30b | json }}</code>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-6">
+          <div class="code">
+            <code><pre [highlight]="exemple30b()" language="html"></pre></code>
+          </div>
+        </div>
       </div>
     </div>
-    <div class="col-12">{{ 'In this example, “CA” is the default value' | transloco }}</div>
+    <div class="col-12">{{ 'In this example, "CA" is the default value' | transloco }}</div>
   </div>
 </div>

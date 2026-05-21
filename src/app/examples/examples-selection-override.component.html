@@ -3,39 +3,64 @@
 <div class="container">
   <div class="row">
     <h3 class="col-12" id="ex-34b">{{ 'Simple & resettable' | transloco }}</h3>
-    <ng-select2
-      class="col-6"
-      selectionOverride="Test (%size%)"
-      resettable
-      [overlay]="overlay"
-      [styleMode]="styleMode"
-      [data]="data36"
-      [value]="value36"
-      id="select2-36"
-      (update)="update('value36', $event)"
-    />
-    <div class="col-12 value">
-      <span>{{ 'value:' | transloco }}</span
-      ><code>{{ value36 | json }}</code>
+    <div class="container">
+      <div class="row">
+        <div class="col-6">
+          <ng-select2
+            selectionOverride="Test (%size%)"
+            resettable
+            [overlay]="overlay"
+            [styleMode]="styleMode"
+            [data]="data36"
+            [value]="value36"
+            id="select2-36"
+            (update)="update('value36', $event)"
+          />
+          <div class="value">
+            <div>
+              <span>{{ 'value:' | transloco }}</span
+              ><code>{{ value36 | json }}</code>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-6">
+          <div class="code">
+            <code><pre [highlight]="exemple36()" language="html"></pre></code>
+          </div>
+        </div>
+      </div>
     </div>
 
     <h3 class="col-12" id="ex-36m">{{ 'With multiple & resettable' | transloco }}</h3>
+    <div class="container">
+      <div class="row">
+        <div class="col-6">
+          <ng-select2
+            selectionOverride="Test (%size%)"
+            resettable
+            [overlay]="overlay"
+            [styleMode]="styleMode"
+            [data]="data36m"
+            [value]="value36m"
+            id="select2-36-m"
+            (update)="update('value36m', $event)"
+            multiple
+          />
+          <div class="value">
+            <div>
+              <span>{{ 'value:' | transloco }}</span
+              ><code>{{ value36m | json }}</code>
+            </div>
+          </div>
+        </div>
 
-    <ng-select2
-      class="col-6"
-      selectionOverride="Test (%size%)"
-      resettable
-      [overlay]="overlay"
-      [styleMode]="styleMode"
-      [data]="data36m"
-      [value]="value36m"
-      id="select2-36-m"
-      (update)="update('value36m', $event)"
-      multiple
-    />
-    <div class="col-12 value">
-      <span>{{ 'value:' | transloco }}</span
-      ><code>{{ value36m | json }}</code>
+        <div class="col-6">
+          <div class="code">
+            <code><pre [highlight]="exemple36m()" language="html"></pre></code>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </div>

@@ -3,20 +3,33 @@
 <div class="container">
   <div class="row">
     <h3 class="col-12" id="ex-10a">{{ 'Multiple selection with drag selection' | transloco }}</h3>
-    <ng-select2
-      class="col-6"
-      [overlay]="overlay"
-      [styleMode]="styleMode"
-      [data]="data10a"
-      [value]="value10a"
-      multiple
-      multipleDrag
-      (update)="update('value10a', $event)"
-      id="select2-10a"
-    />
-    <div class="col-12 value">
-      <span>{{ 'value:' | transloco }}</span
-      ><code>{{ value10a | json }}</code>
+    <div class="container">
+      <div class="row">
+        <div class="col-6">
+          <ng-select2
+            [overlay]="overlay"
+            [styleMode]="styleMode"
+            [data]="data10a"
+            [value]="value10a"
+            multiple
+            multipleDrag
+            (update)="update('value10a', $event)"
+            id="select2-10a"
+          />
+          <div class="value">
+            <div>
+              <span>{{ 'value:' | transloco }}</span
+              ><code>{{ value10a | json }}</code>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-6">
+          <div class="code">
+            <code><pre [highlight]="exemple10a()" language="html"></pre></code>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </div>

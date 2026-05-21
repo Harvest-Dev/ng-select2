@@ -3,32 +3,59 @@
 <div class="container">
   <div class="row">
     <h3 class="col-12" id="ex-17">{{ 'With two labels per option' | transloco }}</h3>
-    <ng-select2
-      class="col-6"
-      [overlay]="overlay"
-      [data]="data17"
-      [value]="value17"
-      (update)="update('value17', $event)"
-      id="select2-17"
-    />
-    <div class="col-12 value">
-      <span>{{ 'value:' | transloco }}</span
-      ><code>{{ value17 | json }}</code>
+    <div class="container">
+      <div class="row">
+        <div class="col-6">
+          <ng-select2
+            [overlay]="overlay"
+            [data]="data17"
+            [value]="value17"
+            (update)="update('value17', $event)"
+            id="select2-17"
+          />
+          <div class="value">
+            <div>
+              <span>{{ 'value:' | transloco }}</span
+              ><code>{{ value17 | json }}</code>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-6">
+          <div class="code">
+            <code><pre [highlight]="exemple17()" language="html"></pre></code>
+          </div>
+        </div>
+      </div>
     </div>
 
     <h3 class="col-12" id="ex-22">{{ 'With classes and id for items' | transloco }}</h3>
-    <ng-select2
-      class="col-6 flower-list"
-      [overlay]="overlay"
-      [data]="data22"
-      [value]="value22"
-      (update)="update('value22', $event)"
-      listPosition="auto"
-      id="select2-22"
-    />
-    <div class="col-12 value">
-      <span>{{ 'value:' | transloco }}</span
-      ><code>{{ value22 | json }}</code>
+    <div class="container">
+      <div class="row">
+        <div class="col-6">
+          <ng-select2
+            class="flower-list"
+            [overlay]="overlay"
+            [data]="data22"
+            [value]="value22"
+            (update)="update('value22', $event)"
+            listPosition="auto"
+            id="select2-22"
+          />
+          <div class="value">
+            <div>
+              <span>{{ 'value:' | transloco }}</span
+              ><code>{{ value22 | json }}</code>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-6">
+          <div class="code">
+            <code><pre [highlight]="exemple22()" language="html"></pre></code>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </div>

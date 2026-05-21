@@ -1,9 +1,10 @@
 import { JsonPipe } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, computed } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { TranslocoModule } from '@jsverse/transloco';
 
+import { Highlight } from 'ngx-highlightjs';
 import {
     Select2,
     Select2AutoCreateEvent,
@@ -21,7 +22,7 @@ import { data8 } from '../app.data';
     templateUrl: './examples-events.component.html',
     styleUrls: ['./examples-events.component.scss'],
     standalone: true,
-    imports: [FormsModule, ReactiveFormsModule, Select2, JsonPipe, TranslocoModule],
+    imports: [FormsModule, ReactiveFormsModule, Select2, JsonPipe, TranslocoModule, Highlight],
 })
 export class ExemplesEventsComponent extends Examples {
     data8 = data8;
@@ -29,6 +30,21 @@ export class ExemplesEventsComponent extends Examples {
     value8 = '';
 
     event: { key: string; type: string; event?: any }[] = [];
+
+    exemple8 = computed(
+        () =>
+            `<ng-select2${this.overlayExemple()}${this.styleModeExemple()}
+    [data]="data"
+    autoCreate
+    (update)="update('update', $event)"
+    (blur)="blur('blur', $event)"
+    (focus)="focus('focus', $event)"
+    (open)="open('open', $event)"
+    (close)="close('close', $event)"
+    (search)="search('search', $event)"
+    (autoCreateItem)="autoCreate('autoCreateItem', $event)"
+/>`,
+    );
 
     override open(key: string, event: Select2) {
         super.open(key, event);

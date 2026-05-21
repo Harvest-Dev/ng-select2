@@ -3,45 +3,69 @@
 <div class="container">
   <div class="row">
     <h3 class="col-12" id="ex-10">{{ 'With hide selected items' | transloco }}</h3>
+    <div class="container">
+      <div class="row">
+        <div class="col-6">
+          <label><input id="no-wrap" type="checkbox" [(ngModel)]="selectionNoWrap2" /> selectionNoWrap</label>
 
-    <label class="col-12"><input id="no-wrap" type="checkbox" [(ngModel)]="selectionNoWrap2" /> selectionNoWrap</label>
+          <ng-select2
+            [overlay]="overlay"
+            [styleMode]="styleMode"
+            [data]="data10"
+            [value]="value10"
+            multiple
+            (update)="update('value10', $event)"
+            hideSelectedItems
+            id="select2-10"
+            [selectionNoWrap]="selectionNoWrap2"
+          />
+          <div class="value">
+            <div>
+              <span>{{ 'value:' | transloco }}</span
+              ><code>{{ value10 | json }}</code>
+            </div>
+          </div>
+        </div>
 
-    <ng-select2
-      class="col-6"
-      [overlay]="overlay"
-      [styleMode]="styleMode"
-      [data]="data10"
-      [value]="value10"
-      multiple="true"
-      (update)="update('value10', $event)"
-      hideSelectedItems="true"
-      id="select2-10"
-      [selectionNoWrap]="selectionNoWrap2"
-    />
-    <div class="col-12 value">
-      <span>{{ 'value:' | transloco }}</span
-      ><code>{{ value10 | json }}</code>
+        <div class="col-6">
+          <div class="code">
+            <code><pre [highlight]="exemple10()" language="html"></pre></code>
+          </div>
+        </div>
+      </div>
     </div>
 
     <h3 class="col-12" id="ex-36mf">{{ 'In multiple mode with function override' | transloco }}</h3>
+    <div class="container">
+      <div class="row">
+        <div class="col-6">
+          <label><input id="no-wrap" type="checkbox" [(ngModel)]="selectionNoWrap" /> selectionNoWrap</label>
 
-    <label class="col-12"><input id="no-wrap" type="checkbox" [(ngModel)]="selectionNoWrap" /> selectionNoWrap</label>
+          <ng-select2
+            [selectionOverride]="selectionOverride"
+            [selectionNoWrap]="selectionNoWrap"
+            [overlay]="overlay"
+            [styleMode]="styleMode"
+            [data]="data36mf"
+            [value]="value36mf"
+            id="select2-36-mf"
+            (update)="update('value36mf', $event)"
+            multiple
+          />
+          <div class="value">
+            <div>
+              <span>{{ 'value:' | transloco }}</span
+              ><code>{{ value36mf | json }}</code>
+            </div>
+          </div>
+        </div>
 
-    <ng-select2
-      class="col-6"
-      [selectionOverride]="selectionOverride"
-      [selectionNoWrap]="selectionNoWrap"
-      [overlay]="overlay"
-      [styleMode]="styleMode"
-      [data]="data36mf"
-      [value]="value36mf"
-      id="select2-36-mf"
-      (update)="update('value36mf', $event)"
-      multiple
-    />
-    <div class="col-12 value">
-      <span>{{ 'value:' | transloco }}</span
-      ><code>{{ value36mf | json }}</code>
+        <div class="col-6">
+          <div class="code">
+            <code><pre [highlight]="exemple36mf()" language="html"></pre></code>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </div>

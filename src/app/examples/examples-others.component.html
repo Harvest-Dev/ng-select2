@@ -3,97 +3,117 @@
 <div class="container">
   <div class="row">
     <h3 class="col-12" id="ex-31">{{ 'Change list' | transloco }}</h3>
-    <div class="col-6">
-      <select #select31 (change)="changeData31(select31.value)">
-        <option value="english">{{ 'english' | transloco }}</option>
-        <option value="french">{{ 'french' | transloco }}</option>
-        <option value="japanese">{{ 'japanese' | transloco }}</option>
-      </select>
+    <div class="container">
+      <div class="row">
+        <div class="col-6">
+          <select #select31 (change)="changeData31(select31.value)">
+            <option value="english">{{ 'english' | transloco }}</option>
+            <option value="french">{{ 'french' | transloco }}</option>
+            <option value="japanese">{{ 'japanese' | transloco }}</option>
+          </select>
 
-      <div>{{ 'Single value:' | transloco }}</div>
-      <ng-select2
-        [overlay]="overlay"
-        [styleMode]="styleMode"
-        [data]="data31"
-        [value]="value31"
-        id="select2-31"
-        (update)="update('value31', $event)"
-      >
-      </ng-select2>
-      <div>{{ 'Multiple value:' | transloco }}</div>
-      <ng-select2
-        [overlay]="overlay"
-        [styleMode]="styleMode"
-        [data]="data31"
-        [value]="value31m"
-        id="select2-31-m"
-        (update)="update('value31m', $event)"
-        multiple
-      >
-      </ng-select2>
-      <br />
+          <div>{{ 'Single value:' | transloco }}</div>
+          <ng-select2
+            [overlay]="overlay"
+            [styleMode]="styleMode"
+            [data]="data31"
+            [value]="value31"
+            id="select2-31"
+            (update)="update('value31', $event)"
+          />
+          <div>{{ 'Multiple value:' | transloco }}</div>
+          <ng-select2
+            [overlay]="overlay"
+            [styleMode]="styleMode"
+            [data]="data31"
+            [value]="value31m"
+            id="select2-31-m"
+            (update)="update('value31m', $event)"
+            multiple
+          />
+          <br />
 
-      <div>NgModel:</div>
-      <ng-select2
-        [overlay]="overlay"
-        [styleMode]="styleMode"
-        [data]="data31"
-        [(ngModel)]="value31b"
-        id="select2-31b"
-        (update)="update('value31b', $event)"
-      />
+          <div>NgModel:</div>
+          <ng-select2
+            [overlay]="overlay"
+            [styleMode]="styleMode"
+            [data]="data31"
+            [(ngModel)]="value31b"
+            id="select2-31b"
+            (update)="update('value31b', $event)"
+          />
+        </div>
+      </div>
     </div>
 
     <h3 class="col-12" id="ex-21">{{ 'Update to empty/null/undefined' | transloco }}</h3>
-    <div class="col-6">
-      <ng-select2
-        [overlay]="overlay"
-        [styleMode]="styleMode"
-        [data]="data21"
-        [value]="value21"
-        (update)="update('value21', $event)"
-        listPosition="above"
-        id="select2-21"
-      >
-      </ng-select2>
-    </div>
-    <div class="col-12 value">
-      <div>
-        <span>{{ 'value:' | transloco }}</span
-        ><code>{{ value21 | json }}</code>
+    <div class="container">
+      <div class="row">
+        <div class="col-6">
+          <ng-select2
+            [overlay]="overlay"
+            [styleMode]="styleMode"
+            [data]="data21"
+            [value]="value21"
+            (update)="update('value21', $event)"
+            listPosition="above"
+            id="select2-21"
+          />
+          <div class="value">
+            <div>
+              <span>{{ 'value:' | transloco }}</span
+              ><code>{{ value21 | json }}</code>
+            </div>
+          </div>
+          <div>
+            <button (click)="value21 = ''">{{ 'Update value to empty "string"' | transloco }}</button>
+            <button (click)="value21 = null">{{ 'Update value to "null"' | transloco }}</button>
+            <button (click)="value21 = undefined">{{ 'Update value to "undefined"' | transloco }}</button>
+          </div>
+        </div>
+
+        <div class="col-6">
+          <div class="code">
+            <code><pre [highlight]="exemple21()" language="html"></pre></code>
+          </div>
+        </div>
       </div>
-    </div>
-    <div class="col-12">
-      <button (click)="value21 = ''">{{ 'Update value to empty “string”' | transloco }}</button>
-      <button (click)="value21 = null">{{ 'Update value to “null”' | transloco }}</button>
-      <button (click)="value21 = undefined">{{ 'Update value to “undefined”' | transloco }}</button>
     </div>
     <br />
 
     <h3 class="col-12" id="ex-41">{{ 'Multiple value changing data' | transloco }}</h3>
-    <div class="col-6">
-      <ng-select2
-        [overlay]="overlay"
-        [styleMode]="styleMode"
-        [data]="data41"
-        [value]="value41m"
-        id="select2-41-m"
-        (update)="update('value41m', $event)"
-        multiple
-      >
-      </ng-select2>
-    </div>
-    <div class="col-12 value">
-      <div>
-        <span>{{ 'value:' | transloco }}</span
-        ><code>{{ value41m | json }}</code>
+    <div class="container">
+      <div class="row">
+        <div class="col-6">
+          <ng-select2
+            [overlay]="overlay"
+            [styleMode]="styleMode"
+            [data]="data41"
+            [value]="value41m"
+            id="select2-41-m"
+            (update)="update('value41m', $event)"
+            multiple
+          />
+          <div class="value">
+            <div>
+              <span>{{ 'value:' | transloco }}</span
+              ><code>{{ value41m | json }}</code>
+            </div>
+          </div>
+          <div>
+            <button (click)="changeDataAndValue41()">
+              {{ 'Update list data and value (select something first)' | transloco }}
+            </button>
+            <br />
+          </div>
+        </div>
+
+        <div class="col-6">
+          <div class="code">
+            <code><pre [highlight]="exemple41()" language="html"></pre></code>
+          </div>
+        </div>
       </div>
-    </div>
-    <div class="col-12">
-      <button (click)="changeDataAndValue41()">
-        {{ 'Update list data and value (select something first)' | transloco }}
-      </button>
-      <br />
     </div>
   </div>
 </div>

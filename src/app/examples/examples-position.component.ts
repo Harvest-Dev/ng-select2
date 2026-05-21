@@ -1,7 +1,9 @@
-import { Component } from '@angular/core';
+import { JsonPipe } from '@angular/common';
+import { Component, computed } from '@angular/core';
 
 import { TranslocoModule } from '@jsverse/transloco';
 
+import { Highlight } from 'ngx-highlightjs';
 import { Select2 } from 'projects/ng-select2-component/src/public_api';
 
 import { Examples } from './examples';
@@ -13,7 +15,7 @@ import { data2, data19 } from '../app.data';
     templateUrl: './examples-position.component.html',
     styleUrls: ['./examples-position.component.scss'],
     standalone: true,
-    imports: [Select2, TranslocoModule],
+    imports: [Select2, TranslocoModule, Highlight, JsonPipe],
 })
 export class ExemplesPositionComponent extends Examples {
     data2 = data2;
@@ -21,4 +23,22 @@ export class ExemplesPositionComponent extends Examples {
 
     value19 = '';
     value2 = '';
+
+    exemple19 = computed(
+        () =>
+            `<ng-select2${this.overlayExemple()}${this.styleModeExemple()}
+    [data]="data"
+    [value]="value"
+    listPosition="above"
+/>`,
+    );
+
+    exemple27 = computed(
+        () =>
+            `<ng-select2${this.overlayExemple()}${this.styleModeExemple()}
+    [data]="data"
+    [value]="value"
+    listPosition="auto"
+/>`,
+    );
 }

@@ -1,9 +1,10 @@
 import { JsonPipe } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, computed } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { TranslocoModule } from '@jsverse/transloco';
 
+import { Highlight } from 'ngx-highlightjs';
 import { Select2, Select2Data, Select2Value } from 'projects/ng-select2-component/src/public_api';
 
 import { Examples } from './examples';
@@ -15,7 +16,7 @@ import { data19, data22, data31en, data31fr, data31ja } from '../app.data';
     templateUrl: './examples-others.component.html',
     styleUrls: ['./examples-others.component.scss'],
     standalone: true,
-    imports: [FormsModule, ReactiveFormsModule, Select2, JsonPipe, TranslocoModule],
+    imports: [FormsModule, ReactiveFormsModule, Select2, JsonPipe, TranslocoModule, Highlight],
 })
 export class ExemplesOthersComponent extends Examples {
     data21: Select2Data = JSON.parse(JSON.stringify(data19));
@@ -29,6 +30,24 @@ export class ExemplesOthersComponent extends Examples {
     value31b = '';
 
     value41m: Array<Select2Value> = ['english'];
+
+    exemple21 = computed(
+        () =>
+            `<ng-select2${this.overlayExemple()}${this.styleModeExemple()}
+    [data]="data"
+    [value]="value"
+    listPosition="above"
+/>`,
+    );
+
+    exemple41 = computed(
+        () =>
+            `<ng-select2${this.overlayExemple()}${this.styleModeExemple()}
+    [data]="data"
+    [value]="value"
+    multiple
+/>`,
+    );
 
     changeData31(event: string) {
         switch (event) {
