@@ -311,7 +311,7 @@ export const data24: Select2Data = [
         options: [
             {
                 value: 'hibiscus',
-                label: 'Hibiscus',
+                label: 'Hibiscus / Hibiscus',
                 data: { color: 'red', name: 'Hibiscus' },
                 templateId: 'template1',
                 templateSelectionId: 'template1Selection',
@@ -319,7 +319,7 @@ export const data24: Select2Data = [
             },
             {
                 value: 'marigold',
-                label: 'Marigold',
+                label: "Marigold / Œillet d'Inde ",
                 data: { color: 'red', name: 'Marigold' },
                 templateId: 'template2',
                 templateSelectionId: 'template2Selection',
@@ -333,11 +333,19 @@ export const data24: Select2Data = [
         options: [
             {
                 value: 'sunflower',
-                label: 'Sunflower',
+                label: 'Sunflower / tournesol',
                 data: { color: 'yellow', name: 'Sunflower' },
                 templateId: 'template3',
                 templateSelectionId: 'template3Selection',
                 id: 'option-sunflower',
+            },
+            {
+                value: 'chrysanthemum',
+                label: 'chrysanthemum / chrysanthème',
+                data: { color: 'yellow', name: 'chrysanthemum' },
+                templateId: 'template3',
+                templateSelectionId: 'template3Selection',
+                id: 'option-chrysanthemum',
             },
         ],
     },
@@ -347,7 +355,7 @@ export const data24: Select2Data = [
         options: [
             {
                 value: 'heliotrope',
-                label: 'Heliotrope',
+                label: 'Heliotrope / Héliotrope',
                 data: { color: 'white', name: 'Heliotrope' },
                 templateId: 'template1',
                 templateSelectionId: 'template1Selection',
@@ -355,7 +363,7 @@ export const data24: Select2Data = [
             },
             {
                 value: 'lily',
-                label: 'Lily',
+                label: 'Lily / Lys',
                 data: { color: 'white', name: 'Lily' },
                 templateId: 'template2',
                 templateSelectionId: 'template2Selection',
@@ -363,11 +371,19 @@ export const data24: Select2Data = [
             },
             {
                 value: 'petunia',
-                label: 'Petunia',
+                label: 'Petunia / Pétunia',
                 data: { color: 'white', name: 'Petunia' },
                 templateId: 'template3',
                 templateSelectionId: 'template3Selection',
                 id: 'option-petunia',
+            },
+            {
+                value: 'carnation',
+                label: 'Carnation / Œillet',
+                data: { color: 'white', name: 'Petunia' },
+                templateId: 'template3',
+                templateSelectionId: 'template3Selection',
+                id: 'option-carnation',
             },
         ],
     },

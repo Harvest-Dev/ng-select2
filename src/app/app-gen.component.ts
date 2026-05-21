@@ -13,7 +13,11 @@ import { TranslocoModule } from '@jsverse/transloco';
 
 import * as Bowser from 'bowser';
 import { Highlight } from 'ngx-highlightjs';
-import { Select2SelectionOverride, Select2Value } from 'projects/ng-select2-component/src/public_api';
+import {
+    Select2HighlightPipe,
+    Select2SelectionOverride,
+    Select2Value,
+} from 'projects/ng-select2-component/src/public_api';
 
 import { data24 } from './app.data';
 
@@ -32,6 +36,7 @@ import { Select2 } from '../../projects/ng-select2-component/src/lib/select2.com
         Select2,
         Select2Label,
         Select2Hint,
+        Select2HighlightPipe,
         Highlight,
         TranslocoModule,
         JsonPipe,
@@ -86,6 +91,7 @@ export class AppGenComponent implements AfterContentInit {
             showSelectAll: new UntypedFormControl(),
             removeAllText: new UntypedFormControl(),
             selectAllText: new UntypedFormControl(),
+            highlightText: new UntypedFormControl(),
             // template
             template: new UntypedFormControl(),
             templateSelection: new UntypedFormControl(),
@@ -333,6 +339,14 @@ export class AppGenComponent implements AfterContentInit {
             attrs['selectionNoWrap'] = this._testBoolean(value.selectionNoWrap);
         }
 
+        let highlightPipe = '';
+        let highlightAttrs = {};
+        if (value.highlightText) {
+            attrs['highlightText'] = this._testBoolean(value.highlightText);
+            highlightPipe = ' | highlightText: searchText : !highlightText';
+            highlightAttrs = { 'let-searchText': 'searchText', 'let-highlightText': 'highlightText' };
+        }
+
         // template
 
         let templates: string = '';
@@ -343,12 +357,18 @@ export class AppGenComponent implements AfterContentInit {
                 attrs['[templates]'] = 'template';
                 body.push({
                     tag: 'ng-template',
-                    attrs: { '#template': null, 'let-data': 'data' },
+                    attrs: { '#template': null, 'let-data': 'data', ...highlightAttrs },
                     body: `
         @if (data?.color) {
             <strong>{{ data?.color }}</strong>:
         }
-        {{ data?.name }}`,
+        ${
+            !value.highlightText
+                ? '{{ data?.name }}'
+                : `<span [innerHTML]="
+            data?.name${highlightPipe}
+        "></span>`
+        }`,
                 });
                 break;
             case 'option-group':
@@ -356,13 +376,19 @@ export class AppGenComponent implements AfterContentInit {
                 body.push(
                     {
                         tag: 'ng-template',
-                        attrs: { '#option': null, 'let-data': 'data' },
-                        body: 'Option: {{data?.name}}',
+                        attrs: { '#option': null, 'let-data': 'data', ...highlightAttrs },
+                        body: `Option: ${
+                            !value.highlightText
+                                ? '{{ data?.name }}'
+                                : `<span [innerHTML]="
+            data?.name${highlightPipe}
+        "></span>`
+                        }`,
                     },
                     {
                         tag: 'ng-template',
                         attrs: { '#group': null, 'let-label': 'label' },
-                        body: 'Group: {{label}}',
+                        body: `Group: {{ label }}`,
                     },
                 );
                 break;
@@ -371,13 +397,25 @@ export class AppGenComponent implements AfterContentInit {
                 body.push(
                     {
                         tag: 'ng-template',
-                        attrs: { '#template1': null, 'let-data': 'data' },
-                        body: '{{data?.name}}',
+                        attrs: { '#template1': null, 'let-data': 'data', ...highlightAttrs },
+                        body: `${
+                            !value.highlightText
+                                ? '{{ data?.name }}'
+                                : `<span [innerHTML]="
+            data?.name${highlightPipe}
+        "></span>`
+                        }`,
                     },
                     {
                         tag: 'ng-template',
-                        attrs: { '#template2': null, 'let-label': 'label', 'let-data': 'data' },
-                        body: '{{ label }} ~ <strong>{{ data?.color }}</strong>',
+                        attrs: { '#template2': null, 'let-label': 'label', 'let-data': 'data', ...highlightAttrs },
+                        body: `${
+                            !value.highlightText
+                                ? '{{ label }}'
+                                : `<span [innerHTML]="
+            label${highlightPipe}
+        "></span>`
+                        } ~ <strong>{{ data?.color }}</strong>`,
                     },
                 );
                 break;
@@ -401,7 +439,7 @@ export class AppGenComponent implements AfterContentInit {
                 body.push({
                     tag: 'ng-template',
                     attrs: { '#optionSelection': null, 'let-data': 'data' },
-                    body: '[{{ data?.name }}]',
+                    body: `[{{ data?.name }}]`,
                 });
                 break;
             case 'templateId':
@@ -410,12 +448,12 @@ export class AppGenComponent implements AfterContentInit {
                     {
                         tag: 'ng-template',
                         attrs: { '#template2Selection': null, 'let-data': 'data' },
-                        body: '{{ label }} * <em>{{ data?.color }}</em>',
+                        body: `{{ label }} * <em>{{ data?.color }}</em>`,
                     },
                     {
                         tag: 'ng-template',
                         attrs: { '#template3Selection': null, 'let-data': 'data' },
-                        body: '{{ label }} = <em>{{ data?.color }}</em>',
+                        body: `{{ label }} = <em>{{ data?.color }}</em>`,
                     },
                 );
                 break;

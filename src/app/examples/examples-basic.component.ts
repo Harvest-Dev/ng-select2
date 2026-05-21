@@ -23,6 +23,7 @@ export class ExemplesBasicComponent extends Examples {
     data4: Select2Data = JSON.parse(JSON.stringify(data3));
     data7: Select2Data = JSON.parse(JSON.stringify(data3));
     data13 = data13;
+    data14 = data1;
 
     value1 = 'CA';
     value2 = 'CA';
@@ -30,4 +31,5 @@ export class ExemplesBasicComponent extends Examples {
     value4 = 'bar';
     value7 = '';
     value13 = true;
+    value14 = 'CA';
 }

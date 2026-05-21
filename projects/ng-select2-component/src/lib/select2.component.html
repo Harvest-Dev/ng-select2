@@ -53,7 +53,7 @@
           resetSelectedValue() !== _value &&
           ((!multiple() && select2Option) || (multiple() && select2Options.length > 0))
         ) {
-          <ng-container *ngTemplateOutlet="resetButton"></ng-container>
+          <ng-container *ngTemplateOutlet="resetButton" />
         }
       } @else if (!multiple()) {
         <span
@@ -68,9 +68,7 @@
             @if (!hasTemplate(select2Option, 'option', true) || noLabelTemplate()) {
               <span [innerHTML]="select2Option.label"></span>
             } @else {
-              <ng-container
-                *ngTemplateOutlet="getTemplate(select2Option, 'option', true); context: select2Option"
-              ></ng-container>
+              <ng-container *ngTemplateOutlet="getTemplate(select2Option, 'option', true); context: select2Option" />
             }
           }
           <span
@@ -81,7 +79,7 @@
         </span>
 
         @if (resettable() && resetSelectedValue() !== _value && select2Option && !(disabled() || readonly())) {
-          <ng-container *ngTemplateOutlet="resetButton"></ng-container>
+          <ng-container *ngTemplateOutlet="resetButton" />
         }
         <span class="select2-selection__arrow" role="presentation"> </span>
       } @else {
@@ -120,7 +118,7 @@
               @if (!hasTemplate(op, 'option', true) || noLabelTemplate()) {
                 <span [innerHTML]="op.label"></span>
               } @else {
-                <ng-container *ngTemplateOutlet="getTemplate(op, 'option', true); context: op"></ng-container>
+                <ng-container *ngTemplateOutlet="getTemplate(op, 'option', true); context: op" />
               }
             </li>
           }
@@ -145,13 +143,13 @@
           }
         </ul>
         @if (resettable() && $any(selectedOption)?.length > 0 && !(disabled() || readonly())) {
-          <ng-container *ngTemplateOutlet="resetButton"></ng-container>
+          <ng-container *ngTemplateOutlet="resetButton" />
         }
       }
     </div>
   </div>
   @if (!overlay()) {
-    <ng-container *ngTemplateOutlet="containerTemplate"></ng-container>
+    <ng-container *ngTemplateOutlet="containerTemplate" />
   }
 
   <div class="select2-subscript-wrapper">
@@ -170,7 +168,7 @@
   [cdkConnectedOverlayPositions]="_positions"
   (backdropClick)="toggleOpenAndClose()"
 >
-  <ng-container *ngTemplateOutlet="containerTemplate"></ng-container>
+  <ng-container *ngTemplateOutlet="containerTemplate" />
 </ng-template>
 
 <ng-template #containerTemplate>
@@ -254,7 +252,7 @@
                       [innerHTML]="group.label"
                     ></strong>
                   } @else {
-                    <ng-container *ngTemplateOutlet="getTemplate(group, 'group'); context: group"> </ng-container>
+                    <ng-container *ngTemplateOutlet="getTemplate(group, 'group'); context: group" />
                   }
                 </span>
                 <ul
@@ -274,10 +272,12 @@
                       (click)="click(option)"
                     >
                       @if (!hasTemplate(option, 'option')) {
-                        <div class="select2-label-content" [innerHTML]="option.label"></div>
+                        <div
+                          class="select2-label-content"
+                          [innerHTML]="option.label | highlightText: searchText : !highlightText()"
+                        ></div>
                       } @else {
-                        <ng-container *ngTemplateOutlet="getTemplate(option, 'option'); context: option">
-                        </ng-container>
+                        <ng-container *ngTemplateOutlet="getTemplate(option, 'option'); context: getContext(option)" />
                       }
                     </li>
                   }
@@ -296,15 +296,15 @@
                 (click)="click(option)"
               >
                 @if (!hasTemplate(option, 'option')) {
-                  <div [innerHTML]="option.label" class="select2-label-content"></div>
+                  <div
+                    [innerHTML]="option.label | highlightText: searchText : !highlightText()"
+                    class="select2-label-content"
+                  ></div>
                 } @else {
-                  <ng-container *ngTemplateOutlet="getTemplate(option, 'option'); context: option"> </ng-container>
+                  <ng-container *ngTemplateOutlet="getTemplate(option, 'option'); context: getContext(option)">
+                  </ng-container>
                 }
               </li>
-
-              <ng-template #li>
-                <ng-container *ngTemplateOutlet="getTemplate(option, 'option'); context: option"> </ng-container>
-              </ng-template>
             }
           }
           @if (!filteredData()?.length && noResultMessage()) {

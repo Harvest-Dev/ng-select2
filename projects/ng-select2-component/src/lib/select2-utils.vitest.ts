@@ -410,6 +410,32 @@ describe('Select2Utils', () => {
             expect(Select2Utils.optionIsNotInFilteredData(GROUP_DATA, option)).toBe(false);
         });
     });
+
+    // ── patternUnicode ────────────────────────────────────
+
+    describe('patternUnicode', () => {
+        it('should return a pattern whit "a"', () => {
+            expect(Select2Utils.patternUnicode('a')).toBe('(a|[ⓐａẚàáâầấẫẩãāăằắẵẳȧǡäǟảåǻǎȁȃạậặḁąⱥɐ])');
+        });
+
+        it('should return a pattern whit "coeur"', () => {
+            expect(Select2Utils.patternUnicode('coeur')).toBe(
+                '(c|[ⓒｃćĉċčçḉƈȼꜿↄ])(oe|œ)(u|[ⓤｕùúûũṹūṻŭüǜǘǖǚủůűǔȕȗưừứữửựụṳųṷṵʉ])(r|[ⓡｒŕṙřȑȓṛṝŗṟɍɽꝛꞧꞃ])',
+            );
+        });
+
+        it('should return a pattern whit "cœur"', () => {
+            expect(Select2Utils.patternUnicode('cœur')).toBe(
+                '(c|[ⓒｃćĉċčçḉƈȼꜿↄ])(oe|œ)(u|[ⓤｕùúûũṹūṻŭüǜǘǖǚủůűǔȕȗưừứữửựụṳųṷṵʉ])(r|[ⓡｒŕṙřȑȓṛṝŗṟɍɽꝛꞧꞃ])',
+            );
+        });
+
+        it('should return a pattern whit "ÉCŒURÉ"', () => {
+            expect(Select2Utils.patternUnicode('ÉCŒURÉ')).toBe(
+                '(e|[ⓔｅèéêềếễểẽēḕḗĕėëẻěȅȇẹệȩḝęḙḛɇɛǝ])(c|[ⓒｃćĉċčçḉƈȼꜿↄ])(oe|œ)(u|[ⓤｕùúûũṹūṻŭüǜǘǖǚủůűǔȕȗưừứữửựụṳųṷṵʉ])(r|[ⓡｒŕṙřȑȓṛṝŗṟɍɽꝛꞧꞃ])(e|[ⓔｅèéêềếễểẽēḕḗĕėëẻěȅȇẹệȩḝęḙḛɇɛǝ])',
+            );
+        });
+    });
 });
 
 // ── Additional coverage tests ────────────────────────────────────────

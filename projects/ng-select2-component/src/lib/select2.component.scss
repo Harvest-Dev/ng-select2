@@ -70,7 +70,6 @@
                 }
             }
         }
-
     }
 
     .select2-search--inline {
@@ -116,6 +115,12 @@
     margin: 0;
     padding: 0;
     list-style: none;
+
+    & ::ng-deep .select2-highlight-text {
+        background: var(--select2-highlight-text-background, transparent);
+        color: var(--select2-highlight-text-color, inherit);
+        font-weight: var(--select2-highlight-text-font-weight, 800);
+    }
 }
 
 .select2-results__option {
@@ -483,6 +488,12 @@
     .select2-results__option--highlighted[aria-selected] {
         background: var(--select2-option-highlighted-background, #5897fb);
         color: var(--select2-option-highlighted-text-color, #fff);
+
+        & ::ng-deep .select2-highlight-text {
+            background: var(--select2-highlighted-highlight-background, transparent);
+            color: var(--select2-highlighted-highlight-text-color, inherit);
+            font-weight: var(--select2-highlighted-highlight-text-font-weight, 800);
+        }
     }
 
     .select2-results__option--hide {

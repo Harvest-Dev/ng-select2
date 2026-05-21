@@ -140,6 +140,10 @@
         <option value="borderless">borderless</option>
       </select>
     </div>
+    <div>
+      <label for="highlightText">highlightText</label>
+      <input type="checkbox" formControlName="highlightText" id="highlightText" />
+    </div>
 
     <h5>{{ 'Selection' | transloco }}</h5>
     <div>selectionOverride</div>
@@ -284,6 +288,7 @@
           [styleMode]="value?.styleMode"
           [noResultMessage]="value?.noResultMessage"
           [grid]="value?.grid"
+          [highlightText]="value?.highlightText"
           [noLabelTemplate]="value?.noLabelTemplate"
           [selectionOverride]="value?.selectionOverrideFunction ? selectionOverride : value?.selectionOverrideString"
           [selectionNoWrap]="value?.selectionNoWrap"
@@ -317,12 +322,12 @@
         >
           <select2-label [innerHTML]="ctrlForm.value?.label"></select2-label>
           <select2-hint [innerHTML]="ctrlForm.value?.hint"></select2-hint>
-          <ng-template #template let-data="data">
+          <ng-template #template let-data="data" let-searchText="searchText" let-highlightText="highlightText">
             @if (data?.color) {
               <strong>{{ data?.color }}</strong
               >:
             }
-            {{ data?.name }}
+            <span [innerHTML]="data?.name | highlightText: searchText : !highlightText"></span>
           </ng-template>
           <ng-template #templateSelection let-data="data">
             @if (data?.color) {
@@ -330,12 +335,23 @@
             }
             #{{ data?.name }}
           </ng-template>
-          <ng-template #option let-data="data">Option: {{ data?.name }}</ng-template>
+          <ng-template #option let-data="data" let-searchText="searchText" let-highlightText="highlightText"
+            >Option: <span [innerHTML]="data?.name | highlightText: searchText : !highlightText"></span
+          ></ng-template>
           <ng-template #group let-label="label">Group: {{ label }}</ng-template>
           <ng-template #optionSelection let-data="data">[{{ data?.name }}]</ng-template>
-          <ng-template #template1 let-data="data">{{ data?.name }}</ng-template>
-          <ng-template #template2 let-label="label" let-data="data">
-            {{ label }} ~ <strong>{{ data?.color }}</strong>
+          <ng-template #template1 let-data="data" let-searchText="searchText" let-highlightText="highlightText">
+            <span [innerHTML]="data?.name | highlightText: searchText : !highlightText"></span>
+          </ng-template>
+          <ng-template
+            #template2
+            let-label="label"
+            let-data="data"
+            let-searchText="searchText"
+            let-highlightText="highlightText"
+          >
+            <span [innerHTML]="label | highlightText: searchText : !highlightText"></span> ~
+            <strong>{{ data?.color }}</strong>
           </ng-template>
           <ng-template #template2Selection let-label="label" let-data="data">
             {{ label }} * <em>{{ data?.color }}</em>

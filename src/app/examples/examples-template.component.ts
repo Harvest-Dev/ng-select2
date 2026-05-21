@@ -3,7 +3,7 @@ import { Component } from '@angular/core';
 
 import { TranslocoModule } from '@jsverse/transloco';
 
-import { Select2, Select2Data } from 'projects/ng-select2-component/src/public_api';
+import { Select2, Select2Data, Select2HighlightPipe } from 'projects/ng-select2-component/src/public_api';
 
 import { Examples } from './examples';
 
@@ -14,14 +14,16 @@ import { data23, data24 } from '../app.data';
     templateUrl: './examples-template.component.html',
     styleUrls: ['./examples-template.component.scss'],
     standalone: true,
-    imports: [Select2, JsonPipe, TranslocoModule],
+    imports: [Select2, JsonPipe, TranslocoModule, Select2HighlightPipe],
 })
 export class ExemplesTemplateComponent extends Examples {
     data23 = data23;
     data24 = data24;
     data25: Select2Data = JSON.parse(JSON.stringify(data23));
+    data26: Select2Data = JSON.parse(JSON.stringify(data23));
 
     value23 = '';
     value24 = '';
     value25 = '';
+    value26 = '';
 }

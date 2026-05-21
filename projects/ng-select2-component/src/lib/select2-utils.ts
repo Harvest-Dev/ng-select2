@@ -295,7 +295,7 @@ export class Select2Utils {
     private static containSearchText(
         label: string,
         searchText: string,
-        editPattern: ((str: string) => string) | undefined,
+        editPattern?: (str: string) => string,
     ): boolean {
         return (
             Select2Utils.formatSansUnicode(label).match(
@@ -304,7 +304,7 @@ export class Select2Utils {
         );
     }
 
-    private static protectPattern(str: string): string {
+    static protectPattern(str: string): string {
         return str.replace(protectRegexp, '\\$&');
     }
 
@@ -315,7 +315,18 @@ export class Select2Utils {
         return str;
     }
 
-    private static formatPattern(str: string, editPattern: ((str: string) => string) | undefined): string {
+    static patternUnicode(str: string): string {
+        for (const unicodePattern of unicodePatterns) {
+            const pattern = unicodePattern.s.toString().replace('/gi', '').substring(1);
+            str = str.replace(
+                new RegExp(`(${unicodePattern.e ?? unicodePattern.l}|${pattern})`, 'gi'),
+                `(${unicodePattern.l}|${pattern})`,
+            );
+        }
+        return str;
+    }
+
+    static formatPattern(str: string, editPattern?: (str: string) => string): string {
         str = Select2Utils.formatSansUnicode(Select2Utils.protectPattern(str));
 
         if (editPattern && typeof editPattern === 'function') {

@@ -94,5 +94,21 @@
       <span>{{ 'value:' | transloco }}</span
       ><code>{{ value13 | json }}</code>
     </div>
+
+    <h3 class="col-12" id="ex-14">{{ 'Highlight' | transloco }}</h3>
+    <select2
+      class="col-6"
+      [overlay]="overlay"
+      [styleMode]="styleMode"
+      [data]="data14"
+      [value]="value14"
+      highlightText
+      (update)="update('value14', $event)"
+      id="select2-14"
+    ></select2>
+    <div class="col-12 value">
+      <span>{{ 'value:' | transloco }}</span
+      ><code>{{ value14 | json }}</code>
+    </div>
   </div>
 </div>

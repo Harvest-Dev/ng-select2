@@ -40,6 +40,7 @@ import { ControlValueAccessor, FormGroupDirective, NgControl, NgForm } from '@an
 import { InfiniteScrollDirective } from 'ngx-infinite-scroll';
 import { Subject, Subscription } from 'rxjs';
 
+import { Select2HighlightPipe } from './select2-highlight.pipe';
 import {
     Select2AutoCreateEvent,
     Select2Data,
@@ -74,7 +75,15 @@ const CLOSE_KEYS: (string | KeyInfo)[] = ['Escape', 'Tab', { key: 'ArrowUp', alt
     templateUrl: './select2.component.html',
     styleUrls: ['./select2.component.scss'],
     standalone: true,
-    imports: [CdkOverlayOrigin, NgTemplateOutlet, CdkConnectedOverlay, InfiniteScrollDirective, CdkDropList, CdkDrag],
+    imports: [
+        CdkOverlayOrigin,
+        NgTemplateOutlet,
+        CdkConnectedOverlay,
+        InfiniteScrollDirective,
+        CdkDropList,
+        CdkDrag,
+        Select2HighlightPipe,
+    ],
     host: {
         '[id]': 'id()',
         '[class.select2-selection-nowrap]': 'selectionNoWrap()',
@@ -198,6 +207,9 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
 
     /** like native select keyboard navigation (only single mode) */
     readonly nativeKeyboard = input<boolean, unknown>(false, { transform: booleanAttribute });
+
+    /** highlight search */
+    readonly highlightText = input<boolean, unknown>(false, { transform: booleanAttribute });
 
     /** grid: item by line
      * * 0 = no grid
@@ -401,7 +413,7 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
             }),
         );
         this.toObservable.add(
-            toObservable(this.minCountForSearch).subscribe(minCountForSearch => {
+            toObservable(this.minCountForSearch).subscribe(() => {
                 this.updateSearchBox();
             }),
         );
@@ -690,6 +702,10 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
             templatesValue?.['template'] ||
             templatesValue
         );
+    }
+
+    getContext(option: Select2Option) {
+        return { ...option, searchText: this.searchText, highlightText: this.highlightText() };
     }
 
     triggerRect() {
