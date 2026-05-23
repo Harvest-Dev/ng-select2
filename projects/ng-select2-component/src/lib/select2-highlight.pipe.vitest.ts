@@ -107,6 +107,14 @@ describe('HighlightPipe', () => {
             const result = pipe.transform('Un éléphant', 'ele');
             expect(result).toBe('Un <span class="select2-highlight-text">élé</span>phant');
         });
+
+        it('should handle combining diacritical marks (decomposed form)', () => {
+            // Using combining acute accent (U+0301) after 'e'
+            const textWithCombining = 'cafe\u0301'; // café with combining accent
+            const result = pipe.transform(textWithCombining, 'cafe');
+            // The combining mark stays with the 'e' it modifies
+            expect(result).toBe('<span class="select2-highlight-text">cafe\u0301</span>');
+        });
     });
 
     describe('Unicode Extended & Rare Ligatures', () => {
@@ -138,6 +146,149 @@ describe('HighlightPipe', () => {
         it('should handle titlecase vs lowercase for digraphs', () => {
             const result = pipe.transform('The digraph ǉ is rare', 'ǈ');
             expect(result).toBe('The digraph <span class="select2-highlight-text">ǉ</span> is rare');
+        });
+    });
+
+    describe('Cyrillic Support', () => {
+        it('should match Cyrillic characters with accents', () => {
+            const result = pipe.transform('Привет мир', 'привет');
+            expect(result).toBe('<span class="select2-highlight-text">Привет</span> мир');
+        });
+
+        it('should match е with ё', () => {
+            const result = pipe.transform('ёлка', 'елка');
+            expect(result).toBe('<span class="select2-highlight-text">ёлка</span>');
+        });
+
+        it('should match Serbian ћ with т', () => {
+            const result = pipe.transform('ћирилица', 'тирилица');
+            expect(result).toBe('<span class="select2-highlight-text">ћирилица</span>');
+        });
+
+        it('should handle Kazakh қ with к', () => {
+            const result = pipe.transform('Қазақстан', 'казакстан');
+            expect(result).toBe('<span class="select2-highlight-text">Қазақстан</span>');
+        });
+
+        it('should be case-insensitive for Cyrillic', () => {
+            const result = pipe.transform('МОСКВА', 'москва');
+            expect(result).toBe('<span class="select2-highlight-text">МОСКВА</span>');
+        });
+    });
+
+    describe('Greek Support', () => {
+        it('should match Greek characters with accents', () => {
+            const result = pipe.transform('Ελλάδα', 'ελλαδα');
+            expect(result).toBe('<span class="select2-highlight-text">Ελλάδα</span>');
+        });
+
+        it('should match ά with α', () => {
+            const result = pipe.transform('άνθρωπος', 'ανθρωπος');
+            expect(result).toBe('<span class="select2-highlight-text">άνθρωπος</span>');
+        });
+
+        it('should match έ with ε', () => {
+            const result = pipe.transform('Αθήνα', 'αθηνα');
+            expect(result).toBe('<span class="select2-highlight-text">Αθήνα</span>');
+        });
+
+        it('should match ώ with ω', () => {
+            const result = pipe.transform('ώρα', 'ωρα');
+            expect(result).toBe('<span class="select2-highlight-text">ώρα</span>');
+        });
+
+        it('should match ancient Greek diacritics', () => {
+            const result = pipe.transform('ἄνθρωπος', 'ανθρωπος');
+            expect(result).toBe('<span class="select2-highlight-text">ἄνθρωπος</span>');
+        });
+
+        it('should be case-insensitive for Greek', () => {
+            const result = pipe.transform('ΕΛΛΑΔΑ', 'ελλαδα');
+            expect(result).toBe('<span class="select2-highlight-text">ΕΛΛΑΔΑ</span>');
+        });
+
+        it('should match final sigma with regular sigma', () => {
+            const result = pipe.transform('λόγος', 'λογοσ');
+            expect(result).toBe('<span class="select2-highlight-text">λόγος</span>');
+        });
+    });
+
+    describe('Arabic Support', () => {
+        it('should match Arabic characters', () => {
+            const result = pipe.transform('مرحبا', 'مرحبا');
+            expect(result).toBe('<span class="select2-highlight-text">مرحبا</span>');
+        });
+
+        it('should match alif variants', () => {
+            const result = pipe.transform('أحمد', 'احمد');
+            expect(result).toBe('<span class="select2-highlight-text">أحمد</span>');
+        });
+
+        it('should match آ with ا', () => {
+            const result = pipe.transform('آمن', 'امن');
+            expect(result).toBe('<span class="select2-highlight-text">آمن</span>');
+        });
+
+        it('should match ة with ت', () => {
+            const result = pipe.transform('مدرسة', 'مدرست');
+            expect(result).toBe('<span class="select2-highlight-text">مدرسة</span>');
+        });
+
+        it('should match Persian ک with Arabic ك', () => {
+            const result = pipe.transform('کتاب', 'كتاب');
+            expect(result).toBe('<span class="select2-highlight-text">کتاب</span>');
+        });
+
+        it('should be case-insensitive for Arabic', () => {
+            const result = pipe.transform('العربية', 'العربية');
+            expect(result).toBe('<span class="select2-highlight-text">العربية</span>');
+        });
+
+        it('should handle Arabic text with diacritics (harakat)', () => {
+            const result = pipe.transform('السَّلام', 'السلام');
+            expect(result).toBe('<span class="select2-highlight-text">السَّلام</span>');
+        });
+    });
+
+    describe('Hebrew Support', () => {
+        it('should match Hebrew characters', () => {
+            const result = pipe.transform('שלום', 'שלום');
+            expect(result).toBe('<span class="select2-highlight-text">שלום</span>');
+        });
+
+        it('should match final forms with regular forms (kaf)', () => {
+            const result = pipe.transform('מלך', 'מלכ');
+            expect(result).toBe('<span class="select2-highlight-text">מלך</span>');
+        });
+
+        it('should match final forms with regular forms (mem)', () => {
+            const result = pipe.transform('ירושלים', 'ירושלימ');
+            expect(result).toBe('<span class="select2-highlight-text">ירושלים</span>');
+        });
+
+        it('should match final forms with regular forms (nun)', () => {
+            const result = pipe.transform('ירדן', 'ירדנ');
+            expect(result).toBe('<span class="select2-highlight-text">ירדן</span>');
+        });
+
+        it('should match final forms with regular forms (pe)', () => {
+            const result = pipe.transform('כף', 'כפ');
+            expect(result).toBe('<span class="select2-highlight-text">כף</span>');
+        });
+
+        it('should match final forms with regular forms (tsadi)', () => {
+            const result = pipe.transform('ארץ', 'ארצ');
+            expect(result).toBe('<span class="select2-highlight-text">ארץ</span>');
+        });
+
+        it('should handle Hebrew text with niqqud (dagesh)', () => {
+            const result = pipe.transform('בּית', 'בית');
+            expect(result).toBe('<span class="select2-highlight-text">בּית</span>');
+        });
+
+        it('should handle Hebrew text with niqqud (vowel points)', () => {
+            const result = pipe.transform('יִשְׂרָאֵל', 'ישראל');
+            expect(result).toBe('<span class="select2-highlight-text">יִשְׂרָאֵל</span>');
         });
     });
 

@@ -1,4 +1,11 @@
-import { defaultMinCountForSearch, protectRegexp, unicodePatterns } from './select2-const';
+import {
+    arabicDiacritical,
+    defaultMinCountForSearch,
+    hebrewDiacritical,
+    latinDiacritical,
+    protectRegexp,
+    unicodePatterns,
+} from './select2-const';
 import { Select2Data, Select2Group, Select2Option, Select2UpdateValue, Select2Value } from './select2-interfaces';
 
 export class Select2Utils {
@@ -319,10 +326,19 @@ export class Select2Utils {
         for (const unicodePattern of unicodePatterns) {
             const pattern = unicodePattern.s.toString().replace('/gi', '').substring(1);
             str = str.replace(
-                new RegExp(`(${unicodePattern.e ?? unicodePattern.l}|${pattern})`, 'gi'),
-                `(${unicodePattern.l}|${pattern})`,
+                new RegExp(
+                    `((${unicodePattern.e ?? unicodePattern.l}|${pattern})${unicodePattern.d?.pattern ?? ''})`,
+                    'gi',
+                ),
+                `((${unicodePattern.l}|${pattern})${unicodePattern.d?.tmp ?? ''})`,
             );
         }
+
+        str = str
+            .replaceAll(latinDiacritical.tmp, latinDiacritical.pattern)
+            .replaceAll(arabicDiacritical.tmp, arabicDiacritical.pattern)
+            .replaceAll(hebrewDiacritical.tmp, hebrewDiacritical.pattern);
+
         return str;
     }
 

@@ -522,3 +522,44 @@ export const data36: Select2Data = [
     { value: 'kinmokusei', label: 'キンモクセイ' },
     { value: 'shion', label: 'シオン' },
 ];
+
+// Cyrillic examples (Russian cities)
+export const data37: Select2Data = [
+    { value: 'moscow', label: 'Москва' },
+    { value: 'stpetersburg', label: 'Санкт-Петербург' },
+    { value: 'kyiv', label: 'Київ' },
+    { value: 'belgrade', label: 'Београд' },
+    { value: 'sofia', label: 'София' },
+    { value: 'minsk', label: 'Мінск' },
+    { value: 'almaty', label: 'Алматы' },
+];
+
+// Greek examples (Greek cities)
+export const data38: Select2Data = [
+    { value: 'athens', label: 'Αθήνα' },
+    { value: 'thessaloniki', label: 'Θεσσαλονίκη' },
+    { value: 'patras', label: 'Πάτρα' },
+    { value: 'heraklion', label: 'Ηράκλειο' },
+    { value: 'larissa', label: 'Λάρισα' },
+    { value: 'volos', label: 'Βόλος' },
+];
+
+// Arabic examples (Arabic cities)
+export const data39: Select2Data = [
+    { value: 'cairo', label: 'القاهرة' },
+    { value: 'damascus', label: 'دمشق' },
+    { value: 'beirut', label: 'بيروت' },
+    { value: 'baghdad', label: 'بغداد' },
+    { value: 'riyadh', label: 'الرياض' },
+    { value: 'dubai', label: 'دبي' },
+];
+
+// Hebrew examples (Hebrew cities)
+export const data40: Select2Data = [
+    { value: 'jerusalem', label: 'ירושלים' },
+    { value: 'telaviv', label: 'תל אביב' },
+    { value: 'haifa', label: 'חיפה' },
+    { value: 'beersheba', label: 'באר שבע' },
+    { value: 'netanya', label: 'נתניה' },
+    { value: 'ashdod', label: 'אשדוד' },
+];

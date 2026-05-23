@@ -9,7 +9,7 @@ import { Select2, Select2Data, Select2HighlightPipe } from 'projects/ng-select2-
 
 import { Examples } from './examples';
 
-import { data1, data23, data36 } from '../app.data';
+import { data1, data23, data36, data37, data38, data39, data40 } from '../app.data';
 
 @Component({
     selector: 'examples-highlight',
@@ -22,10 +22,18 @@ export class ExemplesHighlightComponent extends Examples {
     data14 = data1;
     data26: Select2Data = JSON.parse(JSON.stringify(data23));
     data36 = data36;
+    data37 = data37;
+    data38 = data38;
+    data39 = data39;
+    data40 = data40;
 
     value14 = 'CA';
     value26 = '';
     value36 = '';
+    value37 = '';
+    value38 = '';
+    value39 = '';
+    value40 = '';
 
     exemple14 = computed(() =>
         new Json2html(
@@ -88,6 +96,70 @@ export class ExemplesHighlightComponent extends Examples {
     );
 
     exemple36 = computed(() =>
+        new Json2html(
+            {
+                tag: 'ng-select2',
+                attrs: {
+                    ...this.overlayExempleJson(),
+                    ...this.styleModeExempleJson(),
+                    '[data]': 'data',
+                    '[value]': 'value',
+                    highlightText: null,
+                },
+            },
+            { webComponentSelfClosing: true, attrPosition: 'prettier' },
+        ).toString(),
+    );
+
+    exemple37 = computed(() =>
+        new Json2html(
+            {
+                tag: 'ng-select2',
+                attrs: {
+                    ...this.overlayExempleJson(),
+                    ...this.styleModeExempleJson(),
+                    '[data]': 'data',
+                    '[value]': 'value',
+                    highlightText: null,
+                },
+            },
+            { webComponentSelfClosing: true, attrPosition: 'prettier' },
+        ).toString(),
+    );
+
+    exemple38 = computed(() =>
+        new Json2html(
+            {
+                tag: 'ng-select2',
+                attrs: {
+                    ...this.overlayExempleJson(),
+                    ...this.styleModeExempleJson(),
+                    '[data]': 'data',
+                    '[value]': 'value',
+                    highlightText: null,
+                },
+            },
+            { webComponentSelfClosing: true, attrPosition: 'prettier' },
+        ).toString(),
+    );
+
+    exemple39 = computed(() =>
+        new Json2html(
+            {
+                tag: 'ng-select2',
+                attrs: {
+                    ...this.overlayExempleJson(),
+                    ...this.styleModeExempleJson(),
+                    '[data]': 'data',
+                    '[value]': 'value',
+                    highlightText: null,
+                },
+            },
+            { webComponentSelfClosing: true, attrPosition: 'prettier' },
+        ).toString(),
+    );
+
+    exemple40 = computed(() =>
         new Json2html(
             {
                 tag: 'ng-select2',
