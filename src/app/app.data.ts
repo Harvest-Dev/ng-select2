@@ -546,20 +546,20 @@ export const data38: Select2Data = [
 
 // Arabic examples (Arabic cities)
 export const data39: Select2Data = [
-    { value: 'cairo', label: 'القاهرة' },
-    { value: 'damascus', label: 'دمشق' },
-    { value: 'beirut', label: 'بيروت' },
-    { value: 'baghdad', label: 'بغداد' },
-    { value: 'riyadh', label: 'الرياض' },
-    { value: 'dubai', label: 'دبي' },
+    { value: 'cairo', label: 'القاهرة', rtl: true },
+    { value: 'damascus', label: 'دمشق', rtl: true },
+    { value: 'beirut', label: 'بيروت', rtl: true },
+    { value: 'baghdad', label: 'بغداد', rtl: true },
+    { value: 'riyadh', label: 'الرياض', rtl: true },
+    { value: 'dubai', label: 'دبي', rtl: true },
 ];
 
 // Hebrew examples (Hebrew cities)
 export const data40: Select2Data = [
-    { value: 'jerusalem', label: 'ירושלים' },
-    { value: 'telaviv', label: 'תל אביב' },
-    { value: 'haifa', label: 'חיפה' },
-    { value: 'beersheba', label: 'באר שבע' },
-    { value: 'netanya', label: 'נתניה' },
-    { value: 'ashdod', label: 'אשדוד' },
+    { value: 'jerusalem', label: 'ירושלים', rtl: true },
+    { value: 'telaviv', label: 'תל אביב', rtl: true },
+    { value: 'haifa', label: 'חיפה', rtl: true },
+    { value: 'beersheba', label: 'באר שבע', rtl: true },
+    { value: 'netanya', label: 'נתניה', rtl: true },
+    { value: 'ashdod', label: 'אשדוד', rtl: true },
 ];

@@ -60,6 +60,7 @@
           class="select2-selection__rendered"
           [title]="select2Option?.label || ''"
           [attr.aria-live]="nativeKeyboard() && !isOpen ? 'polite' : null"
+          [dir]="select2Option?.rtl ? 'rtl' : undefined"
         >
           @if (!select2Option) {
             <span>&nbsp;</span>
@@ -244,7 +245,7 @@
           @for (groupOrOption of filteredData(); track groupOrOption.id; let i = $index) {
             @let group = _toGroup(groupOrOption);
             @if (group.options !== undefined) {
-              <li class="select2-results__option select2-results__group">
+              <li class="select2-results__option select2-results__group" [dir]="group.rtl ? 'rtl' : undefined">
                 <span [id]="getElementId(groupOrOption)">
                   @if (!hasTemplate(group, 'group')) {
                     <strong
@@ -268,6 +269,7 @@
                       role="option"
                       [attr.aria-selected]="isSelected(option)"
                       [attr.aria-disabled]="isDisabled(option)"
+                      [dir]="option.rtl ? 'rtl' : undefined"
                       (mouseenter)="mouseenter(option)"
                       (click)="click(option)"
                     >
@@ -292,6 +294,7 @@
                 role="option"
                 [attr.aria-selected]="isSelected(option)"
                 [attr.aria-disabled]="isDisabled(option)"
+                [dir]="option.rtl ? 'rtl' : undefined"
                 (mouseenter)="mouseenter(option)"
                 (click)="click(option)"
               >

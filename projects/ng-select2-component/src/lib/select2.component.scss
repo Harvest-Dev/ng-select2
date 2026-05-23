@@ -127,6 +127,7 @@
     padding: var(--select2-option-padding, 6px);
     color: var(--select2-option-text-color, #000);
     user-select: none;
+    text-align: initial;
 
     &[aria-selected] {
         cursor: pointer;
