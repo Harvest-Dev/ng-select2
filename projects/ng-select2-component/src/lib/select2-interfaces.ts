@@ -15,8 +15,8 @@ export interface Select2Group {
     templateId?: string;
     /** template data  */
     data?: any;
-    /** right to left */
-    rtl?: boolean;
+    /** force left to right or right to left */
+    dir?: 'ltr' | 'rtl';
 }
 
 export interface Select2Option {
@@ -38,8 +38,8 @@ export interface Select2Option {
     data?: any;
     /** hide this option */
     hide?: boolean;
-    /** right to left */
-    rtl?: boolean;
+    /** force left to right or right to left */
+    dir?: 'ltr' | 'rtl';
 }
 
 export type Select2Value = string | number | boolean | object | null | undefined;
