@@ -1,12 +1,25 @@
 export const timeout = 200;
 
+/**
+ * Latin - `[\u0300-\u036F]` matches combining diacritical marks:
+ * - `\u0300-\u036F`: grave, acute, circumflex, tilde, macron, breve, dot above, diaeresis, ring above, etc.
+ */
 export const latinDiacritical = { tmp: '\uE000', pattern: '[\\u0300-\\u036F]*' };
+/**
+ * Arabic - `[\u064B-\u0652\u0670]` matches Arabic diacritics (harakat):
+ * - `\u064B-\u0652`: fatha, damma, kasra, sukun, shadda, tanwin, etc.
+ * - `\u0670`: alif khanjariyah (superscript alif)
+ */
 export const arabicDiacritical = { tmp: '\uE001', pattern: '[\\u064B-\\u0652\\u0670]*' };
+/**
+ * Hebrew - `[\u05B0-\u05BC\u05C1\u05C2]` matches Hebrew diacritics (niqqud):
+ * - `\u05B0-\u05BC`: vowel points (sheva, hataf, hiriq, tsere, segol, patah, qamats, holam, qubuts, dagesh, etc.)
+ * - `\u05C1-\u05C2`: shin dot (right) and sin dot (left)
+ */
 export const hebrewDiacritical = { tmp: '\uE002', pattern: '[\\u05B0-\\u05BC\\u05C1\\u05C2]*' };
 
 export const unicodePatterns: { l: string; s: RegExp; e?: string; d?: { tmp: string; pattern: string } }[] = [
-    // Latin - [\u0300-\u036F] matches combining diacritical marks:
-    // \u0300-\u036F: grave, acute, circumflex, tilde, macron, breve, dot above, diaeresis, ring above, etc.
+    // Latin
     { l: 'a', s: /[ⓐａẚàáâầấẫẩãāăằắẵẳȧǡäǟảåǻǎȁȃạậặḁąⱥɐ]/gi, e: 'a(?![aeouvy])', d: latinDiacritical },
     { l: 'aa', s: /ꜳ/gi, d: latinDiacritical },
     { l: 'ae', s: /[æǽǣ]/gi, d: latinDiacritical },
@@ -131,9 +144,7 @@ export const unicodePatterns: { l: string; s: RegExp; e?: string; d?: { tmp: str
     { l: 'υ', s: /[υύϋΰὐὑὒὓὔὕὖὗὺύῠῡῢΰῦῧ]/gi },
     { l: 'φ', s: /[φϕ]/gi },
     { l: 'ω', s: /[ωώὠὡὢὣὤὥὦὧὼώᾠᾡᾢᾣᾤᾥᾦᾧῲῳῴῶῷ]/gi },
-    // Arabic - [\u064B-\u0652\u0670] matches Arabic diacritics (harakat):
-    // \u064B-\u0652: fatha, damma, kasra, sukun, shadda, tanwin, etc.
-    // \u0670: alif khanjariyah (superscript alif)
+    // Arabic
     { l: 'ا', s: /[اأإآٱ]/gi, d: arabicDiacritical },
     { l: 'ب', s: /ب/gi, d: arabicDiacritical },
     { l: 'ت', s: /[تة]/gi, d: arabicDiacritical },
@@ -162,9 +173,7 @@ export const unicodePatterns: { l: string; s: RegExp; e?: string; d?: { tmp: str
     { l: 'ه', s: /[هە]/gi, d: arabicDiacritical },
     { l: 'و', s: /[وؤ]/gi, d: arabicDiacritical },
     { l: 'ي', s: /[يىئ]/gi, d: arabicDiacritical },
-    // Hebrew - [\u05B0-\u05BC\u05C1\u05C2] matches Hebrew diacritics (niqqud):
-    // \u05B0-\u05BC: vowel points (sheva, hataf, hiriq, tsere, segol, patah, qamats, holam, qubuts, dagesh, etc.)
-    // \u05C1-\u05C2: shin dot (right) and sin dot (left)
+    // Hebrew
     { l: 'א', s: /א/gi, d: hebrewDiacritical },
     { l: 'ב', s: /ב/gi, d: hebrewDiacritical },
     { l: 'ג', s: /ג/gi, d: hebrewDiacritical },
