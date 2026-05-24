@@ -143,5 +143,9 @@
   "Highlight the search": "Surligner la recherche",
   "Highlight the search in the options": "Surligner la recherche dans les options",
   "With template": "Avec template",
-  "Japanese": "Japonais"
+  "Japanese": "Japonais",
+  "Cyrillic": "Cyrillique",
+  "Greek": "Grec",
+  "Arabic": "Arabe",
+  "Hebrew": "Hébreu"
 }

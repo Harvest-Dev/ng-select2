@@ -1,4 +1,4 @@
-import{d as f,e as b}from"./chunk-DYAULRIZ.js";import{d as g}from"./chunk-EZYHCQFW.js";import{x as h,y as v}from"./chunk-UWGJEOCL.js";import{Ca as i,Kb as r,Lb as s,Oa as d,_a as p,gb as e,hb as t,ib as a,wb as n,yb as m}from"./chunk-YPKIKFW2.js";import"./chunk-EQDQRRRY.js";var H=(()=>{class o{constructor(){this.data=b,this.ts=`import { Select2 } from 'ng-select2-component';
+import{d as f,e as b}from"./chunk-UAYHUHWF.js";import{d as g}from"./chunk-EZYHCQFW.js";import{x as h,y as v}from"./chunk-UWGJEOCL.js";import{Ca as i,Kb as r,Lb as s,Oa as d,_a as p,gb as e,hb as t,ib as a,wb as n,yb as m}from"./chunk-YPKIKFW2.js";import"./chunk-EQDQRRRY.js";var H=(()=>{class o{constructor(){this.data=b,this.ts=`import { Select2 } from 'ng-select2-component';
 
 @Component({
     selector: 'app-root',

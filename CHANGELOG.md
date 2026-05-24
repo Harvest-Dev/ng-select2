@@ -1,5 +1,10 @@
 # Changelog of ng-select2
 
+## V17.3.2 (2026-05-24)
+
+- feat: add Cyrillic, Greek Arabic and Hebrew for searches and highlight.
+- feat: add `direction` (`rtl` & `ltr`) for options & groups
+
 ## V17.3.1 (2026-05-21)
 
 - feat: searches done in Japanese (e.g. はハばバぱパ are considered the same character)
