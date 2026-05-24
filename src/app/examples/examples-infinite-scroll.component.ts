@@ -42,6 +42,15 @@ export class ExemplesInfiniteScrollComponent extends Examples {
         ).toString(),
     );
 
+    exemple26ts = `scroll(event: Select2ScrollEvent) {
+     if (event.way === 'down' && !event.search) {
+        const l = this.data.length;
+        for (let i = 1 + l; i <= 50 + l; i++) {
+            this.data.push({ value: i, label: '>' + i });
+        }
+    }
+}`;
+
     scroll26(event: Select2ScrollEvent) {
         console.log('scroll26', event);
         if (event.way === 'down' && !event.search) {

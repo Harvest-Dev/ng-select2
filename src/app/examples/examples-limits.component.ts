@@ -1,5 +1,5 @@
 import { JsonPipe } from '@angular/common';
-import { Component, computed } from '@angular/core';
+import { Component, computed, signal } from '@angular/core';
 import {
     FormsModule,
     ReactiveFormsModule,
@@ -41,9 +41,11 @@ export class ExamplesLimitsComponent extends Examples {
     value18 = '';
     value28 = '';
 
-    minCountForSearch = Infinity;
+    minCountForSearch = signal(Infinity);
 
-    limitSelection = 0;
+    limitSelection = signal(0);
+    limitCode = signal(0);
+    statusCode = signal('default');
 
     ctrlForm2: UntypedFormGroup;
 
@@ -60,7 +62,7 @@ export class ExamplesLimitsComponent extends Examples {
                             ...this.styleModeExempleJson(),
                             '[data]': 'data',
                             formControlName: 'test',
-                            '[minCountForSearch]': 'Infinity',
+                            '[minCountForSearch]': this.minCountForSearch(),
                         },
                     },
                 ],
@@ -78,8 +80,8 @@ export class ExamplesLimitsComponent extends Examples {
                     ...this.styleModeExempleJson(),
                     '[data]': 'data',
                     '[value]': 'value',
-                    minCountForSearch: '7',
-                    displaySearchStatus: 'default',
+                    minCountForSearch: this.limitCode(),
+                    displaySearchStatus: this.statusCode(),
                 },
             },
             { webComponentSelfClosing: true, attrPosition: 'prettier' },
@@ -96,7 +98,7 @@ export class ExamplesLimitsComponent extends Examples {
                     '[data]': 'data',
                     '[value]': 'value',
                     multiple: null,
-                    limitSelection: '0',
+                    limitSelection: this.limitSelection(),
                     customSearchEnabled: null,
                 },
             },
@@ -115,7 +117,7 @@ export class ExamplesLimitsComponent extends Examples {
                     '[value]': 'value',
                     listPosition: 'auto',
                     maxResults: '50',
-                    '[maxResultsMessage]': "'Too much results in this list.'",
+                    maxResultsMessage: 'Too much results in this list.',
                 },
             },
             { webComponentSelfClosing: true, attrPosition: 'prettier' },

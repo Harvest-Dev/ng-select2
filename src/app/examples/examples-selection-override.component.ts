@@ -66,4 +66,10 @@ export class ExemplesSelectionOverrideComponent extends Examples {
             { webComponentSelfClosing: true, attrPosition: 'prettier' },
         ).toString(),
     );
+
+    exemple36ts = `selectionOverride: Select2SelectionOverride = params => {
+    return \`Selection (\${params.size}\${
+        (params.options?.length || 0) > 0 ? ': ' + params.options!.map(e => e.label).join(', ') : ''
+    }) \`;
+};`;
 }

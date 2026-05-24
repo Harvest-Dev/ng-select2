@@ -36,13 +36,16 @@
     </div>
 
     <h3 class="col-12" id="ex-6">
-      {{ 'Search box limit to ' | transloco }}<input #limit size="3" value="7" />{{ ' / display status' | transloco }}
+      {{ 'Search box limit to ' | transloco
+      }}<input type="number" #limit size="3" value="7" min="0" (change)="limitCode.set(limit.valueAsNumber)" />{{
+        ' / display status' | transloco
+      }}
     </h3>
     <div class="container">
       <div class="row">
         <div class="col-6">
           <div>
-            <select #status>
+            <select #status (change)="statusCode.set(status.value)">
               <option selected>default</option>
               <option>hidden</option>
               <option>always</option>
@@ -57,7 +60,7 @@
             [styleMode]="styleMode"
             [data]="data6"
             [value]="value6"
-            [minCountForSearch]="limit.value"
+            [minCountForSearch]="limit.valueAsNumber"
             [displaySearchStatus]="$any(status.value)"
             (update)="update('value6', $event)"
             id="select2-6"
@@ -84,7 +87,9 @@
       <div class="row">
         <div class="col-6">
           <div>
-            <label>{{ 'Limit:' | transloco }} <input type="number" size="3" [(ngModel)]="limitSelection" /></label>
+            <label
+              >{{ 'Limit:' | transloco }} <input type="number" min="0" size="3" [(ngModel)]="limitSelection"
+            /></label>
             {{ '(0 = no limit)' | transloco }}
           </div>
           <ng-select2

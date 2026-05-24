@@ -1,5 +1,5 @@
 import { JsonPipe } from '@angular/common';
-import { Component, computed } from '@angular/core';
+import { Component, computed, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
 import { Json2html } from '@ikilote/json2html';
@@ -26,8 +26,8 @@ export class ExemplesSelectionNowrapComponent extends Examples {
     data36mf = data1;
     data10: Select2Data = JSON.parse(JSON.stringify(data1));
 
-    selectionNoWrap = true;
-    selectionNoWrap2 = true;
+    selectionNoWrap = signal(true);
+    selectionNoWrap2 = signal(true);
 
     selectionOverride: Select2SelectionOverride = params => {
         return `Selection (${params.size}${
@@ -46,7 +46,7 @@ export class ExemplesSelectionNowrapComponent extends Examples {
                     '[value]': 'value',
                     multiple: null,
                     hideSelectedItems: null,
-                    selectionNoWrap: null,
+                    selectionNoWrap: this.selectionNoWrap2() ? null : undefined,
                 },
             },
             { webComponentSelfClosing: true, attrPosition: 'prettier' },
@@ -63,7 +63,7 @@ export class ExemplesSelectionNowrapComponent extends Examples {
                     '[data]': 'data',
                     '[value]': 'value',
                     multiple: null,
-                    selectionNoWrap: null,
+                    selectionNoWrap: this.selectionNoWrap() ? null : undefined,
                     '[selectionOverride]': 'selectionOverride',
                 },
             },
