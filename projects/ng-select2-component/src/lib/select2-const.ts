@@ -189,23 +189,6 @@ export const unicodePatterns: { l: string; s: RegExp; e?: string; d?: { tmp: str
     { l: 'ת', s: /ת/gi, d: hebrewDiacritical },
 ];
 
-// Convert Unicode escape sequences to actual characters in patterns
-// This prevents issues when patterns are converted to strings and back to regex
-unicodePatterns.forEach(line => {
-    let regexp = line.s.toString().replace('/gi', '').substring(1);
-
-    // Find all \uXXXX sequences and convert them to actual characters
-    const matches = regexp.match(/\\u[0-9A-Fa-f]{4}/gi);
-    if (matches) {
-        matches.forEach(value => {
-            const char = String.fromCodePoint(parseInt(value.replace('\\u', ''), 16));
-            regexp = regexp.replace(value, char);
-        });
-    }
-
-    line.s = new RegExp(regexp, 'gi');
-});
-
 export const defaultMinCountForSearch = 6;
 
 export const protectRegexp = new RegExp('[\\-\\[\\]\\/\\{\\}\\(\\)\\*\\+\\?\\.\\\\\\^\\$\\|]', 'g');
