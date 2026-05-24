@@ -106,6 +106,10 @@ nav {
         font-size: 20px;
         list-style: none;
     }
+
+    * {
+        direction: ltr;
+    }
 }
 
 .attachment-full {

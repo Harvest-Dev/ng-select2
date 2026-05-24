@@ -28,9 +28,14 @@ nav {
     padding-bottom: 300px;
 }
 
-:host ::ng-deep pre {
-    margin: 0;
-    background-color: #eee;
-    padding: 5px;
-    overflow: auto;
+:host ::ng-deep {
+    pre {
+        margin: 0;
+        background-color: #eee;
+        padding: 5px;
+        overflow: auto;
+    }
+    code {
+        direction: ltr;
+    }
 }

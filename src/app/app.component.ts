@@ -13,11 +13,16 @@ export class AppComponent {
     private readonly translate = inject(TranslocoService);
 
     language = 'en';
+    direction = 'ltr';
 
     changeLanguage(lang: string) {
         this.translate.load(lang).subscribe(() => {
             this.translate.setActiveLang(lang);
         });
         document.documentElement.setAttribute('lang', lang);
+    }
+
+    changeDirection(dir: string) {
+        document.documentElement.setAttribute('dir', dir);
     }
 }
