@@ -31,6 +31,7 @@ export class ExamplesStyleComponent extends Examples {
                 tag: 'ng-select2',
                 attrs: {
                     ...this.overlayExempleJson(),
+                    ...this.styleModeExempleJson(),
                     '[data]': 'data',
                     '[value]': 'value',
                 },
@@ -44,10 +45,11 @@ export class ExamplesStyleComponent extends Examples {
             {
                 tag: 'ng-select2',
                 attrs: {
-                    class: 'flower-list',
                     ...this.overlayExempleJson(),
+                    ...this.styleModeExempleJson(),
                     '[data]': 'data',
                     '[value]': 'value',
+                    class: 'flower-list',
                     listPosition: 'auto',
                 },
             },

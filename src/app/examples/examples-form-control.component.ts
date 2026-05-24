@@ -50,6 +50,7 @@ export class ExemplesFormControlComponent extends Examples {
                         tag: 'ng-select2',
                         attrs: {
                             ...this.overlayExempleJson(),
+                            ...this.styleModeExempleJson(),
                             '[(ngModel)]': 'value',
                             '[data]': 'data',
                             formControlName: 'test',
@@ -72,6 +73,8 @@ export class ExemplesFormControlComponent extends Examples {
                     {
                         tag: 'ng-select2',
                         attrs: {
+                            ...this.overlayExempleJson(),
+                            ...this.styleModeExempleJson(),
                             '[data]': 'data',
                             formControlName: 'test',
                             multiple: null,

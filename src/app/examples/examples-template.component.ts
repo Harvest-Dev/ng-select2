@@ -32,11 +32,11 @@ export class ExemplesTemplateComponent extends Examples {
             {
                 tag: 'ng-select2',
                 attrs: {
-                    class: 'flower-list',
                     ...this.overlayExempleJson(),
                     ...this.styleModeExempleJson(),
                     '[data]': 'data',
                     '[value]': 'value',
+                    class: 'flower-list',
                     '[templates]': 'template',
                     '[templateSelection]': 'templateSelection',
                 },
@@ -62,11 +62,11 @@ export class ExemplesTemplateComponent extends Examples {
             {
                 tag: 'ng-select2',
                 attrs: {
-                    class: 'flower-list',
                     ...this.overlayExempleJson(),
                     ...this.styleModeExempleJson(),
                     '[data]': 'data',
                     '[value]': 'value',
+                    class: 'flower-list',
                     '[templates]': '{ option: templateOption, group: templateGroup }',
                 },
                 body: [
@@ -91,11 +91,11 @@ export class ExemplesTemplateComponent extends Examples {
             {
                 tag: 'ng-select2',
                 attrs: {
-                    class: 'flower-list',
                     ...this.overlayExempleJson(),
                     ...this.styleModeExempleJson(),
                     '[data]': 'data',
                     '[value]': 'value',
+                    class: 'flower-list',
                     '[templates]': '{ template1: template1, template2: template2, template3: template3 }',
                 },
                 body: [

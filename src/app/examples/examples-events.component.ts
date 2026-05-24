@@ -40,6 +40,7 @@ export class ExemplesEventsComponent extends Examples {
                     ...this.overlayExempleJson(),
                     ...this.styleModeExempleJson(),
                     '[data]': 'data',
+                    '[value]': 'value',
                     autoCreate: null,
                     '(update)': "update('update', $event)",
                     '(blur)': "blur('blur', $event)",

@@ -27,6 +27,7 @@ export class ExemplesWaiComponent extends Examples {
                     tag: 'ng-select2',
                     attrs: {
                         ...this.overlayExempleJson(),
+                        ...this.overlayExempleJson(),
                         '[data]': 'data',
                         title: 'title',
                     },
@@ -60,6 +61,7 @@ export class ExemplesWaiComponent extends Examples {
                     tag: 'ng-select2',
                     attrs: {
                         ...this.overlayExempleJson(),
+                        ...this.overlayExempleJson(),
                         '[data]': 'data',
                         ariaInvalid: null,
                     },
@@ -77,6 +79,7 @@ export class ExemplesWaiComponent extends Examples {
                 {
                     tag: 'ng-select2',
                     attrs: {
+                        ...this.overlayExempleJson(),
                         ...this.overlayExempleJson(),
                         '[data]': 'data',
                         required: null,
@@ -96,6 +99,7 @@ export class ExemplesWaiComponent extends Examples {
                     tag: 'ng-select2',
                     attrs: {
                         ...this.overlayExempleJson(),
+                        ...this.overlayExempleJson(),
                         '[data]': 'data',
                         readonly: null,
                         value: 'foo',
@@ -114,6 +118,7 @@ export class ExemplesWaiComponent extends Examples {
                 {
                     tag: 'ng-select2',
                     attrs: {
+                        ...this.overlayExempleJson(),
                         ...this.overlayExempleJson(),
                         '[data]': 'data',
                         disabled: null,

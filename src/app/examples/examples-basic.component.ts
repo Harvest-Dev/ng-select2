@@ -86,6 +86,7 @@ export class ExemplesBasicComponent extends Examples {
                 tag: 'ng-select2',
                 attrs: {
                     ...this.overlayExempleJson(),
+                    ...this.styleModeExempleJson(),
                     '[data]': 'data',
                     '[value]': 'value',
                     disabled: null,
@@ -103,6 +104,7 @@ export class ExemplesBasicComponent extends Examples {
                     ...this.overlayExempleJson(),
                     ...this.styleModeExempleJson(),
                     '[data]': 'data',
+                    '[value]': 'value',
                     placeholder: 'select an item',
                 },
             },

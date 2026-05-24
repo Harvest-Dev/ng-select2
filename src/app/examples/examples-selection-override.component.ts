@@ -37,12 +37,12 @@ export class ExemplesSelectionOverrideComponent extends Examples {
             {
                 tag: 'ng-select2',
                 attrs: {
-                    selectionOverride: 'Test (%size%)',
-                    resettable: null,
                     ...this.overlayExempleJson(),
                     ...this.styleModeExempleJson(),
                     '[data]': 'data',
                     '[value]': 'value',
+                    selectionOverride: 'Test (%size%)',
+                    resettable: null,
                 },
             },
             { webComponentSelfClosing: true, attrPosition: 'prettier' },
@@ -54,13 +54,13 @@ export class ExemplesSelectionOverrideComponent extends Examples {
             {
                 tag: 'ng-select2',
                 attrs: {
-                    selectionOverride: 'Test (%size%)',
-                    resettable: null,
                     ...this.overlayExempleJson(),
                     ...this.styleModeExempleJson(),
                     '[data]': 'data',
                     '[value]': 'value',
                     multiple: null,
+                    selectionOverride: 'Test (%size%)',
+                    resettable: null,
                 },
             },
             { webComponentSelfClosing: true, attrPosition: 'prettier' },

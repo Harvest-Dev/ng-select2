@@ -44,6 +44,8 @@
         <div class="col-6">
           <form [formGroup]="ctrlForm2">
             <ng-select2
+              [overlay]="overlay"
+              [styleMode]="styleMode"
               [data]="data32"
               formControlName="test33"
               multiple
