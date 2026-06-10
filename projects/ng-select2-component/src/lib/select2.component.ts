@@ -10,8 +10,6 @@ import { ViewportRuler } from '@angular/cdk/scrolling';
 import { NgTemplateOutlet } from '@angular/common';
 import {
     AfterViewInit,
-    Attribute,
-    ChangeDetectionStrategy,
     ChangeDetectorRef,
     Component,
     DoCheck,
@@ -21,12 +19,11 @@ import {
     OnChanges,
     OnDestroy,
     OnInit,
-    Optional,
-    Self,
     SimpleChanges,
     TemplateRef,
     booleanAttribute,
     computed,
+    inject,
     input,
     numberAttribute,
     output,
@@ -79,9 +76,14 @@ const CLOSE_KEYS: (string | KeyInfo)[] = ['Escape', 'Tab', { key: 'ArrowUp', alt
         '[id]': 'id()',
         '[class.select2-selection-nowrap]': 'selectionNoWrap()',
     },
-    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterViewInit, OnDestroy, OnChanges {
+    protected _viewportRuler = inject(ViewportRuler);
+    private _changeDetectorRef = inject(ChangeDetectorRef);
+    private _parentForm = inject(NgForm, { optional: true });
+    private _parentFormGroup = inject(FormGroupDirective, { optional: true });
+    public _control = inject(NgControl, { optional: true, self: true });
+
     readonly _uid = `select2-${nextUniqueId++}`;
     // ----------------------- signal-input
 
@@ -387,14 +389,7 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
     private _overlayPosition: VerticalConnectionPos | undefined;
     private toObservable = new Subscription();
 
-    constructor(
-        protected _viewportRuler: ViewportRuler,
-        private _changeDetectorRef: ChangeDetectorRef,
-        @Optional() private _parentForm: NgForm,
-        @Optional() private _parentFormGroup: FormGroupDirective,
-        @Self() @Optional() public _control: NgControl,
-        @Attribute('tabindex') tabIndex: string,
-    ) {
+    constructor() {
         if (this._control) {
             this._control.valueAccessor = this;
         }

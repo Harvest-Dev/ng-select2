@@ -3,10 +3,7 @@ import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 
 import { Select2Utils } from './select2-utils';
 
-@Pipe({
-    name: 'highlightText',
-    standalone: true,
-})
+@Pipe({ name: 'highlightText' })
 export class Select2HighlightPipe implements PipeTransform {
     private readonly sanitizer = inject(DomSanitizer);
 
