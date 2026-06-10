@@ -1,7 +1,6 @@
-import { Component, TemplateRef, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ErrorHandler, TemplateRef, ViewChild } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { provideNoopAnimations } from '@angular/platform-browser/animations';
 
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
@@ -47,6 +46,7 @@ const HIDDEN_DATA: Select2Data = [
 // ── Host components ────────────────────────────────────────────────────
 
 @Component({
+    changeDetection: ChangeDetectionStrategy.Default,
     template: `<select2
         [data]="data"
         [value]="value"
@@ -155,6 +155,7 @@ class TestHostComponent {
 }
 
 @Component({
+    changeDetection: ChangeDetectionStrategy.Default,
     template: ` <form [formGroup]="form">
         <select2 [data]="data" formControlName="sel"></select2>
     </form>`,
@@ -167,6 +168,7 @@ class ReactiveFormHostComponent {
 }
 
 @Component({
+    changeDetection: ChangeDetectionStrategy.Default,
     template: ` <form [formGroup]="form">
         <select2 [data]="data" [multiple]="true" formControlName="sel"></select2>
     </form>`,
@@ -182,6 +184,29 @@ class ReactiveFormMultipleHostComponent {
 
 function getSelect2(fixture: ComponentFixture<any>): Select2 {
     return fixture.debugElement.children[0].componentInstance as Select2;
+}
+
+// ── Helpers ────────────────────────────────────────────────────────────
+
+/** Suppress Angular 22 ExpressionChangedAfterItHasBeenCheckedError (NG0100) in tests. */
+class SilentErrorHandler implements ErrorHandler {
+    handleError(error: any) {
+        if (error?.message?.includes('NG0100') || error?.message?.includes('ExpressionChanged')) {
+            return;
+        }
+        console.error(error);
+    }
+}
+
+/** Common providers for all TestBed configurations. */
+function provideTestEnv() {
+    return [{ provide: ErrorHandler, useClass: SilentErrorHandler }];
+}
+
+/** Marks the fixture for check and runs detectChanges (compatible with OnPush). */
+function detectChanges(fixture: ComponentFixture<any>) {
+    fixture.componentRef.changeDetectorRef.markForCheck();
+    fixture.detectChanges();
 }
 
 function clickSelection(fixture: ComponentFixture<any>) {
@@ -214,12 +239,12 @@ describe('Select2 Component', () => {
     beforeEach(async () => {
         await TestBed.configureTestingModule({
             imports: [TestHostComponent],
-            providers: [provideNoopAnimations()],
+            providers: provideTestEnv(),
         }).compileComponents();
 
         fixture = TestBed.createComponent(TestHostComponent);
         host = fixture.componentInstance;
-        fixture.detectChanges();
+        detectChanges(fixture);
         select2 = getSelect2(fixture);
     });
 
@@ -254,20 +279,20 @@ describe('Select2 Component', () => {
     describe('style modes', () => {
         it('should apply material class', () => {
             host.styleMode = 'material';
-            fixture.detectChanges();
+            detectChanges(fixture);
             expect(select2.classMaterial).toBe(true);
             expect(select2.classNostyle).toBe(false);
         });
 
         it('should apply noStyle class', () => {
             host.styleMode = 'noStyle';
-            fixture.detectChanges();
+            detectChanges(fixture);
             expect(select2.classNostyle).toBe(true);
         });
 
         it('should apply borderless class', () => {
             host.styleMode = 'borderless';
-            fixture.detectChanges();
+            detectChanges(fixture);
             expect(select2.classBorderless).toBe(true);
         });
     });
@@ -291,14 +316,14 @@ describe('Select2 Component', () => {
 
         it('should not open when disabled', () => {
             host.disabled = true;
-            fixture.detectChanges();
+            detectChanges(fixture);
             clickSelection(fixture);
             expect(select2.isOpen).toBe(false);
         });
 
         it('should not open when readonly', () => {
             host.readonlyVal = true;
-            fixture.detectChanges();
+            detectChanges(fixture);
             clickSelection(fixture);
             expect(select2.isOpen).toBe(false);
         });
@@ -309,23 +334,23 @@ describe('Select2 Component', () => {
     describe('single selection', () => {
         it('should select an option', () => {
             host.value = 'opt1';
-            fixture.detectChanges();
+            detectChanges(fixture);
             expect(select2.select2Option?.value).toBe('opt1');
         });
 
         it('should display selected label', () => {
             host.value = 'opt2';
-            fixture.detectChanges();
+            detectChanges(fixture);
             const rendered = fixture.nativeElement.querySelector('.select2-selection__rendered');
             expect(rendered.textContent).toContain('Option 2');
         });
 
         it('should emit update on option click', async () => {
             clickSelection(fixture);
-            fixture.detectChanges();
+            detectChanges(fixture);
             const options = getOptions(fixture);
             options[1]?.click();
-            fixture.detectChanges();
+            detectChanges(fixture);
             await new Promise(r => setTimeout(r, 0));
             expect(host.onUpdate).toHaveBeenCalled();
             const event = host.onUpdate.mock.calls[0][0];
@@ -336,23 +361,23 @@ describe('Select2 Component', () => {
             clickSelection(fixture);
             const options = getOptions(fixture);
             options[0]?.click();
-            fixture.detectChanges();
+            detectChanges(fixture);
             expect(select2.isOpen).toBe(false);
         });
 
         it('should not select disabled option', () => {
             clickSelection(fixture);
-            fixture.detectChanges();
+            detectChanges(fixture);
             const options = getOptions(fixture);
             // opt4 is disabled (index 3)
             options[3]?.click();
-            fixture.detectChanges();
+            detectChanges(fixture);
             expect(select2.select2Option?.value).not.toBe('opt4');
         });
 
         it('should show placeholder when no selection', () => {
             host.placeholder = 'Choose...';
-            fixture.detectChanges();
+            detectChanges(fixture);
             const placeholder = fixture.nativeElement.querySelector('.select2-selection__placeholder');
             expect(placeholder.textContent).toContain('Choose...');
         });
@@ -364,51 +389,51 @@ describe('Select2 Component', () => {
         beforeEach(() => {
             host.multiple = true;
             host.data = SIMPLE_DATA;
-            fixture.detectChanges();
+            detectChanges(fixture);
             select2 = getSelect2(fixture);
         });
 
         it('should select multiple options', () => {
             host.value = ['opt1', 'opt2'];
-            fixture.detectChanges();
+            detectChanges(fixture);
             expect(select2.select2Options.length).toBe(2);
         });
 
         it('should display selection chips', () => {
             host.value = ['opt1', 'opt3'];
-            fixture.detectChanges();
+            detectChanges(fixture);
             const chips = fixture.nativeElement.querySelectorAll('.select2-selection__choice');
             expect(chips.length).toBe(2);
         });
 
         it('should remove selection on × click', async () => {
             host.value = ['opt1', 'opt2'];
-            fixture.detectChanges();
+            detectChanges(fixture);
             const removeBtn = fixture.nativeElement.querySelector('.select2-selection__choice__remove') as HTMLElement;
             removeBtn.click();
-            fixture.detectChanges();
+            detectChanges(fixture);
             await new Promise(r => setTimeout(r, 0));
             expect(host.onRemove).toHaveBeenCalled();
         });
 
         it('should stay open after selecting in multiple mode', () => {
             clickSelection(fixture);
-            fixture.detectChanges();
+            detectChanges(fixture);
             const options = getOptions(fixture);
             options[0]?.click();
-            fixture.detectChanges();
+            detectChanges(fixture);
             expect(select2.isOpen).toBe(true);
         });
 
         it('should respect limitSelection', () => {
             host.limitSelection = 1;
             host.value = ['opt1'];
-            fixture.detectChanges();
+            detectChanges(fixture);
             clickSelection(fixture);
-            fixture.detectChanges();
+            detectChanges(fixture);
             const options = getOptions(fixture);
             options[1]?.click();
-            fixture.detectChanges();
+            detectChanges(fixture);
             // Should still have only 1 selected
             expect(select2.select2Options.length).toBe(1);
         });
@@ -419,22 +444,22 @@ describe('Select2 Component', () => {
     describe('grouped data', () => {
         beforeEach(() => {
             host.data = GROUP_DATA;
-            fixture.detectChanges();
+            detectChanges(fixture);
         });
 
         it('should render groups', () => {
             clickSelection(fixture);
-            fixture.detectChanges();
+            detectChanges(fixture);
             const groups = fixture.nativeElement.querySelectorAll('.select2-results__group');
             expect(groups.length).toBeGreaterThan(0);
         });
 
         it('should select option from group', async () => {
             clickSelection(fixture);
-            fixture.detectChanges();
+            detectChanges(fixture);
             const options = getOptions(fixture);
             options[0]?.click();
-            fixture.detectChanges();
+            detectChanges(fixture);
             await new Promise(r => setTimeout(r, 0));
             expect(host.onUpdate).toHaveBeenCalled();
             expect(host.onUpdate.mock.calls[0][0].value).toBe('a1');
@@ -447,7 +472,7 @@ describe('Select2 Component', () => {
         it('should show reset button when resettable and has value', () => {
             host.resettable = true;
             host.value = 'opt1';
-            fixture.detectChanges();
+            detectChanges(fixture);
             const resetBtn = fixture.nativeElement.querySelector('.select2-selection__reset');
             expect(resetBtn).toBeTruthy();
         });
@@ -455,10 +480,10 @@ describe('Select2 Component', () => {
         it('should reset value on reset button click', async () => {
             host.resettable = true;
             host.value = 'opt1';
-            fixture.detectChanges();
+            detectChanges(fixture);
             const resetBtn = fixture.nativeElement.querySelector('.select2-selection__reset') as HTMLElement;
             resetBtn.click();
-            fixture.detectChanges();
+            detectChanges(fixture);
             await new Promise(r => setTimeout(r, 0));
             expect(select2.selectedOption).toBeNull();
         });
@@ -467,10 +492,10 @@ describe('Select2 Component', () => {
             host.resettable = true;
             host.value = 'opt2';
             host.resetSelectedValue = 'opt1';
-            fixture.detectChanges();
+            detectChanges(fixture);
             const resetBtn = fixture.nativeElement.querySelector('.select2-selection__reset') as HTMLElement;
             resetBtn.click();
-            fixture.detectChanges();
+            detectChanges(fixture);
             await new Promise(r => setTimeout(r, 0));
             expect(select2.select2Option?.value).toBe('opt1');
         });
@@ -482,14 +507,14 @@ describe('Select2 Component', () => {
         it('should filter options based on search text', () => {
             host.minCountForSearch = 0;
             host.displaySearchStatus = 'always';
-            fixture.detectChanges();
+            detectChanges(fixture);
             clickSelection(fixture);
-            fixture.detectChanges();
+            detectChanges(fixture);
 
             const searchInput = fixture.nativeElement.querySelector('.select2-search__field') as HTMLInputElement;
             searchInput.value = 'Option 1';
             dispatchKeyup(searchInput, 'o');
-            fixture.detectChanges();
+            detectChanges(fixture);
 
             const filtered = select2.filteredData();
             expect(filtered).toBeDefined();
@@ -499,14 +524,14 @@ describe('Select2 Component', () => {
         it('should show no result message', () => {
             host.noResultMessage = 'Aucun résultat';
             host.displaySearchStatus = 'always';
-            fixture.detectChanges();
+            detectChanges(fixture);
             clickSelection(fixture);
-            fixture.detectChanges();
+            detectChanges(fixture);
 
             const searchInput = fixture.nativeElement.querySelector('.select2-search__field') as HTMLInputElement;
             searchInput.value = 'zzzzzzz';
             dispatchKeyup(searchInput, 'z');
-            fixture.detectChanges();
+            detectChanges(fixture);
 
             const noResult = fixture.nativeElement.querySelector('.select2-no-result');
             expect(noResult).toBeTruthy();
@@ -516,23 +541,23 @@ describe('Select2 Component', () => {
         it('should emit search event when customSearchEnabled', () => {
             host.customSearchEnabled = true;
             host.displaySearchStatus = 'always';
-            fixture.detectChanges();
+            detectChanges(fixture);
             clickSelection(fixture);
-            fixture.detectChanges();
+            detectChanges(fixture);
 
             const searchInput = fixture.nativeElement.querySelector('.select2-search__field') as HTMLInputElement;
             searchInput.value = 'test';
             dispatchKeyup(searchInput, 't');
-            fixture.detectChanges();
+            detectChanges(fixture);
 
             expect(host.onSearch).toHaveBeenCalled();
         });
 
         it('should hide searchbox when displaySearchStatus is hidden', () => {
             host.displaySearchStatus = 'hidden';
-            fixture.detectChanges();
+            detectChanges(fixture);
             clickSelection(fixture);
-            fixture.detectChanges();
+            detectChanges(fixture);
 
             const searchContainer = fixture.nativeElement.querySelector('.select2-search--hide');
             expect(searchContainer).toBeTruthy();
@@ -540,9 +565,9 @@ describe('Select2 Component', () => {
 
         it('should always show searchbox when displaySearchStatus is always', () => {
             host.displaySearchStatus = 'always';
-            fixture.detectChanges();
+            detectChanges(fixture);
             clickSelection(fixture);
-            fixture.detectChanges();
+            detectChanges(fixture);
 
             const searchContainer = fixture.nativeElement.querySelector('.select2-search--hide');
             expect(searchContainer).toBeFalsy();
@@ -555,9 +580,9 @@ describe('Select2 Component', () => {
         it('should limit displayed results', () => {
             host.data = MANY_OPTIONS;
             host.maxResults = 5;
-            fixture.detectChanges();
+            detectChanges(fixture);
             clickSelection(fixture);
-            fixture.detectChanges();
+            detectChanges(fixture);
 
             const options = getOptions(fixture);
             expect(options.length).toBeLessThanOrEqual(5);
@@ -567,9 +592,9 @@ describe('Select2 Component', () => {
             host.data = MANY_OPTIONS;
             host.maxResults = 5;
             host.maxResultsMessage = 'Trop de résultats';
-            fixture.detectChanges();
+            detectChanges(fixture);
             clickSelection(fixture);
-            fixture.detectChanges();
+            detectChanges(fixture);
 
             const msg = fixture.nativeElement.querySelector('.select2-too-much-result');
             expect(msg).toBeTruthy();
@@ -583,28 +608,28 @@ describe('Select2 Component', () => {
         it('should open on Enter key', () => {
             const sel = fixture.nativeElement.querySelector('.selection') as HTMLElement;
             dispatchKeydown(sel, 'Enter');
-            fixture.detectChanges();
+            detectChanges(fixture);
             expect(select2.isOpen).toBe(true);
         });
 
         it('should open on Space key', () => {
             const sel = fixture.nativeElement.querySelector('.selection') as HTMLElement;
             dispatchKeydown(sel, ' ');
-            fixture.detectChanges();
+            detectChanges(fixture);
             expect(select2.isOpen).toBe(true);
         });
 
         it('should open on ArrowDown key', () => {
             const sel = fixture.nativeElement.querySelector('.selection') as HTMLElement;
             dispatchKeydown(sel, 'ArrowDown');
-            fixture.detectChanges();
+            detectChanges(fixture);
             expect(select2.isOpen).toBe(true);
         });
 
         it('should open on ArrowUp key', () => {
             const sel = fixture.nativeElement.querySelector('.selection') as HTMLElement;
             dispatchKeydown(sel, 'ArrowUp');
-            fixture.detectChanges();
+            detectChanges(fixture);
             expect(select2.isOpen).toBe(true);
         });
 
@@ -619,7 +644,7 @@ describe('Select2 Component', () => {
                 const sel = fixture.nativeElement.querySelector('.selection') as HTMLElement;
                 dispatchKeydown(sel, 'Escape');
             }
-            fixture.detectChanges();
+            detectChanges(fixture);
             expect(select2.isOpen).toBe(false);
         });
 
@@ -631,103 +656,103 @@ describe('Select2 Component', () => {
             if (searchInput) {
                 dispatchKeydown(searchInput, 'Tab');
             }
-            fixture.detectChanges();
+            detectChanges(fixture);
             expect(select2.isOpen).toBe(false);
         });
 
         it('should navigate with ArrowDown when open', () => {
             host.displaySearchStatus = 'always';
-            fixture.detectChanges();
+            detectChanges(fixture);
             clickSelection(fixture);
-            fixture.detectChanges();
+            detectChanges(fixture);
 
             const searchInput = fixture.nativeElement.querySelector('.select2-search__field') as HTMLElement;
             dispatchKeydown(searchInput, 'ArrowDown');
-            fixture.detectChanges();
+            detectChanges(fixture);
             // hoveringOption should have changed
             expect(select2.hoveringOptionId()).toBeTruthy();
         });
 
         it('should navigate with ArrowUp when open', () => {
             host.displaySearchStatus = 'always';
-            fixture.detectChanges();
+            detectChanges(fixture);
             clickSelection(fixture);
-            fixture.detectChanges();
+            detectChanges(fixture);
 
             const searchInput = fixture.nativeElement.querySelector('.select2-search__field') as HTMLElement;
             // Move down first, then up
             dispatchKeydown(searchInput, 'ArrowDown');
             dispatchKeydown(searchInput, 'ArrowDown');
             dispatchKeydown(searchInput, 'ArrowUp');
-            fixture.detectChanges();
+            detectChanges(fixture);
             expect(select2.hoveringOptionId()).toBeTruthy();
         });
 
         it('should select on Enter when open', async () => {
             host.displaySearchStatus = 'always';
-            fixture.detectChanges();
+            detectChanges(fixture);
             clickSelection(fixture);
-            fixture.detectChanges();
+            detectChanges(fixture);
 
             const searchInput = fixture.nativeElement.querySelector('.select2-search__field') as HTMLElement;
             dispatchKeydown(searchInput, 'ArrowDown');
-            fixture.detectChanges();
+            detectChanges(fixture);
             dispatchKeydown(searchInput, 'Enter');
-            fixture.detectChanges();
+            detectChanges(fixture);
             await new Promise(r => setTimeout(r, 0));
             expect(host.onUpdate).toHaveBeenCalled();
         });
 
         it('should navigate to Home key', () => {
             host.displaySearchStatus = 'always';
-            fixture.detectChanges();
+            detectChanges(fixture);
             clickSelection(fixture);
-            fixture.detectChanges();
+            detectChanges(fixture);
 
             const searchInput = fixture.nativeElement.querySelector('.select2-search__field') as HTMLElement;
             dispatchKeydown(searchInput, 'End');
-            fixture.detectChanges();
+            detectChanges(fixture);
             dispatchKeydown(searchInput, 'Home');
-            fixture.detectChanges();
+            detectChanges(fixture);
             expect(select2.hoveringOptionId()).toBeTruthy();
         });
 
         it('should navigate to End key', () => {
             host.displaySearchStatus = 'always';
-            fixture.detectChanges();
+            detectChanges(fixture);
             clickSelection(fixture);
-            fixture.detectChanges();
+            detectChanges(fixture);
 
             const searchInput = fixture.nativeElement.querySelector('.select2-search__field') as HTMLElement;
             dispatchKeydown(searchInput, 'End');
-            fixture.detectChanges();
+            detectChanges(fixture);
             expect(select2.hoveringOptionId()).toBeTruthy();
         });
 
         it('should navigate with PageDown', () => {
             host.data = MANY_OPTIONS;
             host.displaySearchStatus = 'always';
-            fixture.detectChanges();
+            detectChanges(fixture);
             clickSelection(fixture);
-            fixture.detectChanges();
+            detectChanges(fixture);
 
             const searchInput = fixture.nativeElement.querySelector('.select2-search__field') as HTMLElement;
             dispatchKeydown(searchInput, 'PageDown');
-            fixture.detectChanges();
+            detectChanges(fixture);
             expect(select2.hoveringOptionId()).toBeTruthy();
         });
 
         it('should navigate with PageUp', () => {
             host.data = MANY_OPTIONS;
             host.displaySearchStatus = 'always';
-            fixture.detectChanges();
+            detectChanges(fixture);
             clickSelection(fixture);
-            fixture.detectChanges();
+            detectChanges(fixture);
 
             const searchInput = fixture.nativeElement.querySelector('.select2-search__field') as HTMLElement;
             dispatchKeydown(searchInput, 'PageDown');
             dispatchKeydown(searchInput, 'PageUp');
-            fixture.detectChanges();
+            detectChanges(fixture);
             expect(select2.hoveringOptionId()).toBeTruthy();
         });
 
@@ -739,7 +764,7 @@ describe('Select2 Component', () => {
             if (searchInput) {
                 dispatchKeydown(searchInput, 'ArrowUp', { altKey: true });
             }
-            fixture.detectChanges();
+            detectChanges(fixture);
             expect(select2.isOpen).toBe(false);
         });
     });
@@ -749,20 +774,20 @@ describe('Select2 Component', () => {
     describe('native keyboard mode', () => {
         beforeEach(() => {
             host.nativeKeyboard = true;
-            fixture.detectChanges();
+            detectChanges(fixture);
         });
 
         it('should open on Enter in native mode', () => {
             const sel = fixture.nativeElement.querySelector('.selection') as HTMLElement;
             dispatchKeydown(sel, 'Enter');
-            fixture.detectChanges();
+            detectChanges(fixture);
             expect(select2.isOpen).toBe(true);
         });
 
         it('should handle ArrowDown when closed in native mode', () => {
             const sel = fixture.nativeElement.querySelector('.selection') as HTMLElement;
             dispatchKeydown(sel, 'ArrowDown');
-            fixture.detectChanges();
+            detectChanges(fixture);
             // In native mode, ArrowDown when closed should navigate without opening
             // (it opens because ArrowDown is in OPEN_KEYS_NATIVE... actually it depends)
         });
@@ -773,13 +798,13 @@ describe('Select2 Component', () => {
     describe('list position', () => {
         it('should set above class when listPosition is above', () => {
             host.listPosition = 'above';
-            fixture.detectChanges();
+            detectChanges(fixture);
             expect(select2.select2above).toBe(true);
         });
 
         it('should not set above class when listPosition is below', () => {
             host.listPosition = 'below';
-            fixture.detectChanges();
+            detectChanges(fixture);
             expect(select2.select2above).toBe(false);
         });
     });
@@ -858,13 +883,13 @@ describe('Select2 Component', () => {
             host.multiple = true;
             host.showSelectAll = true;
             host.data = SIMPLE_DATA;
-            fixture.detectChanges();
+            detectChanges(fixture);
             select2 = getSelect2(fixture);
         });
 
         it('should show select all button', () => {
             clickSelection(fixture);
-            fixture.detectChanges();
+            detectChanges(fixture);
             const selectAll = fixture.nativeElement.querySelector('.select2-selectall');
             expect(selectAll).toBeTruthy();
             expect(selectAll.textContent).toContain('Select all');
@@ -872,38 +897,38 @@ describe('Select2 Component', () => {
 
         it('should select all options on click', () => {
             clickSelection(fixture);
-            fixture.detectChanges();
+            detectChanges(fixture);
             const selectAll = fixture.nativeElement.querySelector('.select2-selectall') as HTMLElement;
             selectAll.click();
-            fixture.detectChanges();
+            detectChanges(fixture);
             // Should have selected all non-disabled options (3 out of 4)
             expect(select2.select2Options.length).toBe(3);
         });
 
         it('should deselect all when all are selected', () => {
             host.value = ['opt1', 'opt2', 'opt3'];
-            fixture.detectChanges();
+            detectChanges(fixture);
             clickSelection(fixture);
-            fixture.detectChanges();
+            detectChanges(fixture);
             const selectAll = fixture.nativeElement.querySelector('.select2-selectall') as HTMLElement;
             selectAll.click();
-            fixture.detectChanges();
+            detectChanges(fixture);
             expect(select2.select2Options.length).toBe(0);
         });
 
         it('should show remove all text when all selected', () => {
             host.value = ['opt1', 'opt2', 'opt3'];
             host.removeAllText = 'Tout supprimer';
-            fixture.detectChanges();
+            detectChanges(fixture);
             clickSelection(fixture);
-            fixture.detectChanges();
+            detectChanges(fixture);
             const selectAll = fixture.nativeElement.querySelector('.select2-selectall');
             expect(selectAll.textContent).toContain('Tout supprimer');
         });
 
         it('selectAllTest should return false when not all selected', () => {
             host.value = ['opt1'];
-            fixture.detectChanges();
+            detectChanges(fixture);
             expect(select2.selectAllTest()).toBe(false);
         });
     });
@@ -913,9 +938,9 @@ describe('Select2 Component', () => {
     describe('hidden items', () => {
         it('should hide options with hide flag', () => {
             host.data = HIDDEN_DATA;
-            fixture.detectChanges();
+            detectChanges(fixture);
             clickSelection(fixture);
-            fixture.detectChanges();
+            detectChanges(fixture);
             const hiddenOpt = fixture.nativeElement.querySelector('.select2-results__option--hide');
             expect(hiddenOpt).toBeTruthy();
         });
@@ -924,9 +949,9 @@ describe('Select2 Component', () => {
             host.multiple = true;
             host.hideSelectedItems = true;
             host.value = ['opt1'];
-            fixture.detectChanges();
+            detectChanges(fixture);
             clickSelection(fixture);
-            fixture.detectChanges();
+            detectChanges(fixture);
             const options = getOptions(fixture);
             const labels = options.map(o => o.textContent?.trim());
             expect(labels).not.toContain('Option 1');
@@ -940,7 +965,7 @@ describe('Select2 Component', () => {
             host.multiple = true;
             host.value = ['opt1', 'opt2'];
             host.selectionOverride = '%size% selected';
-            fixture.detectChanges();
+            detectChanges(fixture);
             const override = fixture.nativeElement.querySelector('.select2-selection__override');
             expect(override).toBeTruthy();
             expect(override.textContent).toContain('2 selected');
@@ -950,7 +975,7 @@ describe('Select2 Component', () => {
             host.multiple = true;
             host.value = ['opt1'];
             host.selectionOverride = (params: { size: number }) => `Custom: ${params.size}`;
-            fixture.detectChanges();
+            detectChanges(fixture);
             const override = fixture.nativeElement.querySelector('.select2-selection__override');
             expect(override.textContent).toContain('Custom: 1');
         });
@@ -1017,7 +1042,7 @@ describe('Select2 Component', () => {
     describe('isSelected and isDisabled', () => {
         it('should return true for selected option', () => {
             host.value = 'opt1';
-            fixture.detectChanges();
+            detectChanges(fixture);
             const option = SIMPLE_DATA[0] as Select2Option;
             expect(select2.isSelected(option)).toBeTruthy();
         });
@@ -1038,25 +1063,25 @@ describe('Select2 Component', () => {
     describe('focus and blur', () => {
         it('should emit focus event on focusin', () => {
             select2.focusin();
-            fixture.detectChanges();
+            detectChanges(fixture);
             expect(host.onFocus).toHaveBeenCalled();
         });
 
         it('should not focus when disabled', () => {
             host.disabled = true;
-            fixture.detectChanges();
+            detectChanges(fixture);
             select2 = getSelect2(fixture);
             select2.focusin();
-            fixture.detectChanges();
+            detectChanges(fixture);
             expect(select2.focused).toBe(false);
         });
 
         it('should emit blur on focusout', () => {
             select2.focusin();
-            fixture.detectChanges();
+            detectChanges(fixture);
             const event = new FocusEvent('focusout', { relatedTarget: null });
             select2.focusout(event);
-            fixture.detectChanges();
+            detectChanges(fixture);
             expect(host.onBlur).toHaveBeenCalled();
         });
     });
@@ -1083,9 +1108,9 @@ describe('Select2 Component', () => {
 
         it('should generate id for option without id', () => {
             host.data = [{ value: 'test', label: 'Test' }];
-            fixture.detectChanges();
+            detectChanges(fixture);
             clickSelection(fixture);
-            fixture.detectChanges();
+            detectChanges(fixture);
             const options = getOptions(fixture);
             expect(options[0]?.id).toBeTruthy();
         });
@@ -1097,14 +1122,14 @@ describe('Select2 Component', () => {
         it('should return path for top-level option', () => {
             const option = SIMPLE_DATA[1] as Select2Option;
             host.data = SIMPLE_DATA;
-            fixture.detectChanges();
+            detectChanges(fixture);
             const path = select2._getElementPath(option);
             expect(path).toEqual([1]);
         });
 
         it('should return path for grouped option', () => {
             host.data = GROUP_DATA;
-            fixture.detectChanges();
+            detectChanges(fixture);
             const group = GROUP_DATA[0] as Select2Group;
             const option = group.options[1];
             const path = select2._getElementPath(option);
@@ -1176,7 +1201,7 @@ describe('Select2 Component', () => {
         beforeEach(() => {
             host.multiple = true;
             host.autoCreate = true;
-            fixture.detectChanges();
+            detectChanges(fixture);
             select2 = getSelect2(fixture);
         });
 
@@ -1189,10 +1214,10 @@ describe('Select2 Component', () => {
             const createField = fixture.nativeElement.querySelector('.select2-create__field') as HTMLInputElement;
             createField.value = 'New Item';
             createField.click();
-            fixture.detectChanges();
+            detectChanges(fixture);
 
             dispatchKeydown(createField, 'Enter');
-            fixture.detectChanges();
+            detectChanges(fixture);
             await new Promise(r => setTimeout(r, 0));
 
             expect(host.onAutoCreate).toHaveBeenCalled();
@@ -1202,10 +1227,10 @@ describe('Select2 Component', () => {
             const createField = fixture.nativeElement.querySelector('.select2-create__field') as HTMLInputElement;
             createField.value = '   ';
             createField.click();
-            fixture.detectChanges();
+            detectChanges(fixture);
 
             dispatchKeydown(createField, 'Enter');
-            fixture.detectChanges();
+            detectChanges(fixture);
             await new Promise(r => setTimeout(r, 0));
 
             expect(host.onAutoCreate).not.toHaveBeenCalled();
@@ -1214,11 +1239,11 @@ describe('Select2 Component', () => {
         it('should show searchbox when autoCreate and not multiple', () => {
             host.multiple = false;
             host.autoCreate = true;
-            fixture.detectChanges();
+            detectChanges(fixture);
             select2 = getSelect2(fixture);
             // searchbox should not be hidden in autoCreate single mode
             clickSelection(fixture);
-            fixture.detectChanges();
+            detectChanges(fixture);
             const searchHide = fixture.nativeElement.querySelector('.select2-search--hide');
             expect(searchHide).toBeFalsy();
         });
@@ -1229,18 +1254,18 @@ describe('Select2 Component', () => {
     describe('grid', () => {
         it('should apply grid class with number', () => {
             host.grid = '4';
-            fixture.detectChanges();
+            detectChanges(fixture);
             clickSelection(fixture);
-            fixture.detectChanges();
+            detectChanges(fixture);
             const results = fixture.nativeElement.querySelector('.select2-results__options');
             expect(results.classList.contains('select2-grid')).toBe(true);
         });
 
         it('should apply auto grid class with string', () => {
             host.grid = '100px';
-            fixture.detectChanges();
+            detectChanges(fixture);
             clickSelection(fixture);
-            fixture.detectChanges();
+            detectChanges(fixture);
             const results = fixture.nativeElement.querySelector('.select2-results__options');
             expect(results.classList.contains('select2-grid-auto')).toBe(true);
         });
@@ -1251,63 +1276,63 @@ describe('Select2 Component', () => {
     describe('accessibility', () => {
         it('should set aria-labelledby', () => {
             host.ariaLabelledby = 'my-label';
-            fixture.detectChanges();
+            detectChanges(fixture);
             const combo = fixture.nativeElement.querySelector('[role="combobox"]');
             expect(combo.getAttribute('aria-labelledby')).toBe('my-label');
         });
 
         it('should set aria-describedby', () => {
             host.ariaDescribedby = 'my-desc';
-            fixture.detectChanges();
+            detectChanges(fixture);
             const combo = fixture.nativeElement.querySelector('[role="combobox"]');
             expect(combo.getAttribute('aria-describedby')).toBe('my-desc');
         });
 
         it('should set aria-required', () => {
             host.required = true;
-            fixture.detectChanges();
+            detectChanges(fixture);
             const combo = fixture.nativeElement.querySelector('[role="combobox"]');
             expect(combo.getAttribute('aria-required')).toBe('true');
         });
 
         it('should set aria-disabled', () => {
             host.disabled = true;
-            fixture.detectChanges();
+            detectChanges(fixture);
             const combo = fixture.nativeElement.querySelector('[role="combobox"]');
             expect(combo.getAttribute('aria-disabled')).toBe('true');
         });
 
         it('should set aria-readonly', () => {
             host.readonlyVal = true;
-            fixture.detectChanges();
+            detectChanges(fixture);
             const combo = fixture.nativeElement.querySelector('[role="combobox"]');
             expect(combo.getAttribute('aria-readonly')).toBe('true');
         });
 
         it('should set aria-invalid when ariaInvalid is true', () => {
             host.ariaInvalid = true;
-            fixture.detectChanges();
+            detectChanges(fixture);
             const combo = fixture.nativeElement.querySelector('[role="combobox"]');
             expect(combo.getAttribute('aria-invalid')).toBe('true');
         });
 
         it('should set title attribute', () => {
             host.titleVal = 'My title';
-            fixture.detectChanges();
+            detectChanges(fixture);
             const combo = fixture.nativeElement.querySelector('[role="combobox"]');
             expect(combo.getAttribute('title')).toBe('My title');
         });
 
         it('should set aria-expanded when open', () => {
             clickSelection(fixture);
-            fixture.detectChanges();
+            detectChanges(fixture);
             const combo = fixture.nativeElement.querySelector('[role="combobox"]');
             expect(combo.getAttribute('aria-expanded')).toBe('true');
         });
 
         it('should set aria-activedescendant when open', () => {
             clickSelection(fixture);
-            fixture.detectChanges();
+            detectChanges(fixture);
             const combo = fixture.nativeElement.querySelector('[role="combobox"]');
             // activedescendant is set to hoveringOptionId when open, which may be null initially
             const attr = combo.getAttribute('aria-activedescendant');
@@ -1317,9 +1342,9 @@ describe('Select2 Component', () => {
 
         it('should set aria-multiselectable on listbox in multiple mode', () => {
             host.multiple = true;
-            fixture.detectChanges();
+            detectChanges(fixture);
             clickSelection(fixture);
-            fixture.detectChanges();
+            detectChanges(fixture);
             const listbox = fixture.nativeElement.querySelector('[role="listbox"]');
             expect(listbox.getAttribute('aria-multiselectable')).toBe('true');
         });
@@ -1328,7 +1353,7 @@ describe('Select2 Component', () => {
             host.resettable = true;
             host.value = 'opt1';
             host.ariaResetButtonDescription = 'Réinitialiser';
-            fixture.detectChanges();
+            detectChanges(fixture);
             const resetBtn = fixture.nativeElement.querySelector('.select2-selection__reset');
             expect(resetBtn.getAttribute('aria-description')).toBe('Réinitialiser');
         });
@@ -1339,7 +1364,7 @@ describe('Select2 Component', () => {
     describe('tab index', () => {
         it('should use provided tabIndex', () => {
             host.tabIdx = 5;
-            fixture.detectChanges();
+            detectChanges(fixture);
             const combo = fixture.nativeElement.querySelector('[role="combobox"]');
             expect(combo.getAttribute('tabindex')).toBe('5');
         });
@@ -1347,7 +1372,7 @@ describe('Select2 Component', () => {
         it('should set tabindex to -1 when disabled via disabledState', () => {
             // Use the component directly without reactive forms
             select2.setDisabledState(true);
-            fixture.detectChanges();
+            detectChanges(fixture);
             expect(select2.disabledState).toBe(true);
         });
     });
@@ -1357,7 +1382,7 @@ describe('Select2 Component', () => {
     describe('required', () => {
         it('should show required indicator', () => {
             host.required = true;
-            fixture.detectChanges();
+            detectChanges(fixture);
             const requiredSpan = fixture.nativeElement.querySelector('.select2-required');
             expect(requiredSpan).toBeTruthy();
         });
@@ -1394,7 +1419,7 @@ describe('Select2 Component', () => {
             const outsideEvent = new MouseEvent('click', { bubbles: true });
             Object.defineProperty(outsideEvent, 'target', { value: document.body });
             select2.clickDetection(outsideEvent);
-            fixture.detectChanges();
+            detectChanges(fixture);
             expect(select2.isOpen).toBe(false);
         });
     });
@@ -1410,7 +1435,7 @@ describe('Select2 Component', () => {
             host.multiple = true;
             host.value = ['opt1', 'opt2'];
             host.selectionOverride = 'Count: %size%';
-            fixture.detectChanges();
+            detectChanges(fixture);
             select2 = getSelect2(fixture);
             expect(select2._selectionOverrideLabel()).toBe('Count: 2');
         });
@@ -1418,7 +1443,7 @@ describe('Select2 Component', () => {
         it('should call function override', () => {
             host.selectionOverride = (p: { size: number }) => `Fn: ${p.size}`;
             host.value = 'opt1';
-            fixture.detectChanges();
+            detectChanges(fixture);
             select2 = getSelect2(fixture);
             expect(select2._selectionOverrideLabel()).toBe('Fn: 1');
         });
@@ -1433,32 +1458,32 @@ describe('Select2 Component', () => {
                 { value: 'new2', label: 'New 2' },
             ];
             host.data = newData;
-            fixture.detectChanges();
+            detectChanges(fixture);
             clickSelection(fixture);
-            fixture.detectChanges();
+            detectChanges(fixture);
             const options = getOptions(fixture);
             expect(options.length).toBe(2);
         });
 
         it('should update selection when value changes', () => {
             host.value = 'opt1';
-            fixture.detectChanges();
+            detectChanges(fixture);
             expect(select2.select2Option?.value).toBe('opt1');
 
             host.value = 'opt2';
-            fixture.detectChanges();
+            detectChanges(fixture);
             expect(select2.select2Option?.value).toBe('opt2');
         });
 
         it('should preserve selection order in multiple mode when data changes', () => {
             host.multiple = true;
             host.value = ['opt2', 'opt1'];
-            fixture.detectChanges();
+            detectChanges(fixture);
             select2 = getSelect2(fixture);
 
             // Change data (same options, different reference)
             host.data = [...SIMPLE_DATA];
-            fixture.detectChanges();
+            detectChanges(fixture);
 
             const selected = select2.select2Options;
             expect(selected[0]?.value).toBe('opt2');
@@ -1471,12 +1496,12 @@ describe('Select2 Component', () => {
     describe('fixValue', () => {
         it('should convert single to array when switching to multiple', async () => {
             host.value = 'opt1';
-            fixture.detectChanges();
+            detectChanges(fixture);
             // Now switch to multiple
             host.multiple = true;
-            fixture.detectChanges();
+            detectChanges(fixture);
             await new Promise(r => setTimeout(r, 0));
-            fixture.detectChanges();
+            detectChanges(fixture);
             select2 = getSelect2(fixture);
             // Should have converted
             expect(Array.isArray(select2.selectedOption)).toBe(true);
@@ -1488,7 +1513,7 @@ describe('Select2 Component', () => {
     describe('overlay mode', () => {
         it('should use overlay when overlay is true', () => {
             host.overlay = true;
-            fixture.detectChanges();
+            detectChanges(fixture);
             // The containerTemplate should not be rendered inline
             const inlineContainer = fixture.nativeElement.querySelector(
                 '.select2-container--default > .select2-container-dropdown',
@@ -1504,14 +1529,14 @@ describe('Select2 Component', () => {
         it('should not filter when search text is shorter than minCharForSearch', () => {
             host.minCharForSearch = 3;
             host.displaySearchStatus = 'always';
-            fixture.detectChanges();
+            detectChanges(fixture);
             clickSelection(fixture);
-            fixture.detectChanges();
+            detectChanges(fixture);
 
             const searchInput = fixture.nativeElement.querySelector('.select2-search__field') as HTMLInputElement;
             searchInput.value = 'Op';
             dispatchKeyup(searchInput, 'p');
-            fixture.detectChanges();
+            detectChanges(fixture);
 
             // Should still show all options since search text < minCharForSearch
             const options = getOptions(fixture);
@@ -1525,14 +1550,14 @@ describe('Select2 Component', () => {
         it('should use custom edit pattern for filtering', () => {
             host.editPattern = (str: string) => str.toLowerCase();
             host.displaySearchStatus = 'always';
-            fixture.detectChanges();
+            detectChanges(fixture);
             clickSelection(fixture);
-            fixture.detectChanges();
+            detectChanges(fixture);
 
             const searchInput = fixture.nativeElement.querySelector('.select2-search__field') as HTMLInputElement;
             searchInput.value = 'option 1';
             dispatchKeyup(searchInput, '1');
-            fixture.detectChanges();
+            detectChanges(fixture);
 
             const options = getOptions(fixture);
             expect(options.length).toBeGreaterThan(0);
@@ -1546,7 +1571,7 @@ describe('Select2 Component', () => {
             host.multiple = true;
             host.multipleDrag = true;
             host.value = ['opt1', 'opt2', 'opt3'];
-            fixture.detectChanges();
+            detectChanges(fixture);
             select2 = getSelect2(fixture);
 
             // Simulate a CdkDragDrop event
@@ -1563,7 +1588,7 @@ describe('Select2 Component', () => {
             } as any;
 
             select2.drop(dropEvent);
-            fixture.detectChanges();
+            detectChanges(fixture);
             await new Promise(r => setTimeout(r, 0));
 
             expect(host.onUpdate).toHaveBeenCalled();
@@ -1624,14 +1649,14 @@ describe('Select2 Component', () => {
         it('should call filteredData callback in custom search', () => {
             host.customSearchEnabled = true;
             host.displaySearchStatus = 'always';
-            fixture.detectChanges();
+            detectChanges(fixture);
             clickSelection(fixture);
-            fixture.detectChanges();
+            detectChanges(fixture);
 
             const searchInput = fixture.nativeElement.querySelector('.select2-search__field') as HTMLInputElement;
             searchInput.value = 'test';
             dispatchKeyup(searchInput, 't');
-            fixture.detectChanges();
+            detectChanges(fixture);
 
             expect(host.onSearch).toHaveBeenCalled();
             const searchEvent = host.onSearch.mock.calls[0][0];
@@ -1641,7 +1666,7 @@ describe('Select2 Component', () => {
             // Call the filteredData callback
             const newData: Select2Data = [{ value: 'custom', label: 'Custom Result' }];
             searchEvent.filteredData(newData);
-            fixture.detectChanges();
+            detectChanges(fixture);
             expect(select2.filteredData()).toEqual(newData);
         });
     });
@@ -1655,7 +1680,7 @@ describe('Select2 Component', () => {
 
         it('should return null for select2Option in multiple mode', () => {
             host.multiple = true;
-            fixture.detectChanges();
+            detectChanges(fixture);
             select2 = getSelect2(fixture);
             expect(select2.select2Option).toBeNull();
         });
@@ -1666,7 +1691,7 @@ describe('Select2 Component', () => {
     describe('selectionNoWrap', () => {
         it('should apply nowrap class', () => {
             host.selectionNoWrap = true;
-            fixture.detectChanges();
+            detectChanges(fixture);
             const hostEl = fixture.nativeElement.querySelector('select2');
             expect(hostEl.classList.contains('select2-selection-nowrap')).toBe(true);
         });
@@ -1677,9 +1702,9 @@ describe('Select2 Component', () => {
     describe('resultMaxHeight', () => {
         it('should set max-height on results', () => {
             host.resultMaxHeight = '300px';
-            fixture.detectChanges();
+            detectChanges(fixture);
             clickSelection(fixture);
-            fixture.detectChanges();
+            detectChanges(fixture);
             const results = fixture.nativeElement.querySelector('.select2-results__options') as HTMLElement;
             expect(results.style.maxHeight).toBe('300px');
         });
@@ -1696,12 +1721,12 @@ describe('Select2 Component - additional coverage', () => {
     beforeEach(async () => {
         await TestBed.configureTestingModule({
             imports: [TestHostComponent],
-            providers: [provideNoopAnimations()],
+            providers: provideTestEnv(),
         }).compileComponents();
 
         fixture = TestBed.createComponent(TestHostComponent);
         host = fixture.componentInstance;
-        fixture.detectChanges();
+        detectChanges(fixture);
         select2 = getSelect2(fixture);
     });
 
@@ -1710,7 +1735,7 @@ describe('Select2 Component - additional coverage', () => {
     describe('_positions getter', () => {
         it('should return above position pair', () => {
             host.listPosition = 'above';
-            fixture.detectChanges();
+            detectChanges(fixture);
             select2 = getSelect2(fixture);
             const positions = (select2 as any)._positions;
             expect(positions.length).toBe(1);
@@ -1720,7 +1745,7 @@ describe('Select2 Component - additional coverage', () => {
 
         it('should return auto position pairs (2 entries)', () => {
             host.listPosition = 'auto';
-            fixture.detectChanges();
+            detectChanges(fixture);
             select2 = getSelect2(fixture);
             const positions = (select2 as any)._positions;
             expect(positions.length).toBe(2);
@@ -1728,7 +1753,7 @@ describe('Select2 Component - additional coverage', () => {
 
         it('should return below position pair by default', () => {
             host.listPosition = 'below';
-            fixture.detectChanges();
+            detectChanges(fixture);
             select2 = getSelect2(fixture);
             const positions = (select2 as any)._positions;
             expect(positions.length).toBe(1);
@@ -1753,14 +1778,14 @@ describe('Select2 Component - additional coverage', () => {
             const event = new MouseEvent('click', { bubbles: true });
             Object.defineProperty(event, 'target', { value: fakeSelection });
             select2.clickDetection(event);
-            fixture.detectChanges();
+            detectChanges(fixture);
             expect(select2.isOpen).toBe(false);
             document.body.removeChild(fakeSelection);
         });
 
         it('should handle click when focused but not open', () => {
             select2.focusin();
-            fixture.detectChanges();
+            detectChanges(fixture);
             expect(select2.focused).toBe(true);
             expect(select2.isOpen).toBe(false);
 
@@ -1769,19 +1794,19 @@ describe('Select2 Component - additional coverage', () => {
             const event = new MouseEvent('click', { bubbles: true });
             Object.defineProperty(event, 'target', { value: selEl });
             select2.clickDetection(event);
-            fixture.detectChanges();
+            detectChanges(fixture);
         });
 
         it('should handle click on non-select2 element when focused', () => {
             select2.focusin();
-            fixture.detectChanges();
+            detectChanges(fixture);
 
             const outsideEl = document.createElement('div');
             document.body.appendChild(outsideEl);
             const event = new MouseEvent('click', { bubbles: true });
             Object.defineProperty(event, 'target', { value: outsideEl });
             select2.clickDetection(event);
-            fixture.detectChanges();
+            detectChanges(fixture);
             expect(select2.focused).toBe(false);
             document.body.removeChild(outsideEl);
         });
@@ -1792,13 +1817,13 @@ describe('Select2 Component - additional coverage', () => {
     describe('focusout branches', () => {
         it('should not blur when relatedTarget is inside select', () => {
             select2.focusin();
-            fixture.detectChanges();
+            detectChanges(fixture);
             expect(select2.focused).toBe(true);
 
             const innerEl = fixture.nativeElement.querySelector('.selection') as HTMLElement;
             const event = new FocusEvent('focusout', { relatedTarget: innerEl });
             select2.focusout(event);
-            fixture.detectChanges();
+            detectChanges(fixture);
             // Should remain focused since relatedTarget is inside select
             expect(select2.focused).toBe(true);
         });
@@ -1810,13 +1835,13 @@ describe('Select2 Component - additional coverage', () => {
         it('should toggle (remove) existing option in multiple mode', async () => {
             host.multiple = true;
             host.value = ['opt1', 'opt2'];
-            fixture.detectChanges();
+            detectChanges(fixture);
             select2 = getSelect2(fixture);
 
             // Select opt1 again should remove it
             const opt1 = select2.select2Options.find(o => o.value === 'opt1')!;
             select2.select(opt1);
-            fixture.detectChanges();
+            detectChanges(fixture);
             await new Promise(r => setTimeout(r, 0));
             expect(select2.select2Options.some(o => o.value === 'opt1')).toBe(false);
         });
@@ -1825,23 +1850,23 @@ describe('Select2 Component - additional coverage', () => {
             const option: Select2Option = { value: 'opt1', label: 'Option 1' };
             host.onUpdate.mockClear();
             select2.select(option, false);
-            fixture.detectChanges();
+            detectChanges(fixture);
             expect(host.onUpdate).not.toHaveBeenCalled();
         });
 
         it('should handle select null to clear value', async () => {
             host.value = 'opt1';
-            fixture.detectChanges();
+            detectChanges(fixture);
             select2 = getSelect2(fixture);
             select2.select(null);
-            fixture.detectChanges();
+            detectChanges(fixture);
             await new Promise(r => setTimeout(r, 0));
             expect(select2.selectedOption).toBeNull();
         });
 
         it('should handle select null when already null', () => {
             select2.select(null);
-            fixture.detectChanges();
+            detectChanges(fixture);
             // value should remain undefined/null, no error
             expect(select2.selectedOption).toBeNull();
         });
@@ -1852,56 +1877,56 @@ describe('Select2 Component - additional coverage', () => {
     describe('toggleOpenAndClose - more branches', () => {
         it('should handle open with searchbox hidden and event', () => {
             host.displaySearchStatus = 'hidden';
-            fixture.detectChanges();
+            detectChanges(fixture);
             select2 = getSelect2(fixture);
 
             const sel = fixture.nativeElement.querySelector('.selection') as HTMLElement;
             // Open with ArrowDown key when searchbox is hidden
             dispatchKeydown(sel, 'ArrowDown');
-            fixture.detectChanges();
+            detectChanges(fixture);
             expect(select2.isOpen).toBe(true);
         });
 
         it('should scroll to selected option when opening', () => {
             host.value = 'opt3';
-            fixture.detectChanges();
+            detectChanges(fixture);
             select2 = getSelect2(fixture);
             clickSelection(fixture);
-            fixture.detectChanges();
+            detectChanges(fixture);
             expect(select2.isOpen).toBe(true);
         });
 
         it('should scroll results to top when no selected option', () => {
             clickSelection(fixture);
-            fixture.detectChanges();
+            detectChanges(fixture);
             expect(select2.isOpen).toBe(true);
         });
 
         it('should handle ON_OPEN_KEYS (Home) when opening', () => {
             const sel = fixture.nativeElement.querySelector('.selection') as HTMLElement;
             dispatchKeydown(sel, 'Home');
-            fixture.detectChanges();
+            detectChanges(fixture);
             expect(select2.isOpen).toBe(true);
         });
 
         it('should handle ON_OPEN_KEYS (End) when opening', () => {
             const sel = fixture.nativeElement.querySelector('.selection') as HTMLElement;
             dispatchKeydown(sel, 'End');
-            fixture.detectChanges();
+            detectChanges(fixture);
             expect(select2.isOpen).toBe(true);
         });
 
         it('should handle ON_OPEN_KEYS (PageUp) when opening', () => {
             const sel = fixture.nativeElement.querySelector('.selection') as HTMLElement;
             dispatchKeydown(sel, 'PageUp');
-            fixture.detectChanges();
+            detectChanges(fixture);
             expect(select2.isOpen).toBe(true);
         });
 
         it('should handle ON_OPEN_KEYS (PageDown) when opening', () => {
             const sel = fixture.nativeElement.querySelector('.selection') as HTMLElement;
             dispatchKeydown(sel, 'PageDown');
-            fixture.detectChanges();
+            detectChanges(fixture);
             expect(select2.isOpen).toBe(true);
         });
     });
@@ -1912,15 +1937,15 @@ describe('Select2 Component - additional coverage', () => {
         it('should select on Space when searchbox is hidden', () => {
             host.displaySearchStatus = 'hidden';
             host.value = 'opt1';
-            fixture.detectChanges();
+            detectChanges(fixture);
             select2 = getSelect2(fixture);
 
             clickSelection(fixture);
-            fixture.detectChanges();
+            detectChanges(fixture);
 
             const sel = fixture.nativeElement.querySelector('.selection') as HTMLElement;
             dispatchKeydown(sel, ' ');
-            fixture.detectChanges();
+            detectChanges(fixture);
             // Space should trigger selectByEnter when searchbox is hidden
         });
     });
@@ -1930,43 +1955,43 @@ describe('Select2 Component - additional coverage', () => {
     describe('openKey - native keyboard', () => {
         it('should handle ArrowDown when closed in native mode', () => {
             host.nativeKeyboard = true;
-            fixture.detectChanges();
+            detectChanges(fixture);
             select2 = getSelect2(fixture);
 
             const sel = fixture.nativeElement.querySelector('.selection') as HTMLElement;
             dispatchKeydown(sel, 'ArrowDown');
-            fixture.detectChanges();
+            detectChanges(fixture);
         });
 
         it('should handle CLOSE_KEYS_NATIVE when closed in native mode', () => {
             host.nativeKeyboard = true;
             host.value = 'opt1';
-            fixture.detectChanges();
+            detectChanges(fixture);
             select2 = getSelect2(fixture);
 
             // First open
             const sel = fixture.nativeElement.querySelector('.selection') as HTMLElement;
             dispatchKeydown(sel, 'Enter');
-            fixture.detectChanges();
+            detectChanges(fixture);
             expect(select2.isOpen).toBe(true);
 
             // Close
             dispatchKeydown(sel, 'Escape');
-            fixture.detectChanges();
+            detectChanges(fixture);
 
             // Now use ArrowDown (CLOSE_KEYS_NATIVE) when closed
             dispatchKeydown(sel, 'ArrowDown');
-            fixture.detectChanges();
+            detectChanges(fixture);
         });
 
         it('should handle Space in native keyboard mode (OPEN_KEYS_NATIVE)', () => {
             host.nativeKeyboard = true;
-            fixture.detectChanges();
+            detectChanges(fixture);
             select2 = getSelect2(fixture);
 
             const sel = fixture.nativeElement.querySelector('.selection') as HTMLElement;
             dispatchKeydown(sel, ' ');
-            fixture.detectChanges();
+            detectChanges(fixture);
             expect(select2.isOpen).toBe(true);
         });
     });
@@ -1978,13 +2003,13 @@ describe('Select2 Component - additional coverage', () => {
             host.multiple = true;
             host.readonlyVal = true;
             host.value = ['opt1', 'opt2'];
-            fixture.detectChanges();
+            detectChanges(fixture);
             select2 = getSelect2(fixture);
 
             const event = new MouseEvent('click');
             const opt = select2.select2Options[0];
             select2.removeSelection(event, opt);
-            fixture.detectChanges();
+            detectChanges(fixture);
             expect(select2.select2Options.length).toBe(2);
         });
 
@@ -1992,13 +2017,13 @@ describe('Select2 Component - additional coverage', () => {
             host.multiple = true;
             host.disabled = true;
             host.value = ['opt1', 'opt2'];
-            fixture.detectChanges();
+            detectChanges(fixture);
             select2 = getSelect2(fixture);
 
             const event = new MouseEvent('click');
             const opt = select2.select2Options[0];
             select2.removeSelection(event, opt);
-            fixture.detectChanges();
+            detectChanges(fixture);
             expect(select2.select2Options.length).toBe(2);
         });
 
@@ -2006,16 +2031,16 @@ describe('Select2 Component - additional coverage', () => {
             host.multiple = true;
             host.displaySearchStatus = 'always';
             host.value = ['opt1', 'opt2'];
-            fixture.detectChanges();
+            detectChanges(fixture);
             select2 = getSelect2(fixture);
 
             clickSelection(fixture);
-            fixture.detectChanges();
+            detectChanges(fixture);
 
             const event = new MouseEvent('click', { cancelable: true });
             const opt = select2.select2Options[0];
             select2.removeSelection(event, opt);
-            fixture.detectChanges();
+            detectChanges(fixture);
             await new Promise(r => setTimeout(r, 50));
         });
     });
@@ -2025,7 +2050,7 @@ describe('Select2 Component - additional coverage', () => {
     describe('writeValue and _setSelectionByValue', () => {
         it('should throw error when writing non-array value in multiple mode', () => {
             host.multiple = true;
-            fixture.detectChanges();
+            detectChanges(fixture);
             select2 = getSelect2(fixture);
 
             expect(() => select2.writeValue('single-value')).toThrow('Non array value.');
@@ -2034,21 +2059,21 @@ describe('Select2 Component - additional coverage', () => {
         it('should handle writeValue with null in multiple mode', () => {
             host.multiple = true;
             host.value = ['opt1'];
-            fixture.detectChanges();
+            detectChanges(fixture);
             select2 = getSelect2(fixture);
 
             select2.writeValue(null);
-            fixture.detectChanges();
+            detectChanges(fixture);
             expect(select2.select2Options.length).toBe(0);
         });
 
         it('should handle writeValue with array in multiple mode', () => {
             host.multiple = true;
-            fixture.detectChanges();
+            detectChanges(fixture);
             select2 = getSelect2(fixture);
 
             select2.writeValue(['opt1', 'opt2']);
-            fixture.detectChanges();
+            detectChanges(fixture);
             expect(select2.select2Options.length).toBe(2);
         });
     });
@@ -2085,7 +2110,7 @@ describe('Select2 Component - additional coverage', () => {
         it('should return true when overlay + auto + top position', () => {
             host.overlay = true;
             host.listPosition = 'auto';
-            fixture.detectChanges();
+            detectChanges(fixture);
             select2 = getSelect2(fixture);
             (select2 as any)._overlayPosition = 'top';
             expect((select2 as any)._isAbobeOverlay()).toBe(true);
@@ -2094,7 +2119,7 @@ describe('Select2 Component - additional coverage', () => {
         it('should return false when overlay + auto + bottom position', () => {
             host.overlay = true;
             host.listPosition = 'auto';
-            fixture.detectChanges();
+            detectChanges(fixture);
             select2 = getSelect2(fixture);
             (select2 as any)._overlayPosition = 'bottom';
             expect((select2 as any)._isAbobeOverlay()).toBe(false);
@@ -2102,14 +2127,14 @@ describe('Select2 Component - additional coverage', () => {
 
         it('should return true when listPosition is above (no overlay)', () => {
             host.listPosition = 'above';
-            fixture.detectChanges();
+            detectChanges(fixture);
             select2 = getSelect2(fixture);
             expect((select2 as any)._isAbobeOverlay()).toBe(true);
         });
 
         it('should return false when listPosition is below', () => {
             host.listPosition = 'below';
-            fixture.detectChanges();
+            detectChanges(fixture);
             select2 = getSelect2(fixture);
             expect((select2 as any)._isAbobeOverlay()).toBe(false);
         });
@@ -2120,31 +2145,31 @@ describe('Select2 Component - additional coverage', () => {
     describe('_focus branches', () => {
         it('should focus searchInput when open and searchbox visible', () => {
             host.displaySearchStatus = 'always';
-            fixture.detectChanges();
+            detectChanges(fixture);
             select2 = getSelect2(fixture);
             clickSelection(fixture);
-            fixture.detectChanges();
+            detectChanges(fixture);
             // _focus(true) should focus the search input
             (select2 as any)._focus(true);
-            fixture.detectChanges();
+            detectChanges(fixture);
         });
 
         it('should blur when _focus(false) and selection is active', () => {
             const sel = fixture.nativeElement.querySelector('.selection') as HTMLElement;
             sel.focus();
-            fixture.detectChanges();
+            detectChanges(fixture);
             (select2 as any)._focus(false);
-            fixture.detectChanges();
+            detectChanges(fixture);
         });
 
         it('should blur when _focus(false) and searchInput is active', () => {
             host.displaySearchStatus = 'always';
-            fixture.detectChanges();
+            detectChanges(fixture);
             select2 = getSelect2(fixture);
             clickSelection(fixture);
-            fixture.detectChanges();
+            detectChanges(fixture);
             (select2 as any)._focus(false);
-            fixture.detectChanges();
+            detectChanges(fixture);
         });
     });
 
@@ -2155,11 +2180,11 @@ describe('Select2 Component - additional coverage', () => {
             host.multiple = true;
             host.showSelectAll = true;
             host.data = GROUP_DATA;
-            fixture.detectChanges();
+            detectChanges(fixture);
             select2 = getSelect2(fixture);
 
             select2.selectAll();
-            fixture.detectChanges();
+            detectChanges(fixture);
             // Should select all non-disabled: a1, a2, b1 (b2 is disabled)
             expect(select2.select2Options.length).toBe(3);
         });
@@ -2169,11 +2194,11 @@ describe('Select2 Component - additional coverage', () => {
             host.showSelectAll = true;
             host.data = GROUP_DATA;
             host.value = ['a1', 'a2', 'b1'];
-            fixture.detectChanges();
+            detectChanges(fixture);
             select2 = getSelect2(fixture);
 
             select2.selectAll();
-            fixture.detectChanges();
+            detectChanges(fixture);
             expect(select2.select2Options.length).toBe(0);
         });
 
@@ -2181,7 +2206,7 @@ describe('Select2 Component - additional coverage', () => {
             host.multiple = true;
             host.data = GROUP_DATA;
             host.value = ['a1', 'a2', 'b1'];
-            fixture.detectChanges();
+            detectChanges(fixture);
             select2 = getSelect2(fixture);
 
             expect(select2.selectAllTest()).toBe(true);
@@ -2189,7 +2214,7 @@ describe('Select2 Component - additional coverage', () => {
 
         it('selectAll should do nothing in single mode', () => {
             host.multiple = false;
-            fixture.detectChanges();
+            detectChanges(fixture);
             select2 = getSelect2(fixture);
             select2.selectAll();
             // Should not throw
@@ -2202,7 +2227,7 @@ describe('Select2 Component - additional coverage', () => {
         it('selectAllTest should return false when empty selection', () => {
             host.multiple = true;
             host.value = [];
-            fixture.detectChanges();
+            detectChanges(fixture);
             select2 = getSelect2(fixture);
             expect(select2.selectAllTest()).toBe(false);
         });
@@ -2213,7 +2238,7 @@ describe('Select2 Component - additional coverage', () => {
     describe('updateFilteredData - more branches', () => {
         it('should refresh single selectedOption when data changes', () => {
             host.value = 'opt1';
-            fixture.detectChanges();
+            detectChanges(fixture);
             select2 = getSelect2(fixture);
 
             // Change data with same values but new references
@@ -2221,14 +2246,14 @@ describe('Select2 Component - additional coverage', () => {
                 { value: 'opt1', label: 'Option 1 Updated' },
                 { value: 'opt2', label: 'Option 2' },
             ];
-            fixture.detectChanges();
+            detectChanges(fixture);
             expect(select2.select2Option?.label).toBe('Option 1 Updated');
         });
 
         it('should handle single selectedOption with grouped data', () => {
             host.data = GROUP_DATA;
             host.value = 'a1';
-            fixture.detectChanges();
+            detectChanges(fixture);
             select2 = getSelect2(fixture);
 
             // Change data
@@ -2242,7 +2267,7 @@ describe('Select2 Component - additional coverage', () => {
                 },
             ];
             host.data = newData;
-            fixture.detectChanges();
+            detectChanges(fixture);
             expect(select2.select2Option?.label).toBe('Alpha 1 Updated');
         });
     });
@@ -2274,7 +2299,7 @@ describe('Select2 Component - additional coverage', () => {
     describe('_setSelectionByValue edge cases', () => {
         it('should handle writeValue with undefined', () => {
             select2.writeValue(undefined);
-            fixture.detectChanges();
+            detectChanges(fixture);
             expect(select2.selectedOption).toBeNull();
         });
     });
@@ -2285,30 +2310,30 @@ describe('Select2 Component - additional coverage', () => {
         it('should convert single to array when multiple is true', async () => {
             // Set a single value first
             host.value = 'opt1';
-            fixture.detectChanges();
+            detectChanges(fixture);
             select2 = getSelect2(fixture);
             expect(select2.select2Option?.value).toBe('opt1');
 
             // Force the fixValue path: set selectedOption to single, then call fixValue with multiple=true
             host.multiple = true;
-            fixture.detectChanges();
+            detectChanges(fixture);
             select2 = getSelect2(fixture);
             await new Promise(r => setTimeout(r, 50));
-            fixture.detectChanges();
+            detectChanges(fixture);
         });
 
         it('should convert array to single when multiple is false', async () => {
             host.multiple = true;
             host.value = ['opt1'];
-            fixture.detectChanges();
+            detectChanges(fixture);
             select2 = getSelect2(fixture);
 
             // Switch to single mode
             host.multiple = false;
-            fixture.detectChanges();
+            detectChanges(fixture);
             select2 = getSelect2(fixture);
             await new Promise(r => setTimeout(r, 50));
-            fixture.detectChanges();
+            detectChanges(fixture);
         });
     });
 
@@ -2319,11 +2344,11 @@ describe('Select2 Component - additional coverage', () => {
             host.multiple = true;
             host.hideSelectedItems = true;
             host.value = ['opt1', 'opt2'];
-            fixture.detectChanges();
+            detectChanges(fixture);
             select2 = getSelect2(fixture);
 
             clickSelection(fixture);
-            fixture.detectChanges();
+            detectChanges(fixture);
             const options = getOptions(fixture);
             const labels = options.map(o => o.textContent?.trim());
             expect(labels).not.toContain('Option 1');
@@ -2337,14 +2362,14 @@ describe('Select2 Component - additional coverage', () => {
         it('should update filtered data after select in multiple+hide mode', async () => {
             host.multiple = true;
             host.hideSelectedItems = true;
-            fixture.detectChanges();
+            detectChanges(fixture);
             select2 = getSelect2(fixture);
 
             clickSelection(fixture);
-            fixture.detectChanges();
+            detectChanges(fixture);
             const options = getOptions(fixture);
             options[0]?.click();
-            fixture.detectChanges();
+            detectChanges(fixture);
             await new Promise(r => setTimeout(r, 0));
 
             // After selecting, the option should be hidden
@@ -2361,13 +2386,13 @@ describe('Select2 Component - additional coverage', () => {
             host.multiple = true;
             host.hideSelectedItems = true;
             host.value = ['opt1', 'opt2'];
-            fixture.detectChanges();
+            detectChanges(fixture);
             select2 = getSelect2(fixture);
 
             const event = new MouseEvent('click', { cancelable: true });
             const opt = select2.select2Options[0];
             select2.removeSelection(event, opt);
-            fixture.detectChanges();
+            detectChanges(fixture);
             await new Promise(r => setTimeout(r, 0));
             expect(host.onRemove).toHaveBeenCalled();
         });
@@ -2379,13 +2404,13 @@ describe('Select2 Component - additional coverage', () => {
         it('should set _value directly when no _control', async () => {
             host.multiple = true;
             host.value = ['opt1', 'opt2'];
-            fixture.detectChanges();
+            detectChanges(fixture);
             select2 = getSelect2(fixture);
 
             const event = new MouseEvent('click', { cancelable: true });
             const opt = select2.select2Options[0];
             select2.removeSelection(event, opt);
-            fixture.detectChanges();
+            detectChanges(fixture);
             await new Promise(r => setTimeout(r, 0));
             expect(host.onRemove).toHaveBeenCalled();
         });
@@ -2398,19 +2423,19 @@ describe('Select2 Component - additional coverage', () => {
             const sel = fixture.nativeElement.querySelector('.selection') as HTMLElement;
             // Open first
             dispatchKeydown(sel, 'Enter');
-            fixture.detectChanges();
+            detectChanges(fixture);
             expect(select2.isOpen).toBe(true);
 
             // Close via Escape through openKey
             dispatchKeydown(sel, 'Escape');
-            fixture.detectChanges();
+            detectChanges(fixture);
         });
 
         it('should not close on Escape when already closed', () => {
             expect(select2.isOpen).toBe(false);
             const sel = fixture.nativeElement.querySelector('.selection') as HTMLElement;
             dispatchKeydown(sel, 'Escape');
-            fixture.detectChanges();
+            detectChanges(fixture);
             expect(select2.isOpen).toBe(false);
         });
     });
@@ -2421,15 +2446,15 @@ describe('Select2 Component - additional coverage', () => {
         it('should auto-select on ArrowDown in native keyboard mode', () => {
             host.nativeKeyboard = true;
             host.displaySearchStatus = 'always';
-            fixture.detectChanges();
+            detectChanges(fixture);
             select2 = getSelect2(fixture);
 
             clickSelection(fixture);
-            fixture.detectChanges();
+            detectChanges(fixture);
 
             const searchInput = fixture.nativeElement.querySelector('.select2-search__field') as HTMLElement;
             dispatchKeydown(searchInput, 'ArrowDown');
-            fixture.detectChanges();
+            detectChanges(fixture);
             // In native mode, ArrowDown should also select
         });
     });
@@ -2439,14 +2464,14 @@ describe('Select2 Component - additional coverage', () => {
     describe('_tabIndex', () => {
         it('should return -1 when disabled', () => {
             host.disabled = true;
-            fixture.detectChanges();
+            detectChanges(fixture);
             select2 = getSelect2(fixture);
             expect((select2 as any)._tabIndex).toBe(-1);
         });
 
         it('should return tabIndex when not disabled', () => {
             host.tabIdx = 3;
-            fixture.detectChanges();
+            detectChanges(fixture);
             select2 = getSelect2(fixture);
             expect((select2 as any)._tabIndex).toBe(3);
         });
@@ -2476,7 +2501,7 @@ describe('Select2 Component - additional coverage', () => {
     describe('clickDetection - dropdown interactions', () => {
         it('should not close when clicking on results option in single mode', () => {
             clickSelection(fixture);
-            fixture.detectChanges();
+            detectChanges(fixture);
             expect(select2.isOpen).toBe(true);
 
             const optionEl = fixture.nativeElement.querySelector('.select2-results__option') as HTMLElement;
@@ -2484,18 +2509,18 @@ describe('Select2 Component - additional coverage', () => {
                 const event = new MouseEvent('click', { bubbles: true });
                 Object.defineProperty(event, 'target', { value: optionEl });
                 select2.clickDetection(event);
-                fixture.detectChanges();
+                detectChanges(fixture);
             }
         });
 
         it('should close when clicking on dropdown in multiple mode with hideSelectedItems', () => {
             host.multiple = true;
             host.hideSelectedItems = true;
-            fixture.detectChanges();
+            detectChanges(fixture);
             select2 = getSelect2(fixture);
 
             clickSelection(fixture);
-            fixture.detectChanges();
+            detectChanges(fixture);
             expect(select2.isOpen).toBe(true);
 
             const dropdownEl = fixture.nativeElement.querySelector('.select2-dropdown') as HTMLElement;
@@ -2503,7 +2528,7 @@ describe('Select2 Component - additional coverage', () => {
                 const event = new MouseEvent('click', { bubbles: true });
                 Object.defineProperty(event, 'target', { value: dropdownEl });
                 select2.clickDetection(event);
-                fixture.detectChanges();
+                detectChanges(fixture);
             }
         });
     });
@@ -2514,7 +2539,7 @@ describe('Select2 Component - additional coverage', () => {
         it('should use _isAbobeOverlay when overlay is true', () => {
             host.overlay = true;
             host.listPosition = 'auto';
-            fixture.detectChanges();
+            detectChanges(fixture);
             select2 = getSelect2(fixture);
             (select2 as any)._overlayPosition = 'top';
             expect(select2.select2above).toBe(true);
@@ -2523,7 +2548,7 @@ describe('Select2 Component - additional coverage', () => {
         it('should return false with overlay and bottom position', () => {
             host.overlay = true;
             host.listPosition = 'auto';
-            fixture.detectChanges();
+            detectChanges(fixture);
             select2 = getSelect2(fixture);
             (select2 as any)._overlayPosition = 'bottom';
             expect(select2.select2above).toBe(false);
@@ -2536,29 +2561,29 @@ describe('Select2 Component - additional coverage', () => {
         it('should not update when same array values', () => {
             host.multiple = true;
             host.value = ['opt1', 'opt2'];
-            fixture.detectChanges();
+            detectChanges(fixture);
             host.onUpdate.mockClear();
 
             // Set same values again
             host.value = ['opt1', 'opt2'];
-            fixture.detectChanges();
+            detectChanges(fixture);
             // Should not trigger update since values are the same
         });
 
         it('should update when different array values', () => {
             host.multiple = true;
             host.value = ['opt1'];
-            fixture.detectChanges();
+            detectChanges(fixture);
 
             host.value = ['opt1', 'opt2'];
-            fixture.detectChanges();
+            detectChanges(fixture);
         });
 
         it('should handle null to null transition', () => {
             host.value = undefined;
-            fixture.detectChanges();
+            detectChanges(fixture);
             host.value = undefined;
-            fixture.detectChanges();
+            detectChanges(fixture);
             // Should not throw
         });
     });
@@ -2574,12 +2599,12 @@ describe('Select2 Component - deep coverage', () => {
     beforeEach(async () => {
         await TestBed.configureTestingModule({
             imports: [TestHostComponent],
-            providers: [provideNoopAnimations()],
+            providers: provideTestEnv(),
         }).compileComponents();
 
         fixture = TestBed.createComponent(TestHostComponent);
         host = fixture.componentInstance;
-        fixture.detectChanges();
+        detectChanges(fixture);
         select2 = getSelect2(fixture);
     });
 
@@ -2604,7 +2629,7 @@ describe('Select2 Component - deep coverage', () => {
         it('should handle position change with auto listPosition', () => {
             host.overlay = true;
             host.listPosition = 'auto';
-            fixture.detectChanges();
+            detectChanges(fixture);
             select2 = getSelect2(fixture);
             // ngAfterViewInit already ran, the subscription is set up
             // We can verify the overlay is configured
@@ -2617,44 +2642,44 @@ describe('Select2 Component - deep coverage', () => {
     describe('fixValue - direct calls', () => {
         it('should convert single selectedOption to array when multiple', async () => {
             host.value = 'opt1';
-            fixture.detectChanges();
+            detectChanges(fixture);
             select2 = getSelect2(fixture);
 
             // Manually set multiple and call fixValue
             (select2 as any).selectedOption = { value: 'opt1', label: 'Option 1' } as Select2Option;
             // Force multiple input
             host.multiple = true;
-            fixture.detectChanges();
+            detectChanges(fixture);
             select2 = getSelect2(fixture);
 
             // Call fixValue directly
             select2.fixValue();
             await new Promise(r => setTimeout(r, 50));
-            fixture.detectChanges();
+            detectChanges(fixture);
         });
 
         it('should convert array selectedOption to single when not multiple', async () => {
             host.multiple = true;
             host.value = ['opt1'];
-            fixture.detectChanges();
+            detectChanges(fixture);
             select2 = getSelect2(fixture);
 
             // Now switch to single
             host.multiple = false;
-            fixture.detectChanges();
+            detectChanges(fixture);
             select2 = getSelect2(fixture);
 
             // Force array selectedOption on single mode
             (select2 as any).selectedOption = [{ value: 'opt1', label: 'Option 1' }];
             select2.fixValue();
             await new Promise(r => setTimeout(r, 50));
-            fixture.detectChanges();
+            detectChanges(fixture);
         });
 
         it('should just detectChanges when types match', () => {
             // Single mode with null selectedOption
             select2.fixValue();
-            fixture.detectChanges();
+            detectChanges(fixture);
             // Should not throw
         });
     });
@@ -2665,11 +2690,11 @@ describe('Select2 Component - deep coverage', () => {
         it('should detect different elements in same-length arrays', () => {
             host.multiple = true;
             host.value = ['opt1', 'opt2'];
-            fixture.detectChanges();
+            detectChanges(fixture);
 
             // Change to different values with same length
             host.value = ['opt1', 'opt3'];
-            fixture.detectChanges();
+            detectChanges(fixture);
             // Should trigger update since values differ
         });
     });
@@ -2680,11 +2705,11 @@ describe('Select2 Component - deep coverage', () => {
         it('should set value to empty string when clearing array selection', async () => {
             host.multiple = true;
             host.value = ['opt1', 'opt2'];
-            fixture.detectChanges();
+            detectChanges(fixture);
             select2 = getSelect2(fixture);
 
             select2.select(null);
-            fixture.detectChanges();
+            detectChanges(fixture);
             await new Promise(r => setTimeout(r, 0));
             // In multiple mode, select(null) triggers writeValue which resets to []
             expect(Array.isArray(select2.selectedOption) || select2.selectedOption === null).toBe(true);
@@ -2692,11 +2717,11 @@ describe('Select2 Component - deep coverage', () => {
 
         it('should set value to empty string when clearing single selection', async () => {
             host.value = 'opt1';
-            fixture.detectChanges();
+            detectChanges(fixture);
             select2 = getSelect2(fixture);
 
             select2.select(null);
-            fixture.detectChanges();
+            detectChanges(fixture);
             await new Promise(r => setTimeout(r, 0));
             expect(select2.selectedOption).toBeNull();
         });
@@ -2707,44 +2732,44 @@ describe('Select2 Component - deep coverage', () => {
     describe('keyDown - close keys when open', () => {
         it('should close on Escape via keyDown when open', () => {
             host.displaySearchStatus = 'always';
-            fixture.detectChanges();
+            detectChanges(fixture);
             select2 = getSelect2(fixture);
 
             clickSelection(fixture);
-            fixture.detectChanges();
+            detectChanges(fixture);
             expect(select2.isOpen).toBe(true);
 
             const searchInput = fixture.nativeElement.querySelector('.select2-search__field') as HTMLElement;
             dispatchKeydown(searchInput, 'Escape');
-            fixture.detectChanges();
+            detectChanges(fixture);
             expect(select2.isOpen).toBe(false);
         });
 
         it('should close on Tab via keyDown when open', () => {
             host.displaySearchStatus = 'always';
-            fixture.detectChanges();
+            detectChanges(fixture);
             select2 = getSelect2(fixture);
 
             clickSelection(fixture);
-            fixture.detectChanges();
+            detectChanges(fixture);
 
             const searchInput = fixture.nativeElement.querySelector('.select2-search__field') as HTMLElement;
             dispatchKeydown(searchInput, 'Tab');
-            fixture.detectChanges();
+            detectChanges(fixture);
             expect(select2.isOpen).toBe(false);
         });
 
         it('should close on Alt+ArrowUp via keyDown when open', () => {
             host.displaySearchStatus = 'always';
-            fixture.detectChanges();
+            detectChanges(fixture);
             select2 = getSelect2(fixture);
 
             clickSelection(fixture);
-            fixture.detectChanges();
+            detectChanges(fixture);
 
             const searchInput = fixture.nativeElement.querySelector('.select2-search__field') as HTMLElement;
             dispatchKeydown(searchInput, 'ArrowUp', { altKey: true });
-            fixture.detectChanges();
+            detectChanges(fixture);
             expect(select2.isOpen).toBe(false);
         });
     });
@@ -2777,11 +2802,11 @@ describe('Select2 Component - deep coverage', () => {
         it('should handle writeValue(null) in multiple mode', async () => {
             host.multiple = true;
             host.value = ['opt1', 'opt2'];
-            fixture.detectChanges();
+            detectChanges(fixture);
             select2 = getSelect2(fixture);
 
             select2.writeValue(null);
-            fixture.detectChanges();
+            detectChanges(fixture);
             await new Promise(r => setTimeout(r, 0));
             expect(select2.select2Options.length).toBe(0);
         });
@@ -2815,17 +2840,17 @@ describe('Select2 Component - deep coverage', () => {
         it('should handle Enter with create=true in autoCreate mode', () => {
             host.multiple = true;
             host.autoCreate = true;
-            fixture.detectChanges();
+            detectChanges(fixture);
             select2 = getSelect2(fixture);
 
             clickSelection(fixture);
-            fixture.detectChanges();
+            detectChanges(fixture);
 
             const createField = fixture.nativeElement.querySelector('.select2-create__field') as HTMLInputElement;
             if (createField) {
                 createField.value = 'New Item';
                 dispatchKeydown(createField, 'Enter');
-                fixture.detectChanges();
+                detectChanges(fixture);
             }
         });
     });
@@ -2836,66 +2861,66 @@ describe('Select2 Component - deep coverage', () => {
         it('should handle ArrowDown when closed in native mode (CLOSE_KEYS_NATIVE path)', () => {
             host.nativeKeyboard = true;
             host.value = 'opt1';
-            fixture.detectChanges();
+            detectChanges(fixture);
             select2 = getSelect2(fixture);
 
             const sel = fixture.nativeElement.querySelector('.selection') as HTMLElement;
             // ArrowDown is in CLOSE_KEYS_NATIVE, should trigger keyDown path
             dispatchKeydown(sel, 'ArrowDown');
-            fixture.detectChanges();
+            detectChanges(fixture);
         });
 
         it('should handle ArrowUp when closed in native mode', () => {
             host.nativeKeyboard = true;
             host.value = 'opt1';
-            fixture.detectChanges();
+            detectChanges(fixture);
             select2 = getSelect2(fixture);
 
             const sel = fixture.nativeElement.querySelector('.selection') as HTMLElement;
             dispatchKeydown(sel, 'ArrowUp');
-            fixture.detectChanges();
+            detectChanges(fixture);
         });
 
         it('should handle Home when closed in native mode', () => {
             host.nativeKeyboard = true;
             host.value = 'opt1';
-            fixture.detectChanges();
+            detectChanges(fixture);
             select2 = getSelect2(fixture);
 
             const sel = fixture.nativeElement.querySelector('.selection') as HTMLElement;
             dispatchKeydown(sel, 'Home');
-            fixture.detectChanges();
+            detectChanges(fixture);
         });
 
         it('should handle End when closed in native mode', () => {
             host.nativeKeyboard = true;
             host.value = 'opt1';
-            fixture.detectChanges();
+            detectChanges(fixture);
             select2 = getSelect2(fixture);
 
             const sel = fixture.nativeElement.querySelector('.selection') as HTMLElement;
             dispatchKeydown(sel, 'End');
-            fixture.detectChanges();
+            detectChanges(fixture);
         });
 
         it('should handle PageUp when closed in native mode', () => {
             host.nativeKeyboard = true;
-            fixture.detectChanges();
+            detectChanges(fixture);
             select2 = getSelect2(fixture);
 
             const sel = fixture.nativeElement.querySelector('.selection') as HTMLElement;
             dispatchKeydown(sel, 'PageUp');
-            fixture.detectChanges();
+            detectChanges(fixture);
         });
 
         it('should handle PageDown when closed in native mode', () => {
             host.nativeKeyboard = true;
-            fixture.detectChanges();
+            detectChanges(fixture);
             select2 = getSelect2(fixture);
 
             const sel = fixture.nativeElement.querySelector('.selection') as HTMLElement;
             dispatchKeydown(sel, 'PageDown');
-            fixture.detectChanges();
+            detectChanges(fixture);
         });
     });
 
@@ -2906,7 +2931,7 @@ describe('Select2 Component - deep coverage', () => {
             // The first time value is set, _value is undefined
             // This is already covered by initial setup, but let's be explicit
             host.value = 'opt1';
-            fixture.detectChanges();
+            detectChanges(fixture);
             expect(select2.select2Option?.value).toBe('opt1');
         });
     });
@@ -2916,12 +2941,12 @@ describe('Select2 Component - deep coverage', () => {
     describe('select - closeOnSelect false', () => {
         it('should not close when closeOnSelect is false', () => {
             clickSelection(fixture);
-            fixture.detectChanges();
+            detectChanges(fixture);
             expect(select2.isOpen).toBe(true);
 
             const option: Select2Option = { value: 'opt1', label: 'Option 1' };
             select2.select(option, true, false);
-            fixture.detectChanges();
+            detectChanges(fixture);
             expect(select2.isOpen).toBe(true);
         });
     });
@@ -2931,12 +2956,12 @@ describe('Select2 Component - deep coverage', () => {
     describe('select - single mode close and focus', () => {
         it('should close and focus selection element after select', () => {
             clickSelection(fixture);
-            fixture.detectChanges();
+            detectChanges(fixture);
             expect(select2.isOpen).toBe(true);
 
             const options = getOptions(fixture);
             options[0]?.click();
-            fixture.detectChanges();
+            detectChanges(fixture);
             expect(select2.isOpen).toBe(false);
         });
     });
@@ -2948,16 +2973,16 @@ describe('Select2 Component - deep coverage', () => {
             host.data = MANY_OPTIONS;
             host.maxResults = 3;
             host.displaySearchStatus = 'always';
-            fixture.detectChanges();
+            detectChanges(fixture);
             select2 = getSelect2(fixture);
 
             clickSelection(fixture);
-            fixture.detectChanges();
+            detectChanges(fixture);
 
             const searchInput = fixture.nativeElement.querySelector('.select2-search__field') as HTMLInputElement;
             searchInput.value = 'Value';
             dispatchKeyup(searchInput, 'e');
-            fixture.detectChanges();
+            detectChanges(fixture);
 
             const options = getOptions(fixture);
             expect(options.length).toBeLessThanOrEqual(3);
@@ -2975,12 +3000,12 @@ describe('Select2 Component - final coverage', () => {
     beforeEach(async () => {
         await TestBed.configureTestingModule({
             imports: [TestHostComponent],
-            providers: [provideNoopAnimations()],
+            providers: provideTestEnv(),
         }).compileComponents();
 
         fixture = TestBed.createComponent(TestHostComponent);
         host = fixture.componentInstance;
-        fixture.detectChanges();
+        detectChanges(fixture);
         select2 = getSelect2(fixture);
     });
 
@@ -2993,10 +3018,10 @@ describe('Select2 Component - final coverage', () => {
             expect(select2).toBeTruthy();
             // Open the select and trigger a resize
             clickSelection(fixture);
-            fixture.detectChanges();
+            detectChanges(fixture);
             // Dispatch resize event to trigger viewport ruler
             window.dispatchEvent(new Event('resize'));
-            fixture.detectChanges();
+            detectChanges(fixture);
         });
     });
 
@@ -3006,14 +3031,14 @@ describe('Select2 Component - final coverage', () => {
         it('should set value to empty when clearing multiple selection via select(null)', async () => {
             host.multiple = true;
             host.value = ['opt1'];
-            fixture.detectChanges();
+            detectChanges(fixture);
             select2 = getSelect2(fixture);
             expect(select2.select2Options.length).toBe(1);
 
             // Directly call select(null) - this should hit the array?.length branch
             (select2 as any).selectedOption = [{ value: 'opt1', label: 'Option 1' }];
             select2.select(null, true, true);
-            fixture.detectChanges();
+            detectChanges(fixture);
             await new Promise(r => setTimeout(r, 50));
         });
     });
@@ -3023,13 +3048,13 @@ describe('Select2 Component - final coverage', () => {
     describe('keyDown close keys directly', () => {
         it('should close on Escape via keyDown method directly', () => {
             clickSelection(fixture);
-            fixture.detectChanges();
+            detectChanges(fixture);
             expect(select2.isOpen).toBe(true);
 
             // Call keyDown directly with Escape
             const event = new KeyboardEvent('keydown', { key: 'Escape', bubbles: true, cancelable: true });
             (select2 as any).keyDown(event);
-            fixture.detectChanges();
+            detectChanges(fixture);
             expect(select2.isOpen).toBe(false);
         });
     });
@@ -3040,7 +3065,7 @@ describe('Select2 Component - final coverage', () => {
         it('should reset when writeValue(null) in multiple mode with existing selection', async () => {
             host.multiple = true;
             host.value = ['opt1', 'opt2'];
-            fixture.detectChanges();
+            detectChanges(fixture);
             select2 = getSelect2(fixture);
 
             // Set _value to something non-null first
@@ -3048,9 +3073,9 @@ describe('Select2 Component - final coverage', () => {
 
             // Now write null - should hit the value === null branch
             select2.writeValue(null);
-            fixture.detectChanges();
+            detectChanges(fixture);
             await new Promise(r => setTimeout(r, 50));
-            fixture.detectChanges();
+            detectChanges(fixture);
         });
     });
 
@@ -3102,7 +3127,7 @@ describe('Select2 Component - final coverage', () => {
             const event = new MouseEvent('click', { bubbles: true });
             Object.defineProperty(event, 'target', { value: fakeEl });
             select2.clickDetection(event);
-            fixture.detectChanges();
+            detectChanges(fixture);
         });
     });
 
@@ -3113,41 +3138,41 @@ describe('Select2 Component - final coverage', () => {
             host.data = MANY_OPTIONS;
             host.resultMaxHeight = '50px';
             host.displaySearchStatus = 'always';
-            fixture.detectChanges();
+            detectChanges(fixture);
             select2 = getSelect2(fixture);
 
             clickSelection(fixture);
-            fixture.detectChanges();
+            detectChanges(fixture);
 
             // Navigate to bottom
             const searchInput = fixture.nativeElement.querySelector('.select2-search__field') as HTMLElement;
             for (let i = 0; i < 15; i++) {
                 dispatchKeydown(searchInput, 'ArrowDown');
             }
-            fixture.detectChanges();
+            detectChanges(fixture);
         });
 
         it('should scroll up when option is above visible area', () => {
             host.data = MANY_OPTIONS;
             host.resultMaxHeight = '50px';
             host.displaySearchStatus = 'always';
-            fixture.detectChanges();
+            detectChanges(fixture);
             select2 = getSelect2(fixture);
 
             clickSelection(fixture);
-            fixture.detectChanges();
+            detectChanges(fixture);
 
             const searchInput = fixture.nativeElement.querySelector('.select2-search__field') as HTMLElement;
             // Go down first
             for (let i = 0; i < 15; i++) {
                 dispatchKeydown(searchInput, 'ArrowDown');
             }
-            fixture.detectChanges();
+            detectChanges(fixture);
             // Then go back up
             for (let i = 0; i < 15; i++) {
                 dispatchKeydown(searchInput, 'ArrowUp');
             }
-            fixture.detectChanges();
+            detectChanges(fixture);
         });
     });
 
@@ -3158,13 +3183,13 @@ describe('Select2 Component - final coverage', () => {
             // Create a fresh component
             const freshFixture = TestBed.createComponent(TestHostComponent);
             const freshHost = freshFixture.componentInstance;
-            freshFixture.detectChanges();
+            detectChanges(freshFixture);
             const freshSelect2 = getSelect2(freshFixture);
 
             // _value should be null/undefined initially
             // Setting value for the first time should set _value
             freshHost.value = 'opt2';
-            freshFixture.detectChanges();
+            detectChanges(freshFixture);
             expect(freshSelect2.select2Option?.value).toBe('opt2');
         });
     });
@@ -3174,23 +3199,23 @@ describe('Select2 Component - final coverage', () => {
     describe('toggleOpenAndClose - searchbox hidden re-open', () => {
         it('should handle re-opening with hidden searchbox and event', () => {
             host.displaySearchStatus = 'hidden';
-            fixture.detectChanges();
+            detectChanges(fixture);
             select2 = getSelect2(fixture);
 
             // Open
             const sel = fixture.nativeElement.querySelector('.selection') as HTMLElement;
             dispatchKeydown(sel, 'Enter');
-            fixture.detectChanges();
+            detectChanges(fixture);
             expect(select2.isOpen).toBe(true);
 
             // Close
             dispatchKeydown(sel, 'Escape');
-            fixture.detectChanges();
+            detectChanges(fixture);
             expect(select2.isOpen).toBe(false);
 
             // Re-open with ArrowDown (should trigger the hidden searchbox + event path)
             dispatchKeydown(sel, 'ArrowDown');
-            fixture.detectChanges();
+            detectChanges(fixture);
         });
     });
 
@@ -3200,17 +3225,17 @@ describe('Select2 Component - final coverage', () => {
         it('should remove option when selecting already selected in multiple', () => {
             host.multiple = true;
             host.value = ['opt1', 'opt2'];
-            fixture.detectChanges();
+            detectChanges(fixture);
             select2 = getSelect2(fixture);
 
             clickSelection(fixture);
-            fixture.detectChanges();
+            detectChanges(fixture);
 
             // Click opt1 again to deselect
             const options = getOptions(fixture);
             const opt1El = options.find(o => o.textContent?.trim() === 'Option 1');
             opt1El?.click();
-            fixture.detectChanges();
+            detectChanges(fixture);
 
             expect(select2.select2Options.some(o => o.value === 'opt1')).toBe(false);
         });
@@ -3222,10 +3247,10 @@ describe('Select2 Component - final coverage', () => {
         it('should update overlayWidth when triggerRect width changes', () => {
             // Force a triggerRect
             select2.triggerRect();
-            fixture.detectChanges();
+            detectChanges(fixture);
             // ngDoCheck will compare and update
             select2.ngDoCheck();
-            fixture.detectChanges();
+            detectChanges(fixture);
         });
     });
 
@@ -3235,7 +3260,7 @@ describe('Select2 Component - final coverage', () => {
         it('should return 2 position pairs for auto', () => {
             host.listPosition = 'auto';
             host.overlay = true;
-            fixture.detectChanges();
+            detectChanges(fixture);
             select2 = getSelect2(fixture);
             const positions = (select2 as any)._positions;
             expect(positions.length).toBe(2);
@@ -3253,12 +3278,12 @@ describe('Select2 Component - remaining gaps', () => {
     beforeEach(async () => {
         await TestBed.configureTestingModule({
             imports: [TestHostComponent],
-            providers: [provideNoopAnimations()],
+            providers: provideTestEnv(),
         }).compileComponents();
 
         fixture = TestBed.createComponent(TestHostComponent);
         host = fixture.componentInstance;
-        fixture.detectChanges();
+        detectChanges(fixture);
         select2 = getSelect2(fixture);
     });
 
@@ -3273,12 +3298,12 @@ describe('Select2 Component - remaining gaps', () => {
             (select2 as any).overlayHeight = 0;
 
             select2.ngDoCheck();
-            fixture.detectChanges();
+            detectChanges(fixture);
         });
 
         it('should set overlayHeight to dropdownRect height when auto position', () => {
             host.listPosition = 'auto';
-            fixture.detectChanges();
+            detectChanges(fixture);
             select2 = getSelect2(fixture);
 
             (select2 as any)._triggerRect = { width: 200, height: 40 };
@@ -3287,13 +3312,13 @@ describe('Select2 Component - remaining gaps', () => {
             (select2 as any).overlayHeight = 0;
 
             select2.ngDoCheck();
-            fixture.detectChanges();
+            detectChanges(fixture);
             expect((select2 as any).overlayHeight).toBe(150);
         });
 
         it('should set overlayHeight to 0 when not auto position', () => {
             host.listPosition = 'below';
-            fixture.detectChanges();
+            detectChanges(fixture);
             select2 = getSelect2(fixture);
 
             (select2 as any)._triggerRect = { width: 200, height: 40 };
@@ -3302,7 +3327,7 @@ describe('Select2 Component - remaining gaps', () => {
             (select2 as any).overlayHeight = 0;
 
             select2.ngDoCheck();
-            fixture.detectChanges();
+            detectChanges(fixture);
             expect((select2 as any).overlayHeight).toBe(0);
         });
     });
@@ -3320,7 +3345,7 @@ describe('Select2 Component - remaining gaps', () => {
             select2.fixValue();
             // Wait for setTimeout
             await new Promise(r => setTimeout(r, 50));
-            fixture.detectChanges();
+            detectChanges(fixture);
 
             Object.defineProperty(select2, 'multiple', { value: origMultiple });
         });
@@ -3331,7 +3356,7 @@ describe('Select2 Component - remaining gaps', () => {
 
             select2.fixValue();
             await new Promise(r => setTimeout(r, 50));
-            fixture.detectChanges();
+            detectChanges(fixture);
         });
     });
 
@@ -3340,7 +3365,7 @@ describe('Select2 Component - remaining gaps', () => {
     describe('containAlmostOneClasses - no classList', () => {
         it('should handle element without classList in focused click', () => {
             select2.focusin();
-            fixture.detectChanges();
+            detectChanges(fixture);
 
             // Create a text node (no classList)
             const textNode = document.createTextNode('test');
@@ -3351,7 +3376,7 @@ describe('Select2 Component - remaining gaps', () => {
             const event = new MouseEvent('click', { bubbles: true });
             Object.defineProperty(event, 'target', { value: wrapper });
             select2.clickDetection(event);
-            fixture.detectChanges();
+            detectChanges(fixture);
             document.body.removeChild(wrapper);
         });
     });
@@ -3362,7 +3387,7 @@ describe('Select2 Component - remaining gaps', () => {
         it('should handle null value in multiple mode with diff check', async () => {
             host.multiple = true;
             host.value = ['opt1'];
-            fixture.detectChanges();
+            detectChanges(fixture);
             select2 = getSelect2(fixture);
 
             // Set _value to non-empty array
@@ -3370,9 +3395,9 @@ describe('Select2 Component - remaining gaps', () => {
 
             // Write null - should trigger the null branch
             select2.writeValue(null);
-            fixture.detectChanges();
+            detectChanges(fixture);
             await new Promise(r => setTimeout(r, 50));
-            fixture.detectChanges();
+            detectChanges(fixture);
         });
     });
 
@@ -3382,7 +3407,7 @@ describe('Select2 Component - remaining gaps', () => {
         it('should handle select with closeOnSelect when not open', () => {
             const option: Select2Option = { value: 'opt1', label: 'Option 1' };
             select2.select(option, true, true);
-            fixture.detectChanges();
+            detectChanges(fixture);
             // Should not close since not open
         });
     });
@@ -3392,21 +3417,21 @@ describe('Select2 Component - remaining gaps', () => {
     describe('updateFilteredData - hovering option reset', () => {
         it('should reset hovering option when it is not in filtered data', () => {
             host.displaySearchStatus = 'always';
-            fixture.detectChanges();
+            detectChanges(fixture);
             select2 = getSelect2(fixture);
 
             // Set hovering to an option
             select2.mouseenter({ value: 'opt1', label: 'Option 1' });
-            fixture.detectChanges();
+            detectChanges(fixture);
 
             clickSelection(fixture);
-            fixture.detectChanges();
+            detectChanges(fixture);
 
             // Search for something that excludes the hovering option
             const searchInput = fixture.nativeElement.querySelector('.select2-search__field') as HTMLInputElement;
             searchInput.value = 'Option 3';
             dispatchKeyup(searchInput, '3');
-            fixture.detectChanges();
+            detectChanges(fixture);
         });
     });
 
@@ -3417,16 +3442,16 @@ describe('Select2 Component - remaining gaps', () => {
             host.multiple = true;
             host.limitSelection = 2;
             host.value = ['opt1', 'opt2'];
-            fixture.detectChanges();
+            detectChanges(fixture);
             select2 = getSelect2(fixture);
 
             clickSelection(fixture);
-            fixture.detectChanges();
+            detectChanges(fixture);
 
             const options = getOptions(fixture);
             // Try to select a third option
             options[2]?.click();
-            fixture.detectChanges();
+            detectChanges(fixture);
             expect(select2.select2Options.length).toBe(2);
         });
     });
@@ -3442,12 +3467,12 @@ describe('Select2 Component - final branches', () => {
     beforeEach(async () => {
         await TestBed.configureTestingModule({
             imports: [TestHostComponent],
-            providers: [provideNoopAnimations()],
+            providers: provideTestEnv(),
         }).compileComponents();
 
         fixture = TestBed.createComponent(TestHostComponent);
         host = fixture.componentInstance;
-        fixture.detectChanges();
+        detectChanges(fixture);
         select2 = getSelect2(fixture);
     });
 
@@ -3474,7 +3499,7 @@ describe('Select2 Component - final branches', () => {
     describe('_selectionOverrideLabel - null options', () => {
         it('should pass null options to function override when no selection', () => {
             host.selectionOverride = (p: { size: number; options: any }) => `Size: ${p.size}, Opts: ${p.options}`;
-            fixture.detectChanges();
+            detectChanges(fixture);
             select2 = getSelect2(fixture);
             const label = select2._selectionOverrideLabel();
             expect(label).toContain('Size: 0');
@@ -3483,7 +3508,7 @@ describe('Select2 Component - final branches', () => {
         it('should pass single option array to function override', () => {
             host.value = 'opt1';
             host.selectionOverride = (p: { size: number; options: any }) => `Size: ${p.size}`;
-            fixture.detectChanges();
+            detectChanges(fixture);
             select2 = getSelect2(fixture);
             const label = select2._selectionOverrideLabel();
             expect(label).toBe('Size: 1');
@@ -3496,7 +3521,7 @@ describe('Select2 Component - final branches', () => {
         it('should not duplicate when adding existing item', async () => {
             host.multiple = true;
             host.autoCreate = true;
-            fixture.detectChanges();
+            detectChanges(fixture);
             select2 = getSelect2(fixture);
 
             const createField = fixture.nativeElement.querySelector('.select2-create__field') as HTMLInputElement;
@@ -3504,9 +3529,9 @@ describe('Select2 Component - final branches', () => {
                 // Add 'opt1' which already exists in data
                 createField.value = 'opt1';
                 createField.click();
-                fixture.detectChanges();
+                detectChanges(fixture);
                 dispatchKeydown(createField, 'Enter');
-                fixture.detectChanges();
+                detectChanges(fixture);
             }
         });
     });
@@ -3539,10 +3564,10 @@ describe('Select2 Component - final branches', () => {
         it('should not re-focus when element is already active', () => {
             const sel = fixture.nativeElement.querySelector('.selection') as HTMLElement;
             sel.focus();
-            fixture.detectChanges();
+            detectChanges(fixture);
             // Call _focus(true) when selection is already focused
             (select2 as any)._focus(true);
-            fixture.detectChanges();
+            detectChanges(fixture);
         });
     });
 
@@ -3551,12 +3576,12 @@ describe('Select2 Component - final branches', () => {
     describe('select null - empty array', () => {
         it('should not set value when selectedOption is empty array', () => {
             host.multiple = true;
-            fixture.detectChanges();
+            detectChanges(fixture);
             select2 = getSelect2(fixture);
 
             // selectedOption is [] (empty array)
             select2.select(null);
-            fixture.detectChanges();
+            detectChanges(fixture);
             // value should not be set to '' since array is empty
         });
     });
@@ -3566,26 +3591,26 @@ describe('Select2 Component - final branches', () => {
     describe('toggleOpenAndClose - explicit open param', () => {
         it('should open when open=true passed', () => {
             select2.toggleOpenAndClose(true, true);
-            fixture.detectChanges();
+            detectChanges(fixture);
             expect(select2.isOpen).toBe(true);
         });
 
         it('should close when open=false passed', () => {
             select2.toggleOpenAndClose(true, true);
-            fixture.detectChanges();
+            detectChanges(fixture);
             select2.toggleOpenAndClose(true, false);
-            fixture.detectChanges();
+            detectChanges(fixture);
             expect(select2.isOpen).toBe(false);
         });
 
         it('should not emit when state does not change', () => {
             host.onOpen.mockClear();
             select2.toggleOpenAndClose(true, true);
-            fixture.detectChanges();
+            detectChanges(fixture);
             host.onOpen.mockClear();
             // Open again when already open
             select2.toggleOpenAndClose(true, true);
-            fixture.detectChanges();
+            detectChanges(fixture);
             expect(host.onOpen).not.toHaveBeenCalled();
         });
     });
@@ -3595,17 +3620,17 @@ describe('Select2 Component - final branches', () => {
     describe('searchUpdate - standard filter', () => {
         it('should update filtered data on search input', () => {
             host.displaySearchStatus = 'always';
-            fixture.detectChanges();
+            detectChanges(fixture);
             select2 = getSelect2(fixture);
 
             clickSelection(fixture);
-            fixture.detectChanges();
+            detectChanges(fixture);
 
             const searchInput = fixture.nativeElement.querySelector('.select2-search__field') as HTMLInputElement;
             const inputEvent = new Event('input', { bubbles: true });
             searchInput.value = 'Option 1';
             searchInput.dispatchEvent(inputEvent);
-            fixture.detectChanges();
+            detectChanges(fixture);
         });
     });
 });
@@ -3620,12 +3645,12 @@ describe('Select2 Component - targeted line coverage', () => {
     beforeEach(async () => {
         await TestBed.configureTestingModule({
             imports: [TestHostComponent],
-            providers: [provideNoopAnimations()],
+            providers: provideTestEnv(),
         }).compileComponents();
 
         fixture = TestBed.createComponent(TestHostComponent);
         host = fixture.componentInstance;
-        fixture.detectChanges();
+        detectChanges(fixture);
         select2 = getSelect2(fixture);
     });
 
@@ -3634,14 +3659,14 @@ describe('Select2 Component - targeted line coverage', () => {
     describe('select null with truthy single selectedOption', () => {
         it('should set value to empty string when clearing single selection', () => {
             host.value = 'opt1';
-            fixture.detectChanges();
+            detectChanges(fixture);
             select2 = getSelect2(fixture);
             expect(select2.select2Option).toBeTruthy();
 
             // Now select null - should hit the branch where selectedOption is truthy
             host.onUpdate.mockClear();
             select2.select(null, true, true);
-            fixture.detectChanges();
+            detectChanges(fixture);
             expect(select2.selectedOption).toBeNull();
         });
     });
@@ -3652,13 +3677,13 @@ describe('Select2 Component - targeted line coverage', () => {
         it('should close on Tab via keyDown when isOpen', () => {
             // Open the select
             select2.toggleOpenAndClose(true, true);
-            fixture.detectChanges();
+            detectChanges(fixture);
             expect(select2.isOpen).toBe(true);
 
             // Call keyDown directly with Tab
             const event = new KeyboardEvent('keydown', { key: 'Tab', bubbles: true, cancelable: true });
             (select2 as any).keyDown(event);
-            fixture.detectChanges();
+            detectChanges(fixture);
             expect(select2.isOpen).toBe(false);
         });
     });
@@ -3671,7 +3696,7 @@ describe('Select2 Component - targeted line coverage', () => {
             const freshFixture = TestBed.createComponent(TestHostComponent);
             const freshHost = freshFixture.componentInstance;
             freshHost.value = undefined;
-            freshFixture.detectChanges();
+            detectChanges(freshFixture);
             const freshSelect2 = getSelect2(freshFixture);
 
             // _value should be undefined/null
@@ -3679,7 +3704,7 @@ describe('Select2 Component - targeted line coverage', () => {
 
             // Now set a value - should trigger the _value === undefined branch
             freshHost.value = 'opt1';
-            freshFixture.detectChanges();
+            detectChanges(freshFixture);
             expect(freshSelect2.select2Option?.value).toBe('opt1');
         });
     });
@@ -3690,7 +3715,7 @@ describe('Select2 Component - targeted line coverage', () => {
         it('should handle null value with diff check in multiple mode', () => {
             host.multiple = true;
             host.value = ['opt1', 'opt2'];
-            fixture.detectChanges();
+            detectChanges(fixture);
             select2 = getSelect2(fixture);
 
             // Ensure _value is set
@@ -3698,7 +3723,7 @@ describe('Select2 Component - targeted line coverage', () => {
 
             // Call _setSelectionByValue with null directly
             (select2 as any)._setSelectionByValue(null);
-            fixture.detectChanges();
+            detectChanges(fixture);
         });
     });
 
@@ -3708,7 +3733,7 @@ describe('Select2 Component - targeted line coverage', () => {
         it('should handle overlay position change in auto mode', () => {
             host.overlay = true;
             host.listPosition = 'auto';
-            fixture.detectChanges();
+            detectChanges(fixture);
             select2 = getSelect2(fixture);
 
             // Manually emit a position change on the overlay
@@ -3728,7 +3753,7 @@ describe('Select2 Component - targeted line coverage', () => {
                         isOverlayOutsideView: false,
                     },
                 } as any);
-                fixture.detectChanges();
+                detectChanges(fixture);
             }
         });
     });
@@ -3744,12 +3769,12 @@ describe('Select2 Component - scroll and keyDown coverage', () => {
     beforeEach(async () => {
         await TestBed.configureTestingModule({
             imports: [TestHostComponent],
-            providers: [provideNoopAnimations()],
+            providers: provideTestEnv(),
         }).compileComponents();
 
         fixture = TestBed.createComponent(TestHostComponent);
         host = fixture.componentInstance;
-        fixture.detectChanges();
+        detectChanges(fixture);
         select2 = getSelect2(fixture);
     });
 
@@ -3758,12 +3783,12 @@ describe('Select2 Component - scroll and keyDown coverage', () => {
     describe('updateScrollFromOption scroll branches', () => {
         it('should scroll down when option is below visible area', () => {
             host.value = 'opt1';
-            fixture.detectChanges();
+            detectChanges(fixture);
             select2 = getSelect2(fixture);
 
             // Open the select to render results
             select2.toggleOpenAndClose(true, true);
-            fixture.detectChanges();
+            detectChanges(fixture);
 
             const resultsEl = (select2 as any).resultsElement;
             if (resultsEl) {
@@ -3806,12 +3831,12 @@ describe('Select2 Component - scroll and keyDown coverage', () => {
 
         it('should scroll up when option is above visible area', () => {
             host.value = 'opt1';
-            fixture.detectChanges();
+            detectChanges(fixture);
             select2 = getSelect2(fixture);
 
             // Open the select to render results
             select2.toggleOpenAndClose(true, true);
-            fixture.detectChanges();
+            detectChanges(fixture);
 
             const resultsEl = (select2 as any).resultsElement;
             if (resultsEl) {
@@ -3857,35 +3882,35 @@ describe('Select2 Component - scroll and keyDown coverage', () => {
         it('should close via openKey Escape when isOpen is true', () => {
             // Force isOpen to true
             select2.isOpen = true;
-            fixture.detectChanges();
+            detectChanges(fixture);
 
             // Dispatch keydown on the selection element (which binds to openKey)
             const selectionEl = fixture.nativeElement.querySelector('.selection') as HTMLElement;
             const event = new KeyboardEvent('keydown', { key: 'Escape', bubbles: true, cancelable: true });
             selectionEl.dispatchEvent(event);
-            fixture.detectChanges();
+            detectChanges(fixture);
             expect(select2.isOpen).toBe(false);
         });
 
         it('should close via openKey Tab when isOpen is true', () => {
             select2.isOpen = true;
-            fixture.detectChanges();
+            detectChanges(fixture);
 
             const selectionEl = fixture.nativeElement.querySelector('.selection') as HTMLElement;
             const event = new KeyboardEvent('keydown', { key: 'Tab', bubbles: true, cancelable: true });
             selectionEl.dispatchEvent(event);
-            fixture.detectChanges();
+            detectChanges(fixture);
             expect(select2.isOpen).toBe(false);
         });
 
         it('should call openKey directly with Escape when isOpen', () => {
             select2.isOpen = true;
-            fixture.detectChanges();
+            detectChanges(fixture);
 
             const spy = vi.spyOn(select2, 'toggleOpenAndClose');
             const event = new KeyboardEvent('keydown', { key: 'Escape', bubbles: true, cancelable: true });
             select2.openKey(event);
-            fixture.detectChanges();
+            detectChanges(fixture);
             expect(spy).toHaveBeenCalled();
             expect(select2.isOpen).toBe(false);
         });
@@ -3902,21 +3927,21 @@ describe('Select2 Component - openKey create branch', () => {
     beforeEach(async () => {
         await TestBed.configureTestingModule({
             imports: [TestHostComponent],
-            providers: [provideNoopAnimations()],
+            providers: provideTestEnv(),
         }).compileComponents();
 
         fixture = TestBed.createComponent(TestHostComponent);
         host = fixture.componentInstance;
         host.autoCreate = true;
         host.multiple = true;
-        fixture.detectChanges();
+        detectChanges(fixture);
         select2 = getSelect2(fixture);
     });
 
     it('should call createAndAdd when openKey is called with create=true and Enter', () => {
         // Open the select
         clickSelection(fixture);
-        fixture.detectChanges();
+        detectChanges(fixture);
 
         // Create a fake event with a target that has a value
         const fakeInput = document.createElement('input');
@@ -3925,7 +3950,7 @@ describe('Select2 Component - openKey create branch', () => {
         Object.defineProperty(event, 'target', { value: fakeInput });
 
         select2.openKey(event, true);
-        fixture.detectChanges();
+        detectChanges(fixture);
 
         // The item should have been created
         expect(host.onAutoCreate).toHaveBeenCalled();
@@ -3942,19 +3967,19 @@ describe('Select2 Component - branch coverage completion', () => {
     beforeEach(async () => {
         await TestBed.configureTestingModule({
             imports: [TestHostComponent],
-            providers: [provideNoopAnimations()],
+            providers: provideTestEnv(),
         }).compileComponents();
 
         fixture = TestBed.createComponent(TestHostComponent);
         host = fixture.componentInstance;
-        fixture.detectChanges();
+        detectChanges(fixture);
         select2 = getSelect2(fixture);
     });
 
     // ── drop() when selectedOption is NOT an array ────────────────────
     it('should do nothing in drop() when selectedOption is not an array (single mode)', () => {
         host.value = 'opt1';
-        fixture.detectChanges();
+        detectChanges(fixture);
         select2 = getSelect2(fixture);
 
         const event = { previousIndex: 0, currentIndex: 1 } as any;
@@ -3966,7 +3991,7 @@ describe('Select2 Component - branch coverage completion', () => {
     // ── selectByEnter when hoveringOption is null ─────────────────────
     it('should do nothing in selectByEnter when no hovering option', () => {
         clickSelection(fixture);
-        fixture.detectChanges();
+        detectChanges(fixture);
 
         // Set hovering option to null
         (select2 as any).hoveringOption.set(null);
@@ -3976,14 +4001,14 @@ describe('Select2 Component - branch coverage completion', () => {
         if (searchInput) {
             dispatchKeydown(searchInput, 'Enter');
         }
-        fixture.detectChanges();
+        detectChanges(fixture);
         expect(select2.selectedOption).toBeFalsy();
     });
 
     // ── _focusSearchbox when isSearchboxHidden is true ────────────────
     it('should not focus searchbox when isSearchboxHidden is true', () => {
         host.displaySearchStatus = 'hidden';
-        fixture.detectChanges();
+        detectChanges(fixture);
         select2 = getSelect2(fixture);
 
         // Call _focusSearchbox directly - should skip because isSearchboxHidden
@@ -3995,14 +4020,14 @@ describe('Select2 Component - branch coverage completion', () => {
     // ── keyDown with non-matching key when open ───────────────────────
     it('should not close on unrecognized key in keyDown when open', () => {
         clickSelection(fixture);
-        fixture.detectChanges();
+        detectChanges(fixture);
         expect(select2.isOpen).toBe(true);
 
         const searchInput = fixture.nativeElement.querySelector('.select2-search__field') as HTMLElement;
         if (searchInput) {
             dispatchKeydown(searchInput, 'a');
         }
-        fixture.detectChanges();
+        detectChanges(fixture);
         expect(select2.isOpen).toBe(true);
     });
 
@@ -4011,11 +4036,11 @@ describe('Select2 Component - branch coverage completion', () => {
         host.resettable = true;
         host.value = 'opt1';
         host.resetSelectedValue = undefined;
-        fixture.detectChanges();
+        detectChanges(fixture);
         select2 = getSelect2(fixture);
 
         select2.reset();
-        fixture.detectChanges();
+        detectChanges(fixture);
         await new Promise(r => setTimeout(r, 0));
         expect(select2.selectedOption).toBeNull();
     });
@@ -4024,7 +4049,7 @@ describe('Select2 Component - branch coverage completion', () => {
     it('should not close when selecting in single mode if not open', async () => {
         // Select without being open - closeOnSelect=true but isOpen=false
         select2.select({ value: 'opt1', label: 'Option 1' }, true, true);
-        fixture.detectChanges();
+        detectChanges(fixture);
         await new Promise(r => setTimeout(r, 0));
         expect(select2.isOpen).toBe(false);
         expect(select2.select2Option?.value).toBe('opt1');
@@ -4033,12 +4058,12 @@ describe('Select2 Component - branch coverage completion', () => {
     // ── select(null) when selectedOption is empty array ─────────────────
     it('should handle select(null) when selectedOption is empty array', () => {
         host.multiple = true;
-        fixture.detectChanges();
+        detectChanges(fixture);
         select2 = getSelect2(fixture);
         (select2 as any).selectedOption = [];
 
         select2.select(null, false, false);
-        fixture.detectChanges();
+        detectChanges(fixture);
         expect(select2.selectedOption).toBeNull();
     });
 
@@ -4046,7 +4071,7 @@ describe('Select2 Component - branch coverage completion', () => {
     it('should detect diff when val1 is array with different length', async () => {
         host.multiple = true;
         host.value = ['opt1'];
-        fixture.detectChanges();
+        detectChanges(fixture);
         select2 = getSelect2(fixture);
 
         // Set _value to an array
@@ -4054,10 +4079,10 @@ describe('Select2 Component - branch coverage completion', () => {
 
         // Select another option - triggers testDiffValue with array
         clickSelection(fixture);
-        fixture.detectChanges();
+        detectChanges(fixture);
         const options = getOptions(fixture);
         options[1]?.click();
-        fixture.detectChanges();
+        detectChanges(fixture);
         await new Promise(r => setTimeout(r, 0));
         expect(host.onUpdate).toHaveBeenCalled();
     });
@@ -4066,7 +4091,7 @@ describe('Select2 Component - branch coverage completion', () => {
     it('should set _value directly in removeSelection when no _control', async () => {
         host.multiple = true;
         host.value = ['opt1', 'opt2'];
-        fixture.detectChanges();
+        detectChanges(fixture);
         select2 = getSelect2(fixture);
 
         // Ensure no _control
@@ -4075,7 +4100,7 @@ describe('Select2 Component - branch coverage completion', () => {
         const option = { value: 'opt1', label: 'Option 1' } as Select2Option;
         const event = new MouseEvent('click', { bubbles: true, cancelable: true });
         select2.removeSelection(event, option);
-        fixture.detectChanges();
+        detectChanges(fixture);
         await new Promise(r => setTimeout(r, 0));
 
         // _value should be set directly
@@ -4095,30 +4120,30 @@ describe('Select2 Component - branch coverage completion', () => {
     it('should forward to keyDown when searchbox hidden, already open, same state', () => {
         host.displaySearchStatus = 'hidden';
         host.minCountForSearch = 999;
-        fixture.detectChanges();
+        detectChanges(fixture);
         select2 = getSelect2(fixture);
 
         // Open first
         select2.toggleOpenAndClose(true, true);
-        fixture.detectChanges();
+        detectChanges(fixture);
         expect(select2.isOpen).toBe(true);
 
         // Call again with open=true (no change) and an event
         const event = new KeyboardEvent('keydown', { key: 'ArrowDown', bubbles: true, cancelable: true });
         select2.toggleOpenAndClose(true, true, event);
-        fixture.detectChanges();
+        detectChanges(fixture);
     });
 
     // ── toggleOpenAndClose with onOpenAction false ─────────────────────
     it('should open without onOpenAction when key is not in ON_OPEN_KEYS', () => {
         host.displaySearchStatus = 'always';
-        fixture.detectChanges();
+        detectChanges(fixture);
         select2 = getSelect2(fixture);
 
         // Open with Enter key (not in ON_OPEN_KEYS)
         const event = new KeyboardEvent('keydown', { key: 'Enter', bubbles: true, cancelable: true });
         select2.toggleOpenAndClose(true, true, event);
-        fixture.detectChanges();
+        detectChanges(fixture);
         expect(select2.isOpen).toBe(true);
     });
 
@@ -4126,23 +4151,23 @@ describe('Select2 Component - branch coverage completion', () => {
     it('should use existing selectedOption array in multiple select (??= branch)', () => {
         host.multiple = true;
         host.value = ['opt1'];
-        fixture.detectChanges();
+        detectChanges(fixture);
         select2 = getSelect2(fixture);
 
         // selectedOption is already an array, so ??= should NOT reassign
         select2.select({ value: 'opt2', label: 'Option 2' }, false, false);
-        fixture.detectChanges();
+        detectChanges(fixture);
         expect(select2.select2Options.length).toBe(2);
     });
 
     // ── isInSelect - second operand of || ──────────────────────────────
     it('should detect element inside overlay via isInSelect', () => {
         host.overlay = true;
-        fixture.detectChanges();
+        detectChanges(fixture);
         select2 = getSelect2(fixture);
 
         clickSelection(fixture);
-        fixture.detectChanges();
+        detectChanges(fixture);
 
         // Create element with overlay id
         const el = document.createElement('div');
@@ -4164,11 +4189,11 @@ describe('Select2 Component - branch coverage completion', () => {
     it('should emit autoCreateItem with single selectedOption wrapped in array', () => {
         host.autoCreate = true;
         host.multiple = false;
-        fixture.detectChanges();
+        detectChanges(fixture);
         select2 = getSelect2(fixture);
 
         clickSelection(fixture);
-        fixture.detectChanges();
+        detectChanges(fixture);
 
         const fakeInput = document.createElement('input');
         fakeInput.value = 'NewSingle';
@@ -4176,7 +4201,7 @@ describe('Select2 Component - branch coverage completion', () => {
         Object.defineProperty(event, 'target', { value: fakeInput });
 
         select2.openKey(event, true);
-        fixture.detectChanges();
+        detectChanges(fixture);
 
         expect(host.onAutoCreate).toHaveBeenCalled();
         const emitted = host.onAutoCreate.mock.calls[0][0];
@@ -4187,7 +4212,7 @@ describe('Select2 Component - branch coverage completion', () => {
     it('should emit autoCreateItem with single option wrapped in array', () => {
         host.autoCreate = true;
         host.multiple = false;
-        fixture.detectChanges();
+        detectChanges(fixture);
         select2 = getSelect2(fixture);
 
         const fakeInput = document.createElement('input');
@@ -4196,7 +4221,7 @@ describe('Select2 Component - branch coverage completion', () => {
         Object.defineProperty(event, 'target', { value: fakeInput });
 
         select2.openKey(event, true);
-        fixture.detectChanges();
+        detectChanges(fixture);
 
         expect(host.onAutoCreate).toHaveBeenCalled();
         const emitted = host.onAutoCreate.mock.calls[0][0];
@@ -4231,26 +4256,26 @@ describe('Select2 Component - branch coverage completion', () => {
     it('should use value() input in ngOnInit when no _control', () => {
         // The default TestHostComponent has no _control
         host.value = 'opt2';
-        fixture.detectChanges();
+        detectChanges(fixture);
         select2 = getSelect2(fixture);
 
         // Re-trigger ngOnInit
         select2.ngOnInit();
-        fixture.detectChanges();
+        detectChanges(fixture);
         expect(select2.select2Option?.value).toBe('opt2');
     });
 
     // ── toggleOpenAndClose resultsElement.scrollTop when no selectedOption
     it('should reset scroll when opening with no selected option', () => {
         host.displaySearchStatus = 'always';
-        fixture.detectChanges();
+        detectChanges(fixture);
         select2 = getSelect2(fixture);
 
         // Ensure no selection
         (select2 as any).selectedOption = null;
 
         select2.toggleOpenAndClose(true, true);
-        fixture.detectChanges();
+        detectChanges(fixture);
         expect(select2.isOpen).toBe(true);
     });
 
@@ -4272,20 +4297,20 @@ describe('Select2 Component - branch coverage completion', () => {
     it('should not emit update when emit=false', () => {
         host.onUpdate.mockClear();
         select2.select({ value: 'opt1', label: 'Option 1' }, false, false);
-        fixture.detectChanges();
+        detectChanges(fixture);
         expect(host.onUpdate).not.toHaveBeenCalled();
     });
 
     // ── select with same value (testDiffValue returns false) ─────────
     it('should not emit update when selecting same value', async () => {
         host.value = 'opt1';
-        fixture.detectChanges();
+        detectChanges(fixture);
         select2 = getSelect2(fixture);
         host.onUpdate.mockClear();
 
         // Select same value
         select2.select({ value: 'opt1', label: 'Option 1' }, true, false);
-        fixture.detectChanges();
+        detectChanges(fixture);
         await new Promise(r => setTimeout(r, 0));
         // emit &&= testDiffValue returns false, so no update
         expect(host.onUpdate).not.toHaveBeenCalled();
@@ -4294,12 +4319,12 @@ describe('Select2 Component - branch coverage completion', () => {
     // ── nativeKeyboard: openKey with CLOSE_KEYS_NATIVE ───────────────
     it('should handle ArrowDown in native keyboard mode when closed', () => {
         host.nativeKeyboard = true;
-        fixture.detectChanges();
+        detectChanges(fixture);
         select2 = getSelect2(fixture);
 
         const sel = fixture.nativeElement.querySelector('.selection') as HTMLElement;
         dispatchKeydown(sel, 'ArrowDown');
-        fixture.detectChanges();
+        detectChanges(fixture);
     });
 
     // ── _closeOnKey when not open ────────────────────────────────────
@@ -4312,7 +4337,7 @@ describe('Select2 Component - branch coverage completion', () => {
     // ── focusout with relatedTarget inside select ────────────────────
     it('should not blur on focusout when relatedTarget is inside select', () => {
         select2.focusin();
-        fixture.detectChanges();
+        detectChanges(fixture);
         expect(select2.focused).toBe(true);
 
         // Create focusout event with relatedTarget inside the select
@@ -4320,7 +4345,7 @@ describe('Select2 Component - branch coverage completion', () => {
         const innerEl = fixture.nativeElement.querySelector('.selection') as HTMLElement;
         const event = new FocusEvent('focusout', { relatedTarget: innerEl, bubbles: true });
         select2.focusout(event);
-        fixture.detectChanges();
+        detectChanges(fixture);
         // Should stay focused because relatedTarget is inside
         expect(select2.focused).toBe(true);
     });
@@ -4328,7 +4353,7 @@ describe('Select2 Component - branch coverage completion', () => {
     // ── clickDetection when not open but focused ─────────────────────
     it('should unfocus when clicking outside while focused but not open', () => {
         select2.focusin();
-        fixture.detectChanges();
+        detectChanges(fixture);
         expect(select2.focused).toBe(true);
 
         // Click on an element that is NOT a select2 element
@@ -4337,7 +4362,7 @@ describe('Select2 Component - branch coverage completion', () => {
         const event = new MouseEvent('click', { bubbles: true });
         Object.defineProperty(event, 'target', { value: outsideEl });
         select2.clickDetection(event);
-        fixture.detectChanges();
+        detectChanges(fixture);
         expect(select2.focused).toBe(false);
         document.body.removeChild(outsideEl);
     });
@@ -4346,7 +4371,7 @@ describe('Select2 Component - branch coverage completion', () => {
     it('should skip _setSelectionByValue when both selectedOption and value are null', () => {
         (select2 as any).selectedOption = null;
         (select2 as any)._setSelectionByValue(null);
-        fixture.detectChanges();
+        detectChanges(fixture);
         // Should not throw, selectedOption stays null
         expect(select2.selectedOption).toBeNull();
     });
@@ -4355,12 +4380,12 @@ describe('Select2 Component - branch coverage completion', () => {
     it('should remove option when selecting already-selected option in multiple', () => {
         host.multiple = true;
         host.value = ['opt1', 'opt2'];
-        fixture.detectChanges();
+        detectChanges(fixture);
         select2 = getSelect2(fixture);
 
         // Select opt1 again - should toggle it off
         select2.select({ value: 'opt1', label: 'Option 1' }, false, false);
-        fixture.detectChanges();
+        detectChanges(fixture);
         expect(select2.select2Options.length).toBe(1);
         expect(select2.select2Options[0].value).toBe('opt2');
     });
@@ -4369,12 +4394,12 @@ describe('Select2 Component - branch coverage completion', () => {
     it('should select by enter on Space when searchbox is hidden and open', () => {
         host.displaySearchStatus = 'hidden';
         host.minCountForSearch = 999;
-        fixture.detectChanges();
+        detectChanges(fixture);
         select2 = getSelect2(fixture);
 
         // Open
         select2.toggleOpenAndClose(true, true);
-        fixture.detectChanges();
+        detectChanges(fixture);
         expect(select2.isOpen).toBe(true);
 
         // Set a hovering option
@@ -4383,7 +4408,7 @@ describe('Select2 Component - branch coverage completion', () => {
         // Press Space - should trigger selectByEnter
         const event = new KeyboardEvent('keydown', { key: ' ', bubbles: true, cancelable: true });
         (select2 as any).keyDown(event);
-        fixture.detectChanges();
+        detectChanges(fixture);
     });
 });
 
@@ -4396,7 +4421,7 @@ describe('Select2 - reactive form branch coverage', () => {
     beforeEach(async () => {
         await TestBed.configureTestingModule({
             imports: [ReactiveFormHostComponent],
-            providers: [provideNoopAnimations()],
+            providers: provideTestEnv(),
         }).compileComponents();
 
         rfFixture = TestBed.createComponent(ReactiveFormHostComponent);
@@ -4450,19 +4475,19 @@ describe('Select2 - deep branch coverage', () => {
     beforeEach(async () => {
         await TestBed.configureTestingModule({
             imports: [TestHostComponent],
-            providers: [provideNoopAnimations()],
+            providers: provideTestEnv(),
         }).compileComponents();
 
         fixture = TestBed.createComponent(TestHostComponent);
         host = fixture.componentInstance;
-        fixture.detectChanges();
+        detectChanges(fixture);
         select2 = getSelect2(fixture);
     });
 
     // ── selectedOption ??= [] when selectedOption is null in multiple ──
     it('should initialize selectedOption to [] via ??= when null in multiple select', () => {
         host.multiple = true;
-        fixture.detectChanges();
+        detectChanges(fixture);
         select2 = getSelect2(fixture);
 
         // Force selectedOption to null
@@ -4470,7 +4495,7 @@ describe('Select2 - deep branch coverage', () => {
 
         // Select an option - should trigger ??= to create []
         select2.select({ value: 'opt1', label: 'Option 1' }, false, false);
-        fixture.detectChanges();
+        detectChanges(fixture);
         expect(select2.select2Options.length).toBe(1);
     });
 
@@ -4478,7 +4503,7 @@ describe('Select2 - deep branch coverage', () => {
     it('should set value to empty string when select(null) with non-empty array', async () => {
         host.multiple = true;
         host.value = ['opt1', 'opt2'];
-        fixture.detectChanges();
+        detectChanges(fixture);
         select2 = getSelect2(fixture);
 
         // Ensure selectedOption is array with items
@@ -4488,7 +4513,7 @@ describe('Select2 - deep branch coverage', () => {
         // select(null) should hit the Array.isArray branch and check .length
         host.onUpdate.mockClear();
         select2.select(null, true, true);
-        fixture.detectChanges();
+        detectChanges(fixture);
         await new Promise(r => setTimeout(r, 50));
         // After select(null) + writeValue, selectedOption may be reset to [] in multiple mode
         const opt = select2.selectedOption;
@@ -4499,7 +4524,7 @@ describe('Select2 - deep branch coverage', () => {
     it('should not emit when selecting same values in multiple mode', async () => {
         host.multiple = true;
         host.value = ['opt1'];
-        fixture.detectChanges();
+        detectChanges(fixture);
         select2 = getSelect2(fixture);
 
         // _value is ['opt1'], select opt1 again toggles it off then re-add
@@ -4515,7 +4540,7 @@ describe('Select2 - deep branch coverage', () => {
     it('should not emit updateEvent when writing same array value', () => {
         host.multiple = true;
         host.value = ['opt1'];
-        fixture.detectChanges();
+        detectChanges(fixture);
         select2 = getSelect2(fixture);
 
         // Set _value to same value
@@ -4524,14 +4549,14 @@ describe('Select2 - deep branch coverage', () => {
 
         // Write same value - testDiffValue should return false
         select2.writeValue(['opt1']);
-        fixture.detectChanges();
+        detectChanges(fixture);
         expect(host.onUpdate).not.toHaveBeenCalled();
     });
 
     // ── _setSelectionByValue null path with same value (no diff) ───────
     it('should not emit updateEvent when writing null with _value already empty', async () => {
         host.multiple = true;
-        fixture.detectChanges();
+        detectChanges(fixture);
         select2 = getSelect2(fixture);
 
         // Set _value to empty array (same as null reset)
@@ -4541,7 +4566,7 @@ describe('Select2 - deep branch coverage', () => {
 
         // Write null - should hit null branch, then testDiffValue([], null)
         select2.writeValue(null);
-        fixture.detectChanges();
+        detectChanges(fixture);
         await new Promise(r => setTimeout(r, 50));
     });
 
@@ -4550,11 +4575,11 @@ describe('Select2 - deep branch coverage', () => {
         host.resettable = true;
         host.value = 'opt1';
         host.resetSelectedValue = 'nonexistent';
-        fixture.detectChanges();
+        detectChanges(fixture);
         select2 = getSelect2(fixture);
 
         select2.reset();
-        fixture.detectChanges();
+        detectChanges(fixture);
         await new Promise(r => setTimeout(r, 0));
         // getOptionByValue returns undefined, ?? null gives null
         expect(select2.selectedOption).toBeNull();
@@ -4564,7 +4589,7 @@ describe('Select2 - deep branch coverage', () => {
     it('should set _value directly in removeSelection without _control', () => {
         host.multiple = true;
         host.value = ['opt1', 'opt2'];
-        fixture.detectChanges();
+        detectChanges(fixture);
         select2 = getSelect2(fixture);
 
         // Remove _control
@@ -4572,7 +4597,7 @@ describe('Select2 - deep branch coverage', () => {
 
         const event = new MouseEvent('click', { bubbles: true, cancelable: true });
         select2.removeSelection(event, { value: 'opt1', label: 'Option 1' } as Select2Option);
-        fixture.detectChanges();
+        detectChanges(fixture);
 
         expect((select2 as any)._value).toBeTruthy();
     });
@@ -4609,14 +4634,14 @@ describe('Select2 - deep branch coverage', () => {
     it('should emit autoCreateItem with null options via createAndAdd', () => {
         host.autoCreate = true;
         host.multiple = true;
-        fixture.detectChanges();
+        detectChanges(fixture);
         select2 = getSelect2(fixture);
 
         // Force selectedOption to null (not array)
         (select2 as any).selectedOption = null;
 
         clickSelection(fixture);
-        fixture.detectChanges();
+        detectChanges(fixture);
 
         const fakeInput = document.createElement('input');
         fakeInput.value = 'NullTest';
@@ -4624,7 +4649,7 @@ describe('Select2 - deep branch coverage', () => {
         Object.defineProperty(event, 'target', { value: fakeInput });
 
         select2.openKey(event, true);
-        fixture.detectChanges();
+        detectChanges(fixture);
 
         expect(host.onAutoCreate).toHaveBeenCalled();
         const emitted = host.onAutoCreate.mock.calls[0][0];
@@ -4636,12 +4661,12 @@ describe('Select2 - deep branch coverage', () => {
     // ── select single with closeOnSelect=true and isOpen=true ──────────
     it('should close and focus selectionElement when selecting in single mode while open', async () => {
         clickSelection(fixture);
-        fixture.detectChanges();
+        detectChanges(fixture);
         expect(select2.isOpen).toBe(true);
 
         // Select an option with closeOnSelect=true while open
         select2.select({ value: 'opt2', label: 'Option 2' }, true, true);
-        fixture.detectChanges();
+        detectChanges(fixture);
         await new Promise(r => setTimeout(r, 0));
         expect(select2.isOpen).toBe(false);
     });
@@ -4650,13 +4675,13 @@ describe('Select2 - deep branch coverage', () => {
     it('should not execute setTimeout callback in fixValue when destroyed (multiple->single)', async () => {
         host.multiple = true;
         host.value = ['opt1'];
-        fixture.detectChanges();
+        detectChanges(fixture);
         select2 = getSelect2(fixture);
 
         // Force array selectedOption with single mode
         (select2 as any).selectedOption = [{ value: 'opt1', label: 'Option 1' }];
         host.multiple = false;
-        fixture.detectChanges();
+        detectChanges(fixture);
 
         // Destroy before setTimeout fires
         select2.ngOnDestroy();
@@ -4667,12 +4692,12 @@ describe('Select2 - deep branch coverage', () => {
 
     it('should not execute setTimeout callback in fixValue when destroyed (single->multiple)', async () => {
         host.value = 'opt1';
-        fixture.detectChanges();
+        detectChanges(fixture);
         select2 = getSelect2(fixture);
 
         // Force single selectedOption with multiple mode
         host.multiple = true;
-        fixture.detectChanges();
+        detectChanges(fixture);
 
         select2.ngOnDestroy();
         select2.fixValue();
@@ -4682,18 +4707,18 @@ describe('Select2 - deep branch coverage', () => {
     // ── toggleOpenAndClose searchbox visible, already open ─────────────
     it('should not forward to keyDown when searchbox is visible', () => {
         host.displaySearchStatus = 'always';
-        fixture.detectChanges();
+        detectChanges(fixture);
         select2 = getSelect2(fixture);
 
         // Open
         select2.toggleOpenAndClose(true, true);
-        fixture.detectChanges();
+        detectChanges(fixture);
         expect(select2.isOpen).toBe(true);
 
         // Call again with open=true (no change) and event - but searchbox is visible
         const event = new KeyboardEvent('keydown', { key: 'ArrowDown', bubbles: true, cancelable: true });
         select2.toggleOpenAndClose(true, true, event);
-        fixture.detectChanges();
+        detectChanges(fixture);
         // Should still be open, no error
         expect(select2.isOpen).toBe(true);
     });
@@ -4701,13 +4726,13 @@ describe('Select2 - deep branch coverage', () => {
     // ── onOpenAction is false ───────────────────────────────────────────
     it('should not call keyDown when onOpenAction is false', () => {
         host.displaySearchStatus = 'always';
-        fixture.detectChanges();
+        detectChanges(fixture);
         select2 = getSelect2(fixture);
 
         // Open with ArrowDown (which IS in ON_OPEN_KEYS) vs Enter (which is NOT)
         const event = new KeyboardEvent('keydown', { key: 'Enter', bubbles: true, cancelable: true });
         select2.toggleOpenAndClose(true, true, event);
-        fixture.detectChanges();
+        detectChanges(fixture);
         expect(select2.isOpen).toBe(true);
     });
 
@@ -4724,6 +4749,7 @@ describe('Select2 - deep branch coverage', () => {
 // ── Template branch coverage ─────────────────────────────────────────
 
 @Component({
+    changeDetection: ChangeDetectionStrategy.Default,
     template: `
         <ng-template #optionTpl let-data="data">{{ data?.label }}</ng-template>
         <ng-template #selTpl let-data="data">Selected: {{ data?.label }}</ng-template>
@@ -4748,12 +4774,12 @@ describe('Select2 - template branches', () => {
     beforeEach(async () => {
         await TestBed.configureTestingModule({
             imports: [TemplateHostComponent],
-            providers: [provideNoopAnimations()],
+            providers: provideTestEnv(),
         }).compileComponents();
 
         fixture = TestBed.createComponent(TemplateHostComponent);
         host = fixture.componentInstance;
-        fixture.detectChanges();
+        detectChanges(fixture);
         select2 = fixture.debugElement.children[0].componentInstance as Select2;
     });
 
@@ -4777,7 +4803,7 @@ describe('Select2 - template branches', () => {
     it('should detect template via templates object with template key', () => {
         // Set templates to an object with a 'template' key
         host.templates = { template: host.optionTpl } as any;
-        fixture.detectChanges();
+        detectChanges(fixture);
 
         const option: Select2Option = { value: 'opt1', label: 'Option 1' };
         const result = select2.hasTemplate(option, 'option', false);
@@ -4786,7 +4812,7 @@ describe('Select2 - template branches', () => {
 
     it('should detect template via templates object with defaultValue key', () => {
         host.templates = { option: host.optionTpl } as any;
-        fixture.detectChanges();
+        detectChanges(fixture);
 
         const option: Select2Option = { value: 'opt1', label: 'Option 1' };
         const result = select2.hasTemplate(option, 'option', false);
@@ -4795,7 +4821,7 @@ describe('Select2 - template branches', () => {
 
     it('should detect template via templates object with templateId key', () => {
         host.templates = { myTpl: host.optionTpl } as any;
-        fixture.detectChanges();
+        detectChanges(fixture);
 
         const option: Select2Option = { value: 'opt1', label: 'Option 1', templateId: 'myTpl' };
         const result = select2.hasTemplate(option, 'option', false);
@@ -4804,7 +4830,7 @@ describe('Select2 - template branches', () => {
 
     it('should detect template when templates is a TemplateRef directly', () => {
         host.templates = host.optionTpl as any;
-        fixture.detectChanges();
+        detectChanges(fixture);
 
         const option: Select2Option = { value: 'opt1', label: 'Option 1' };
         const result = select2.hasTemplate(option, 'option', false);
@@ -4814,7 +4840,7 @@ describe('Select2 - template branches', () => {
     // ── hasTemplate with select=true and templates object ────────────
     it('should detect templateSelectionId in templates object', () => {
         host.templates = { selTpl: host.selTpl } as any;
-        fixture.detectChanges();
+        detectChanges(fixture);
 
         const option: Select2Option = { value: 'opt1', label: 'Option 1', templateSelectionId: 'selTpl' };
         const result = select2.hasTemplate(option, 'option', true);
@@ -4823,7 +4849,7 @@ describe('Select2 - template branches', () => {
 
     it('should detect defaultValueSelection in templates object', () => {
         host.templates = { optionSelection: host.selTpl } as any;
-        fixture.detectChanges();
+        detectChanges(fixture);
 
         const option: Select2Option = { value: 'opt1', label: 'Option 1' };
         const result = select2.hasTemplate(option, 'option', true);
@@ -4832,7 +4858,7 @@ describe('Select2 - template branches', () => {
 
     it('should detect templateSelection key in templates object', () => {
         host.templates = { templateSelection: host.selTpl } as any;
-        fixture.detectChanges();
+        detectChanges(fixture);
 
         const option: Select2Option = { value: 'opt1', label: 'Option 1' };
         const result = select2.hasTemplate(option, 'option', true);
@@ -4842,7 +4868,7 @@ describe('Select2 - template branches', () => {
     // ── getTemplate with select=true and various template sources ────
     it('should return template from templateSelectionId', () => {
         host.templates = { selTpl: host.selTpl, template: host.optionTpl } as any;
-        fixture.detectChanges();
+        detectChanges(fixture);
 
         const option: Select2Option = { value: 'opt1', label: 'Option 1', templateSelectionId: 'selTpl' };
         const result = select2.getTemplate(option, 'option', true);
@@ -4851,7 +4877,7 @@ describe('Select2 - template branches', () => {
 
     it('should return template from defaultValueSelection', () => {
         host.templates = { optionSelection: host.selTpl, template: host.optionTpl } as any;
-        fixture.detectChanges();
+        detectChanges(fixture);
 
         const option: Select2Option = { value: 'opt1', label: 'Option 1' };
         const result = select2.getTemplate(option, 'option', true);
@@ -4860,7 +4886,7 @@ describe('Select2 - template branches', () => {
 
     it('should return template from templateSelection key', () => {
         host.templates = { templateSelection: host.selTpl, template: host.optionTpl } as any;
-        fixture.detectChanges();
+        detectChanges(fixture);
 
         const option: Select2Option = { value: 'opt1', label: 'Option 1' };
         const result = select2.getTemplate(option, 'option', true);
@@ -4869,7 +4895,7 @@ describe('Select2 - template branches', () => {
 
     it('should fallback to templateId in getTemplate', () => {
         host.templates = { myTpl: host.optionTpl } as any;
-        fixture.detectChanges();
+        detectChanges(fixture);
 
         const option: Select2Option = { value: 'opt1', label: 'Option 1', templateId: 'myTpl' };
         const result = select2.getTemplate(option, 'other', false);
@@ -4878,7 +4904,7 @@ describe('Select2 - template branches', () => {
 
     it('should fallback to defaultValue key in getTemplate', () => {
         host.templates = { option: host.optionTpl } as any;
-        fixture.detectChanges();
+        detectChanges(fixture);
 
         const option: Select2Option = { value: 'opt1', label: 'Option 1' };
         const result = select2.getTemplate(option, 'option', false);
@@ -4887,7 +4913,7 @@ describe('Select2 - template branches', () => {
 
     it('should fallback to template key in getTemplate', () => {
         host.templates = { template: host.optionTpl } as any;
-        fixture.detectChanges();
+        detectChanges(fixture);
 
         const option: Select2Option = { value: 'opt1', label: 'Option 1' };
         const result = select2.getTemplate(option, 'other', false);
@@ -4896,7 +4922,7 @@ describe('Select2 - template branches', () => {
 
     it('should return TemplateRef directly when templates is a TemplateRef', () => {
         host.templates = host.optionTpl as any;
-        fixture.detectChanges();
+        detectChanges(fixture);
 
         const option: Select2Option = { value: 'opt1', label: 'Option 1' };
         const result = select2.getTemplate(option, 'other', false);
@@ -4914,19 +4940,19 @@ describe('Select2 - final branch coverage', () => {
     beforeEach(async () => {
         await TestBed.configureTestingModule({
             imports: [TestHostComponent],
-            providers: [provideNoopAnimations()],
+            providers: provideTestEnv(),
         }).compileComponents();
 
         fixture = TestBed.createComponent(TestHostComponent);
         host = fixture.componentInstance;
-        fixture.detectChanges();
+        detectChanges(fixture);
         select2 = getSelect2(fixture);
     });
 
     // ── fixValue destroyed path for single->multiple ──────────────────
     it('should guard fixValue setTimeout when destroyed (single to multiple transition)', async () => {
         host.value = 'opt1';
-        fixture.detectChanges();
+        detectChanges(fixture);
         select2 = getSelect2(fixture);
 
         // selectedOption is single, switch to multiple
@@ -4946,7 +4972,7 @@ describe('Select2 - final branch coverage', () => {
     it('should handle select(null) when selectedOption is array with items (ternary array path)', () => {
         host.multiple = true;
         host.value = ['opt1'];
-        fixture.detectChanges();
+        detectChanges(fixture);
         select2 = getSelect2(fixture);
 
         // Ensure it's an array
@@ -4973,13 +4999,13 @@ describe('Select2 - final branch coverage', () => {
     it('should handle removeSelection without _control (direct _value assignment)', () => {
         host.multiple = true;
         host.value = ['opt1', 'opt2'];
-        fixture.detectChanges();
+        detectChanges(fixture);
         select2 = getSelect2(fixture);
 
         (select2 as any)._control = null;
         const ev = new Event('click', { bubbles: true, cancelable: true });
         select2.removeSelection(ev, { value: 'opt1', label: 'Option 1' } as Select2Option);
-        fixture.detectChanges();
+        detectChanges(fixture);
 
         // _value should be set directly (not via _onChange)
         const val = (select2 as any)._value;
@@ -5004,21 +5030,21 @@ describe('Select2 - final branch coverage', () => {
     it('should not emit updateEvent when _value matches in _setSelectionByValue array path', () => {
         host.multiple = true;
         host.value = ['opt1'];
-        fixture.detectChanges();
+        detectChanges(fixture);
         select2 = getSelect2(fixture);
 
         // _value is already ['opt1']
         host.onUpdate.mockClear();
         // Write same value again
         (select2 as any)._setSelectionByValue(['opt1']);
-        fixture.detectChanges();
+        detectChanges(fixture);
         // testDiffValue should return false, no updateEvent
         expect(host.onUpdate).not.toHaveBeenCalled();
     });
 
     it('should not emit updateEvent when _value matches in _setSelectionByValue null path', () => {
         host.multiple = true;
-        fixture.detectChanges();
+        detectChanges(fixture);
         select2 = getSelect2(fixture);
 
         // Set _value to null-equivalent
@@ -5027,14 +5053,14 @@ describe('Select2 - final branch coverage', () => {
         host.onUpdate.mockClear();
 
         (select2 as any)._setSelectionByValue(null);
-        fixture.detectChanges();
+        detectChanges(fixture);
     });
 
     // ── createAndAdd ternary null path ─────────────────────────────────
     it('should emit autoCreateItem with null options when selectedOption is null in createAndAdd', () => {
         host.autoCreate = true;
         host.multiple = false;
-        fixture.detectChanges();
+        detectChanges(fixture);
         select2 = getSelect2(fixture);
 
         // After createAndAdd, click(item) sets selectedOption
@@ -5049,13 +5075,13 @@ describe('Select2 - final branch coverage', () => {
     it('should handle toggleOpenAndClose with hidden searchbox and Home key', () => {
         host.displaySearchStatus = 'hidden';
         host.minCountForSearch = 999;
-        fixture.detectChanges();
+        detectChanges(fixture);
         select2 = getSelect2(fixture);
 
         // Open with Home key (which IS in ON_OPEN_KEYS)
         const event = new KeyboardEvent('keydown', { key: 'Home', bubbles: true, cancelable: true });
         select2.toggleOpenAndClose(true, true, event);
-        fixture.detectChanges();
+        detectChanges(fixture);
         expect(select2.isOpen).toBe(true);
     });
 
@@ -5074,9 +5100,9 @@ describe('Select2 - final branch coverage', () => {
 
         // Open and select - closeOnSelect path
         select2.toggleOpenAndClose(true, true);
-        fixture.detectChanges();
+        detectChanges(fixture);
         select2.select({ value: 'opt1', label: 'Option 1' }, false, true);
-        fixture.detectChanges();
+        detectChanges(fixture);
         expect(select2.isOpen).toBe(false);
     });
 
@@ -5101,12 +5127,12 @@ describe('Select2 - final branch coverage', () => {
     it('should not enter keyDown path when searchbox is visible', () => {
         // With searchbox visible (default), the isSearchboxHidden condition is false
         host.displaySearchStatus = 'always';
-        fixture.detectChanges();
+        detectChanges(fixture);
         select2 = getSelect2(fixture);
 
         const event = new KeyboardEvent('keydown', { key: 'ArrowDown', bubbles: true, cancelable: true });
         select2.toggleOpenAndClose(true, true, event);
-        fixture.detectChanges();
+        detectChanges(fixture);
         expect(select2.isOpen).toBe(true);
     });
 
@@ -5116,7 +5142,7 @@ describe('Select2 - final branch coverage', () => {
         // So onOpenAction will be false
         const event = new KeyboardEvent('keydown', { key: 'ArrowDown', bubbles: true, cancelable: true });
         select2.toggleOpenAndClose(true, true, event);
-        fixture.detectChanges();
+        detectChanges(fixture);
         expect(select2.isOpen).toBe(true);
     });
 
@@ -5155,7 +5181,7 @@ describe('Select2 - final branch coverage', () => {
         host.multiple = true;
         host.data = SIMPLE_DATA;
         host.value = ['opt1'];
-        fixture.detectChanges();
+        detectChanges(fixture);
         select2 = getSelect2(fixture);
 
         // _value is already ['opt1'] (set during initialization)
@@ -5167,7 +5193,7 @@ describe('Select2 - final branch coverage', () => {
         (select2 as any).selectedOption = [];
         (select2 as any)._value = ['opt1'];
         (select2 as any)._setSelectionByValue(['opt1']);
-        fixture.detectChanges();
+        detectChanges(fixture);
 
         // testDiffValue(['opt1'], ['opt1']) returns false → no updateEvent
         expect(host.onUpdate).not.toHaveBeenCalled();
@@ -5177,7 +5203,7 @@ describe('Select2 - final branch coverage', () => {
     it('should not emit updateEvent when _value is already empty in null path of _setSelectionByValue', () => {
         host.multiple = true;
         host.data = SIMPLE_DATA;
-        fixture.detectChanges();
+        detectChanges(fixture);
         select2 = getSelect2(fixture);
 
         // Set _value to [] and selectedOption to something so we enter the function
@@ -5191,7 +5217,7 @@ describe('Select2 - final branch coverage', () => {
         // That means _value.length === value?.length — but value is null → always true
         // This branch false path is UNREACHABLE in the null path — it's dead code
         (select2 as any)._setSelectionByValue(null);
-        fixture.detectChanges();
+        detectChanges(fixture);
     });
 
     // ── _focus(false) when selection/searchInput are undefined ──────────
@@ -5233,7 +5259,7 @@ describe('Select2 - final branch coverage', () => {
         expect((select2 as any)._control).toBeNull();
         // Re-trigger ngOnInit to exercise the path
         select2.ngOnInit();
-        fixture.detectChanges();
+        detectChanges(fixture);
         expect(select2).toBeTruthy();
     });
 
@@ -5275,7 +5301,7 @@ describe('Select2 - final branch coverage', () => {
     it('should not emit updateEvent when _value matches in _preselectArrayValue', () => {
         host.multiple = true;
         host.data = SIMPLE_DATA;
-        fixture.detectChanges();
+        detectChanges(fixture);
         select2 = getSelect2(fixture);
 
         (select2 as any)._value = null;
@@ -5285,7 +5311,7 @@ describe('Select2 - final branch coverage', () => {
         // _value ??= ['opt1'] → _value becomes ['opt1']
         // testDiffValue(['opt1'], ['opt1']) → false → no updateEvent
         (select2 as any)._preselectArrayValue(['opt1']);
-        fixture.detectChanges();
+        detectChanges(fixture);
 
         expect(host.onUpdate).not.toHaveBeenCalled();
     });
@@ -5294,7 +5320,7 @@ describe('Select2 - final branch coverage', () => {
         host.multiple = true;
         host.data = SIMPLE_DATA;
         host.value = ['opt1'];
-        fixture.detectChanges();
+        detectChanges(fixture);
         select2 = getSelect2(fixture);
 
         (select2 as any)._value = ['opt1', 'opt2'];
@@ -5302,7 +5328,7 @@ describe('Select2 - final branch coverage', () => {
         host.onUpdate.mockClear();
 
         (select2 as any)._preselectArrayValue(['opt1']);
-        fixture.detectChanges();
+        detectChanges(fixture);
 
         expect(host.onUpdate).toHaveBeenCalled();
     });
@@ -5351,12 +5377,12 @@ describe('Select2 - final branch coverage', () => {
     // ── _scrollToInitialOption — direct unit tests ──────────────────
     it('should scroll to selected option when present', () => {
         host.value = 'opt1';
-        fixture.detectChanges();
+        detectChanges(fixture);
         select2 = getSelect2(fixture);
 
         // Open to have resultsElement available
         select2.toggleOpenAndClose(true, true);
-        fixture.detectChanges();
+        detectChanges(fixture);
 
         const spy = vi.spyOn(select2 as any, 'updateScrollFromOption');
         (select2 as any)._scrollToInitialOption();
@@ -5364,12 +5390,12 @@ describe('Select2 - final branch coverage', () => {
     });
 
     it('should scroll results to top when no selectedOption', () => {
-        fixture.detectChanges();
+        detectChanges(fixture);
         (select2 as any).selectedOption = null;
 
         // Open to have resultsElement
         select2.toggleOpenAndClose(true, true);
-        fixture.detectChanges();
+        detectChanges(fixture);
 
         (select2 as any)._scrollToInitialOption();
         // Should not throw
@@ -5395,7 +5421,7 @@ describe('Select2 - final branch coverage', () => {
 
         // Call with open=false when already closed → changeEmit = false
         select2.toggleOpenAndClose(true, false);
-        fixture.detectChanges();
+        detectChanges(fixture);
 
         expect(select2.isOpen).toBe(false);
         expect(host.onClose).not.toHaveBeenCalled();
@@ -5405,7 +5431,7 @@ describe('Select2 - final branch coverage', () => {
     it('should assign id when elt.id is undefined', () => {
         const freshData: Select2Data = [{ value: 'x', label: 'X' }];
         host.data = freshData;
-        fixture.detectChanges();
+        detectChanges(fixture);
         select2 = getSelect2(fixture);
 
         const option = (select2 as any)._data[0];
@@ -5441,7 +5467,7 @@ describe('Select2 - final branch coverage', () => {
             // _setupScrollListener returns early when infiniteScroll is false
             // so no listener is attached and scroll events are never forwarded
             host.infiniteScroll = false;
-            fixture.detectChanges();
+            detectChanges(fixture);
             select2 = getSelect2(fixture);
 
             const el = (select2 as any).resultsElement as HTMLElement;
@@ -5488,7 +5514,7 @@ describe('Select2 - final branch coverage', () => {
             fixture = TestBed.createComponent(TestHostComponent);
             host = fixture.componentInstance;
             host.infiniteScroll = true;
-            fixture.detectChanges();
+            detectChanges(fixture);
             select2 = getSelect2(fixture);
 
             const el = (select2 as any).resultsElement as HTMLElement;

@@ -13,28 +13,26 @@ npm i ng-select2-component --save
 ## Requirements
 
 - peerDependencies:
-    - `angular` `^18.1.0` to `^21.0.0`
-    - `angular/cdk` `^18.1.0` to `^21.0.0`
-
-- dependencies (include):
-    - `ngx-infinite-scroll` `^19.0.0` to `^21.0.0`
+    - `angular` `^22.0.0`
+    - `angular/cdk` `^22.0.0`
 
 ### Notes
 
-| Version              | For **Angular**  | Notes             |
-| -------------------- | ---------------- | ----------------- |
-| `17.2.11` / `17.3.0` | 18.1, 19, 20, 21 | Ivy / Stand-alone |
-| `17.1.0`             | 19               | Ivy / Stand-alone |
-| `16.0.0`             | 19               | Ivy / Module      |
-| `15.4.0`             | 18               | Ivy               |
-| `14.0.1`             | 17               | Ivy               |
-| `13.0.12`            | 16.1             | Ivy               |
-| `12.1.0`             | 16               | Ivy               |
-| `11.1.0`             | 15               | Ivy               |
-| `10.0.0`             | 14               | Ivy               |
-| `9.0.0`              | 13               | Ivy               |
-| `8.1.0`              | 10, 11 and 12    | View Engine       |
-| `7.3.1`              | 7, 8 and 9       | View Engine       |
+| Version   | For **Angular**  | Notes                                                       |
+| --------- | ---------------- | ----------------------------------------------------------- |
+| `18.0.0`  | 22               | Ivy / Stand-alone, native scroll (no `ngx-infinite-scroll`) |
+| `17.3.2`  | 18.1, 19, 20, 21 | Ivy / Stand-alone                                           |
+| `17.1.0`  | 19               | Ivy / Stand-alone                                           |
+| `16.0.0`  | 19               | Ivy / Module                                                |
+| `15.4.0`  | 18               | Ivy                                                         |
+| `14.0.1`  | 17               | Ivy                                                         |
+| `13.0.12` | 16.1             | Ivy                                                         |
+| `12.1.0`  | 16               | Ivy                                                         |
+| `11.1.0`  | 15               | Ivy                                                         |
+| `10.0.0`  | 14               | Ivy                                                         |
+| `9.0.0`   | 13               | Ivy                                                         |
+| `8.1.0`   | 10, 11 and 12    | View Engine                                                 |
+| `7.3.1`   | 7, 8 and 9       | View Engine                                                 |
 
 ## Demo
 
@@ -125,9 +123,9 @@ or
 | `maxResultsMessage`                                                       | `string`                                                                                             | `'Too much result…'` | message when maximum result                                                                                             |                                 |
 | `grid`                                                                    | `number` or `string`                                                                                 |                      | option by line in grid layout (empty or `0` = no grid layout)<br>`number`: item by line<br>`string`: minimal item width |                                 |
 | `listPosition`                                                            | `'below'`<br>`'above'`<br>`'auto'` ¹                                                                 | `'below'`            | the position for the dropdown list                                                                                      | ¹ `'auto'`: only with `overlay` |
-| `infiniteScroll`                                                          | `boolean`                                                                                            | `false`              | active infiniteScroll on dropdown list                                                                                  | with `ngx-infinite-scroll`      |
-| `infiniteScrollDistance`                                                  | `number`                                                                                             | `1.5`                | infiniteScroll distance                                                                                                 | with `ngx-infinite-scroll`      |
-| `infiniteScrollThrottle`                                                  | `number`                                                                                             | `150`                | infiniteScroll throttle                                                                                                 |                                 |
+| `infiniteScroll`                                                          | `boolean`                                                                                            | `false`              | enable infinite scroll on the dropdown list                                                                             |                                 |
+| `infiniteScrollDistance`                                                  | `number`                                                                                             | `1.5`                | scroll threshold as a fraction of the list height (e.g. `1.5` = bottom 15%)                                             |                                 |
+| `infiniteScrollThrottle`                                                  | `number`                                                                                             | `150`                | debounce time in ms between scroll event emissions                                                                      |                                 |
 | `overlay`                                                                 | `boolean`                                                                                            | `false`              | active an overlay mode for dropdown list (with angular cdk). (See [Overlay](#overlay))                                  |                                 |
 | `styleMode`                                                               | `'default'`<br>`'material'`<br>`'noStyle'`<br>`'borderless'`                                         | `'default'`          | change style for material style or remove border and background color                                                   |                                 |
 | `templates`                                                               | [`Select2Template`](#select2-data-structure)<br>(see ”possible object” in [Templating](#templating)) |                      | use templates for formatting content (see [Templating](#templating))                                                    |                                 |
@@ -148,7 +146,7 @@ or
 | `(focus)`                                                                 | `(event: Select2) => void`                                                                           |                      | triggered when user enters the component                                                                                |                                 |
 | `(blur)`                                                                  | `(event: Select2) => void`                                                                           |                      | triggered when user leaves the component                                                                                |                                 |
 | `(search)`                                                                | `(event: `[`Select2SearchEvent`](#select2-data-structure)`) => void`                                 |                      | triggered when search text changed                                                                                      | with `customSearchEnabled`      |
-| `(scroll)`                                                                | `(event: `[`Select2ScrollEvent`](#select2-data-structure)`) => void`                                 |                      | triggered when infiniteScroll is on `up` or `down` position                                                             | with `ngx-infinite-scroll`      |
+| `(scroll)`                                                                | `(event: `[`Select2ScrollEvent`](#select2-data-structure)`) => void`                                 |                      | triggered when infinite scroll reaches the `up` or `down` threshold                                                     |                                 |
 | `(removeOption)`                                                          | `(event: `[`Select2RemoveEvent`](#select2-data-structure)`) => void`                                 |                      | triggered when an option is removed from the list of selected options options list                                      | with `multiple`                 |
 | `(autoCreateItem)`                                                        | `(event: `[`Select2AutoCreateEvent`](#select2-data-structure)`) => void`                             |                      | triggered when a new item has been added                                                                                | with `autoCreate`               |
 

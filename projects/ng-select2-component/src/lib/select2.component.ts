@@ -1502,7 +1502,7 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
             : listPosition === 'above';
     }
 
-    protected _updateFocusState(state: boolean) {
+    _updateFocusState(state: boolean) {
         if (!state && this.focused) {
             this.focused = state;
             this.blur.emit(this);
