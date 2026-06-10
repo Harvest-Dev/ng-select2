@@ -37,8 +37,7 @@ import {
 import { toObservable } from '@angular/core/rxjs-interop';
 import { ControlValueAccessor, FormGroupDirective, NgControl, NgForm } from '@angular/forms';
 
-import { InfiniteScrollDirective } from 'ngx-infinite-scroll';
-import { Subject, Subscription } from 'rxjs';
+import { Subject, Subscription, debounceTime, fromEvent } from 'rxjs';
 
 import { Select2HighlightPipe } from './select2-highlight.pipe';
 import {
@@ -75,15 +74,7 @@ const CLOSE_KEYS: (string | KeyInfo)[] = ['Escape', 'Tab', { key: 'ArrowUp', alt
     templateUrl: './select2.component.html',
     styleUrls: ['./select2.component.scss'],
     standalone: true,
-    imports: [
-        CdkOverlayOrigin,
-        NgTemplateOutlet,
-        CdkConnectedOverlay,
-        InfiniteScrollDirective,
-        CdkDropList,
-        CdkDrag,
-        Select2HighlightPipe,
-    ],
+    imports: [CdkOverlayOrigin, NgTemplateOutlet, CdkConnectedOverlay, CdkDropList, CdkDrag, Select2HighlightPipe],
     host: {
         '[id]': 'id()',
         '[class.select2-selection-nowrap]': 'selectionNoWrap()',
@@ -486,12 +477,14 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
         // do nothing
     };
 
+    _onViewportChange(): void {
+        if (this.isOpen) {
+            this.triggerRect();
+        }
+    }
+
     ngOnInit() {
-        this._viewportRuler.change(100).subscribe(() => {
-            if (this.isOpen) {
-                this.triggerRect();
-            }
-        });
+        this._viewportRuler.change(100).subscribe(() => this._onViewportChange());
 
         const controlValue = this._control ? this._control.value : this.value();
         const option = Select2Utils.getOptionsByValue(this._data, controlValue, this.multiple());
@@ -519,6 +512,7 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
 
         this.selectionElement = this.selection().nativeElement;
         this.triggerRect();
+        this._setupScrollListener();
     }
 
     ngDoCheck() {
@@ -1192,6 +1186,29 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
             search: this.innerSearchText,
             data: this._data,
         });
+    }
+
+    private _setupScrollListener(): void {
+        const el = this.resultsElement;
+        if (!el || !this.infiniteScroll()) {
+            return;
+        }
+
+        this.toObservable.add(
+            fromEvent(el, 'scroll')
+                .pipe(debounceTime(this.infiniteScrollThrottle()))
+                .subscribe(() => this._onScrollEvent(el.scrollTop, el.clientHeight, el.scrollHeight)),
+        );
+    }
+
+    _onScrollEvent(scrollTop: number, clientHeight: number, scrollHeight: number): void {
+        const threshold = (scrollHeight * this.infiniteScrollDistance()) / 10;
+
+        if (scrollTop + clientHeight >= scrollHeight - threshold) {
+            this.onScroll('down');
+        } else if (scrollTop <= threshold) {
+            this.onScroll('up');
+        }
     }
 
     drop(event: CdkDragDrop<string[], string[], any>) {

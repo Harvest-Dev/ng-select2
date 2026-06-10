@@ -222,16 +222,9 @@
           [style.--grid-size]="grid() || null"
           role="listbox"
           tabindex="-1"
-          infiniteScroll
-          [infiniteScrollDisabled]="!infiniteScroll() && !isOpen"
-          [infiniteScrollDistance]="infiniteScrollDistance()"
-          [infiniteScrollThrottle]="infiniteScrollThrottle()"
-          [infiniteScrollContainer]="results"
           [attr.aria-labelledby]="ariaLabelledby() ?? idLabel()"
           [attr.aria-multiselectable]="multiple()"
           [attr.aria-activedescendant]="hoveringOptionId()"
-          (scrolled)="onScroll('down')"
-          (scrolledUp)="onScroll('up')"
           (keydown)="keyDown($event)"
         >
           @if (showSelectAll() && multiple()) {

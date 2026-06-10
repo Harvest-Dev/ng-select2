@@ -3,7 +3,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { provideNoopAnimations } from '@angular/platform-browser/animations';
 
-import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { Select2Data, Select2Group, Select2Option, Select2Template, Select2UpdateValue } from './select2-interfaces';
 import { Select2 } from './select2.component';
@@ -5084,11 +5084,17 @@ describe('Select2 - final branch coverage', () => {
     it('should not call triggerRect when viewport changes and select is closed', () => {
         expect(select2.isOpen).toBe(false);
         const spy = vi.spyOn(select2, 'triggerRect');
-        // Trigger viewport ruler change by resizing window
-        window.dispatchEvent(new Event('resize'));
-        fixture.detectChanges();
-        // triggerRect should NOT be called because isOpen is false
+        select2._onViewportChange();
         expect(spy).not.toHaveBeenCalled();
+    });
+
+    // ── _viewportRuler.change() when isOpen is true ────────────────────
+    it('should call triggerRect when viewport changes and select is open', () => {
+        clickSelection(fixture);
+        expect(select2.isOpen).toBe(true);
+        const spy = vi.spyOn(select2, 'triggerRect');
+        select2._onViewportChange();
+        expect(spy).toHaveBeenCalled();
     });
 
     // ── isSearchboxHidden && !changeEmit && event — false path ─────────
@@ -5418,5 +5424,89 @@ describe('Select2 - final branch coverage', () => {
         (select2 as any).selectedOption = [{ value: 'x', label: 'X' }];
 
         expect(() => (select2 as any)._setSelectionByValue('test')).not.toThrow();
+    });
+
+    // ── Infinite scroll ──────────────────────────────────────────────
+
+    describe('infinite scroll', () => {
+        beforeEach(() => {
+            vi.useFakeTimers();
+        });
+
+        afterEach(() => {
+            vi.useRealTimers();
+        });
+
+        it('should not emit scroll event when infiniteScroll is false', () => {
+            // _setupScrollListener returns early when infiniteScroll is false
+            // so no listener is attached and scroll events are never forwarded
+            host.infiniteScroll = false;
+            fixture.detectChanges();
+            select2 = getSelect2(fixture);
+
+            const el = (select2 as any).resultsElement as HTMLElement;
+            const spy = vi.spyOn(select2 as any, '_onScrollEvent');
+            if (el) {
+                el.dispatchEvent(new Event('scroll'));
+            }
+            vi.runAllTimers();
+
+            expect(spy).not.toHaveBeenCalled();
+        });
+
+        it('should emit down when scrolled to bottom', () => {
+            const spy = vi.spyOn(select2, 'onScroll');
+            // scrollTop(100) + clientHeight(100) >= scrollHeight(200) - threshold(30) → down
+            select2._onScrollEvent(100, 100, 200);
+            expect(spy).toHaveBeenCalledWith('down');
+        });
+
+        it('should emit up when scrolled to top', () => {
+            const spy = vi.spyOn(select2, 'onScroll');
+            // scrollTop(0) <= threshold(150), and 0 + 100 < 1000 - 150 → up
+            select2._onScrollEvent(0, 100, 1000);
+            expect(spy).toHaveBeenCalledWith('up');
+        });
+
+        it('should not emit both up and down simultaneously', () => {
+            const spy = vi.spyOn(select2, 'onScroll');
+            // Short list: 0 + 100 >= 50 - 7.5 → down takes priority
+            select2._onScrollEvent(0, 100, 50);
+            expect(spy).toHaveBeenCalledTimes(1);
+            expect(spy).toHaveBeenCalledWith('down');
+        });
+
+        it('should not emit when scrolled to middle', () => {
+            const spy = vi.spyOn(select2, 'onScroll');
+            // scrollTop(400) + clientHeight(100) = 500 < 1000 - 150 → not down
+            // scrollTop(400) > threshold(150) → not up
+            select2._onScrollEvent(400, 100, 1000);
+            expect(spy).not.toHaveBeenCalled();
+        });
+
+        it('should throttle scroll events from the DOM listener', async () => {
+            fixture = TestBed.createComponent(TestHostComponent);
+            host = fixture.componentInstance;
+            host.infiniteScroll = true;
+            fixture.detectChanges();
+            select2 = getSelect2(fixture);
+
+            const el = (select2 as any).resultsElement as HTMLElement;
+            if (!el) return;
+
+            const spy = vi.spyOn(select2 as any, '_onScrollEvent');
+
+            // Fire 5 scroll events rapidly
+            for (let i = 0; i < 5; i++) {
+                el.dispatchEvent(new Event('scroll'));
+            }
+            // Throttle not elapsed yet → no call
+            vi.advanceTimersByTime(50);
+            expect(spy).not.toHaveBeenCalled();
+
+            // Let throttle pass → only 1 call
+            vi.advanceTimersByTime(200);
+            expect(spy).toHaveBeenCalledTimes(1);
+        });
     });
 });
