@@ -17,7 +17,7 @@ import {
     Select2HighlightPipe,
     Select2SelectionOverride,
     Select2Value,
-} from 'projects/ng-select2-component/src/public_api';
+} from 'ng-select2-component';
 
 import { data24 } from './app.data';
 

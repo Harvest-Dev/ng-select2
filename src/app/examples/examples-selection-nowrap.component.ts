@@ -6,7 +6,7 @@ import { Json2html } from '@ikilote/json2html';
 import { TranslocoModule } from '@jsverse/transloco';
 
 import { Highlight } from 'ngx-highlightjs';
-import { Select2, Select2Data, Select2SelectionOverride } from 'projects/ng-select2-component/src/public_api';
+import { Select2, Select2Data, Select2SelectionOverride } from 'ng-select2-component';
 
 import { Examples } from './examples';
 

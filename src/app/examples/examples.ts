@@ -6,7 +6,7 @@ import {
     Select2SearchEvent,
     Select2UpdateEvent,
     Select2UpdateValue,
-} from 'projects/ng-select2-component/src/public_api';
+} from 'ng-select2-component';
 
 import { ExamplesService } from './examples.service';
 

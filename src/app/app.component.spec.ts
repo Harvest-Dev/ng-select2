@@ -1,6 +1,6 @@
 import { TestBed, waitForAsync } from '@angular/core/testing';
 
-import { Select2 } from 'projects/ng-select2-component/src/public_api';
+import { Select2 } from 'ng-select2-component';
 
 import { AppComponent } from './app.component';
 

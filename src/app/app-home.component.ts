@@ -3,7 +3,7 @@ import { Component } from '@angular/core';
 import { TranslocoModule } from '@jsverse/transloco';
 
 import { Highlight } from 'ngx-highlightjs';
-import { Select2 } from 'projects/ng-select2-component/src/public_api';
+import { Select2 } from 'ng-select2-component';
 
 import { data1 } from './app.data';
 
