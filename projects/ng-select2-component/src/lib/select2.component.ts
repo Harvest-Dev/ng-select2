@@ -14,8 +14,6 @@ import {
     Component,
     DoCheck,
     ElementRef,
-    HostBinding,
-    HostListener,
     OnChanges,
     OnDestroy,
     OnInit,
@@ -75,6 +73,11 @@ const CLOSE_KEYS: (string | KeyInfo)[] = ['Escape', 'Tab', { key: 'ArrowUp', alt
     host: {
         '[id]': 'id()',
         '[class.select2-selection-nowrap]': 'selectionNoWrap()',
+        '[class.material]': 'classMaterial',
+        '[class.nostyle]': 'classNostyle',
+        '[class.borderless]': 'classBorderless',
+        '[class.select2-above]': 'select2above',
+        '(document:click)': 'clickDetection($event)',
     },
 })
 export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterViewInit, OnDestroy, OnChanges {
@@ -268,29 +271,23 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
     readonly searchInput = viewChild<ElementRef<HTMLElement>>('searchInput');
     readonly dropdown = viewChild<ElementRef<HTMLElement>>('dropdown');
 
-    // ----------------------- HostBinding
+    // ----------------------- internal var
 
-    @HostBinding('class.material')
     get classMaterial(): boolean {
         return this.styleMode() === 'material';
     }
 
-    @HostBinding('class.nostyle')
     get classNostyle(): boolean {
         return this.styleMode() === 'noStyle';
     }
 
-    @HostBinding('class.borderless')
     get classBorderless(): boolean {
         return this.styleMode() === 'borderless';
     }
 
-    @HostBinding('class.select2-above')
     get select2above(): boolean {
         return !this.overlay() ? this.listPosition() === 'above' : this._isAbobeOverlay();
     }
-
-    // ----------------------- internal var
 
     selectedOption: Select2Option | Select2Option[] | null = null;
     isOpen = false;
@@ -432,7 +429,6 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
         }
     }
 
-    @HostListener('document:click', ['$event'])
     clickDetection(e: MouseEvent) {
         if (this.isOpen) {
             const target = e.target as HTMLElement;
