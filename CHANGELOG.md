@@ -1,5 +1,14 @@
 # Changelog of ng-select2
 
+## V18.0.0 (2026-06-12)
+
+- update to **Angular 22**
+    - use `inject()` and remove unnecessary params
+    - move `@HostBinding` & `@HostListener` to `host`
+- refactor: replace `ngx-infinite-scroll` with native scroll listener
+    - Remove `ngx-infinite-scroll` dependency from `package.json` and library `package.json`
+    - Replace `InfiniteScrollDirective` with fromEvent-based native scroll listener
+
 ## V17.3.2 (2026-05-24)
 
 - feat: add Cyrillic, Greek Arabic and Hebrew for searches and highlight.
