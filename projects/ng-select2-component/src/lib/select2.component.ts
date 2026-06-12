@@ -73,10 +73,10 @@ const CLOSE_KEYS: (string | KeyInfo)[] = ['Escape', 'Tab', { key: 'ArrowUp', alt
     host: {
         '[id]': 'id()',
         '[class.select2-selection-nowrap]': 'selectionNoWrap()',
-        '[class.material]': 'classMaterial',
-        '[class.nostyle]': 'classNostyle',
-        '[class.borderless]': 'classBorderless',
-        '[class.select2-above]': 'select2above',
+        '[class.material]': 'classMaterial()',
+        '[class.nostyle]': 'classNostyle()',
+        '[class.borderless]': 'classBorderless()',
+        '[class.select2-above]': 'select2above()',
         '(document:click)': 'clickDetection($event)',
     },
 })
@@ -273,21 +273,15 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
 
     // ----------------------- internal var
 
-    get classMaterial(): boolean {
-        return this.styleMode() === 'material';
-    }
+    readonly classMaterial = computed(() => this.styleMode() === 'material');
 
-    get classNostyle(): boolean {
-        return this.styleMode() === 'noStyle';
-    }
+    readonly classNostyle = computed(() => this.styleMode() === 'noStyle');
 
-    get classBorderless(): boolean {
-        return this.styleMode() === 'borderless';
-    }
+    readonly classBorderless = computed(() => this.styleMode() === 'borderless');
 
-    get select2above(): boolean {
-        return !this.overlay() ? this.listPosition() === 'above' : this._isAbobeOverlay();
-    }
+    readonly select2above = computed(() =>
+        !this.overlay() ? this.listPosition() === 'above' : this._isAbobeOverlay(),
+    );
 
     selectedOption: Select2Option | Select2Option[] | null = null;
     isOpen = false;
@@ -323,7 +317,7 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
     protected _triggerRect: DOMRect | undefined;
     protected _dropdownRect: DOMRect | undefined;
 
-    protected get _positions(): any {
+    protected readonly _positions = computed(() => {
         switch (this.listPosition()) {
             case 'above':
                 return [
@@ -352,7 +346,7 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
                     ),
                 ];
         }
-    }
+    });
 
     protected maxResultsExceeded: boolean | undefined;
 
@@ -383,7 +377,7 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
 
     protected _value: Select2UpdateValue | null = null;
     private _previousNativeValue: Select2UpdateValue | undefined;
-    private _overlayPosition: VerticalConnectionPos | undefined;
+    private _overlayPosition = signal<VerticalConnectionPos | undefined>(undefined);
     private toObservable = new Subscription();
 
     constructor() {
@@ -493,10 +487,10 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
             if (
                 this.listPosition() === 'auto' &&
                 posChange.connectionPair?.originY &&
-                this._overlayPosition !== posChange.connectionPair.originY
+                this._overlayPosition() !== posChange.connectionPair.originY
             ) {
                 this.triggerRect();
-                this._overlayPosition = posChange.connectionPair.originY;
+                this._overlayPosition.set(posChange.connectionPair.originY);
                 this._changeDetectorRef.detectChanges();
             }
         });
@@ -1488,8 +1482,9 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
 
     private _isAbobeOverlay(): boolean {
         const listPosition = this.listPosition();
-        return this.overlay() && this._overlayPosition && listPosition === 'auto'
-            ? this._overlayPosition === 'top'
+        const overlayPosition = this._overlayPosition();
+        return this.overlay() && overlayPosition && listPosition === 'auto'
+            ? overlayPosition === 'top'
             : listPosition === 'above';
     }
 

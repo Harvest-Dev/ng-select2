@@ -268,9 +268,9 @@ describe('Select2 Component', () => {
         });
 
         it('should have default styleMode', () => {
-            expect(select2.classMaterial).toBe(false);
-            expect(select2.classNostyle).toBe(false);
-            expect(select2.classBorderless).toBe(false);
+            expect(select2.classMaterial()).toBe(false);
+            expect(select2.classNostyle()).toBe(false);
+            expect(select2.classBorderless()).toBe(false);
         });
     });
 
@@ -280,20 +280,20 @@ describe('Select2 Component', () => {
         it('should apply material class', () => {
             host.styleMode = 'material';
             detectChanges(fixture);
-            expect(select2.classMaterial).toBe(true);
-            expect(select2.classNostyle).toBe(false);
+            expect(select2.classMaterial()).toBe(true);
+            expect(select2.classNostyle()).toBe(false);
         });
 
         it('should apply noStyle class', () => {
             host.styleMode = 'noStyle';
             detectChanges(fixture);
-            expect(select2.classNostyle).toBe(true);
+            expect(select2.classNostyle()).toBe(true);
         });
 
         it('should apply borderless class', () => {
             host.styleMode = 'borderless';
             detectChanges(fixture);
-            expect(select2.classBorderless).toBe(true);
+            expect(select2.classBorderless()).toBe(true);
         });
     });
 
@@ -799,13 +799,13 @@ describe('Select2 Component', () => {
         it('should set above class when listPosition is above', () => {
             host.listPosition = 'above';
             detectChanges(fixture);
-            expect(select2.select2above).toBe(true);
+            expect(select2.select2above()).toBe(true);
         });
 
         it('should not set above class when listPosition is below', () => {
             host.listPosition = 'below';
             detectChanges(fixture);
-            expect(select2.select2above).toBe(false);
+            expect(select2.select2above()).toBe(false);
         });
     });
 
@@ -1737,7 +1737,7 @@ describe('Select2 Component - additional coverage', () => {
             host.listPosition = 'above';
             detectChanges(fixture);
             select2 = getSelect2(fixture);
-            const positions = (select2 as any)._positions;
+            const positions = (select2 as any)._positions();
             expect(positions.length).toBe(1);
             expect(positions[0].originY).toBe('top');
             expect(positions[0].overlayY).toBe('bottom');
@@ -1747,7 +1747,7 @@ describe('Select2 Component - additional coverage', () => {
             host.listPosition = 'auto';
             detectChanges(fixture);
             select2 = getSelect2(fixture);
-            const positions = (select2 as any)._positions;
+            const positions = (select2 as any)._positions();
             expect(positions.length).toBe(2);
         });
 
@@ -1755,7 +1755,7 @@ describe('Select2 Component - additional coverage', () => {
             host.listPosition = 'below';
             detectChanges(fixture);
             select2 = getSelect2(fixture);
-            const positions = (select2 as any)._positions;
+            const positions = (select2 as any)._positions();
             expect(positions.length).toBe(1);
             expect(positions[0].originY).toBe('bottom');
             expect(positions[0].overlayY).toBe('top');
@@ -2112,7 +2112,7 @@ describe('Select2 Component - additional coverage', () => {
             host.listPosition = 'auto';
             detectChanges(fixture);
             select2 = getSelect2(fixture);
-            (select2 as any)._overlayPosition = 'top';
+            (select2 as any)._overlayPosition.set('top');
             expect((select2 as any)._isAbobeOverlay()).toBe(true);
         });
 
@@ -2121,7 +2121,7 @@ describe('Select2 Component - additional coverage', () => {
             host.listPosition = 'auto';
             detectChanges(fixture);
             select2 = getSelect2(fixture);
-            (select2 as any)._overlayPosition = 'bottom';
+            (select2 as any)._overlayPosition.set('bottom');
             expect((select2 as any)._isAbobeOverlay()).toBe(false);
         });
 
@@ -2541,8 +2541,8 @@ describe('Select2 Component - additional coverage', () => {
             host.listPosition = 'auto';
             detectChanges(fixture);
             select2 = getSelect2(fixture);
-            (select2 as any)._overlayPosition = 'top';
-            expect(select2.select2above).toBe(true);
+            (select2 as any)._overlayPosition.set('top');
+            expect(select2.select2above()).toBe(true);
         });
 
         it('should return false with overlay and bottom position', () => {
@@ -2550,8 +2550,8 @@ describe('Select2 Component - additional coverage', () => {
             host.listPosition = 'auto';
             detectChanges(fixture);
             select2 = getSelect2(fixture);
-            (select2 as any)._overlayPosition = 'bottom';
-            expect(select2.select2above).toBe(false);
+            (select2 as any)._overlayPosition.set('bottom');
+            expect(select2.select2above()).toBe(false);
         });
     });
 
@@ -3262,7 +3262,7 @@ describe('Select2 Component - final coverage', () => {
             host.overlay = true;
             detectChanges(fixture);
             select2 = getSelect2(fixture);
-            const positions = (select2 as any)._positions;
+            const positions = (select2 as any)._positions();
             expect(positions.length).toBe(2);
         });
     });

@@ -8,8 +8,8 @@
 <div
   class="select2 select2-container select2-container--default"
   [class.select2-container--focus]="focused"
-  [class.select2-container--below]="!select2above"
-  [class.select2-container--above]="select2above"
+  [class.select2-container--below]="!select2above()"
+  [class.select2-container--above]="select2above()"
   [class.select2-container--open]="isOpen"
   [class.select2-container--disabled]="disabled()"
   [class.select2-container--readonly]="readonly()"
@@ -166,7 +166,7 @@
   [cdkConnectedOverlayOpen]="this.isOpen && overlay()"
   [cdkConnectedOverlayMinWidth]="overlayWidth"
   [cdkConnectedOverlayHeight]="overlayHeight"
-  [cdkConnectedOverlayPositions]="_positions"
+  [cdkConnectedOverlayPositions]="_positions()"
   (backdropClick)="toggleOpenAndClose()"
 >
   <ng-container *ngTemplateOutlet="containerTemplate" />
@@ -184,8 +184,8 @@
     <div
       #dropdown
       class="select2-dropdown"
-      [class.select2-dropdown--below]="!select2above"
-      [class.select2-dropdown--above]="select2above"
+      [class.select2-dropdown--below]="!select2above()"
+      [class.select2-dropdown--above]="select2above()"
     >
       <div class="select2-search select2-search--dropdown" [class.select2-search--hide]="isSearchboxHidden">
         <input
