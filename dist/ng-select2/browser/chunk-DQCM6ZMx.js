@@ -1,4 +1,4 @@
-import {B as Bo,v as vI,h as ho,X as Xr,r as re,J as Jr,Y as Yi,M as Mw,F as Fu,A as Ah,z as zw,j as jD,a as ju,W as Ww,N as Nh}from'./main-CVTVYAZC.js';var H=(()=>{class o{constructor(){this.data=Bo,this.ts=`import { Select2 } from 'ng-select2-component';
+import {B as Bo,v as vI,h as ho,X as Xr,r as re,J as Jr,Y as Yi,M as Mw,F as Fu,A as Ah,z as zw,j as jD,a as ju,W as Ww,N as Nh}from'./main-YNF3IYML.js';var H=(()=>{class o{constructor(){this.data=Bo,this.ts=`import { Select2 } from 'ng-select2-component';
 
 @Component({
     selector: 'app-root',

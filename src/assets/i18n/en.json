@@ -67,6 +67,8 @@
   "Max results (50)": "Max results (50)",
   "Too much results in this list.": "Too much results in this list.",
   "Search starts with 3 chars": "Search starts with 3 chars",
+  "In the box": "In the box",
+  "Out the box": "Out the box",
 
   "FormControl & reset form multiple": "FormControl & reset form multiple",
   "FormControl & reset a specific value": "FormControl & reset a specific value",

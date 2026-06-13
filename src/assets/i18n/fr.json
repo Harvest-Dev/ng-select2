@@ -67,6 +67,8 @@
   "Max results (50)": "Résultats max. (50)",
   "Too much results in this list.": "Trop de résultats dans cette liste",
   "Search starts with 3 chars": "La recherche commence à 3 caractères",
+  "In the box": "Dans la boîte",
+  "Out the box": "Hors de la boîte",
 
   "FormControl & reset form multiple": "FormControl & réinitialiser formulaires multiple",
   "FormControl & reset a specific value": "FormControl & réinitialiser une valeur spécifique",

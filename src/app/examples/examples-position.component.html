@@ -36,10 +36,10 @@
       <div class="row">
         <div class="col-6">
           <ng-select2
-            [overlay]="overlay"
+            overlay
             [styleMode]="styleMode"
             [data]="data2"
-            [value]="value2"
+            [value]="value27"
             listPosition="auto"
             (update)="update('value2', $event)"
             id="select2-27"
@@ -47,7 +47,7 @@
           <div class="value">
             <div>
               <span>{{ 'value:' | transloco }}</span
-              ><code>{{ value2 | json }}</code>
+              ><code>{{ value27 | json }}</code>
             </div>
           </div>
         </div>
@@ -55,6 +55,63 @@
         <div class="col-6">
           <div class="code">
             <code><pre [highlight]="exemple27()" language="html"></pre></code>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <h3 class="col-12" id="ex-27">{{ 'In the box' | transloco }}</h3>
+    <div class="container">
+      <div class="row">
+        <div class="col-6 class-inter">
+          <ng-select2
+            [styleMode]="styleMode"
+            [data]="data2"
+            [value]="value27in"
+            listPosition="auto"
+            (update)="update('value2in', $event)"
+            id="select2-27"
+          />
+          <div class="value">
+            <div>
+              <span>{{ 'value:' | transloco }}</span
+              ><code>{{ value27in | json }}</code>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-6">
+          <div class="code">
+            <code><pre [highlight]="exemple27in()" language="html"></pre></code>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <h3 class="col-12" id="ex-27">{{ 'Out the box' | transloco }}</h3>
+    <div class="container">
+      <div class="row">
+        <div class="col-6 class-inter">
+          <ng-select2
+            overlay
+            [styleMode]="styleMode"
+            [data]="data2"
+            [value]="value27out"
+            listPosition="auto"
+            (update)="update('value27out', $event)"
+            id="select2-27"
+          />
+          <div class="value">
+            <div>
+              <span>{{ 'value:' | transloco }}</span
+              ><code>{{ value27out | json }}</code>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-6">
+          <div class="code">
+            <code><pre [highlight]="exemple27out()" language="html"></pre></code>
           </div>
         </div>
       </div>
