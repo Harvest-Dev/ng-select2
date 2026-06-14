@@ -71,6 +71,7 @@ const HIDDEN_DATA: Select2Data = [
         [selectionOverride]="selectionOverride"
         [selectionNoWrap]="selectionNoWrap"
         [showSelectAll]="showSelectAll"
+        [showOptionCheckbox]="showOptionCheckbox"
         [removeAllText]="removeAllText"
         [selectAllText]="selectAllText"
         [required]="required"
@@ -125,6 +126,7 @@ class TestHostComponent {
     selectionOverride: any = undefined;
     selectionNoWrap = false;
     showSelectAll = false;
+    showOptionCheckbox = false;
     removeAllText = 'Remove all';
     selectAllText = 'Select all';
     required = false;
@@ -4609,7 +4611,7 @@ describe('Select2 - deep branch coverage', () => {
         const rfSelect2 = rfFixture.debugElement.children[0].children[0].componentInstance as Select2;
 
         // Make invalid and mark parent form as submitted
-        rfSelect2._control.control?.setErrors({ required: true });
+        rfSelect2._control?.control?.setErrors({ required: true });
         if ((rfSelect2 as any)._parentFormGroup) {
             (rfSelect2 as any)._parentFormGroup.submitted = true;
         }
@@ -5533,6 +5535,110 @@ describe('Select2 - final branch coverage', () => {
             // Let throttle pass → only 1 call
             vi.advanceTimersByTime(200);
             expect(spy).toHaveBeenCalledTimes(1);
+        });
+    });
+
+    // ── showOptionCheckbox ────────────────────────────────────────────────
+
+    describe('showOptionCheckbox', () => {
+        beforeEach(() => {
+            fixture = TestBed.createComponent(TestHostComponent);
+            host = fixture.componentInstance;
+            vi.useFakeTimers();
+        });
+
+        afterEach(() => {
+            vi.useRealTimers();
+        });
+
+        it('should not render checkboxes by default', () => {
+            host.value = 'opt1';
+            fixture.detectChanges();
+            // open dropdown
+            const selection = fixture.nativeElement.querySelector('.selection') as HTMLElement;
+            selection.click();
+            fixture.detectChanges();
+            const checkboxes = fixture.nativeElement.querySelectorAll('.select2-option-checkbox');
+            expect(checkboxes.length).toBe(0);
+        });
+
+        it('should render a checkbox for each option when showOptionCheckbox is true', () => {
+            host.showOptionCheckbox = true;
+            fixture.detectChanges();
+            const selection = fixture.nativeElement.querySelector('.selection') as HTMLElement;
+            selection.click();
+            fixture.detectChanges();
+            const checkboxes = fixture.nativeElement.querySelectorAll('.select2-option-checkbox');
+            expect(checkboxes.length).toBe(SIMPLE_DATA.length);
+        });
+
+        it('should check the checkbox for the selected option in single mode', () => {
+            host.showOptionCheckbox = true;
+            host.value = 'opt1';
+            fixture.detectChanges();
+            const selection = fixture.nativeElement.querySelector('.selection') as HTMLElement;
+            selection.click();
+            fixture.detectChanges();
+            const checkboxes = fixture.nativeElement.querySelectorAll('.select2-option-checkbox');
+            expect(checkboxes[0].checked).toBe(true);
+            expect(checkboxes[1].checked).toBe(false);
+        });
+
+        it('should check the checkboxes for selected options in multiple mode', () => {
+            host.showOptionCheckbox = true;
+            host.multiple = true;
+            host.value = ['opt1', 'opt3'];
+            fixture.detectChanges();
+            const selection = fixture.nativeElement.querySelector('.selection') as HTMLElement;
+            selection.click();
+            fixture.detectChanges();
+            const checkboxes = fixture.nativeElement.querySelectorAll('.select2-option-checkbox');
+            expect(checkboxes[0].checked).toBe(true); // opt1 selected
+            expect(checkboxes[1].checked).toBe(false); // opt2 not selected
+            expect(checkboxes[2].checked).toBe(true); // opt3 selected
+            expect(checkboxes[3].checked).toBe(false); // opt4 not selected
+        });
+
+        it('should disable the checkbox for a disabled option', () => {
+            host.showOptionCheckbox = true;
+            fixture.detectChanges();
+            const selection = fixture.nativeElement.querySelector('.selection') as HTMLElement;
+            selection.click();
+            fixture.detectChanges();
+            const checkboxes = fixture.nativeElement.querySelectorAll('.select2-option-checkbox');
+            // opt4 is disabled in SIMPLE_DATA
+            expect(checkboxes[3].disabled).toBe(true);
+        });
+
+        it('should render checkboxes inside grouped options', () => {
+            host.showOptionCheckbox = true;
+            host.multiple = true;
+            host.data = GROUP_DATA;
+            fixture.detectChanges();
+            const selection = fixture.nativeElement.querySelector('.selection') as HTMLElement;
+            selection.click();
+            fixture.detectChanges();
+            const checkboxes = fixture.nativeElement.querySelectorAll('.select2-option-checkbox');
+            // GROUP_DATA has 4 options total (2 in Group A, 2 in Group B)
+            expect(checkboxes.length).toBe(4);
+        });
+
+        it('should update checkboxes when selection changes', () => {
+            host.showOptionCheckbox = true;
+            host.multiple = true;
+            host.value = [];
+            fixture.detectChanges();
+            const selection = fixture.nativeElement.querySelector('.selection') as HTMLElement;
+            selection.click();
+            fixture.detectChanges();
+
+            // select opt2 by clicking its li
+            const options = fixture.nativeElement.querySelectorAll('.select2-results__option[role="option"]');
+            options[1].click();
+            fixture.detectChanges();
+
+            const checkboxes = fixture.nativeElement.querySelectorAll('.select2-option-checkbox');
+            expect(checkboxes[1].checked).toBe(true);
         });
     });
 });

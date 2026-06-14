@@ -40,23 +40,48 @@ npm i ng-select2-component --save
 
 ## Features
 
-- select one
-- options or groups (list or grid)
-- scroll
-- local search
-- select by keyboard
-- disabled option
-- disabled component
-- hide search box
-- placeholder
-- multiple selection
-- add items not found in multiple
-- material style
-- form binding
-- templating
-- drag'n drop
-- WAI (accessibility)
-- etc.
+- **Selection**
+    - Single and multiple selection
+    - Limit the number of selections (multiple)
+    - Hide already selected items from the dropdown (multiple)
+    - Select all / Remove all button (multiple)
+    - Checkbox next to each option
+    - Drag & drop reordering of selected items (multiple)
+    - Resettable with configurable reset value
+    - Auto-create items not present in the list
+- **Data representation**
+    - Options and option groups
+    - Infinite scroll
+    - Maximum results limit
+    - Grid layout (fixed column count or auto cell size)
+- **Selection representation**
+    - Selection override: replace the selection area with custom text or a function
+    - Selection no-wrap: keep selected tags on a single line
+- **Search**
+    - Local filtering with configurable minimum character threshold
+    - External / async search (`customSearchEnabled`)
+    - Highlight matched text in options (ignore the diacritics for: Latin, Japanese, Cyrillic, Greek, Arabic & Hebrew)
+- **Keyboard**
+    - Standard keyboard navigation
+    - Native HTML `<select>` navigation mode (`nativeKeyboard`)
+- **Templates**
+    - Custom rendering for options, groups and the selection area
+    - Per-item template ids (`templateId`, `templateSelectionId`)
+- **Style**
+    - Four modes: default, material, borderless, no-style
+    - Fully themeable via CSS custom properties
+- **Dropdown**
+    - Dropdown position: below, above, or auto
+    - Angular CDK Overlay mode
+- **Forms**
+    - `ngModel` and `FormControl` binding
+    - `required`, `disabled`, `readonly`, `tabIndex`, `placeholder`
+- **Accessibility**
+    - WAI-ARIA roles, live regions, `ariaLabelledby`, `ariaDescribedby`, hint slot
+- **Angular**
+    - signals-based API (`input()` / `output()`)
+    - standalone component
+- Web Component compatible naming (`<ng-select2>`)
 
 ## Usage
 
@@ -134,6 +159,7 @@ or
 | `selectionOverride`                                                       | [`Select2SelectionOverride`](#select2-data-structure)                                                |                      | Replace selection by a text<br>`string`: `%size%` = total selected options<br>`function`: juste show the string         |                                 |
 | `selectionNoWrap`                                                         | `boolean`                                                                                            | `false`              | force selection on one line                                                                                             |                                 |
 | `showSelectAll`                                                           | `boolean`                                                                                            | `false`              | Add an option to select all options                                                                                     | with `multiple`                 |
+| `showOptionCheckbox`                                                      | `boolean`                                                                                            | `false`              | Show a checkbox next to each option in the dropdown                                                                     |                                 |
 | `selectAllText`                                                           | `string`                                                                                             | `'Select all'`       | Text when all options as not selected                                                                                   | with `multiple`                 |
 | `removeAllText`                                                           | `string`                                                                                             | `'Remove all'`       | text when all options as selected                                                                                       | with `multiple`                 |
 | `editPattern`                                                             | `(str: string) => string`                                                                            |                      | use it for change the pattern of the filter search                                                                      |                                 |

@@ -266,6 +266,16 @@
                       (mouseenter)="mouseenter(option)"
                       (click)="click(option)"
                     >
+                      @if (showOptionCheckbox()) {
+                        <input
+                          type="checkbox"
+                          class="select2-option-checkbox"
+                          [checked]="isSelected(option) === 'true'"
+                          [disabled]="isDisabled(option) === 'true'"
+                          aria-hidden="true"
+                          tabindex="-1"
+                        />
+                      }
                       @if (!hasTemplate(option, 'option')) {
                         <div
                           class="select2-label-content"
@@ -291,6 +301,16 @@
                 (mouseenter)="mouseenter(option)"
                 (click)="click(option)"
               >
+                @if (showOptionCheckbox()) {
+                  <input
+                    type="checkbox"
+                    class="select2-option-checkbox"
+                    [checked]="isSelected(option) === 'true'"
+                    [disabled]="isDisabled(option) === 'true'"
+                    aria-hidden="true"
+                    tabindex="-1"
+                  />
+                }
                 @if (!hasTemplate(option, 'option')) {
                   <div
                     [innerHTML]="option.label | highlightText: searchText : !highlightText()"

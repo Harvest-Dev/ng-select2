@@ -132,6 +132,17 @@
     &[aria-selected] {
         cursor: pointer;
     }
+
+    .select2-option-checkbox {
+        vertical-align: middle;
+        margin-inline-end: var(--select2-option-checkbox-margin, 6px);
+        pointer-events: none;
+        accent-color: var(--select2-option-checkbox-color, currentColor);
+    }
+
+    &:has(> .select2-option-checkbox) {
+        display: flex;
+    }
 }
 
 .select2-container.select2-container-dropdown.select2-container--open {

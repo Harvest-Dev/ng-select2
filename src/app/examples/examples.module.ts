@@ -89,6 +89,10 @@ const routes: Routes = [
                 loadComponent: () => import('./examples-select-all.component').then(m => m.ExemplesSelectAllComponent),
             },
             {
+                path: 'checkbox',
+                loadComponent: () => import('./examples-checkbox.component').then(m => m.ExemplesCheckboxComponent),
+            },
+            {
                 path: 'native-keyboard',
                 loadComponent: () =>
                     import('./examples-native-keyboard.component').then(m => m.ExemplesNativeKeyboardComponent),

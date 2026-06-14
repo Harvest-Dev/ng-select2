@@ -227,6 +227,9 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
     /** Add an option to select or remove all (if all is selected) */
     readonly showSelectAll = input<boolean, unknown>(false, { transform: booleanAttribute });
 
+    /** Show a checkbox next to each option */
+    readonly showOptionCheckbox = input<boolean, unknown>(false, { transform: booleanAttribute });
+
     /** Text for remove all options */
     readonly removeAllText = input('Remove all');
 

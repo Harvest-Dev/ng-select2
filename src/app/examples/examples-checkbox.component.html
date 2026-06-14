@@ -1,0 +1,102 @@
+<h2>{{ 'Checkbox' | transloco }}</h2>
+
+<div class="container">
+  <!-- Single with checkbox -->
+  <div class="row">
+    <div class="container">
+      <h3>{{ 'Single' | transloco }}</h3>
+      <div class="row">
+        <div class="col-6">
+          <ng-select2
+            showOptionCheckbox
+            [overlay]="overlay"
+            [styleMode]="styleMode"
+            [data]="dataCheckbox3"
+            [value]="valueCheckbox3"
+            id="select2-checkbox-single"
+            (update)="update('valueCheckbox3', $event)"
+          />
+          <div class="value">
+            <div>
+              <span>{{ 'value:' | transloco }}</span
+              ><code>{{ valueCheckbox3 | json }}</code>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-6">
+          <div class="code">
+            <code><pre [highlight]="exemple38c()" language="html"></pre></code>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Multiple with checkbox -->
+  <div class="row">
+    <div class="container">
+      <h3>{{ 'Multiple' | transloco }}</h3>
+      <div class="row">
+        <div class="col-6">
+          <ng-select2
+            showOptionCheckbox
+            [overlay]="overlay"
+            [styleMode]="styleMode"
+            [data]="dataCheckbox1"
+            [value]="valueCheckbox1"
+            id="select2-checkbox-multiple"
+            (update)="update('valueCheckbox1', $event)"
+            multiple
+          />
+          <div class="value">
+            <div>
+              <span>{{ 'value:' | transloco }}</span
+              ><code>{{ valueCheckbox1 | json }}</code>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-6">
+          <div class="code">
+            <code><pre [highlight]="exemple38a()" language="html"></pre></code>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Multiple with checkbox + select all -->
+  <div class="row">
+    <div class="container">
+      <h3>{{ 'Multiple with Select All' | transloco }}</h3>
+      <div class="row">
+        <div class="col-6">
+          <ng-select2
+            showOptionCheckbox
+            showSelectAll
+            [overlay]="overlay"
+            [styleMode]="styleMode"
+            [data]="dataCheckbox2"
+            [value]="valueCheckbox2"
+            id="select2-checkbox-multiple-select-all"
+            (update)="update('valueCheckbox2', $event)"
+            multiple
+          />
+          <div class="value">
+            <div>
+              <span>{{ 'value:' | transloco }}</span
+              ><code>{{ valueCheckbox2 | json }}</code>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-6">
+          <div class="code">
+            <code><pre [highlight]="exemple38b()" language="html"></pre></code>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
