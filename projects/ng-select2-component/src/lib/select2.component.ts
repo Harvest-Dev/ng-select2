@@ -425,14 +425,23 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
             if (grps.length === 0 && opts.length === 0) {
                 return;
             }
-            // Reading every input() of every directive makes this effect depend on them all,
-            // so it re-runs when e.g. [disabled] changes on a single ng-option.
-            const data: Select2Data = [
-                ...grps.map(g => g.toGroup()),
-                ...opts
-                    .filter(o => !grps.some(g => (g._ngOptions() as readonly Select2OptionDirective[]).includes(o)))
-                    .map(o => o.toOption()),
-            ];
+
+            // Read directive input signals here (tracked zone) so the effect re-runs
+            // when any input changes. Guard against required inputs not yet initialized
+            // (NG0950) by wrapping in try/catch — the effect will re-run once bindings resolve.
+            let data: Select2Data;
+            try {
+                data = [
+                    ...grps.map(g => g.toGroup()),
+                    ...opts
+                        .filter(o => !grps.some(g => (g._ngOptions() as readonly Select2OptionDirective[]).includes(o)))
+                        .map(o => o.toOption()),
+                ];
+            } catch {
+                // Required inputs not yet available — skip this run, effect will re-trigger
+                return;
+            }
+
             untracked(() => {
                 this._data = data;
                 this.updateFilteredData();
