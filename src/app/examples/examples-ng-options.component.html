@@ -1,0 +1,297 @@
+<h2>{{ 'ng-option / ng-group template mode' | transloco }}</h2>
+
+<div class="container">
+  <div class="row">
+    <!-- Example 41 : flat list -->
+    <h3 class="col-12" id="ex-41">{{ 'Flat list of options' | transloco }}</h3>
+    <div class="container">
+      <div class="row">
+        <div class="col-6">
+          <ng-select2
+            [overlay]="overlay"
+            [styleMode]="styleMode"
+            [value]="value41"
+            (update)="update('value41', $event)"
+            id="select2-41"
+          >
+            <ng-option value="apple">Apple</ng-option>
+            <ng-option value="banana">Banana</ng-option>
+            <ng-option value="cherry">Cherry</ng-option>
+            <ng-option value="date">Date</ng-option>
+          </ng-select2>
+          <div class="value">
+            <div>
+              <span>{{ 'value:' | transloco }}</span
+              ><code>{{ value41 | json }}</code>
+            </div>
+          </div>
+        </div>
+        <div class="col-6">
+          <div class="code">
+            <code><pre [highlight]="exemple41()" language="html"></pre></code>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Example 42 : groups + root options -->
+    <h3 class="col-12" id="ex-42">{{ 'Groups with ng-group' | transloco }}</h3>
+    <div class="container">
+      <div class="row">
+        <div class="col-6">
+          <ng-select2
+            [overlay]="overlay"
+            [styleMode]="styleMode"
+            [value]="value42"
+            (update)="update('value42', $event)"
+            id="select2-42"
+          >
+            <ng-group label="Fruits">
+              <ng-option value="apple">Apple</ng-option>
+              <ng-option value="banana">Banana</ng-option>
+            </ng-group>
+            <ng-group label="Vegetables">
+              <ng-option value="carrot">Carrot</ng-option>
+              <ng-option value="pea">Pea</ng-option>
+            </ng-group>
+            <ng-option value="other">Other</ng-option>
+          </ng-select2>
+          <div class="value">
+            <div>
+              <span>{{ 'value:' | transloco }}</span
+              ><code>{{ value42 | json }}</code>
+            </div>
+          </div>
+        </div>
+        <div class="col-6">
+          <div class="code">
+            <code><pre [highlight]="exemple42()" language="html"></pre></code>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Example 43 : disabled options -->
+    <h3 class="col-12" id="ex-43">{{ 'With disabled options' | transloco }}</h3>
+    <div class="container">
+      <div class="row">
+        <div class="col-6">
+          <label>
+            <input type="checkbox" [checked]="disabledOption" (change)="disabledOption = !disabledOption" />
+            {{ 'Toggle dynamic disabled (Banana)' | transloco }}
+          </label>
+          <ng-select2
+            [overlay]="overlay"
+            [styleMode]="styleMode"
+            [value]="value43"
+            (update)="update('value43', $event)"
+            id="select2-43"
+          >
+            <ng-option value="apple">Apple</ng-option>
+            <ng-option value="banana" [disabled]="disabledOption">Banana</ng-option>
+            <ng-option value="cherry" disabled>Cherry</ng-option>
+            <ng-option value="date">Date</ng-option>
+          </ng-select2>
+          <div class="value">
+            <div>
+              <span>{{ 'value:' | transloco }}</span
+              ><code>{{ value43 | json }}</code>
+            </div>
+          </div>
+        </div>
+        <div class="col-6">
+          <div class="code">
+            <code><pre [highlight]="exemple43()" language="html"></pre></code>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Example 46 : HTML formatting inside ng-option -->
+    <h3 class="col-12" id="ex-46">{{ 'HTML formatting inside ng-option' | transloco }}</h3>
+    <div class="container">
+      <div class="row">
+        <div class="col-6">
+          <ng-select2
+            [overlay]="overlay"
+            [styleMode]="styleMode"
+            [value]="value46"
+            (update)="update('value46', $event)"
+            id="select2-46"
+          >
+            <ng-option value="one"><strong>1.</strong> First item</ng-option>
+            <ng-option value="two"><strong>2.</strong> Second item</ng-option>
+            <ng-option value="three"><strong>3.</strong> Third item</ng-option>
+          </ng-select2>
+          <div class="value">
+            <div>
+              <span>{{ 'value:' | transloco }}</span
+              ><code>{{ value46 | json }}</code>
+            </div>
+          </div>
+        </div>
+        <div class="col-6">
+          <div class="code">
+            <code><pre [highlight]="exemple46()" language="html"></pre></code>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Example 47 : dynamic options + toggle disabled -->
+    <h3 class="col-12" id="ex-47">{{ 'Dynamic options with add and disabled toggle' | transloco }}</h3>
+    <div class="container">
+      <div class="row">
+        <div class="col-6">
+          <div class="actions" style="margin-bottom: 0.5rem; display: flex; gap: 0.5rem; align-items: center">
+            <button type="button" (click)="addDynamicOption()">{{ 'Add option' | transloco }}</button>
+            <label>
+              <input type="checkbox" [checked]="disabledDynamic()" (change)="disabledDynamic.set(!disabledDynamic())" />
+              {{ 'Toggle dynamic disabled (Banana)' | transloco }}
+            </label>
+          </div>
+          <ng-select2
+            [overlay]="overlay"
+            [styleMode]="styleMode"
+            [value]="value47"
+            (update)="update('value47', $event)"
+            id="select2-47"
+          >
+            @for (opt of dynamicOptions(); track opt.value) {
+              <ng-option [value]="opt.value" [disabled]="opt.value === 'banana' && disabledDynamic()">{{
+                opt.label
+              }}</ng-option>
+            }
+          </ng-select2>
+          <div class="value">
+            <div>
+              <span>{{ 'value:' | transloco }}</span
+              ><code>{{ value47 | json }}</code>
+            </div>
+          </div>
+        </div>
+        <div class="col-6">
+          <div class="code">
+            <code><pre [highlight]="exemple47()" language="html"></pre></code>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Example 44 : [data] on ng-option + ng-template for colored badges -->
+    <h3 class="col-12" id="ex-44">{{ 'With [data] and template for rich formatting' | transloco }}</h3>
+    <div class="container">
+      <div class="row">
+        <div class="col-6">
+          <ng-select2
+            class="badge-list"
+            [overlay]="overlay"
+            [styleMode]="styleMode"
+            [value]="value44"
+            (update)="update('value44', $event)"
+            [templates]="tplBadge"
+            [templateSelection]="tplBadgeSelection"
+            id="select2-44"
+          >
+            <ng-template #tplBadge let-data="data">
+              <span class="badge" [style.background]="data?.color">{{ data?.emoji }} {{ data?.name }}</span>
+            </ng-template>
+            <ng-template #tplBadgeSelection let-data="data">
+              <span class="badge" [style.background]="data?.color">{{ data?.emoji }} {{ data?.name }}</span>
+            </ng-template>
+
+            <ng-option
+              value="hibiscus"
+              label="Hibiscus"
+              [data]="{ color: '#e74c3c', emoji: '🌺', name: 'Hibiscus' }"
+            ></ng-option>
+            <ng-option
+              value="sunflower"
+              label="Sunflower"
+              [data]="{ color: '#f1c40f', emoji: '🌻', name: 'Sunflower' }"
+            ></ng-option>
+            <ng-option value="lily" label="Lily" [data]="{ color: '#95a5a6', emoji: '🌸', name: 'Lily' }"></ng-option>
+            <ng-option
+              value="lavender"
+              label="Lavender"
+              [data]="{ color: '#9b59b6', emoji: '💜', name: 'Lavender' }"
+            ></ng-option>
+          </ng-select2>
+          <div class="value">
+            <div>
+              <span>{{ 'value:' | transloco }}</span
+              ><code>{{ value44 | json }}</code>
+            </div>
+          </div>
+        </div>
+        <div class="col-6">
+          <div class="code">
+            <code><pre [highlight]="exemple44()" language="html"></pre></code>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Example 45 : [data] on ng-group + custom group and option templates -->
+    <h3 class="col-12" id="ex-45">{{ 'With [data] on groups and custom templates' | transloco }}</h3>
+    <div class="container">
+      <div class="row">
+        <div class="col-6">
+          <ng-select2
+            class="priority-list"
+            [overlay]="overlay"
+            [styleMode]="styleMode"
+            [value]="value45"
+            (update)="update('value45', $event)"
+            [templates]="{ option: tplPriority, group: tplPriorityGroup }"
+            id="select2-45"
+          >
+            <ng-template #tplPriority let-data="data">
+              <span [class]="'priority-item priority-' + data?.level">{{ data?.icon }} {{ data?.name }}</span>
+            </ng-template>
+            <ng-template #tplPriorityGroup let-label="label" let-data="data">
+              <span [class]="'group-header group-' + data?.type">{{ data?.icon }} {{ label }}</span>
+            </ng-template>
+
+            <ng-group label="Bugs" [data]="{ type: 'bug', icon: '🐛' }">
+              <ng-option
+                value="critical"
+                label="Critical"
+                [data]="{ level: 'critical', icon: '🔴', name: 'Critical' }"
+              ></ng-option>
+              <ng-option value="high" label="High" [data]="{ level: 'high', icon: '🟠', name: 'High' }"></ng-option>
+              <ng-option
+                value="medium"
+                label="Medium"
+                [data]="{ level: 'medium', icon: '🟡', name: 'Medium' }"
+              ></ng-option>
+            </ng-group>
+            <ng-group label="Tasks" [data]="{ type: 'task', icon: '✅' }">
+              <ng-option
+                value="feature"
+                label="Feature"
+                [data]="{ level: 'feature', icon: '✨', name: 'Feature' }"
+              ></ng-option>
+              <ng-option
+                value="improvement"
+                label="Improvement"
+                [data]="{ level: 'improvement', icon: '🔧', name: 'Improvement' }"
+              ></ng-option>
+            </ng-group>
+          </ng-select2>
+          <div class="value">
+            <div>
+              <span>{{ 'value:' | transloco }}</span
+              ><code>{{ value45 | json }}</code>
+            </div>
+          </div>
+        </div>
+        <div class="col-6">
+          <div class="code">
+            <code><pre [highlight]="exemple45()" language="html"></pre></code>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

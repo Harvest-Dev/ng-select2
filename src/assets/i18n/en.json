@@ -152,5 +152,14 @@
   "Cyrillic": "Cyrillic",
   "Greek": "Greek",
   "Arabic": "Arabic",
-  "Hebrew": "Hebrew"
+  "Hebrew": "Hebrew",
+
+  "ng-option / ng-group": "ng-option / ng-group",
+  "ng-option / ng-group template mode": "ng-option / ng-group template mode",
+  "Flat list of options": "Flat list of options",
+  "Groups with ng-group": "Groups with ng-group",
+  "With disabled options": "With disabled options",
+  "Toggle dynamic disabled (Banana)": "Toggle dynamic disabled (Banana)",
+  "With [data] and template for rich formatting": "With [data] and template for rich formatting",
+  "With [data] on groups and custom templates": "With [data] on groups and custom templates"
 }

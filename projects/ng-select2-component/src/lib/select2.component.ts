@@ -21,11 +21,14 @@ import {
     TemplateRef,
     booleanAttribute,
     computed,
+    contentChildren,
+    effect,
     inject,
     input,
     numberAttribute,
     output,
     signal,
+    untracked,
     viewChild,
     viewChildren,
 } from '@angular/core';
@@ -34,6 +37,7 @@ import { ControlValueAccessor, FormGroupDirective, NgControl, NgForm } from '@an
 
 import { Subject, Subscription, debounceTime, fromEvent } from 'rxjs';
 
+import { Select2GroupDirective } from './select2-group.directive';
 import { Select2HighlightPipe } from './select2-highlight.pipe';
 import {
     Select2AutoCreateEvent,
@@ -49,6 +53,7 @@ import {
     Select2UpdateValue,
     Select2Value,
 } from './select2-interfaces';
+import { Select2OptionDirective } from './select2-option.directive';
 import { Select2Utils } from './select2-utils';
 
 let nextUniqueId = 0;
@@ -91,7 +96,7 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
     // ----------------------- signal-input
 
     /** data of options & option groups */
-    readonly data = input.required<Select2Data>();
+    readonly data = input<Select2Data>([]);
 
     /** minimum characters to start filter search */
     readonly minCharForSearch = input(0, { transform: numberAttribute });
@@ -274,6 +279,14 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
     readonly searchInput = viewChild<ElementRef<HTMLElement>>('searchInput');
     readonly dropdown = viewChild<ElementRef<HTMLElement>>('dropdown');
 
+    // ----------------------- content children (ng-option / ng-group template mode)
+
+    /** Top-level <ng-option> elements (not inside a <ng-group>) */
+    readonly _ngOptions = contentChildren(Select2OptionDirective);
+
+    /** <ng-group> elements */
+    readonly _ngGroups = contentChildren(Select2GroupDirective);
+
     // ----------------------- internal var
 
     readonly classMaterial = computed(() => this.styleMode() === 'material');
@@ -402,12 +415,39 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
                 this._disabled = disabled;
             }),
         );
+        // Rebuild _data whenever content children or any of their inputs change (template mode).
+        // effect() re-runs synchronously in Angular's reactive context whenever any signal it
+        // reads changes — including contentChildren signals and every input() of each directive.
+        // untracked() isolates the side-effect (updateFilteredData reads many other signals)
+        // so only _ngGroups/_ngOptions and the directive inputs are tracked dependencies.
+        effect(() => {
+            const grps = this._ngGroups();
+            const opts = this._ngOptions();
+            if (grps.length === 0 && opts.length === 0) {
+                return;
+            }
+            // Reading every input() of every directive makes this effect depend on them all,
+            // so it re-runs when e.g. [disabled] changes on a single ng-option.
+            const data: Select2Data = [
+                ...grps.map(g => g.toGroup()),
+                ...opts
+                    .filter(o => !grps.some(g => (g._ngOptions() as readonly Select2OptionDirective[]).includes(o)))
+                    .map(o => o.toOption()),
+            ];
+            untracked(() => {
+                this._data = data;
+                this.updateFilteredData();
+            });
+        });
     }
 
     ngOnChanges(changes: SimpleChanges): void {
         let updateFilterData;
         if (changes['data']) {
-            this._data = changes['data'].currentValue;
+            // Only use the bound data if no content children are present (template mode takes priority)
+            if (this._ngOptions().length === 0 && this._ngGroups().length === 0) {
+                this._data = changes['data'].currentValue;
+            }
             updateFilterData = true;
         }
         if (changes['value']) {

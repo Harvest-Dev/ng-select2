@@ -1,0 +1,54 @@
+.badge-list {
+    .badge {
+        display: inline-block;
+        border-radius: 12px;
+        padding: 2px 8px;
+        color: #fff;
+        font-weight: 500;
+        font-size: 0.9em;
+        text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+    }
+}
+
+.priority-list {
+    .priority-item {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+    }
+
+    .priority-critical {
+        color: #c0392b;
+        font-weight: 700;
+    }
+    .priority-high {
+        color: #e67e22;
+        font-weight: 600;
+    }
+    .priority-medium {
+        color: #f39c12;
+    }
+    .priority-feature {
+        color: #27ae60;
+    }
+    .priority-improvement {
+        color: #2980b9;
+    }
+
+    .group-header {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        font-weight: 700;
+        font-size: 0.8em;
+        letter-spacing: 0.05em;
+        text-transform: uppercase;
+    }
+
+    .group-bug {
+        color: #c0392b;
+    }
+    .group-task {
+        color: #27ae60;
+    }
+}
