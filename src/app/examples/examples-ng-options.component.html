@@ -293,5 +293,91 @@
         </div>
       </div>
     </div>
+    <!-- Example 48 : highlightText with complex template -->
+    <h3 class="col-12" id="ex-48">{{ 'HighlightText with complex template' | transloco }}</h3>
+    <div class="container">
+      <div class="row">
+        <div class="col-6">
+          <ng-select2
+            [overlay]="overlay"
+            [styleMode]="styleMode"
+            [value]="value48"
+            (update)="update('value48', $event)"
+            [templates]="{ option: tplHighlight, group: tplHighlightGroup }"
+            highlightText
+            [minCharForSearch]="0"
+            id="select2-48"
+          >
+            <ng-template #tplHighlight let-data="data" let-searchText="searchText" let-highlightText="highlightText">
+              <span class="highlight-option">
+                <span class="highlight-icon">{{ data?.icon }}</span>
+                <span
+                  class="highlight-label"
+                  [innerHTML]="data?.name | highlightText: searchText : !highlightText"
+                ></span>
+                <small class="highlight-category">({{ data?.category }})</small>
+              </span>
+            </ng-template>
+            <ng-template
+              #tplHighlightGroup
+              let-label="label"
+              let-data="data"
+              let-searchText="searchText"
+              let-highlightText="highlightText"
+            >
+              <span class="highlight-group-header">
+                {{ data?.icon }} <span [innerHTML]="label | highlightText: searchText : !highlightText"></span>
+              </span>
+            </ng-template>
+
+            <ng-group label="Programming" [data]="{ icon: '💻' }">
+              <ng-option
+                value="typescript"
+                label="TypeScript"
+                [data]="{ icon: '🔷', name: 'TypeScript', category: 'Language' }"
+              ></ng-option>
+              <ng-option
+                value="rust"
+                label="Rust"
+                [data]="{ icon: '🦀', name: 'Rust', category: 'Language' }"
+              ></ng-option>
+              <ng-option
+                value="python"
+                label="Python"
+                [data]="{ icon: '🐍', name: 'Python', category: 'Language' }"
+              ></ng-option>
+            </ng-group>
+            <ng-group label="Frameworks" [data]="{ icon: '🏗️' }">
+              <ng-option
+                value="angular"
+                label="Angular"
+                [data]="{ icon: '🅰️', name: 'Angular', category: 'Frontend' }"
+              ></ng-option>
+              <ng-option
+                value="nestjs"
+                label="NestJS"
+                [data]="{ icon: '🐱', name: 'NestJS', category: 'Backend' }"
+              ></ng-option>
+              <ng-option
+                value="tauri"
+                label="Tauri"
+                [data]="{ icon: '🖥️', name: 'Tauri', category: 'Desktop' }"
+              ></ng-option>
+            </ng-group>
+          </ng-select2>
+          <div class="value">
+            <div>
+              <span>{{ 'value:' | transloco }}</span
+              ><code>{{ value48 | json }}</code>
+            </div>
+          </div>
+        </div>
+        <div class="col-6">
+          <div class="code">
+            <code><pre [highlight]="exemple48()" language="html"></pre></code>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </div>

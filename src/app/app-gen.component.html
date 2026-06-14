@@ -4,10 +4,19 @@
   <div [formGroup]="ctrlForm">
     <h4>{{ 'Data' | transloco }}</h4>
     <div>
-      <label for="json">json (for <code>[data]</code>)</label>
-      <textarea formControlName="json" id="json"></textarea>
-      <div class="error" [innerHTML]="jsonError"></div>
+      <label for="dataMode">{{ 'Data mode' | transloco }}</label>
+      <select formControlName="dataMode" id="dataMode">
+        <option value="json">JSON ([data])</option>
+        <option value="ng-option">ng-option / ng-group</option>
+      </select>
     </div>
+    @if (ctrlForm.value?.dataMode !== 'ng-option') {
+      <div>
+        <label for="json">json (for <code>[data]</code>)</label>
+        <textarea formControlName="json" id="json"></textarea>
+        <div class="error" [innerHTML]="jsonError"></div>
+      </div>
+    }
     <h4>{{ 'Tags' | transloco }}</h4>
     <div>
       <label for="label">label</label>
@@ -141,6 +150,10 @@
       </select>
     </div>
     <div>
+      <label for="showOptionCheckbox">showOptionCheckbox</label>
+      <input type="checkbox" formControlName="showOptionCheckbox" id="showOptionCheckbox" />
+    </div>
+    <div>
       <label for="highlightText">highlightText</label>
       <input type="checkbox" formControlName="highlightText" id="highlightText" />
     </div>
@@ -262,7 +275,7 @@
         @let value = ctrlForm.value;
         <select2
           [(ngModel)]="ngModel"
-          [data]="data"
+          [data]="ctrlForm.value?.dataMode !== 'ng-option' ? data : []"
           [overlay]="value?.overlay"
           [disabled]="value?.disabled"
           [readonly]="value?.readonly"
@@ -290,6 +303,7 @@
           [grid]="value?.grid"
           [highlightText]="value?.highlightText"
           [noLabelTemplate]="value?.noLabelTemplate"
+          [showOptionCheckbox]="value?.showOptionCheckbox"
           [selectionOverride]="value?.selectionOverrideFunction ? selectionOverride : value?.selectionOverrideString"
           [selectionNoWrap]="value?.selectionNoWrap"
           [showSelectAll]="value?.showSelectAll"
@@ -297,20 +311,24 @@
           [selectAllText]="value?.selectAllText || 'Select all'"
           [nativeKeyboard]="value?.nativeKeyboard"
           [templates]="
-            $any(
-              getTemplate(
-                template,
-                option,
-                group,
-                template1,
-                template2,
-                optionSelection,
-                template2Selection,
-                template3Selection
-              )
-            )
+            ctrlForm.value?.dataMode !== 'ng-option'
+              ? $any(
+                  getTemplate(
+                    template,
+                    option,
+                    group,
+                    template1,
+                    template2,
+                    optionSelection,
+                    template2Selection,
+                    template3Selection
+                  )
+                )
+              : undefined
           "
-          [templateSelection]="getTemplateSelection(templateSelection)"
+          [templateSelection]="
+            ctrlForm.value?.dataMode !== 'ng-option' ? getTemplateSelection(templateSelection) : undefined
+          "
           (update)="_event('update', $event)"
           (open)="_event('open', $event)"
           (close)="_event('close', $event)"
@@ -322,6 +340,19 @@
         >
           <select2-label [innerHTML]="ctrlForm.value?.label"></select2-label>
           <select2-hint [innerHTML]="ctrlForm.value?.hint"></select2-hint>
+          @if (ctrlForm.value?.dataMode === 'ng-option') {
+            <ng-group label="Fruits">
+              <ng-option value="apple">Apple</ng-option>
+              <ng-option value="banana">Banana</ng-option>
+              <ng-option value="cherry">Cherry</ng-option>
+            </ng-group>
+            <ng-group label="Vegetables">
+              <ng-option value="carrot">Carrot</ng-option>
+              <ng-option value="pea">Pea</ng-option>
+              <ng-option value="spinach">Spinach</ng-option>
+            </ng-group>
+            <ng-option value="other">Other</ng-option>
+          }
           <ng-template #template let-data="data" let-searchText="searchText" let-highlightText="highlightText">
             @if (data?.color) {
               <strong>{{ data?.color }}</strong

@@ -161,5 +161,10 @@
   "With disabled options": "With disabled options",
   "Toggle dynamic disabled (Banana)": "Toggle dynamic disabled (Banana)",
   "With [data] and template for rich formatting": "With [data] and template for rich formatting",
-  "With [data] on groups and custom templates": "With [data] on groups and custom templates"
+  "With [data] on groups and custom templates": "With [data] on groups and custom templates",
+  "HTML formatting inside ng-option": "HTML formatting inside ng-option",
+  "Dynamic options with add and disabled toggle": "Dynamic options with add and disabled toggle",
+  "Add option": "Add option",
+  "HighlightText with complex template": "HighlightText with complex template",
+  "Data mode": "Data mode"
 }

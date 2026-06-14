@@ -4,7 +4,7 @@ import { Component, computed, signal } from '@angular/core';
 import { Json2html } from '@ikilote/json2html';
 import { TranslocoModule } from '@jsverse/transloco';
 
-import { Select2, Select2GroupDirective, Select2OptionDirective } from 'ng-select2-component';
+import { Select2, Select2GroupDirective, Select2HighlightPipe, Select2OptionDirective } from 'ng-select2-component';
 import { Highlight } from 'ngx-highlightjs';
 
 import { Examples } from './examples';
@@ -13,7 +13,15 @@ import { Examples } from './examples';
     selector: 'examples-ng-options',
     templateUrl: './examples-ng-options.component.html',
     styleUrls: ['./examples-ng-options.component.scss'],
-    imports: [Select2, Select2OptionDirective, Select2GroupDirective, JsonPipe, TranslocoModule, Highlight],
+    imports: [
+        Select2,
+        Select2OptionDirective,
+        Select2GroupDirective,
+        Select2HighlightPipe,
+        JsonPipe,
+        TranslocoModule,
+        Highlight,
+    ],
 })
 export class ExemplesNgOptionsComponent extends Examples {
     value41 = '';
@@ -23,6 +31,7 @@ export class ExemplesNgOptionsComponent extends Examples {
     value45 = '';
     value46 = '';
     value47 = '';
+    value48 = '';
 
     disabledOption = false;
 
@@ -275,8 +284,8 @@ export class ExemplesNgOptionsComponent extends Examples {
                     ...this.overlayExempleJson(),
                     ...this.styleModeExempleJson(),
                     '[value]': 'value',
-                    '(update)': "update('value', $event)",
                     '[templates]': '{ option: tplPriority, group: tplPriorityGroup }',
+                    '(update)': "update('value', $event)",
                 },
                 body: [
                     {
@@ -355,6 +364,156 @@ export class ExemplesNgOptionsComponent extends Examples {
                                     value: 'improvement',
                                     label: 'Improvement',
                                     '[data]': "{ level: 'improvement', icon: '�', name: 'Improvement' }",
+                                },
+                                body: '',
+                            },
+                        ],
+                    },
+                ],
+            },
+            { webComponentSelfClosing: true, attrPosition: 'prettier' },
+        ).toString(),
+    );
+
+    exemple48 = computed(() =>
+        new Json2html(
+            {
+                tag: 'ng-select2',
+                attrs: {
+                    ...this.overlayExempleJson(),
+                    ...this.styleModeExempleJson(),
+                    '[value]': 'value',
+                    '[templates]': '{ option: tplHighlight, group: tplHighlightGroup }',
+                    highlightText: null,
+                    minCharForSearch: 0,
+                    '(update)': "update('value', $event)",
+                },
+                body: [
+                    {
+                        tag: 'ng-template',
+                        attrs: {
+                            '#tplHighlight': null,
+                            'let-data': 'data',
+                            'let-searchText': 'searchText',
+                            'let-highlightText': 'highlightText',
+                        },
+                        body: [
+                            {
+                                tag: 'span',
+                                attrs: { class: 'highlight-option' },
+                                body: [
+                                    {
+                                        tag: 'span',
+                                        attrs: { class: 'highlight-icon' },
+                                        body: '{{ data?.icon }}',
+                                        inline: true,
+                                    },
+                                    {
+                                        tag: 'span',
+                                        attrs: {
+                                            class: 'highlight-label',
+                                            '[innerHTML]': 'data?.name | highlightText: searchText : !highlightText',
+                                        },
+                                        body: '',
+                                    },
+                                    {
+                                        tag: 'small',
+                                        attrs: { class: 'highlight-category' },
+                                        body: '({{ data?.category }})',
+                                        inline: true,
+                                    },
+                                ],
+                            },
+                        ],
+                    },
+                    {
+                        tag: 'ng-template',
+                        attrs: {
+                            '#tplHighlightGroup': null,
+                            'let-label': 'label',
+                            'let-data': 'data',
+                            'let-searchText': 'searchText',
+                            'let-highlightText': 'highlightText',
+                        },
+                        body: [
+                            {
+                                tag: 'span',
+                                attrs: { class: 'highlight-group-header' },
+                                body: [
+                                    '{{ data?.icon }} ',
+                                    {
+                                        tag: 'span',
+                                        attrs: {
+                                            '[innerHTML]': 'label | highlightText: searchText : !highlightText',
+                                        },
+                                        body: '',
+                                        inline: true,
+                                    },
+                                ],
+                            },
+                        ],
+                    },
+                    {
+                        tag: 'ng-group',
+                        attrs: { label: 'Programming', '[data]': "{ icon: '💻' }" },
+                        body: [
+                            {
+                                tag: 'ng-option',
+                                attrs: {
+                                    value: 'typescript',
+                                    label: 'TypeScript',
+                                    '[data]': "{ icon: '🔷', name: 'TypeScript', category: 'Language' }",
+                                },
+                                body: '',
+                            },
+                            {
+                                tag: 'ng-option',
+                                attrs: {
+                                    value: 'rust',
+                                    label: 'Rust',
+                                    '[data]': "{ icon: '🦀', name: 'Rust', category: 'Language' }",
+                                },
+                                body: '',
+                            },
+                            {
+                                tag: 'ng-option',
+                                attrs: {
+                                    value: 'python',
+                                    label: 'Python',
+                                    '[data]': "{ icon: '🐍', name: 'Python', category: 'Language' }",
+                                },
+                                body: '',
+                            },
+                        ],
+                    },
+                    {
+                        tag: 'ng-group',
+                        attrs: { label: 'Frameworks', '[data]': "{ icon: '🏗️' }" },
+                        body: [
+                            {
+                                tag: 'ng-option',
+                                attrs: {
+                                    value: 'angular',
+                                    label: 'Angular',
+                                    '[data]': "{ icon: '🅰️', name: 'Angular', category: 'Frontend' }",
+                                },
+                                body: '',
+                            },
+                            {
+                                tag: 'ng-option',
+                                attrs: {
+                                    value: 'nestjs',
+                                    label: 'NestJS',
+                                    '[data]': "{ icon: '🐱', name: 'NestJS', category: 'Backend' }",
+                                },
+                                body: '',
+                            },
+                            {
+                                tag: 'ng-option',
+                                attrs: {
+                                    value: 'tauri',
+                                    label: 'Tauri',
+                                    '[data]': "{ icon: '🖥️', name: 'Tauri', category: 'Desktop' }",
                                 },
                                 body: '',
                             },

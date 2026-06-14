@@ -17,8 +17,10 @@ import { Highlight } from 'ngx-highlightjs';
 
 import { data24 } from './app.data';
 
+import { Select2GroupDirective } from '../../projects/ng-select2-component/src/lib/select2-group.directive';
 import { Select2Hint } from '../../projects/ng-select2-component/src/lib/select2-hint.component';
 import { Select2Label } from '../../projects/ng-select2-component/src/lib/select2-label.component';
+import { Select2OptionDirective } from '../../projects/ng-select2-component/src/lib/select2-option.directive';
 import { Select2 } from '../../projects/ng-select2-component/src/lib/select2.component';
 
 @Component({
@@ -31,6 +33,8 @@ import { Select2 } from '../../projects/ng-select2-component/src/lib/select2.com
         Select2,
         Select2Label,
         Select2Hint,
+        Select2OptionDirective,
+        Select2GroupDirective,
         Select2HighlightPipe,
         Highlight,
         TranslocoModule,
@@ -51,6 +55,7 @@ export class AppGenComponent implements AfterContentInit {
     constructor(private fb: UntypedFormBuilder) {
         this.ctrlForm = this.fb.group({
             // data
+            dataMode: new UntypedFormControl('json'),
             json: new UntypedFormControl(JSON.stringify(this.data, null, 2)),
             // tags
             label: new UntypedFormControl(),
@@ -87,6 +92,7 @@ export class AppGenComponent implements AfterContentInit {
             removeAllText: new UntypedFormControl(),
             selectAllText: new UntypedFormControl(),
             highlightText: new UntypedFormControl(),
+            showOptionCheckbox: new UntypedFormControl(),
             // template
             template: new UntypedFormControl(),
             templateSelection: new UntypedFormControl(),
@@ -202,13 +208,16 @@ export class AppGenComponent implements AfterContentInit {
 
         const json: Json2htmlRef = {
             tag: value.guideLineName ? 'ng-select2' : 'select2',
-            attrs: {
-                '[data]': 'data',
-            },
+            attrs: {},
             body: [],
         };
         const attrs: Json2htmlAttr = json.attrs!;
         const body = json.body as Json2htmlRef[];
+
+        // data mode
+        if (value.dataMode !== 'ng-option') {
+            attrs['[data]'] = 'data';
+        }
 
         // tags
 
@@ -340,6 +349,9 @@ export class AppGenComponent implements AfterContentInit {
             attrs['highlightText'] = this._testBoolean(value.highlightText);
             highlightPipe = ' | highlightText: searchText : !highlightText';
             highlightAttrs = { 'let-searchText': 'searchText', 'let-highlightText': 'highlightText' };
+        }
+        if (value.showOptionCheckbox) {
+            attrs['showOptionCheckbox'] = this._testBoolean(value.showOptionCheckbox);
         }
 
         // template
@@ -485,7 +497,36 @@ export class AppGenComponent implements AfterContentInit {
             attrs['(search)'] = '_search($event)';
         }
 
+        // ng-option / ng-group mode
+        if (value.dataMode === 'ng-option') {
+            body.push(
+                {
+                    tag: 'ng-group',
+                    attrs: { label: 'Fruits' },
+                    body: [
+                        { tag: 'ng-option', attrs: { value: 'apple' }, body: 'Apple', inline: true },
+                        { tag: 'ng-option', attrs: { value: 'banana' }, body: 'Banana', inline: true },
+                        { tag: 'ng-option', attrs: { value: 'cherry' }, body: 'Cherry', inline: true },
+                    ],
+                },
+                {
+                    tag: 'ng-group',
+                    attrs: { label: 'Vegetables' },
+                    body: [
+                        { tag: 'ng-option', attrs: { value: 'carrot' }, body: 'Carrot', inline: true },
+                        { tag: 'ng-option', attrs: { value: 'pea' }, body: 'Pea', inline: true },
+                        { tag: 'ng-option', attrs: { value: 'spinach' }, body: 'Spinach', inline: true },
+                    ],
+                },
+                { tag: 'ng-option', attrs: { value: 'other' }, body: 'Other', inline: true },
+            );
+        }
+
         this.html = new Json2html(json, { webComponentSelfClosing: true, attrPosition: 'prettier' }).toString();
+
+        if (value.highlightText && value.template && value.template !== 'none') {
+            this.html = `<!-- imports: [Select2HighlightPipe] -->\n` + this.html;
+        }
     }
 
     changeJson(value: string): void {
