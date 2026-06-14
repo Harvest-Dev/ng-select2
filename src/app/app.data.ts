@@ -341,7 +341,7 @@ export const data24: Select2Data = [
             },
             {
                 value: 'chrysanthemum',
-                label: 'chrysanthemum / chrysanthème',
+                label: 'Chrysanthemum / chrysanthème',
                 data: { color: 'yellow', name: 'chrysanthemum' },
                 templateId: 'template3',
                 templateSelectionId: 'template3Selection',

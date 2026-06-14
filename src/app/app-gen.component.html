@@ -273,124 +273,234 @@
       <h4>{{ 'HTML render' | transloco }}</h4>
       @if (ctrlForm.value) {
         @let value = ctrlForm.value;
-        <select2
-          [(ngModel)]="ngModel"
-          [data]="ctrlForm.value?.dataMode !== 'ng-option' ? data : []"
-          [overlay]="value?.overlay"
-          [disabled]="value?.disabled"
-          [readonly]="value?.readonly"
-          [minCharForSearch]="value?.minCharForSearch || 0"
-          [minCountForSearch]="value?.minCountForSearch"
-          [displaySearchStatus]="value?.displaySearchStatus"
-          [placeholder]="value?.placeholder"
-          [customSearchEnabled]="value?.search"
-          [multiple]="value?.multiple"
-          [multipleDrag]="value?.multipleDrag"
-          [resettable]="value?.resettable"
-          [resetSelectedValue]="value?.resetSelectedValue"
-          [autoCreate]="value?.autoCreate"
-          [limitSelection]="value?.limitSelection || 0"
-          [hideSelectedItems]="value?.hideSelectedItems"
-          [resultMaxHeight]="value?.resultMaxHeight || '200px'"
-          [maxResults]="value?.maxResults || 0"
-          [maxResultsMessage]="value?.maxResultsMessage || 'Too many results…'"
-          [listPosition]="value?.listPosition"
-          [infiniteScroll]="value?.infiniteScroll"
-          [infiniteScrollDistance]="value?.infiniteScrollDistance || 1.5"
-          [infiniteScrollThrottle]="value?.infiniteScrollThrottle || 150"
-          [styleMode]="value?.styleMode"
-          [noResultMessage]="value?.noResultMessage"
-          [grid]="value?.grid"
-          [highlightText]="value?.highlightText"
-          [noLabelTemplate]="value?.noLabelTemplate"
-          [showOptionCheckbox]="value?.showOptionCheckbox"
-          [selectionOverride]="value?.selectionOverrideFunction ? selectionOverride : value?.selectionOverrideString"
-          [selectionNoWrap]="value?.selectionNoWrap"
-          [showSelectAll]="value?.showSelectAll"
-          [removeAllText]="value?.removeAllText || 'Remove all'"
-          [selectAllText]="value?.selectAllText || 'Select all'"
-          [nativeKeyboard]="value?.nativeKeyboard"
-          [templates]="
-            ctrlForm.value?.dataMode !== 'ng-option'
-              ? $any(
-                  getTemplate(
-                    template,
-                    option,
-                    group,
-                    template1,
-                    template2,
-                    optionSelection,
-                    template2Selection,
-                    template3Selection
+        @if (ctrlForm.value?.dataMode === 'ng-option') {
+          <ng-select2
+            [(ngModel)]="ngModel"
+            [overlay]="value?.overlay"
+            [disabled]="value?.disabled"
+            [readonly]="value?.readonly"
+            [minCharForSearch]="value?.minCharForSearch || 0"
+            [minCountForSearch]="value?.minCountForSearch"
+            [displaySearchStatus]="value?.displaySearchStatus"
+            [placeholder]="value?.placeholder"
+            [customSearchEnabled]="value?.search"
+            [multiple]="value?.multiple"
+            [multipleDrag]="value?.multipleDrag"
+            [resettable]="value?.resettable"
+            [resetSelectedValue]="value?.resetSelectedValue"
+            [autoCreate]="value?.autoCreate"
+            [limitSelection]="value?.limitSelection || 0"
+            [hideSelectedItems]="value?.hideSelectedItems"
+            [resultMaxHeight]="value?.resultMaxHeight || '200px'"
+            [maxResults]="value?.maxResults || 0"
+            [maxResultsMessage]="value?.maxResultsMessage || 'Too many results…'"
+            [listPosition]="value?.listPosition"
+            [infiniteScroll]="value?.infiniteScroll"
+            [infiniteScrollDistance]="value?.infiniteScrollDistance || 1.5"
+            [infiniteScrollThrottle]="value?.infiniteScrollThrottle || 150"
+            [styleMode]="value?.styleMode"
+            [noResultMessage]="value?.noResultMessage"
+            [grid]="value?.grid"
+            [highlightText]="value?.highlightText"
+            [noLabelTemplate]="value?.noLabelTemplate"
+            [showOptionCheckbox]="value?.showOptionCheckbox"
+            [selectionOverride]="value?.selectionOverrideFunction ? selectionOverride : value?.selectionOverrideString"
+            [selectionNoWrap]="value?.selectionNoWrap"
+            [showSelectAll]="value?.showSelectAll"
+            [removeAllText]="value?.removeAllText || 'Remove all'"
+            [selectAllText]="value?.selectAllText || 'Select all'"
+            [nativeKeyboard]="value?.nativeKeyboard"
+            [templates]="
+              ctrlForm.value?.dataMode !== 'ng-option'
+                ? $any(
+                    getTemplate(
+                      template,
+                      option,
+                      group,
+                      template1,
+                      template2,
+                      optionSelection,
+                      template2Selection,
+                      template3Selection
+                    )
                   )
-                )
-              : undefined
-          "
-          [templateSelection]="
-            ctrlForm.value?.dataMode !== 'ng-option' ? getTemplateSelection(templateSelection) : undefined
-          "
-          (update)="_event('update', $event)"
-          (open)="_event('open', $event)"
-          (close)="_event('close', $event)"
-          (focus)="_event('focus', $event)"
-          (blur)="_event('blur', $event)"
-          (search)="_event('search', $event)"
-          (scroll)="_event('scroll', $event)"
-          (removeOption)="_event('removeOption', $event)"
-        >
-          <select2-label [innerHTML]="ctrlForm.value?.label"></select2-label>
-          <select2-hint [innerHTML]="ctrlForm.value?.hint"></select2-hint>
-          @if (ctrlForm.value?.dataMode === 'ng-option') {
-            <ng-group label="Fruits">
-              <ng-option value="apple">Apple</ng-option>
-              <ng-option value="banana">Banana</ng-option>
-              <ng-option value="cherry">Cherry</ng-option>
-            </ng-group>
-            <ng-group label="Vegetables">
-              <ng-option value="carrot">Carrot</ng-option>
-              <ng-option value="pea">Pea</ng-option>
-              <ng-option value="spinach">Spinach</ng-option>
-            </ng-group>
-            <ng-option value="other">Other</ng-option>
-          }
-          <ng-template #template let-data="data" let-searchText="searchText" let-highlightText="highlightText">
-            @if (data?.color) {
-              <strong>{{ data?.color }}</strong
-              >:
-            }
-            <span [innerHTML]="data?.name | highlightText: searchText : !highlightText"></span>
-          </ng-template>
-          <ng-template #templateSelection let-data="data">
-            @if (data?.color) {
-              <em>{{ data?.color }}</em>
-            }
-            #{{ data?.name }}
-          </ng-template>
-          <ng-template #option let-data="data" let-searchText="searchText" let-highlightText="highlightText"
-            >Option: <span [innerHTML]="data?.name | highlightText: searchText : !highlightText"></span
-          ></ng-template>
-          <ng-template #group let-label="label">Group: {{ label }}</ng-template>
-          <ng-template #optionSelection let-data="data">[{{ data?.name }}]</ng-template>
-          <ng-template #template1 let-data="data" let-searchText="searchText" let-highlightText="highlightText">
-            <span [innerHTML]="data?.name | highlightText: searchText : !highlightText"></span>
-          </ng-template>
-          <ng-template
-            #template2
-            let-label="label"
-            let-data="data"
-            let-searchText="searchText"
-            let-highlightText="highlightText"
+                : undefined
+            "
+            [templateSelection]="
+              ctrlForm.value?.dataMode !== 'ng-option' ? getTemplateSelection(templateSelection) : undefined
+            "
+            (update)="_event('update', $event)"
+            (open)="_event('open', $event)"
+            (close)="_event('close', $event)"
+            (focus)="_event('focus', $event)"
+            (blur)="_event('blur', $event)"
+            (search)="_event('search', $event)"
+            (scroll)="_event('scroll', $event)"
+            (removeOption)="_event('removeOption', $event)"
           >
-            <span [innerHTML]="label | highlightText: searchText : !highlightText"></span> ~
-            <strong>{{ data?.color }}</strong>
-          </ng-template>
-          <ng-template #template2Selection let-label="label" let-data="data">
-            {{ label }} * <em>{{ data?.color }}</em>
-          </ng-template>
-          <ng-template #template3Selection let-label="label" let-data="data">
-            {{ label }} = <em>{{ data?.color }}</em>
-          </ng-template>
-        </select2>
+            <ng-select2-label [innerHTML]="ctrlForm.value?.label"></ng-select2-label>
+            <ng-select2-hint [innerHTML]="ctrlForm.value?.hint"></ng-select2-hint>
+
+            <ng-group label="Red">
+              <ng-option value="hibiscus">Hibiscus / Hibiscus</ng-option>
+              <ng-option value="marigold">Marigold / Œillet d'Inde</ng-option>
+            </ng-group>
+            <ng-group label="Yellow">
+              <ng-option value="sunflower">Sunflower / tournesol</ng-option>
+              <ng-option value="chrysanthemum">Chrysanthemum / chrysanthème</ng-option>
+            </ng-group>
+            <ng-group label="White">
+              <ng-option value="heliotrope">Heliotrope / Héliotrope</ng-option>
+              <ng-option value="lily">Lily / Lys</ng-option>
+              <ng-option value="petunia">Petunia / Pétunia</ng-option>
+              <ng-option value="carnation">Carnation / Œillet</ng-option>
+            </ng-group>
+
+            <ng-template #template let-data="data" let-searchText="searchText" let-highlightText="highlightText">
+              @if (data?.color) {
+                <strong>{{ data?.color }}</strong
+                >:
+              }
+              <span [innerHTML]="data?.name | highlightText: searchText : !highlightText"></span>
+            </ng-template>
+            <ng-template #templateSelection let-data="data">
+              @if (data?.color) {
+                <em>{{ data?.color }}</em>
+              }
+              #{{ data?.name }}
+            </ng-template>
+            <ng-template #option let-data="data" let-searchText="searchText" let-highlightText="highlightText"
+              >Option: <span [innerHTML]="data?.name | highlightText: searchText : !highlightText"></span
+            ></ng-template>
+            <ng-template #group let-label="label">Group: {{ label }}</ng-template>
+            <ng-template #optionSelection let-data="data">[{{ data?.name }}]</ng-template>
+            <ng-template #template1 let-data="data" let-searchText="searchText" let-highlightText="highlightText">
+              <span [innerHTML]="data?.name | highlightText: searchText : !highlightText"></span>
+            </ng-template>
+            <ng-template
+              #template2
+              let-label="label"
+              let-data="data"
+              let-searchText="searchText"
+              let-highlightText="highlightText"
+            >
+              <span [innerHTML]="label | highlightText: searchText : !highlightText"></span> ~
+              <strong>{{ data?.color }}</strong>
+            </ng-template>
+            <ng-template #template2Selection let-label="label" let-data="data">
+              {{ label }} * <em>{{ data?.color }}</em>
+            </ng-template>
+            <ng-template #template3Selection let-label="label" let-data="data">
+              {{ label }} = <em>{{ data?.color }}</em>
+            </ng-template>
+          </ng-select2>
+        } @else {
+          <ng-select2
+            [(ngModel)]="ngModel"
+            [data]="data"
+            [overlay]="value?.overlay"
+            [disabled]="value?.disabled"
+            [readonly]="value?.readonly"
+            [minCharForSearch]="value?.minCharForSearch || 0"
+            [minCountForSearch]="value?.minCountForSearch"
+            [displaySearchStatus]="value?.displaySearchStatus"
+            [placeholder]="value?.placeholder"
+            [customSearchEnabled]="value?.search"
+            [multiple]="value?.multiple"
+            [multipleDrag]="value?.multipleDrag"
+            [resettable]="value?.resettable"
+            [resetSelectedValue]="value?.resetSelectedValue"
+            [autoCreate]="value?.autoCreate"
+            [limitSelection]="value?.limitSelection || 0"
+            [hideSelectedItems]="value?.hideSelectedItems"
+            [resultMaxHeight]="value?.resultMaxHeight || '200px'"
+            [maxResults]="value?.maxResults || 0"
+            [maxResultsMessage]="value?.maxResultsMessage || 'Too many results…'"
+            [listPosition]="value?.listPosition"
+            [infiniteScroll]="value?.infiniteScroll"
+            [infiniteScrollDistance]="value?.infiniteScrollDistance || 1.5"
+            [infiniteScrollThrottle]="value?.infiniteScrollThrottle || 150"
+            [styleMode]="value?.styleMode"
+            [noResultMessage]="value?.noResultMessage"
+            [grid]="value?.grid"
+            [highlightText]="value?.highlightText"
+            [noLabelTemplate]="value?.noLabelTemplate"
+            [showOptionCheckbox]="value?.showOptionCheckbox"
+            [selectionOverride]="value?.selectionOverrideFunction ? selectionOverride : value?.selectionOverrideString"
+            [selectionNoWrap]="value?.selectionNoWrap"
+            [showSelectAll]="value?.showSelectAll"
+            [removeAllText]="value?.removeAllText || 'Remove all'"
+            [selectAllText]="value?.selectAllText || 'Select all'"
+            [nativeKeyboard]="value?.nativeKeyboard"
+            [templates]="
+              ctrlForm.value?.dataMode !== 'ng-option'
+                ? $any(
+                    getTemplate(
+                      template,
+                      option,
+                      group,
+                      template1,
+                      template2,
+                      optionSelection,
+                      template2Selection,
+                      template3Selection
+                    )
+                  )
+                : undefined
+            "
+            [templateSelection]="
+              ctrlForm.value?.dataMode !== 'ng-option' ? getTemplateSelection(templateSelection) : undefined
+            "
+            (update)="_event('update', $event)"
+            (open)="_event('open', $event)"
+            (close)="_event('close', $event)"
+            (focus)="_event('focus', $event)"
+            (blur)="_event('blur', $event)"
+            (search)="_event('search', $event)"
+            (scroll)="_event('scroll', $event)"
+            (removeOption)="_event('removeOption', $event)"
+          >
+            <ng-select2-label [innerHTML]="ctrlForm.value?.label"></ng-select2-label>
+            <ng-select2-hint [innerHTML]="ctrlForm.value?.hint"></ng-select2-hint>
+            <ng-template #template let-data="data" let-searchText="searchText" let-highlightText="highlightText">
+              @if (data?.color) {
+                <strong>{{ data?.color }}</strong
+                >:
+              }
+              <span [innerHTML]="data?.name | highlightText: searchText : !highlightText"></span>
+            </ng-template>
+            <ng-template #templateSelection let-data="data">
+              @if (data?.color) {
+                <em>{{ data?.color }}</em>
+              }
+              #{{ data?.name }}
+            </ng-template>
+            <ng-template #option let-data="data" let-searchText="searchText" let-highlightText="highlightText"
+              >Option: <span [innerHTML]="data?.name | highlightText: searchText : !highlightText"></span
+            ></ng-template>
+            <ng-template #group let-label="label">Group: {{ label }}</ng-template>
+            <ng-template #optionSelection let-data="data">[{{ data?.name }}]</ng-template>
+            <ng-template #template1 let-data="data" let-searchText="searchText" let-highlightText="highlightText">
+              <span [innerHTML]="data?.name | highlightText: searchText : !highlightText"></span>
+            </ng-template>
+            <ng-template
+              #template2
+              let-label="label"
+              let-data="data"
+              let-searchText="searchText"
+              let-highlightText="highlightText"
+            >
+              <span [innerHTML]="label | highlightText: searchText : !highlightText"></span> ~
+              <strong>{{ data?.color }}</strong>
+            </ng-template>
+            <ng-template #template2Selection let-label="label" let-data="data">
+              {{ label }} * <em>{{ data?.color }}</em>
+            </ng-template>
+            <ng-template #template3Selection let-label="label" let-data="data">
+              {{ label }} = <em>{{ data?.color }}</em>
+            </ng-template>
+          </ng-select2>
+        }
       }
 
       <p>{{ 'value:' | transloco }} {{ ngModel | json }}</p>

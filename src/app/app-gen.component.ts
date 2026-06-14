@@ -502,23 +502,65 @@ export class AppGenComponent implements AfterContentInit {
             body.push(
                 {
                     tag: 'ng-group',
-                    attrs: { label: 'Fruits' },
+                    attrs: { label: 'Red' },
                     body: [
-                        { tag: 'ng-option', attrs: { value: 'apple' }, body: 'Apple', inline: true },
-                        { tag: 'ng-option', attrs: { value: 'banana' }, body: 'Banana', inline: true },
-                        { tag: 'ng-option', attrs: { value: 'cherry' }, body: 'Cherry', inline: true },
+                        { tag: 'ng-option', attrs: { value: 'hibiscus' }, body: 'Hibiscus / Hibiscus', inline: true },
+                        {
+                            tag: 'ng-option',
+                            attrs: { value: 'marigold' },
+                            body: "Marigold / Œillet d'Inde",
+                            inline: true,
+                        },
                     ],
                 },
                 {
                     tag: 'ng-group',
-                    attrs: { label: 'Vegetables' },
+                    attrs: { label: 'Yellow' },
                     body: [
-                        { tag: 'ng-option', attrs: { value: 'carrot' }, body: 'Carrot', inline: true },
-                        { tag: 'ng-option', attrs: { value: 'pea' }, body: 'Pea', inline: true },
-                        { tag: 'ng-option', attrs: { value: 'spinach' }, body: 'Spinach', inline: true },
+                        {
+                            tag: 'ng-option',
+                            attrs: { value: 'sunflower' },
+                            body: 'Sunflower / tournesol',
+                            inline: true,
+                        },
+                        {
+                            tag: 'ng-option',
+                            attrs: { value: 'chrysanthemum' },
+                            body: 'Chrysanthemum / chrysanthème',
+                            inline: true,
+                        },
                     ],
                 },
-                { tag: 'ng-option', attrs: { value: 'other' }, body: 'Other', inline: true },
+                {
+                    tag: 'ng-group',
+                    attrs: { label: 'White' },
+                    body: [
+                        {
+                            tag: 'ng-option',
+                            attrs: { value: 'heliotrope' },
+                            body: 'Heliotrope / Héliotrope',
+                            inline: true,
+                        },
+                        {
+                            tag: 'ng-option',
+                            attrs: { value: 'lily' },
+                            body: 'Lily / Lys',
+                            inline: true,
+                        },
+                        {
+                            tag: 'ng-option',
+                            attrs: { value: 'lily' },
+                            body: 'Petunia / Pétunia',
+                            inline: true,
+                        },
+                        {
+                            tag: 'ng-option',
+                            attrs: { value: 'carnation' },
+                            body: 'Carnation / Œillet',
+                            inline: true,
+                        },
+                    ],
+                },
             );
         }
 
