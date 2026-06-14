@@ -5,8 +5,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Json2html } from '@ikilote/json2html';
 import { TranslocoModule } from '@jsverse/transloco';
 
-import { Highlight } from 'ngx-highlightjs';
 import { Select2, Select2Hint, Select2Label } from 'ng-select2-component';
+import { Highlight } from 'ngx-highlightjs';
 
 import { Examples } from './examples';
 
@@ -16,7 +16,6 @@ import { data2 } from '../app.data';
     selector: 'examples-tags',
     templateUrl: './examples-tags.component.html',
     styleUrls: ['./examples-tags.component.scss'],
-    standalone: true,
     imports: [
         FormsModule,
         ReactiveFormsModule,

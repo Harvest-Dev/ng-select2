@@ -5,7 +5,6 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Json2html } from '@ikilote/json2html';
 import { TranslocoModule } from '@jsverse/transloco';
 
-import { Highlight } from 'ngx-highlightjs';
 import {
     Select2,
     Select2AutoCreateEvent,
@@ -13,6 +12,7 @@ import {
     Select2UpdateEvent,
     Select2UpdateValue,
 } from 'ng-select2-component';
+import { Highlight } from 'ngx-highlightjs';
 
 import { Examples } from './examples';
 
@@ -22,7 +22,6 @@ import { data8 } from '../app.data';
     selector: 'examples-events',
     templateUrl: './examples-events.component.html',
     styleUrls: ['./examples-events.component.scss'],
-    standalone: true,
     imports: [FormsModule, ReactiveFormsModule, Select2, JsonPipe, TranslocoModule, Highlight],
 })
 export class ExemplesEventsComponent extends Examples {

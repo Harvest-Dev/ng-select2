@@ -11,7 +11,6 @@ import { ExamplesService } from './examples.service';
     selector: 'app-root',
     templateUrl: './app-examples.component.html',
     styleUrls: ['./app-examples.component.scss'],
-    standalone: true,
     imports: [FormsModule, ReactiveFormsModule, TranslocoModule, ExamplesRoutingModule, RouterModule, RouterOutlet],
 })
 export class AppExamplesComponent {

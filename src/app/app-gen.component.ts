@@ -12,12 +12,8 @@ import { Json2html, Json2htmlAttr, Json2htmlRef } from '@ikilote/json2html';
 import { TranslocoModule } from '@jsverse/transloco';
 
 import * as Bowser from 'bowser';
+import { Select2HighlightPipe, Select2SelectionOverride, Select2Value } from 'ng-select2-component';
 import { Highlight } from 'ngx-highlightjs';
-import {
-    Select2HighlightPipe,
-    Select2SelectionOverride,
-    Select2Value,
-} from 'ng-select2-component';
 
 import { data24 } from './app.data';
 
@@ -29,7 +25,6 @@ import { Select2 } from '../../projects/ng-select2-component/src/lib/select2.com
     selector: 'app-gen',
     templateUrl: './app-gen.component.html',
     styleUrls: ['./app-gen.component.scss'],
-    standalone: true,
     imports: [
         FormsModule,
         ReactiveFormsModule,

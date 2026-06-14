@@ -16,10 +16,7 @@ import { Select2OptionDirective } from './select2-option.directive';
  * </ng-select2>
  * ```
  */
-@Directive({
-    selector: 'ng-group',
-    standalone: true,
-})
+@Directive({ selector: 'ng-group' })
 export class Select2GroupDirective {
     private _elementRef = inject(ElementRef<HTMLElement>);
 

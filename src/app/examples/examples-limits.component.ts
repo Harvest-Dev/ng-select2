@@ -12,8 +12,8 @@ import {
 import { Json2html } from '@ikilote/json2html';
 import { TranslocoModule } from '@jsverse/transloco';
 
-import { Highlight } from 'ngx-highlightjs';
 import { Select2, Select2Data } from 'ng-select2-component';
+import { Highlight } from 'ngx-highlightjs';
 
 import { Examples } from './examples';
 
@@ -23,7 +23,6 @@ import { data1, data3, data5, data6, data18, data28 } from '../app.data';
     selector: 'examples-limits',
     templateUrl: './examples-limits.component.html',
     styleUrls: ['./examples-limits.component.scss'],
-    standalone: true,
     imports: [FormsModule, ReactiveFormsModule, Select2, TranslocoModule, JsonPipe, Highlight],
 })
 export class ExamplesLimitsComponent extends Examples {

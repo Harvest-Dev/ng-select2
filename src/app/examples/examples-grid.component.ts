@@ -4,8 +4,8 @@ import { Component, computed } from '@angular/core';
 import { Json2html } from '@ikilote/json2html';
 import { TranslocoModule } from '@jsverse/transloco';
 
-import { Highlight } from 'ngx-highlightjs';
 import { Select2 } from 'ng-select2-component';
+import { Highlight } from 'ngx-highlightjs';
 
 import { Examples } from './examples';
 
@@ -15,7 +15,6 @@ import { data1, data2, data35, data35b } from '../app.data';
     selector: 'examples-grid',
     templateUrl: './examples-grid.component.html',
     styleUrls: ['./examples-grid.component.scss'],
-    standalone: true,
     imports: [Select2, JsonPipe, TranslocoModule, Highlight],
 })
 export class ExemplesGridComponent extends Examples {
@@ -38,7 +37,7 @@ export class ExemplesGridComponent extends Examples {
                     ...this.styleModeExempleJson(),
                     '[data]': 'data',
                     '[value]': 'value',
-                    grid: 4, 
+                    grid: 4,
                 },
             },
             { webComponentSelfClosing: true, attrPosition: 'prettier' },
@@ -54,7 +53,7 @@ export class ExemplesGridComponent extends Examples {
                     ...this.styleModeExempleJson(),
                     '[data]': 'data',
                     '[value]': 'value',
-                    grid: 4, 
+                    grid: 4,
                 },
             },
             { webComponentSelfClosing: true, attrPosition: 'prettier' },
@@ -70,7 +69,7 @@ export class ExemplesGridComponent extends Examples {
                     ...this.styleModeExempleJson(),
                     '[data]': 'data',
                     '[value]': 'value',
-                    grid: '35px', 
+                    grid: '35px',
                 },
             },
             { webComponentSelfClosing: true, attrPosition: 'prettier' },
@@ -87,7 +86,7 @@ export class ExemplesGridComponent extends Examples {
                     '[data]': 'data',
                     '[value]': 'value',
                     multiple: null,
-                    grid: '35px', 
+                    grid: '35px',
                 },
             },
             { webComponentSelfClosing: true, attrPosition: 'prettier' },

@@ -5,8 +5,8 @@ import { FormsModule } from '@angular/forms';
 import { Json2html } from '@ikilote/json2html';
 import { TranslocoModule } from '@jsverse/transloco';
 
-import { Highlight } from 'ngx-highlightjs';
 import { Select2, Select2Data, Select2SelectionOverride } from 'ng-select2-component';
+import { Highlight } from 'ngx-highlightjs';
 
 import { Examples } from './examples';
 
@@ -16,7 +16,6 @@ import { data1 } from '../app.data';
     selector: 'examples-selection-nowrap',
     templateUrl: './examples-selection-nowrap.component.html',
     styleUrls: ['./examples-selection-nowrap.component.scss'],
-    standalone: true,
     imports: [FormsModule, Select2, JsonPipe, TranslocoModule, Highlight],
 })
 export class ExemplesSelectionNowrapComponent extends Examples {

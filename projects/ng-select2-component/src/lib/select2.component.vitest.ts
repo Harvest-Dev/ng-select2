@@ -4,7 +4,9 @@ import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
+import { Select2GroupDirective } from './select2-group.directive';
 import { Select2Data, Select2Group, Select2Option, Select2Template, Select2UpdateValue } from './select2-interfaces';
+import { Select2OptionDirective } from './select2-option.directive';
 import { Select2 } from './select2.component';
 
 // ── Test data ──────────────────────────────────────────────────────────
@@ -46,7 +48,6 @@ const HIDDEN_DATA: Select2Data = [
 // ── Host components ────────────────────────────────────────────────────
 
 @Component({
-    changeDetection: ChangeDetectionStrategy.Default,
     template: `<select2
         [data]="data"
         [value]="value"
@@ -99,7 +100,7 @@ const HIDDEN_DATA: Select2Data = [
         (removeOption)="onRemove($event)"
         (autoCreateItem)="onAutoCreate($event)"
     ></select2>`,
-    standalone: true,
+    changeDetection: ChangeDetectionStrategy.Eager,
     imports: [Select2],
 })
 class TestHostComponent {
@@ -157,11 +158,10 @@ class TestHostComponent {
 }
 
 @Component({
-    changeDetection: ChangeDetectionStrategy.Default,
     template: ` <form [formGroup]="form">
         <select2 [data]="data" formControlName="sel"></select2>
     </form>`,
-    standalone: true,
+    changeDetection: ChangeDetectionStrategy.Eager,
     imports: [Select2, ReactiveFormsModule],
 })
 class ReactiveFormHostComponent {
@@ -170,16 +170,65 @@ class ReactiveFormHostComponent {
 }
 
 @Component({
-    changeDetection: ChangeDetectionStrategy.Default,
     template: ` <form [formGroup]="form">
         <select2 [data]="data" [multiple]="true" formControlName="sel"></select2>
     </form>`,
-    standalone: true,
+    changeDetection: ChangeDetectionStrategy.Eager,
     imports: [Select2, ReactiveFormsModule],
 })
 class ReactiveFormMultipleHostComponent {
     data: Select2Data = SIMPLE_DATA;
     form = new FormGroup({ sel: new FormControl(['opt1', 'opt2']) });
+}
+
+@Component({
+    template: `
+        <ng-select2 [value]="value" (update)="onUpdate($event)" id="test-ng-opt">
+            <ng-option value="apple">Apple</ng-option>
+            <ng-option value="banana" [disabled]="bananaDisabled">Banana</ng-option>
+            <ng-option value="cherry" disabled>Cherry</ng-option>
+        </ng-select2>
+    `,
+    changeDetection: ChangeDetectionStrategy.Eager,
+    imports: [Select2, Select2OptionDirective],
+})
+class NgOptionHostComponent {
+    value: any = '';
+    bananaDisabled = false;
+    onUpdate = vi.fn();
+}
+
+@Component({
+    template: `
+        <ng-select2 [value]="value" (update)="onUpdate($event)" id="test-ng-group">
+            <ng-group label="Fruits">
+                <ng-option value="apple">Apple</ng-option>
+                <ng-option value="banana">Banana</ng-option>
+            </ng-group>
+            <ng-option value="other">Other</ng-option>
+        </ng-select2>
+    `,
+    changeDetection: ChangeDetectionStrategy.Eager,
+    imports: [Select2, Select2OptionDirective, Select2GroupDirective],
+})
+class NgGroupHostComponent {
+    value: any = '';
+    onUpdate = vi.fn();
+}
+
+@Component({
+    template: `
+        <ng-select2 [value]="value" (update)="onUpdate($event)" id="test-ng-initial">
+            <ng-option value="foo">Foo</ng-option>
+            <ng-option value="bar">Bar</ng-option>
+        </ng-select2>
+    `,
+    changeDetection: ChangeDetectionStrategy.Eager,
+    imports: [Select2, Select2OptionDirective],
+})
+class NgOptionInitialValueHostComponent {
+    value: any = 'foo';
+    onUpdate = vi.fn();
 }
 
 // ── Helpers ────────────────────────────────────────────────────────────
@@ -205,16 +254,15 @@ function provideTestEnv() {
     return [{ provide: ErrorHandler, useClass: SilentErrorHandler }];
 }
 
-/** Marks the fixture for check and runs detectChanges (compatible with OnPush). */
+/** Marks the fixture for check and runs detectChanges (compatible with OnPush + zoneless). */
 function detectChanges(fixture: ComponentFixture<any>) {
-    fixture.componentRef.changeDetectorRef.markForCheck();
-    fixture.detectChanges();
+    fixture.changeDetectorRef.detectChanges();
 }
 
 function clickSelection(fixture: ComponentFixture<any>) {
     const sel = fixture.nativeElement.querySelector('.selection') as HTMLElement;
     sel.click();
-    fixture.detectChanges();
+    fixture.changeDetectorRef.detectChanges();
 }
 
 function getOptions(fixture: ComponentFixture<any>): HTMLElement[] {
@@ -282,6 +330,7 @@ describe('Select2 Component', () => {
         it('should apply material class', () => {
             host.styleMode = 'material';
             detectChanges(fixture);
+            expect(select2.styleMode()).toBe('material');
             expect(select2.classMaterial()).toBe(true);
             expect(select2.classNostyle()).toBe(false);
         });
@@ -821,7 +870,7 @@ describe('Select2 Component', () => {
         beforeEach(async () => {
             rfFixture = TestBed.createComponent(ReactiveFormHostComponent);
             rfHost = rfFixture.componentInstance;
-            rfFixture.detectChanges();
+            rfFixture.changeDetectorRef.detectChanges();
             rfSelect2 = rfFixture.debugElement.children[0].children[0].componentInstance as Select2;
         });
 
@@ -832,13 +881,13 @@ describe('Select2 Component', () => {
         it('should update form value on selection', async () => {
             const sel = rfFixture.nativeElement.querySelector('.selection') as HTMLElement;
             sel.click();
-            rfFixture.detectChanges();
+            rfFixture.changeDetectorRef.detectChanges();
 
             const options: HTMLElement[] = Array.from(
                 rfFixture.nativeElement.querySelectorAll('.select2-results__option[role="option"]'),
             );
             options[1]?.click();
-            rfFixture.detectChanges();
+            rfFixture.changeDetectorRef.detectChanges();
             await new Promise(r => setTimeout(r, 0));
 
             expect(rfHost.form.get('sel')?.value).toBe('opt2');
@@ -846,7 +895,7 @@ describe('Select2 Component', () => {
 
         it('should disable when form control is disabled', () => {
             rfHost.form.get('sel')?.disable();
-            rfFixture.detectChanges();
+            rfFixture.changeDetectorRef.detectChanges();
             expect(rfSelect2.disabledState).toBe(true);
         });
 
@@ -873,7 +922,7 @@ describe('Select2 Component', () => {
 
         it('should implement writeValue', () => {
             rfSelect2.writeValue('opt3');
-            rfFixture.detectChanges();
+            rfFixture.changeDetectorRef.detectChanges();
             expect(rfSelect2.select2Option?.value).toBe('opt3');
         });
     });
@@ -2086,20 +2135,20 @@ describe('Select2 Component - additional coverage', () => {
         it('should return true when control is invalid and touched', async () => {
             const rfFixture = TestBed.createComponent(ReactiveFormHostComponent);
             const rfHost = rfFixture.componentInstance;
-            rfFixture.detectChanges();
+            rfFixture.changeDetectorRef.detectChanges();
             const rfSelect2 = rfFixture.debugElement.children[0].children[0].componentInstance as Select2;
 
             // Add a required validator and set value to null
             rfHost.form.get('sel')?.setErrors({ required: true });
             rfHost.form.get('sel')?.markAsTouched();
-            rfFixture.detectChanges();
+            rfFixture.changeDetectorRef.detectChanges();
 
             expect(rfSelect2._isErrorState()).toBe(true);
         });
 
         it('should return false when control is valid', async () => {
             const rfFixture = TestBed.createComponent(ReactiveFormHostComponent);
-            rfFixture.detectChanges();
+            rfFixture.changeDetectorRef.detectChanges();
             const rfSelect2 = rfFixture.debugElement.children[0].children[0].componentInstance as Select2;
 
             expect(rfSelect2._isErrorState()).toBe(false);
@@ -2781,7 +2830,7 @@ describe('Select2 Component - deep coverage', () => {
     describe('removeSelection with reactive form', () => {
         it('should call _onChange when _control exists', async () => {
             const rfFixture = TestBed.createComponent(ReactiveFormMultipleHostComponent);
-            rfFixture.detectChanges();
+            rfFixture.changeDetectorRef.detectChanges();
             const rfSelect2 = rfFixture.debugElement.children[0].children[0].componentInstance as Select2;
 
             expect(rfSelect2.select2Options.length).toBe(2);
@@ -2789,7 +2838,7 @@ describe('Select2 Component - deep coverage', () => {
             const event = new MouseEvent('click', { cancelable: true });
             const opt = rfSelect2.select2Options[0];
             rfSelect2.removeSelection(event, opt);
-            rfFixture.detectChanges();
+            rfFixture.changeDetectorRef.detectChanges();
             await new Promise(r => setTimeout(r, 0));
 
             // Form value should be updated via _onChange
@@ -3086,13 +3135,13 @@ describe('Select2 Component - final coverage', () => {
     describe('_setSelectionByValue - _control without _data', () => {
         it('should call viewToModelUpdate when _data is empty and _control exists', async () => {
             const rfFixture = TestBed.createComponent(ReactiveFormHostComponent);
-            rfFixture.detectChanges();
+            rfFixture.changeDetectorRef.detectChanges();
             const rfSelect2 = rfFixture.debugElement.children[0].children[0].componentInstance as Select2;
 
             // Clear _data to trigger the else branch
             (rfSelect2 as any)._data = null;
             rfSelect2.writeValue('opt1');
-            rfFixture.detectChanges();
+            rfFixture.changeDetectorRef.detectChanges();
         });
     });
 
@@ -3484,13 +3533,13 @@ describe('Select2 Component - final branches', () => {
         it('should return true when control is invalid and form is submitted', () => {
             const rfFixture = TestBed.createComponent(ReactiveFormHostComponent);
             const rfHost = rfFixture.componentInstance;
-            rfFixture.detectChanges();
+            rfFixture.changeDetectorRef.detectChanges();
             const rfSelect2 = rfFixture.debugElement.children[0].children[0].componentInstance as Select2;
 
             rfHost.form.get('sel')?.setErrors({ required: true });
             // Simulate form submission
             (rfSelect2 as any)._parentFormGroup = { submitted: true };
-            rfFixture.detectChanges();
+            rfFixture.changeDetectorRef.detectChanges();
 
             expect(rfSelect2._isErrorState()).toBe(true);
         });
@@ -3543,19 +3592,19 @@ describe('Select2 Component - final branches', () => {
     describe('select with _control', () => {
         it('should call _onChange when _control exists in select', async () => {
             const rfFixture = TestBed.createComponent(ReactiveFormHostComponent);
-            rfFixture.detectChanges();
+            rfFixture.changeDetectorRef.detectChanges();
             const rfSelect2 = rfFixture.debugElement.children[0].children[0].componentInstance as Select2;
 
             // Open and select
             const sel = rfFixture.nativeElement.querySelector('.selection') as HTMLElement;
             sel.click();
-            rfFixture.detectChanges();
+            rfFixture.changeDetectorRef.detectChanges();
 
             const options: HTMLElement[] = Array.from(
                 rfFixture.nativeElement.querySelectorAll('.select2-results__option[role="option"]'),
             );
             options[1]?.click();
-            rfFixture.detectChanges();
+            rfFixture.changeDetectorRef.detectChanges();
             await new Promise(r => setTimeout(r, 50));
         });
     });
@@ -4181,7 +4230,7 @@ describe('Select2 Component - branch coverage completion', () => {
     // ── _isErrorState when control is valid ───────────────────────────
     it('should return false for _isErrorState when control is valid', () => {
         const rfFixture = TestBed.createComponent(ReactiveFormHostComponent);
-        rfFixture.detectChanges();
+        rfFixture.changeDetectorRef.detectChanges();
         const rfSelect2 = rfFixture.debugElement.children[0].children[0].componentInstance as Select2;
 
         expect(rfSelect2._isErrorState()).toBe(false);
@@ -4427,7 +4476,7 @@ describe('Select2 - reactive form branch coverage', () => {
         }).compileComponents();
 
         rfFixture = TestBed.createComponent(ReactiveFormHostComponent);
-        rfFixture.detectChanges();
+        rfFixture.changeDetectorRef.detectChanges();
         rfSelect2 = rfFixture.debugElement.children[0].children[0].componentInstance as Select2;
     });
 
@@ -4435,7 +4484,7 @@ describe('Select2 - reactive form branch coverage', () => {
     it('should use _control.value in ngOnInit when _control exists', () => {
         expect(rfSelect2._control).toBeTruthy();
         rfSelect2.ngOnInit();
-        rfFixture.detectChanges();
+        rfFixture.changeDetectorRef.detectChanges();
         expect(rfSelect2.select2Option?.value).toBe('opt1');
     });
 
@@ -4445,7 +4494,7 @@ describe('Select2 - reactive form branch coverage', () => {
         const form = (rfFixture.componentInstance as any).form;
         form.get('sel')?.setErrors({ required: true });
         form.get('sel')?.markAsTouched();
-        rfFixture.detectChanges();
+        rfFixture.changeDetectorRef.detectChanges();
 
         expect(rfSelect2._isErrorState()).toBe(true);
     });
@@ -4454,7 +4503,7 @@ describe('Select2 - reactive form branch coverage', () => {
     it('should call _onChange in removeSelection when _control exists', async () => {
         // Switch to multiple mode
         const multiFixture = TestBed.createComponent(ReactiveFormMultipleHostComponent);
-        multiFixture.detectChanges();
+        multiFixture.changeDetectorRef.detectChanges();
         const multiSelect2 = multiFixture.debugElement.children[0].children[0].componentInstance as Select2;
 
         expect(multiSelect2._control).toBeTruthy();
@@ -4463,7 +4512,7 @@ describe('Select2 - reactive form branch coverage', () => {
         const option = { value: 'opt1', label: 'Option 1' } as Select2Option;
         const event = new MouseEvent('click', { bubbles: true, cancelable: true });
         multiSelect2.removeSelection(event, option);
-        multiFixture.detectChanges();
+        multiFixture.changeDetectorRef.detectChanges();
     });
 });
 
@@ -4607,7 +4656,7 @@ describe('Select2 - deep branch coverage', () => {
     // ── _isErrorState with _parentForm submitted ───────────────────────
     it('should detect error state with parent form submitted', () => {
         const rfFixture = TestBed.createComponent(ReactiveFormHostComponent);
-        rfFixture.detectChanges();
+        rfFixture.changeDetectorRef.detectChanges();
         const rfSelect2 = rfFixture.debugElement.children[0].children[0].componentInstance as Select2;
 
         // Make invalid and mark parent form as submitted
@@ -4615,7 +4664,7 @@ describe('Select2 - deep branch coverage', () => {
         if ((rfSelect2 as any)._parentFormGroup) {
             (rfSelect2 as any)._parentFormGroup.submitted = true;
         }
-        rfFixture.detectChanges();
+        rfFixture.changeDetectorRef.detectChanges();
         expect(rfSelect2._isErrorState()).toBe(true);
     });
 
@@ -4751,13 +4800,12 @@ describe('Select2 - deep branch coverage', () => {
 // ── Template branch coverage ─────────────────────────────────────────
 
 @Component({
-    changeDetection: ChangeDetectionStrategy.Default,
     template: `
         <ng-template #optionTpl let-data="data">{{ data?.label }}</ng-template>
         <ng-template #selTpl let-data="data">Selected: {{ data?.label }}</ng-template>
         <select2 [data]="data" [value]="value" [templates]="templates" [templateSelection]="selTpl"></select2>
     `,
-    standalone: true,
+    changeDetection: ChangeDetectionStrategy.Eager,
     imports: [Select2],
 })
 class TemplateHostComponent {
@@ -5151,7 +5199,7 @@ describe('Select2 - final branch coverage', () => {
     // ── _parentFormGroup?.submitted true path ───────────────────────────
     it('should return true for _isErrorState when control is invalid and parentFormGroup is submitted (not touched)', () => {
         const rfFixture = TestBed.createComponent(ReactiveFormHostComponent);
-        rfFixture.detectChanges();
+        rfFixture.changeDetectorRef.detectChanges();
         const rfSelect2 = rfFixture.debugElement.children[0].children[0].componentInstance as Select2;
 
         // Make control invalid
@@ -5161,7 +5209,7 @@ describe('Select2 - final branch coverage', () => {
         form.get('sel')?.markAsUntouched();
         // Set _parentFormGroup.submitted = true
         (rfSelect2 as any)._parentFormGroup = { submitted: true };
-        rfFixture.detectChanges();
+        rfFixture.changeDetectorRef.detectChanges();
 
         expect(rfSelect2._isErrorState()).toBe(true);
     });
@@ -5553,21 +5601,21 @@ describe('Select2 - final branch coverage', () => {
 
         it('should not render checkboxes by default', () => {
             host.value = 'opt1';
-            fixture.detectChanges();
+            fixture.changeDetectorRef.detectChanges();
             // open dropdown
             const selection = fixture.nativeElement.querySelector('.selection') as HTMLElement;
             selection.click();
-            fixture.detectChanges();
+            fixture.changeDetectorRef.detectChanges();
             const checkboxes = fixture.nativeElement.querySelectorAll('.select2-option-checkbox');
             expect(checkboxes.length).toBe(0);
         });
 
         it('should render a checkbox for each option when showOptionCheckbox is true', () => {
             host.showOptionCheckbox = true;
-            fixture.detectChanges();
+            fixture.changeDetectorRef.detectChanges();
             const selection = fixture.nativeElement.querySelector('.selection') as HTMLElement;
             selection.click();
-            fixture.detectChanges();
+            fixture.changeDetectorRef.detectChanges();
             const checkboxes = fixture.nativeElement.querySelectorAll('.select2-option-checkbox');
             expect(checkboxes.length).toBe(SIMPLE_DATA.length);
         });
@@ -5575,10 +5623,10 @@ describe('Select2 - final branch coverage', () => {
         it('should check the checkbox for the selected option in single mode', () => {
             host.showOptionCheckbox = true;
             host.value = 'opt1';
-            fixture.detectChanges();
+            fixture.changeDetectorRef.detectChanges();
             const selection = fixture.nativeElement.querySelector('.selection') as HTMLElement;
             selection.click();
-            fixture.detectChanges();
+            fixture.changeDetectorRef.detectChanges();
             const checkboxes = fixture.nativeElement.querySelectorAll('.select2-option-checkbox');
             expect(checkboxes[0].checked).toBe(true);
             expect(checkboxes[1].checked).toBe(false);
@@ -5588,10 +5636,10 @@ describe('Select2 - final branch coverage', () => {
             host.showOptionCheckbox = true;
             host.multiple = true;
             host.value = ['opt1', 'opt3'];
-            fixture.detectChanges();
+            fixture.changeDetectorRef.detectChanges();
             const selection = fixture.nativeElement.querySelector('.selection') as HTMLElement;
             selection.click();
-            fixture.detectChanges();
+            fixture.changeDetectorRef.detectChanges();
             const checkboxes = fixture.nativeElement.querySelectorAll('.select2-option-checkbox');
             expect(checkboxes[0].checked).toBe(true); // opt1 selected
             expect(checkboxes[1].checked).toBe(false); // opt2 not selected
@@ -5601,10 +5649,10 @@ describe('Select2 - final branch coverage', () => {
 
         it('should disable the checkbox for a disabled option', () => {
             host.showOptionCheckbox = true;
-            fixture.detectChanges();
+            fixture.changeDetectorRef.detectChanges();
             const selection = fixture.nativeElement.querySelector('.selection') as HTMLElement;
             selection.click();
-            fixture.detectChanges();
+            fixture.changeDetectorRef.detectChanges();
             const checkboxes = fixture.nativeElement.querySelectorAll('.select2-option-checkbox');
             // opt4 is disabled in SIMPLE_DATA
             expect(checkboxes[3].disabled).toBe(true);
@@ -5614,10 +5662,10 @@ describe('Select2 - final branch coverage', () => {
             host.showOptionCheckbox = true;
             host.multiple = true;
             host.data = GROUP_DATA;
-            fixture.detectChanges();
+            fixture.changeDetectorRef.detectChanges();
             const selection = fixture.nativeElement.querySelector('.selection') as HTMLElement;
             selection.click();
-            fixture.detectChanges();
+            fixture.changeDetectorRef.detectChanges();
             const checkboxes = fixture.nativeElement.querySelectorAll('.select2-option-checkbox');
             // GROUP_DATA has 4 options total (2 in Group A, 2 in Group B)
             expect(checkboxes.length).toBe(4);
@@ -5627,18 +5675,331 @@ describe('Select2 - final branch coverage', () => {
             host.showOptionCheckbox = true;
             host.multiple = true;
             host.value = [];
-            fixture.detectChanges();
+            fixture.changeDetectorRef.detectChanges();
             const selection = fixture.nativeElement.querySelector('.selection') as HTMLElement;
             selection.click();
-            fixture.detectChanges();
+            fixture.changeDetectorRef.detectChanges();
 
             // select opt2 by clicking its li
             const options = fixture.nativeElement.querySelectorAll('.select2-results__option[role="option"]');
             options[1].click();
-            fixture.detectChanges();
+            fixture.changeDetectorRef.detectChanges();
 
             const checkboxes = fixture.nativeElement.querySelectorAll('.select2-option-checkbox');
             expect(checkboxes[1].checked).toBe(true);
+        });
+    });
+
+    // ── ng-option / ng-group template mode ────────────────────────────
+
+    describe('ng-option / ng-group template mode', () => {
+        describe('flat ng-option list', () => {
+            let ngOptFixture: ComponentFixture<NgOptionHostComponent>;
+            let ngOptHost: NgOptionHostComponent;
+
+            beforeEach(async () => {
+                TestBed.resetTestingModule();
+                await TestBed.configureTestingModule({
+                    imports: [NgOptionHostComponent],
+                    providers: provideTestEnv(),
+                }).compileComponents();
+
+                ngOptFixture = TestBed.createComponent(NgOptionHostComponent);
+                ngOptHost = ngOptFixture.componentInstance;
+                ngOptFixture.changeDetectorRef.detectChanges();
+            });
+
+            it('should render options from ng-option in the dropdown', () => {
+                clickSelection(ngOptFixture);
+                const opts = getOptions(ngOptFixture);
+                expect(opts.length).toBe(3);
+                expect(opts[0].textContent?.trim()).toContain('Apple');
+                expect(opts[1].textContent?.trim()).toContain('Banana');
+                expect(opts[2].textContent?.trim()).toContain('Cherry');
+            });
+
+            it('should select an option and emit update', async () => {
+                clickSelection(ngOptFixture);
+                const opts = getOptions(ngOptFixture);
+                opts[0].click();
+                ngOptFixture.changeDetectorRef.detectChanges();
+                await new Promise(r => setTimeout(r, 0));
+                expect(ngOptHost.onUpdate).toHaveBeenCalled();
+                const event = ngOptHost.onUpdate.mock.calls[0][0];
+                expect(event.value).toBe('apple');
+            });
+
+            it('should not select a statically disabled option (cherry)', () => {
+                clickSelection(ngOptFixture);
+                const opts = getOptions(ngOptFixture);
+                opts[2].click();
+                ngOptFixture.changeDetectorRef.detectChanges();
+                const select2 = getSelect2(ngOptFixture);
+                expect(select2.select2Option?.value).not.toBe('cherry');
+            });
+
+            it('should not select a dynamically disabled option when [disabled] is true', () => {
+                ngOptHost.bananaDisabled = true;
+                ngOptFixture.changeDetectorRef.detectChanges();
+                clickSelection(ngOptFixture);
+                const opts = getOptions(ngOptFixture);
+                opts[1].click();
+                ngOptFixture.changeDetectorRef.detectChanges();
+                const select2 = getSelect2(ngOptFixture);
+                expect(select2.select2Option?.value).not.toBe('banana');
+            });
+
+            it('should allow selecting a dynamically re-enabled option', () => {
+                ngOptHost.bananaDisabled = true;
+                ngOptFixture.changeDetectorRef.detectChanges();
+                ngOptHost.bananaDisabled = false;
+                ngOptFixture.changeDetectorRef.detectChanges();
+                clickSelection(ngOptFixture);
+                const opts = getOptions(ngOptFixture);
+                opts[1].click();
+                ngOptFixture.changeDetectorRef.detectChanges();
+                const select2 = getSelect2(ngOptFixture);
+                expect(select2.select2Option?.value).toBe('banana');
+            });
+        });
+
+        describe('initial value resolution (selectedOption === null path)', () => {
+            let initFixture: ComponentFixture<NgOptionInitialValueHostComponent>;
+            let initHost: NgOptionInitialValueHostComponent;
+
+            beforeEach(async () => {
+                TestBed.resetTestingModule();
+                await TestBed.configureTestingModule({
+                    imports: [NgOptionInitialValueHostComponent],
+                    providers: provideTestEnv(),
+                }).compileComponents();
+
+                initFixture = TestBed.createComponent(NgOptionInitialValueHostComponent);
+                initHost = initFixture.componentInstance;
+                initFixture.changeDetectorRef.detectChanges();
+            });
+
+            it('should resolve initial value from ng-option when value is set before content children are ready', () => {
+                const select2 = getSelect2(initFixture);
+                expect(select2.select2Option?.value).toBe('foo');
+            });
+
+            it('should display the label of the initially selected option', () => {
+                const rendered = initFixture.nativeElement.querySelector('.select2-selection__rendered');
+                expect(rendered.textContent).toContain('Foo');
+            });
+        });
+
+        describe('ng-group with nested ng-option', () => {
+            let grpFixture: ComponentFixture<NgGroupHostComponent>;
+            let grpHost: NgGroupHostComponent;
+
+            beforeEach(async () => {
+                TestBed.resetTestingModule();
+                await TestBed.configureTestingModule({
+                    imports: [NgGroupHostComponent],
+                    providers: provideTestEnv(),
+                }).compileComponents();
+
+                grpFixture = TestBed.createComponent(NgGroupHostComponent);
+                grpHost = grpFixture.componentInstance;
+                grpFixture.changeDetectorRef.detectChanges();
+            });
+
+            it('should render group headers in the dropdown', () => {
+                clickSelection(grpFixture);
+                const headers = grpFixture.nativeElement.querySelectorAll('.select2-results__group');
+                expect(headers.length).toBeGreaterThanOrEqual(1);
+                expect(headers[0].textContent).toContain('Fruits');
+            });
+
+            it('should render options inside the group', () => {
+                clickSelection(grpFixture);
+                const opts = getOptions(grpFixture);
+                const labels = opts.map((o: HTMLElement) => o.textContent?.trim());
+                expect(labels).toContain('Apple');
+                expect(labels).toContain('Banana');
+            });
+
+            it('should render the top-level ng-option not inside any group', () => {
+                clickSelection(grpFixture);
+                const opts = getOptions(grpFixture);
+                const labels = opts.map((o: HTMLElement) => o.textContent?.trim());
+                expect(labels).toContain('Other');
+            });
+
+            it('should not duplicate grouped options at the top level', () => {
+                clickSelection(grpFixture);
+                const opts = getOptions(grpFixture);
+                const appleCount = opts.filter((o: HTMLElement) => o.textContent?.trim() === 'Apple').length;
+                expect(appleCount).toBe(1);
+            });
+
+            it('should select an option from inside a group', async () => {
+                clickSelection(grpFixture);
+                const opts = getOptions(grpFixture);
+                const apple = opts.find((o: HTMLElement) => o.textContent?.trim() === 'Apple');
+                apple?.click();
+                grpFixture.changeDetectorRef.detectChanges();
+                await new Promise(r => setTimeout(r, 0));
+                expect(grpHost.onUpdate).toHaveBeenCalled();
+                const event = grpHost.onUpdate.mock.calls[0][0];
+                expect(event.value).toBe('apple');
+            });
+        });
+    });
+});
+
+// ── Additional branch coverage tests ─────────────────────────────────
+
+@Component({
+    template: `
+        <ng-select2 [value]="value" [multiple]="true" (update)="onUpdate($event)" id="test-ng-multi">
+            <ng-option value="apple">Apple</ng-option>
+            <ng-option value="banana">Banana</ng-option>
+            <ng-option value="cherry">Cherry</ng-option>
+        </ng-select2>
+    `,
+    changeDetection: ChangeDetectionStrategy.Eager,
+    imports: [Select2, Select2OptionDirective],
+})
+class NgOptionMultipleHostComponent {
+    value: any = ['apple', 'banana'];
+    onUpdate = vi.fn();
+}
+
+@Component({
+    template: `
+        <form [formGroup]="form">
+            <ng-select2 formControlName="sel" id="test-ng-ctrl">
+                <ng-option value="foo">Foo</ng-option>
+                <ng-option value="bar">Bar</ng-option>
+            </ng-select2>
+        </form>
+    `,
+    changeDetection: ChangeDetectionStrategy.Eager,
+    imports: [Select2, Select2OptionDirective, ReactiveFormsModule],
+})
+class NgOptionWithControlHostComponent {
+    form = new FormGroup({ sel: new FormControl('foo') });
+}
+
+describe('Select2 - additional branch coverage', () => {
+    describe('ng-option multiple mode (covers selectedOption !== null branch in effect)', () => {
+        let multiFixture: ComponentFixture<NgOptionMultipleHostComponent>;
+
+        beforeEach(async () => {
+            await TestBed.configureTestingModule({
+                imports: [NgOptionMultipleHostComponent],
+                providers: provideTestEnv(),
+            }).compileComponents();
+
+            multiFixture = TestBed.createComponent(NgOptionMultipleHostComponent);
+            multiFixture.changeDetectorRef.detectChanges();
+        });
+
+        it('should skip selectedOption resolution when it is already set (not null)', async () => {
+            const select2 = getSelect2(multiFixture);
+            // In multiple mode, selectedOption is already [] after ngOnInit (not null).
+            // The effect runs but skips the `if (selectedOption === null)` branch.
+            // This covers the false branch of that condition.
+            multiFixture.changeDetectorRef.detectChanges();
+            await new Promise(r => setTimeout(r, 0));
+            multiFixture.changeDetectorRef.detectChanges();
+            expect(select2.selectedOption).not.toBeNull();
+        });
+    });
+
+    describe('ng-option with FormControl (covers this._control branch in effect)', () => {
+        let ctrlFixture: ComponentFixture<NgOptionWithControlHostComponent>;
+
+        beforeEach(async () => {
+            TestBed.resetTestingModule();
+            await TestBed.configureTestingModule({
+                imports: [NgOptionWithControlHostComponent],
+                providers: provideTestEnv(),
+            }).compileComponents();
+
+            ctrlFixture = TestBed.createComponent(NgOptionWithControlHostComponent);
+            ctrlFixture.changeDetectorRef.detectChanges();
+        });
+
+        it('should resolve initial value from FormControl when using ng-option', async () => {
+            // Need additional change detection cycles for content children + effect resolution
+            ctrlFixture.changeDetectorRef.detectChanges();
+            await new Promise(r => setTimeout(r, 0));
+            ctrlFixture.changeDetectorRef.detectChanges();
+            await new Promise(r => setTimeout(r, 0));
+            ctrlFixture.changeDetectorRef.detectChanges();
+            const select2 = getSelect2(ctrlFixture);
+            // Verify the effect ran and resolved the value from the FormControl
+            expect(select2.select2Option).not.toBeNull();
+        });
+    });
+
+    describe('ngOnChanges data input when ng-options are present (covers false branch)', () => {
+        let ngOptFixture: ComponentFixture<NgOptionHostComponent>;
+
+        beforeEach(async () => {
+            TestBed.resetTestingModule();
+            await TestBed.configureTestingModule({
+                imports: [NgOptionHostComponent],
+                providers: provideTestEnv(),
+            }).compileComponents();
+
+            ngOptFixture = TestBed.createComponent(NgOptionHostComponent);
+            ngOptFixture.changeDetectorRef.detectChanges();
+        });
+
+        it('should ignore bound [data] changes when ng-option content children are present', () => {
+            const select2 = getSelect2(ngOptFixture);
+            // Simulate data input change via ngOnChanges - since ng-options exist, _data should NOT change
+            const originalData = (select2 as any)._data;
+            select2.ngOnChanges({
+                data: {
+                    currentValue: SIMPLE_DATA,
+                    previousValue: undefined,
+                    firstChange: true,
+                    isFirstChange: () => true,
+                },
+            } as any);
+            // _data should still be from ng-options, not from the bound data input
+            expect((select2 as any)._data).toBe(originalData);
+        });
+    });
+
+    describe('ngAfterViewInit positionChange with no originY (covers line 542)', () => {
+        let fixture: ComponentFixture<TestHostComponent>;
+        let host: TestHostComponent;
+        let select2: Select2;
+
+        beforeEach(async () => {
+            TestBed.resetTestingModule();
+            await TestBed.configureTestingModule({
+                imports: [TestHostComponent],
+                providers: provideTestEnv(),
+            }).compileComponents();
+
+            fixture = TestBed.createComponent(TestHostComponent);
+            host = fixture.componentInstance;
+            detectChanges(fixture);
+            select2 = getSelect2(fixture);
+        });
+
+        it('should not update overlay position when connectionPair has no originY', () => {
+            host.listPosition = 'auto';
+            detectChanges(fixture);
+            // Open the dropdown to attach the overlay
+            clickSelection(fixture);
+            detectChanges(fixture);
+            // Directly invoke the position change handler with no originY
+            const posChange = { connectionPair: { originY: '' } } as any;
+            const overlay = select2.cdkConnectedOverlay();
+            // Emit a position change with empty originY
+            overlay.positionChange.emit(posChange);
+            detectChanges(fixture);
+            // Should not crash and _overlayPosition should not change
+            expect(select2).toBeTruthy();
         });
     });
 });

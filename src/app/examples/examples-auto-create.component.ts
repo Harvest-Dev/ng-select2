@@ -4,8 +4,8 @@ import { Component, computed } from '@angular/core';
 import { Json2html } from '@ikilote/json2html';
 import { TranslocoModule } from '@jsverse/transloco';
 
-import { Highlight } from 'ngx-highlightjs';
 import { Select2, Select2Data } from 'ng-select2-component';
+import { Highlight } from 'ngx-highlightjs';
 
 import { Examples } from './examples';
 
@@ -15,7 +15,6 @@ import { data1, data3 } from '../app.data';
     selector: 'examples-auto-create',
     templateUrl: './examples-auto-create.component.html',
     styleUrls: ['./examples-auto-create.component.scss'],
-    standalone: true,
     imports: [Select2, JsonPipe, TranslocoModule, Highlight],
 })
 export class ExemplesAutoCreateComponent extends Examples {

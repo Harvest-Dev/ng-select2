@@ -13,7 +13,6 @@ import { Examples } from './examples';
     selector: 'examples-ng-options',
     templateUrl: './examples-ng-options.component.html',
     styleUrls: ['./examples-ng-options.component.scss'],
-    standalone: true,
     imports: [Select2, Select2OptionDirective, Select2GroupDirective, JsonPipe, TranslocoModule, Highlight],
 })
 export class ExemplesNgOptionsComponent extends Examples {

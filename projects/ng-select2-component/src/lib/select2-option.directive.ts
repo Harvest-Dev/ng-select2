@@ -13,10 +13,7 @@ import { Select2Option, Select2Value } from './select2-interfaces';
  * </ng-select2>
  * ```
  */
-@Directive({
-    selector: 'ng-option',
-    standalone: true,
-})
+@Directive({ selector: 'ng-option' })
 export class Select2OptionDirective {
     private _elementRef = inject(ElementRef<HTMLElement>);
 

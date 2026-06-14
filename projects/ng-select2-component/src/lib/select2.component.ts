@@ -73,7 +73,6 @@ const CLOSE_KEYS: (string | KeyInfo)[] = ['Escape', 'Tab', { key: 'ArrowUp', alt
     selector: 'select2, ng-select2',
     templateUrl: './select2.component.html',
     styleUrls: ['./select2.component.scss'],
-    standalone: true,
     imports: [CdkOverlayOrigin, NgTemplateOutlet, CdkConnectedOverlay, CdkDropList, CdkDrag, Select2HighlightPipe],
     host: {
         '[id]': 'id()',
@@ -437,6 +436,16 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
             untracked(() => {
                 this._data = data;
                 this.updateFilteredData();
+                // If selectedOption was never initialized (ngOnInit ran before content children
+                // were available), resolve it now from the freshly populated _data.
+                if (this.selectedOption === null) {
+                    const controlValue = this._control ? this._control.value : this.value();
+                    const option = Select2Utils.getOptionsByValue(this._data, controlValue, this.multiple());
+                    if (option !== null) {
+                        this.selectedOption = option;
+                    }
+                    this.hoveringOption.set(Select2Utils.getOptionByValue(this._data, this.value));
+                }
             });
         });
     }
@@ -534,7 +543,7 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
             ) {
                 this.triggerRect();
                 this._overlayPosition.set(posChange.connectionPair.originY);
-                this._changeDetectorRef.detectChanges();
+                this._changeDetectorRef.markForCheck();
             }
         });
 
@@ -549,7 +558,7 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
         if (this._triggerRect) {
             if (this.overlayWidth !== this._triggerRect.width) {
                 this.overlayWidth = this._triggerRect.width;
-                this._changeDetectorRef.detectChanges();
+                this._changeDetectorRef.markForCheck();
             }
             if (
                 this._dropdownRect &&
@@ -574,7 +583,7 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
             setTimeout(() => {
                 if (!this._destroyed) {
                     this.select(selectedOption);
-                    this._changeDetectorRef.detectChanges();
+                    this._changeDetectorRef.markForCheck();
                 }
             });
         } else if (Array.isArray(this.selectedOption) && !this.multiple()) {
@@ -583,11 +592,11 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
             setTimeout(() => {
                 if (!this._destroyed) {
                     this.select(selectedOption);
-                    this._changeDetectorRef.detectChanges();
+                    this._changeDetectorRef.markForCheck();
                 }
             });
         } else {
-            this._changeDetectorRef.detectChanges();
+            this._changeDetectorRef.markForCheck();
         }
     }
 
@@ -672,7 +681,7 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
             } else {
                 this._scrollToInitialOption();
                 this._handleOnOpenAction(onOpenAction, event);
-                this._changeDetectorRef.detectChanges();
+                this._changeDetectorRef.markForCheck();
 
                 this.triggerRect();
                 this.cdkConnectedOverlay().overlayRef?.updatePosition();
@@ -875,7 +884,7 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
             });
             this.selectedOption = option;
         }
-        this._changeDetectorRef.detectChanges();
+        this._changeDetectorRef.markForCheck();
     }
 
     private clickExit() {
@@ -1114,7 +1123,6 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
                 data: this._data,
                 filteredData: (data: Select2Data) => {
                     this.filteredData.set(data);
-                    this._changeDetectorRef.markForCheck();
                 },
             });
         }

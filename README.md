@@ -20,6 +20,7 @@ npm i ng-select2-component --save
 
 | Version   | For **Angular**  | Notes                                                       |
 | --------- | ---------------- | ----------------------------------------------------------- |
+| `19.0.0`  | 22               | Zoneless                                                    |
 | `18.0.0`  | 22               | Ivy / Stand-alone, native scroll (no `ngx-infinite-scroll`) |
 | `17.3.2`  | 18.1, 19, 20, 21 | Ivy / Stand-alone                                           |
 | `17.1.0`  | 19               | Ivy / Stand-alone                                           |
@@ -51,6 +52,7 @@ npm i ng-select2-component --save
     - Auto-create items not present in the list
 - **Data representation**
     - Options and option groups
+    - Declarative with `<ng-option>` and `<ng-group>` tags
     - Infinite scroll
     - Maximum results limit
     - Grid layout (fixed column count or auto cell size)
@@ -81,6 +83,7 @@ npm i ng-select2-component --save
 - **Angular**
     - signals-based API (`input()` / `output()`)
     - standalone component
+    - zoneless compatible (no `zone.js` dependency)
 - Web Component compatible naming (`<ng-select2>`)
 
 ## Usage
@@ -121,6 +124,18 @@ or
 <ng-select2 [data]="data" [value]="value" (update)="update($event)">
     <ng-select2-label>label</ng-select2-label>
     <ng-select2-hint>hint</ng-select2-hint>
+</ng-select2>
+```
+
+or with declarative `<ng-option>` / `<ng-group>` (no `[data]` binding needed):
+
+```html
+<ng-select2 [value]="value" (update)="update($event)">
+    <ng-group label="Fruits">
+        <ng-option value="apple">Apple</ng-option>
+        <ng-option value="banana">Banana</ng-option>
+    </ng-group>
+    <ng-option value="other">Other</ng-option>
 </ng-select2>
 ```
 

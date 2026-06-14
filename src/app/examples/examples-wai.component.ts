@@ -3,8 +3,8 @@ import { Component, computed } from '@angular/core';
 import { Json2html } from '@ikilote/json2html';
 import { TranslocoModule } from '@jsverse/transloco';
 
-import { Highlight } from 'ngx-highlightjs';
 import { Select2, Select2Label } from 'ng-select2-component';
+import { Highlight } from 'ngx-highlightjs';
 
 import { Examples } from './examples';
 
@@ -14,7 +14,6 @@ import { data3 } from '../app.data';
     selector: 'examples-wai',
     templateUrl: './examples-wai.component.html',
     styleUrls: ['./examples-wai.component.scss'],
-    standalone: true,
     imports: [Select2, Select2Label, TranslocoModule, Highlight],
 })
 export class ExemplesWaiComponent extends Examples {
