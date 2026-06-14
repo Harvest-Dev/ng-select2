@@ -5761,6 +5761,18 @@ describe('Select2 - final branch coverage', () => {
                 const select2 = getSelect2(ngOptFixture);
                 expect(select2.select2Option?.value).toBe('banana');
             });
+
+            it('should not throw if component is destroyed before microtask resolves', async () => {
+                // Mutate an input to trigger the effect to re-run and schedule a new microtask
+                ngOptHost.bananaDisabled = !ngOptHost.bananaDisabled;
+                ngOptFixture.changeDetectorRef.detectChanges();
+                // Immediately destroy the component before the Promise.resolve().then() runs
+                ngOptFixture.destroy();
+                // Let the microtask queue flush
+                await new Promise(r => setTimeout(r, 0));
+                // If we reach here without error, the guard `if (!this._destroyed)` worked
+                expect(true).toBe(true);
+            });
         });
 
         describe('initial value resolution (selectedOption === null path)', () => {

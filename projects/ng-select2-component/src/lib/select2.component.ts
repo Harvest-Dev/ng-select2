@@ -446,6 +446,14 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
                     }
                     this.hoveringOption.set(Select2Utils.getOptionByValue(this._data, this.value));
                 }
+                // Use a microtask to schedule change detection after Angular completes
+                // its current initialization cycle. This avoids issues on direct page reload
+                // where detectChanges() during effect() can fail silently.
+                Promise.resolve().then(() => {
+                    if (!this._destroyed) {
+                        this._changeDetectorRef.markForCheck();
+                    }
+                });
             });
         });
     }
