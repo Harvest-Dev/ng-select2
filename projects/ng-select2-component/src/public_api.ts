@@ -3,6 +3,7 @@
  */
 
 export * from './lib/select2-const';
+export * from './lib/select2-content.directive';
 export * from './lib/select2-group.directive';
 export * from './lib/select2-highlight.pipe';
 export * from './lib/select2-hint.component';

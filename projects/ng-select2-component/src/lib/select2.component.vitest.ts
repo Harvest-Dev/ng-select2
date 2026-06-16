@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, ErrorHandler, TemplateRef, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ErrorHandler, TemplateRef, ViewChild, signal } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 
@@ -242,6 +242,24 @@ class NgOptionInitialValueHostComponent {
 })
 class NgOptionMissingRequiredInputHostComponent {
     value: any = '';
+}
+
+@Component({
+    template: `
+        <ng-select2 [value]="value" id="test-ng-interpolated">
+            <ng-option value="apple">{{ appleLabel() }}</ng-option>
+            <ng-group label="Group">
+                <ng-option value="banana">{{ bananaLabel() }}</ng-option>
+            </ng-group>
+        </ng-select2>
+    `,
+    changeDetection: ChangeDetectionStrategy.Eager,
+    imports: [Select2, Select2OptionDirective, Select2GroupDirective],
+})
+class NgOptionInterpolatedLabelHostComponent {
+    value: any = 'apple';
+    appleLabel = signal('Apple');
+    bananaLabel = signal('Banana');
 }
 
 // ── Helpers ────────────────────────────────────────────────────────────
@@ -5889,6 +5907,57 @@ describe('Select2 - final branch coverage', () => {
                 // effect hits the catch block and returns early without populating _data.
                 const select2 = getSelect2(fixture);
                 expect((select2 as any)._data).toEqual([]);
+            });
+        });
+
+        describe('interpolated text content ({{ }}) reactivity', () => {
+            let fixture: ComponentFixture<NgOptionInterpolatedLabelHostComponent>;
+            let host: NgOptionInterpolatedLabelHostComponent;
+
+            beforeEach(async () => {
+                TestBed.resetTestingModule();
+                await TestBed.configureTestingModule({
+                    imports: [NgOptionInterpolatedLabelHostComponent],
+                    providers: provideTestEnv(),
+                }).compileComponents();
+
+                fixture = TestBed.createComponent(NgOptionInterpolatedLabelHostComponent);
+                host = fixture.componentInstance;
+                fixture.changeDetectorRef.detectChanges();
+            });
+
+            it('should build _data from the interpolated text content', () => {
+                const select2 = getSelect2(fixture);
+                const labels = ((select2 as any)._data as Select2Data).flatMap(e =>
+                    'options' in e ? e.options.map(o => o.label) : [e.label],
+                );
+                expect(labels).toContain('Apple');
+                expect(labels).toContain('Banana');
+            });
+
+            it('should update a top-level ng-option label when its interpolated text changes', async () => {
+                host.appleLabel.set('Pomme');
+                fixture.changeDetectorRef.detectChanges();
+                await new Promise(r => setTimeout(r, 0));
+                fixture.changeDetectorRef.detectChanges();
+
+                const select2 = getSelect2(fixture);
+                const apple = ((select2 as any)._data as Select2Data).find(
+                    e => !('options' in e) && (e as Select2Option).value === 'apple',
+                ) as Select2Option;
+                expect(apple.label).toBe('Pomme');
+            });
+
+            it('should update a grouped ng-option label when its interpolated text changes', async () => {
+                host.bananaLabel.set('Banane');
+                fixture.changeDetectorRef.detectChanges();
+                await new Promise(r => setTimeout(r, 0));
+                fixture.changeDetectorRef.detectChanges();
+
+                const select2 = getSelect2(fixture);
+                const group = ((select2 as any)._data as Select2Data).find(e => 'options' in e) as Select2Group;
+                const banana = group.options.find(o => o.value === 'banana') as Select2Option;
+                expect(banana.label).toBe('Banane');
             });
         });
     });

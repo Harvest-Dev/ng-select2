@@ -572,6 +572,7 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
     ngDoCheck() {
         this.updateSearchBox();
         this._dirtyCheckNativeValue();
+        this._refreshProjectedContent();
         if (this._triggerRect) {
             if (this.overlayWidth !== this._triggerRect.width) {
                 this.overlayWidth = this._triggerRect.width;
@@ -591,6 +592,28 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
     ngOnDestroy(): void {
         this._destroyed = true;
         this.toObservable.unsubscribe();
+    }
+
+    /**
+     * Template mode only: dirty-check the rendered text content of every projected <ng-option>
+     * (top-level and nested in <ng-group>) so interpolation changes ({{ }}) are picked up.
+     * Updating an option's _projectedContent signal re-triggers the data rebuild effect.
+     */
+    private _refreshProjectedContent(): void {
+        const groups = this._ngGroups();
+        const topOptions = this._ngOptions();
+        if (groups.length === 0 && topOptions.length === 0) {
+            return;
+        }
+        for (const opt of topOptions) {
+            opt._refreshProjectedContent();
+        }
+        for (const grp of groups) {
+            grp._refreshProjectedContent();
+            for (const opt of grp._ngOptions() as readonly Select2OptionDirective[]) {
+                opt._refreshProjectedContent();
+            }
+        }
     }
 
     fixValue() {

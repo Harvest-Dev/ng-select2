@@ -379,5 +379,124 @@
         </div>
       </div>
     </div>
+
+    <!-- Example 49 : dynamic interpolated label ({{ }}) -->
+    <h3 class="col-12" id="ex-49">{{ 'Dynamic interpolated label' | transloco }}</h3>
+    <div class="container">
+      <div class="row">
+        <div class="col-6">
+          <div class="actions">
+            <label>
+              {{ 'Label of the first option:' | transloco }}
+              <input
+                type="text"
+                [value]="interpolatedLabel()"
+                (input)="interpolatedLabel.set($any($event.target).value)"
+              />
+            </label>
+          </div>
+          <ng-select2
+            [overlay]="overlay"
+            [styleMode]="styleMode"
+            [value]="value49"
+            (update)="update('value49', $event)"
+            id="select2-49"
+          >
+            <ng-option value="apple">{{ interpolatedLabel() }}</ng-option>
+            <ng-option value="banana">Banana</ng-option>
+            <ng-option value="cherry">Cherry</ng-option>
+          </ng-select2>
+          <div class="value">
+            <div>
+              <span>{{ 'value:' | transloco }}</span
+              ><code>{{ value49 | json }}</code>
+            </div>
+          </div>
+        </div>
+        <div class="col-6">
+          <div class="code">
+            <code><pre [highlight]="exemple49()" language="html"></pre></code>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Example 50 : label from translation (transloco) -->
+    <h3 class="col-12" id="ex-50">{{ 'Label from translation (transloco)' | transloco }}</h3>
+    <div class="container">
+      <div class="row">
+        <div class="col-6">
+          <p>{{ 'Switch the page language to see the option labels update live.' | transloco }}</p>
+          <ng-select2
+            [overlay]="overlay"
+            [styleMode]="styleMode"
+            [value]="value50"
+            (update)="update('value50', $event)"
+            id="select2-50"
+          >
+            <ng-group [label]="'Fruits' | transloco">
+              <ng-option value="apple">{{ 'Apple' | transloco }}</ng-option>
+              <ng-option value="banana">{{ 'Banana' | transloco }}</ng-option>
+              <ng-option value="cherry">{{ 'Cherry' | transloco }}</ng-option>
+            </ng-group>
+            <ng-group [label]="'Vegetables' | transloco">
+              <ng-option value="carrot">{{ 'Carrot' | transloco }}</ng-option>
+              <ng-option value="pea">{{ 'Pea' | transloco }}</ng-option>
+            </ng-group>
+          </ng-select2>
+          <div class="value">
+            <div>
+              <span>{{ 'value:' | transloco }}</span
+              ><code>{{ value50 | json }}</code>
+            </div>
+          </div>
+        </div>
+        <div class="col-6">
+          <div class="code">
+            <code><pre [highlight]="exemple50()" language="html"></pre></code>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Example 51 : many options generated with @for + translated labels -->
+    <h3 class="col-12" id="ex-51">{{ 'Many options with @for and translated labels' | transloco }}</h3>
+    <div class="container">
+      <div class="row">
+        <div class="col-6">
+          <p>{{ 'Switch the page language to see the option labels update live.' | transloco }}</p>
+          <ng-select2
+            [overlay]="overlay"
+            [styleMode]="styleMode"
+            [value]="value51"
+            highlightText
+            (update)="update('value51', $event)"
+            id="select2-51"
+          >
+            <ng-group [label]="'Fruits' | transloco">
+              @for (fruit of fruitItems; track fruit.value) {
+                <ng-option [value]="fruit.value">{{ fruit.key | transloco }}</ng-option>
+              }
+            </ng-group>
+            <ng-group [label]="'Vegetables' | transloco">
+              @for (vegetable of vegetableItems; track vegetable.value) {
+                <ng-option [value]="vegetable.value">{{ vegetable.key | transloco }}</ng-option>
+              }
+            </ng-group>
+          </ng-select2>
+          <div class="value">
+            <div>
+              <span>{{ 'value:' | transloco }}</span
+              ><code>{{ value51 | json }}</code>
+            </div>
+          </div>
+        </div>
+        <div class="col-6">
+          <div class="code">
+            <code><pre [highlight]="exemple51()" language="html"></pre></code>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </div>

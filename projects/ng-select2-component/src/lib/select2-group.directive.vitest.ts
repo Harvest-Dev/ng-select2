@@ -115,4 +115,37 @@ describe('Select2GroupDirective', () => {
 
         Object.defineProperty(directive, 'label', { value: original, configurable: true });
     });
+
+    describe('_refreshProjectedContent (interpolation reactivity trigger)', () => {
+        it('should update _projectedContent and return true when the rendered content changes', () => {
+            const el = fixture.debugElement.children[0].nativeElement as HTMLElement;
+            Object.defineProperty(el, 'innerHTML', { value: 'First', configurable: true, writable: true });
+
+            expect(directive._refreshProjectedContent()).toBe(true);
+            expect(directive._projectedContent()).toBe('First');
+
+            // Same content again: no change detected.
+            expect(directive._refreshProjectedContent()).toBe(false);
+
+            // Content changes: a new value is captured.
+            Object.defineProperty(el, 'innerHTML', { value: 'Second', configurable: true, writable: true });
+            expect(directive._refreshProjectedContent()).toBe(true);
+            expect(directive._projectedContent()).toBe('Second');
+        });
+
+        it('should fall back to textContent then empty string when innerHTML is empty', () => {
+            const el = fixture.debugElement.children[0].nativeElement as HTMLElement;
+
+            // innerHTML empty → use textContent.
+            Object.defineProperty(el, 'innerHTML', { value: '', configurable: true, writable: true });
+            Object.defineProperty(el, 'textContent', { value: 'From text', configurable: true, writable: true });
+            directive._refreshProjectedContent();
+            expect(directive._projectedContent()).toBe('From text');
+
+            // Both empty → empty string.
+            Object.defineProperty(el, 'textContent', { value: '', configurable: true, writable: true });
+            directive._refreshProjectedContent();
+            expect(directive._projectedContent()).toBe('');
+        });
+    });
 });
