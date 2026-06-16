@@ -15,7 +15,6 @@ import { data1, data2 } from '../app.data';
     selector: 'examples-checkbox',
     templateUrl: './examples-checkbox.component.html',
     styleUrls: ['./examples-checkbox.component.scss'],
-    standalone: true,
     imports: [Select2, JsonPipe, TranslocoModule, Highlight],
 })
 export class ExemplesCheckboxComponent extends Examples {

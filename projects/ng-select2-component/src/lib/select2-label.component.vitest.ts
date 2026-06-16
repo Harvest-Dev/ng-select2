@@ -7,7 +7,6 @@ import { Select2Label } from './select2-label.component';
 
 @Component({
     template: `<select2-label>Label text</select2-label>`,
-    standalone: true,
     imports: [Select2Label],
 })
 class TestLabelHostComponent {}
@@ -21,7 +20,7 @@ describe('Select2Label', () => {
         }).compileComponents();
 
         fixture = TestBed.createComponent(TestLabelHostComponent);
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
 
         const labelEl = fixture.nativeElement.querySelector('select2-label');
         expect(labelEl).toBeTruthy();
@@ -31,7 +30,6 @@ describe('Select2Label', () => {
     it('should work with ng-select2-label selector', async () => {
         @Component({
             template: `<ng-select2-label>Alt label</ng-select2-label>`,
-            standalone: true,
             imports: [Select2Label],
         })
         class AltHostComponent {}
@@ -41,7 +39,7 @@ describe('Select2Label', () => {
         }).compileComponents();
 
         const altFixture = TestBed.createComponent(AltHostComponent);
-        altFixture.detectChanges();
+        altFixture.changeDetectorRef.detectChanges();
 
         const labelEl = altFixture.nativeElement.querySelector('ng-select2-label');
         expect(labelEl).toBeTruthy();

@@ -7,7 +7,6 @@ import { Select2Hint } from './select2-hint.component';
 
 @Component({
     template: `<select2-hint>Hint text</select2-hint>`,
-    standalone: true,
     imports: [Select2Hint],
 })
 class TestHintHostComponent {}
@@ -21,7 +20,7 @@ describe('Select2Hint', () => {
         }).compileComponents();
 
         fixture = TestBed.createComponent(TestHintHostComponent);
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
 
         const hintEl = fixture.nativeElement.querySelector('select2-hint');
         expect(hintEl).toBeTruthy();
@@ -31,7 +30,6 @@ describe('Select2Hint', () => {
     it('should work with ng-select2-hint selector', async () => {
         @Component({
             template: `<ng-select2-hint>Alt hint</ng-select2-hint>`,
-            standalone: true,
             imports: [Select2Hint],
         })
         class AltHostComponent {}
@@ -41,7 +39,7 @@ describe('Select2Hint', () => {
         }).compileComponents();
 
         const altFixture = TestBed.createComponent(AltHostComponent);
-        altFixture.detectChanges();
+        altFixture.changeDetectorRef.detectChanges();
 
         const hintEl = altFixture.nativeElement.querySelector('ng-select2-hint');
         expect(hintEl).toBeTruthy();

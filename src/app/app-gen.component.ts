@@ -12,30 +12,29 @@ import { Json2html, Json2htmlAttr, Json2htmlRef } from '@ikilote/json2html';
 import { TranslocoModule } from '@jsverse/transloco';
 
 import * as Bowser from 'bowser';
+import { Select2HighlightPipe, Select2SelectionOverride, Select2Value } from 'ng-select2-component';
 import { Highlight } from 'ngx-highlightjs';
-import {
-    Select2HighlightPipe,
-    Select2SelectionOverride,
-    Select2Value,
-} from 'ng-select2-component';
 
 import { data24 } from './app.data';
 
+import { Select2GroupDirective } from '../../projects/ng-select2-component/src/lib/select2-group.directive';
 import { Select2Hint } from '../../projects/ng-select2-component/src/lib/select2-hint.component';
 import { Select2Label } from '../../projects/ng-select2-component/src/lib/select2-label.component';
+import { Select2OptionDirective } from '../../projects/ng-select2-component/src/lib/select2-option.directive';
 import { Select2 } from '../../projects/ng-select2-component/src/lib/select2.component';
 
 @Component({
     selector: 'app-gen',
     templateUrl: './app-gen.component.html',
     styleUrls: ['./app-gen.component.scss'],
-    standalone: true,
     imports: [
         FormsModule,
         ReactiveFormsModule,
         Select2,
         Select2Label,
         Select2Hint,
+        Select2OptionDirective,
+        Select2GroupDirective,
         Select2HighlightPipe,
         Highlight,
         TranslocoModule,
@@ -56,6 +55,7 @@ export class AppGenComponent implements AfterContentInit {
     constructor(private fb: UntypedFormBuilder) {
         this.ctrlForm = this.fb.group({
             // data
+            dataMode: new UntypedFormControl('json'),
             json: new UntypedFormControl(JSON.stringify(this.data, null, 2)),
             // tags
             label: new UntypedFormControl(),
@@ -92,6 +92,7 @@ export class AppGenComponent implements AfterContentInit {
             removeAllText: new UntypedFormControl(),
             selectAllText: new UntypedFormControl(),
             highlightText: new UntypedFormControl(),
+            showOptionCheckbox: new UntypedFormControl(),
             // template
             template: new UntypedFormControl(),
             templateSelection: new UntypedFormControl(),
@@ -207,13 +208,16 @@ export class AppGenComponent implements AfterContentInit {
 
         const json: Json2htmlRef = {
             tag: value.guideLineName ? 'ng-select2' : 'select2',
-            attrs: {
-                '[data]': 'data',
-            },
+            attrs: {},
             body: [],
         };
         const attrs: Json2htmlAttr = json.attrs!;
         const body = json.body as Json2htmlRef[];
+
+        // data mode
+        if (value.dataMode !== 'ng-option') {
+            attrs['[data]'] = 'data';
+        }
 
         // tags
 
@@ -345,6 +349,9 @@ export class AppGenComponent implements AfterContentInit {
             attrs['highlightText'] = this._testBoolean(value.highlightText);
             highlightPipe = ' | highlightText: searchText : !highlightText';
             highlightAttrs = { 'let-searchText': 'searchText', 'let-highlightText': 'highlightText' };
+        }
+        if (value.showOptionCheckbox) {
+            attrs['showOptionCheckbox'] = this._testBoolean(value.showOptionCheckbox);
         }
 
         // template
@@ -490,7 +497,78 @@ export class AppGenComponent implements AfterContentInit {
             attrs['(search)'] = '_search($event)';
         }
 
+        // ng-option / ng-group mode
+        if (value.dataMode === 'ng-option') {
+            body.push(
+                {
+                    tag: 'ng-group',
+                    attrs: { label: 'Red' },
+                    body: [
+                        { tag: 'ng-option', attrs: { value: 'hibiscus' }, body: 'Hibiscus / Hibiscus', inline: true },
+                        {
+                            tag: 'ng-option',
+                            attrs: { value: 'marigold' },
+                            body: "Marigold / Œillet d'Inde",
+                            inline: true,
+                        },
+                    ],
+                },
+                {
+                    tag: 'ng-group',
+                    attrs: { label: 'Yellow' },
+                    body: [
+                        {
+                            tag: 'ng-option',
+                            attrs: { value: 'sunflower' },
+                            body: 'Sunflower / tournesol',
+                            inline: true,
+                        },
+                        {
+                            tag: 'ng-option',
+                            attrs: { value: 'chrysanthemum' },
+                            body: 'Chrysanthemum / chrysanthème',
+                            inline: true,
+                        },
+                    ],
+                },
+                {
+                    tag: 'ng-group',
+                    attrs: { label: 'White' },
+                    body: [
+                        {
+                            tag: 'ng-option',
+                            attrs: { value: 'heliotrope' },
+                            body: 'Heliotrope / Héliotrope',
+                            inline: true,
+                        },
+                        {
+                            tag: 'ng-option',
+                            attrs: { value: 'lily' },
+                            body: 'Lily / Lys',
+                            inline: true,
+                        },
+                        {
+                            tag: 'ng-option',
+                            attrs: { value: 'lily' },
+                            body: 'Petunia / Pétunia',
+                            inline: true,
+                        },
+                        {
+                            tag: 'ng-option',
+                            attrs: { value: 'carnation' },
+                            body: 'Carnation / Œillet',
+                            inline: true,
+                        },
+                    ],
+                },
+            );
+        }
+
         this.html = new Json2html(json, { webComponentSelfClosing: true, attrPosition: 'prettier' }).toString();
+
+        if (value.highlightText && value.template && value.template !== 'none') {
+            this.html = `<!-- imports: [Select2HighlightPipe] -->\n` + this.html;
+        }
     }
 
     changeJson(value: string): void {

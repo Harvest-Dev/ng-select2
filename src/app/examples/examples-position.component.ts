@@ -15,7 +15,6 @@ import { data2, data19 } from '../app.data';
     selector: 'examples-position',
     templateUrl: './examples-position.component.html',
     styleUrls: ['./examples-position.component.scss'],
-    standalone: true,
     imports: [Select2, TranslocoModule, Highlight, JsonPipe],
 })
 export class ExemplesPositionComponent extends Examples {

@@ -21,11 +21,14 @@ import {
     TemplateRef,
     booleanAttribute,
     computed,
+    contentChildren,
+    effect,
     inject,
     input,
     numberAttribute,
     output,
     signal,
+    untracked,
     viewChild,
     viewChildren,
 } from '@angular/core';
@@ -34,6 +37,7 @@ import { ControlValueAccessor, FormGroupDirective, NgControl, NgForm } from '@an
 
 import { Subject, Subscription, debounceTime, fromEvent } from 'rxjs';
 
+import { Select2GroupDirective } from './select2-group.directive';
 import { Select2HighlightPipe } from './select2-highlight.pipe';
 import {
     Select2AutoCreateEvent,
@@ -49,6 +53,7 @@ import {
     Select2UpdateValue,
     Select2Value,
 } from './select2-interfaces';
+import { Select2OptionDirective } from './select2-option.directive';
 import { Select2Utils } from './select2-utils';
 
 let nextUniqueId = 0;
@@ -68,7 +73,6 @@ const CLOSE_KEYS: (string | KeyInfo)[] = ['Escape', 'Tab', { key: 'ArrowUp', alt
     selector: 'select2, ng-select2',
     templateUrl: './select2.component.html',
     styleUrls: ['./select2.component.scss'],
-    standalone: true,
     imports: [CdkOverlayOrigin, NgTemplateOutlet, CdkConnectedOverlay, CdkDropList, CdkDrag, Select2HighlightPipe],
     host: {
         '[id]': 'id()',
@@ -91,7 +95,7 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
     // ----------------------- signal-input
 
     /** data of options & option groups */
-    readonly data = input.required<Select2Data>();
+    readonly data = input<Select2Data>([]);
 
     /** minimum characters to start filter search */
     readonly minCharForSearch = input(0, { transform: numberAttribute });
@@ -274,6 +278,14 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
     readonly searchInput = viewChild<ElementRef<HTMLElement>>('searchInput');
     readonly dropdown = viewChild<ElementRef<HTMLElement>>('dropdown');
 
+    // ----------------------- content children (ng-option / ng-group template mode)
+
+    /** Top-level <ng-option> elements (not inside a <ng-group>) */
+    readonly _ngOptions = contentChildren(Select2OptionDirective);
+
+    /** <ng-group> elements */
+    readonly _ngGroups = contentChildren(Select2GroupDirective);
+
     // ----------------------- internal var
 
     readonly classMaterial = computed(() => this.styleMode() === 'material');
@@ -402,12 +414,66 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
                 this._disabled = disabled;
             }),
         );
+        // Rebuild _data whenever content children or any of their inputs change (template mode).
+        // effect() re-runs synchronously in Angular's reactive context whenever any signal it
+        // reads changes — including contentChildren signals and every input() of each directive.
+        // untracked() isolates the side-effect (updateFilteredData reads many other signals)
+        // so only _ngGroups/_ngOptions and the directive inputs are tracked dependencies.
+        effect(() => {
+            const grps = this._ngGroups();
+            const opts = this._ngOptions();
+            if (grps.length === 0 && opts.length === 0) {
+                return;
+            }
+
+            // Read directive input signals here (tracked zone) so the effect re-runs
+            // when any input changes. Guard against required inputs not yet initialized
+            // (NG0950) by wrapping in try/catch — the effect will re-run once bindings resolve.
+            let data: Select2Data;
+            try {
+                data = [
+                    ...grps.map(g => g.toGroup()),
+                    ...opts
+                        .filter(o => !grps.some(g => (g._ngOptions() as readonly Select2OptionDirective[]).includes(o)))
+                        .map(o => o.toOption()),
+                ];
+            } catch {
+                // Required inputs not yet available — skip this run, effect will re-trigger
+                return;
+            }
+
+            untracked(() => {
+                this._data = data;
+                this.updateFilteredData();
+                // If selectedOption was never initialized (ngOnInit ran before content children
+                // were available), resolve it now from the freshly populated _data.
+                if (this.selectedOption === null) {
+                    const controlValue = this._control ? this._control.value : this.value();
+                    const option = Select2Utils.getOptionsByValue(this._data, controlValue, this.multiple());
+                    if (option !== null) {
+                        this.selectedOption = option;
+                    }
+                    this.hoveringOption.set(Select2Utils.getOptionByValue(this._data, this.value));
+                }
+                // Use a microtask to schedule change detection after Angular completes
+                // its current initialization cycle. This avoids issues on direct page reload
+                // where detectChanges() during effect() can fail silently.
+                Promise.resolve().then(() => {
+                    if (!this._destroyed) {
+                        this._changeDetectorRef.markForCheck();
+                    }
+                });
+            });
+        });
     }
 
     ngOnChanges(changes: SimpleChanges): void {
         let updateFilterData;
         if (changes['data']) {
-            this._data = changes['data'].currentValue;
+            // Only use the bound data if no content children are present (template mode takes priority)
+            if (this._ngOptions().length === 0 && this._ngGroups().length === 0) {
+                this._data = changes['data'].currentValue;
+            }
             updateFilterData = true;
         }
         if (changes['value']) {
@@ -494,7 +560,7 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
             ) {
                 this.triggerRect();
                 this._overlayPosition.set(posChange.connectionPair.originY);
-                this._changeDetectorRef.detectChanges();
+                this._changeDetectorRef.markForCheck();
             }
         });
 
@@ -506,10 +572,11 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
     ngDoCheck() {
         this.updateSearchBox();
         this._dirtyCheckNativeValue();
+        this._refreshProjectedContent();
         if (this._triggerRect) {
             if (this.overlayWidth !== this._triggerRect.width) {
                 this.overlayWidth = this._triggerRect.width;
-                this._changeDetectorRef.detectChanges();
+                this._changeDetectorRef.markForCheck();
             }
             if (
                 this._dropdownRect &&
@@ -527,6 +594,28 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
         this.toObservable.unsubscribe();
     }
 
+    /**
+     * Template mode only: dirty-check the rendered text content of every projected <ng-option>
+     * (top-level and nested in <ng-group>) so interpolation changes ({{ }}) are picked up.
+     * Updating an option's _projectedContent signal re-triggers the data rebuild effect.
+     */
+    private _refreshProjectedContent(): void {
+        const groups = this._ngGroups();
+        const topOptions = this._ngOptions();
+        if (groups.length === 0 && topOptions.length === 0) {
+            return;
+        }
+        for (const opt of topOptions) {
+            opt._refreshProjectedContent();
+        }
+        for (const grp of groups) {
+            grp._refreshProjectedContent();
+            for (const opt of grp._ngOptions() as readonly Select2OptionDirective[]) {
+                opt._refreshProjectedContent();
+            }
+        }
+    }
+
     fixValue() {
         if (!Array.isArray(this.selectedOption) && this.multiple()) {
             const selectedOption = this.selectedOption;
@@ -534,7 +623,7 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
             setTimeout(() => {
                 if (!this._destroyed) {
                     this.select(selectedOption);
-                    this._changeDetectorRef.detectChanges();
+                    this._changeDetectorRef.markForCheck();
                 }
             });
         } else if (Array.isArray(this.selectedOption) && !this.multiple()) {
@@ -543,11 +632,11 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
             setTimeout(() => {
                 if (!this._destroyed) {
                     this.select(selectedOption);
-                    this._changeDetectorRef.detectChanges();
+                    this._changeDetectorRef.markForCheck();
                 }
             });
         } else {
-            this._changeDetectorRef.detectChanges();
+            this._changeDetectorRef.markForCheck();
         }
     }
 
@@ -632,7 +721,7 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
             } else {
                 this._scrollToInitialOption();
                 this._handleOnOpenAction(onOpenAction, event);
-                this._changeDetectorRef.detectChanges();
+                this._changeDetectorRef.markForCheck();
 
                 this.triggerRect();
                 this.cdkConnectedOverlay().overlayRef?.updatePosition();
@@ -835,7 +924,7 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
             });
             this.selectedOption = option;
         }
-        this._changeDetectorRef.detectChanges();
+        this._changeDetectorRef.markForCheck();
     }
 
     private clickExit() {
@@ -1074,7 +1163,6 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
                 data: this._data,
                 filteredData: (data: Select2Data) => {
                     this.filteredData.set(data);
-                    this._changeDetectorRef.markForCheck();
                 },
             });
         }

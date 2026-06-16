@@ -4,8 +4,8 @@ import { Component, computed } from '@angular/core';
 import { Json2html } from '@ikilote/json2html';
 import { TranslocoModule } from '@jsverse/transloco';
 
-import { Highlight } from 'ngx-highlightjs';
 import { Select2, Select2Data, Select2HighlightPipe } from 'ng-select2-component';
+import { Highlight } from 'ngx-highlightjs';
 
 import { Examples } from './examples';
 
@@ -15,7 +15,6 @@ import { data1, data23, data36, data37, data38, data39, data40 } from '../app.da
     selector: 'examples-highlight',
     templateUrl: './examples-highlight.component.html',
     styleUrls: ['./examples-highlight.component.scss'],
-    standalone: true,
     imports: [Select2, JsonPipe, TranslocoModule, Select2HighlightPipe, Highlight],
 })
 export class ExemplesHighlightComponent extends Examples {

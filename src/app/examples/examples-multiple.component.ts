@@ -5,8 +5,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Json2html } from '@ikilote/json2html';
 import { TranslocoModule } from '@jsverse/transloco';
 
-import { Highlight } from 'ngx-highlightjs';
 import { Select2, Select2Data } from 'ng-select2-component';
+import { Highlight } from 'ngx-highlightjs';
 
 import { Examples } from './examples';
 
@@ -16,7 +16,6 @@ import { data1 } from '../app.data';
     selector: 'examples-multiple',
     templateUrl: './examples-multiple.component.html',
     styleUrls: ['./examples-multiple.component.scss'],
-    standalone: true,
     imports: [FormsModule, ReactiveFormsModule, Select2, JsonPipe, TranslocoModule, Highlight],
 })
 export class ExemplesMultipleComponent extends Examples {

@@ -102,6 +102,10 @@ const routes: Routes = [
                 loadComponent: () => import('./examples-highlight.component').then(m => m.ExemplesHighlightComponent),
             },
             {
+                path: 'ng-options',
+                loadComponent: () => import('./examples-ng-options.component').then(m => m.ExemplesNgOptionsComponent),
+            },
+            {
                 path: 'others',
                 loadComponent: () => import('./examples-others.component').then(m => m.ExemplesOthersComponent),
             },
