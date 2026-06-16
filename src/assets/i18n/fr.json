@@ -154,8 +154,8 @@
   "Arabic": "Arabe",
   "Hebrew": "Hébreu",
 
-  "ng-option / ng-group": "ng-option / ng-group",
-  "ng-option / ng-group template mode": "Mode template ng-option / ng-group",
+  "Tags (ng-option / ng-group)": "Balise (ng-option / ng-group)",
+  "ng-option / ng-group tag mode": "Mode balise ng-option / ng-group",
   "Flat list of options": "Liste plate d'options",
   "Groups with ng-group": "Groupes avec ng-group",
   "With disabled options": "Avec des options désactivées",
@@ -169,8 +169,10 @@
   "Dynamic interpolated label": "Libellé interpolé dynamique",
   "Label of the first option:": "Libellé de la première option :",
   "Label from translation (transloco)": "Libellé issu d'une traduction (transloco)",
-  "Many options with @for and translated labels": "Nombreuses options avec @for et libellés traduits",
+  "Many options with @for and translated labels (transloco)": "Nombreuses options avec @for et libellés traduits (transloco)",
   "Switch the page language to see the option labels update live.": "Changez la langue de la page pour voir les libellés des options se mettre à jour en direct.",
+
+  "Fruits": "Fruits",
   "Apple": "Pomme",
   "Banana": "Banane",
   "Cherry": "Cerise",
@@ -191,6 +193,8 @@
   "Melon": "Melon",
   "Fig": "Figue",
   "Cranberry": "Canneberge",
+
+  "Vegetables": "Légumes",
   "Carrot": "Carotte",
   "Pea": "Petit pois",
   "Potato": "Pomme de terre",
@@ -211,7 +215,6 @@
   "Radish": "Radis",
   "Beetroot": "Betterave",
   "Asparagus": "Asperge",
-  "Fruits": "Fruits",
-  "Vegetables": "Légumes",
+
   "Data mode": "Mode de données"
 }

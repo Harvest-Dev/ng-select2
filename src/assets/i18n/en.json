@@ -154,8 +154,8 @@
   "Arabic": "Arabic",
   "Hebrew": "Hebrew",
 
-  "ng-option / ng-group": "ng-option / ng-group",
-  "ng-option / ng-group template mode": "ng-option / ng-group template mode",
+  "Tags (ng-option / ng-group)": "Tags (ng-option / ng-group)",
+  "ng-option / ng-group tag mode": "ng-option / ng-group tag mode",
   "Flat list of options": "Flat list of options",
   "Groups with ng-group": "Groups with ng-group",
   "With disabled options": "With disabled options",
@@ -169,8 +169,10 @@
   "Dynamic interpolated label": "Dynamic interpolated label",
   "Label of the first option:": "Label of the first option:",
   "Label from translation (transloco)": "Label from translation (transloco)",
-  "Many options with @for and translated labels": "Many options with @for and translated labels",
+  "Many options with @for and translated labels (transloco)": "Many options with @for and translated labels (transloco)",
   "Switch the page language to see the option labels update live.": "Switch the page language to see the option labels update live.",
+
+  "Fruits": "Fruits",
   "Apple": "Apple",
   "Banana": "Banana",
   "Cherry": "Cherry",
@@ -191,6 +193,8 @@
   "Melon": "Melon",
   "Fig": "Fig",
   "Cranberry": "Cranberry",
+
+  "Vegetables": "Vegetables",
   "Carrot": "Carrot",
   "Pea": "Pea",
   "Potato": "Potato",
@@ -211,7 +215,6 @@
   "Radish": "Radish",
   "Beetroot": "Beetroot",
   "Asparagus": "Asparagus",
-  "Fruits": "Fruits",
-  "Vegetables": "Vegetables",
+
   "Data mode": "Data mode"
 }
