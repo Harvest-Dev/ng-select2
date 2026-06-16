@@ -1,6 +1,6 @@
 # Changelog of ng-select2
 
-## V19.0.0 (2026-06-14)
+## V19.0.0 (2026-06-17)
 
 - **zoneless**: remove `zone.js` dependency, fully compatible with `provideZonelessChangeDetection()`
 - feat: add `<ng-option>` and `<ng-group>` template mode directives
