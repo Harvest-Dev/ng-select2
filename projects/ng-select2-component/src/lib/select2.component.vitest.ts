@@ -231,6 +231,19 @@ class NgOptionInitialValueHostComponent {
     onUpdate = vi.fn();
 }
 
+@Component({
+    template: `
+        <ng-select2 [value]="value" id="test-ng-missing-value">
+            <ng-option>Missing value</ng-option>
+        </ng-select2>
+    `,
+    changeDetection: ChangeDetectionStrategy.Eager,
+    imports: [Select2, Select2OptionDirective],
+})
+class NgOptionMissingRequiredInputHostComponent {
+    value: any = '';
+}
+
 // ── Helpers ────────────────────────────────────────────────────────────
 
 function getSelect2(fixture: ComponentFixture<any>): Select2 {
@@ -5857,6 +5870,25 @@ describe('Select2 - final branch coverage', () => {
                 expect(grpHost.onUpdate).toHaveBeenCalled();
                 const event = grpHost.onUpdate.mock.calls[0][0];
                 expect(event.value).toBe('apple');
+            });
+        });
+
+        describe('required input not yet initialized (NG0950 catch path)', () => {
+            it('should skip the effect run and not build _data when a required input throws', async () => {
+                TestBed.resetTestingModule();
+                await TestBed.configureTestingModule({
+                    imports: [NgOptionMissingRequiredInputHostComponent],
+                    providers: provideTestEnv(),
+                }).compileComponents();
+
+                const fixture = TestBed.createComponent(NgOptionMissingRequiredInputHostComponent);
+                fixture.changeDetectorRef.detectChanges();
+                await new Promise(r => setTimeout(r, 0));
+
+                // Reading the required `value` input of the <ng-option> throws NG0950, so the
+                // effect hits the catch block and returns early without populating _data.
+                const select2 = getSelect2(fixture);
+                expect((select2 as any)._data).toEqual([]);
             });
         });
     });
