@@ -1089,9 +1089,11 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
         } else if (this._testKey(event, ['PageDown'])) {
             this.moveDown(10);
             this.actionAfterKeyDownMoveAction(event);
-        } else if (this._testKey(event, ['Enter']) || (this.isSearchboxHidden && this._testKey(event, [' ']))) {
+        } else if (this._testKey(event, ['Enter'])) {
             this.selectByEnter(true);
             event.preventDefault();
+        } else if(this.isSearchboxHidden && this._testKey(event, [' '])) {
+           return;
         } else if (this._testKey(event, CLOSE_KEYS) && this.isOpen) {
             this.toggleOpenAndClose();
             this._focus(true);
