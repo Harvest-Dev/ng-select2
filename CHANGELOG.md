@@ -1,12 +1,23 @@
 # Changelog of ng-select2
 
+## V19.0.1 (2026-06-24)
+
+### Change
+
+- fix: when you hit spacebar on autocreate mode (thanks @shoboske)
+- fix: create only when input (trimmed) is not empty
+
 ## V19.0.0 (2026-06-17)
+
+### Change
 
 - **zoneless**: remove `zone.js` dependency, fully compatible with `provideZonelessChangeDetection()`
 - feat: add `<ng-option>` and `<ng-group>` template mode directives
 - feat: add checkbox mode with `showOptionCheckbox` input
 
 ## V18.0.0 (2026-06-12)
+
+### Change
 
 - update to **Angular 22**
     - use `inject()` and remove unnecessary params
@@ -17,10 +28,14 @@
 
 ## V17.3.2 (2026-05-24)
 
+### Change
+
 - feat: add Cyrillic, Greek Arabic and Hebrew for searches and highlight.
 - feat: add `direction` (`rtl` & `ltr`) for options & groups
 
 ## V17.3.1 (2026-05-21)
+
+### Change
 
 - feat: searches done in Japanese (e.g. はハばバぱパ are considered the same character)
 - feat: highlight ongoing searches done in Japaneseks
