@@ -275,7 +275,7 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
     readonly selection = viewChild.required<ElementRef<HTMLElement>>('selection');
     readonly resultContainer = viewChild<ElementRef<HTMLElement>>('results');
     readonly results = viewChildren<ElementRef>('result');
-    readonly searchInput = viewChild<ElementRef<HTMLElement>>('searchInput');
+    readonly searchInput = viewChild<ElementRef<HTMLInputElement>>('searchInput');
     readonly dropdown = viewChild<ElementRef<HTMLElement>>('dropdown');
 
     // ----------------------- content children (ng-option / ng-group template mode)
@@ -1069,7 +1069,8 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
     }
 
     keyDown(event: KeyboardEvent, create = false) {
-        if (create && this._testKey(event, ['Enter'])) {
+        // autoCreate, press Enter, and the input (trimmed) is not empty.
+        if (create && this._testKey(event, ['Enter']) && (event.target as HTMLInputElement).value?.trim()) {
             this.createAndAdd(event);
         } else if (this._testKey(event, [{ key: 'ArrowDown', altKey: false }])) {
             this.moveDown();
@@ -1092,8 +1093,8 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
         } else if (this._testKey(event, ['Enter'])) {
             this.selectByEnter(true);
             event.preventDefault();
-        } else if(this.isSearchboxHidden && this._testKey(event, [' '])) {
-           return;
+        } else if (this.isSearchboxHidden && this._testKey(event, [' '])) {
+            return;
         } else if (this._testKey(event, CLOSE_KEYS) && this.isOpen) {
             this.toggleOpenAndClose();
             this._focus(true);

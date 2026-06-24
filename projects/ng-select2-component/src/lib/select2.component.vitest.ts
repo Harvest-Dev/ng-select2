@@ -1305,6 +1305,19 @@ describe('Select2 Component', () => {
             expect(host.onAutoCreate).toHaveBeenCalled();
         });
 
+        it('should be not create item on Enter', async () => {
+            const createField = fixture.nativeElement.querySelector('.select2-create__field') as HTMLInputElement;
+            createField.value = '';
+            createField.click();
+            detectChanges(fixture);
+
+            dispatchKeydown(createField, 'Enter');
+            detectChanges(fixture);
+            await new Promise(r => setTimeout(r, 0));
+
+            expect(host.onAutoCreate).not.toHaveBeenCalled();
+        });
+
         it('should not create empty item', async () => {
             const createField = fixture.nativeElement.querySelector('.select2-create__field') as HTMLInputElement;
             createField.value = '   ';
@@ -2934,6 +2947,27 @@ describe('Select2 Component - deep coverage', () => {
                 dispatchKeydown(createField, 'Enter');
                 detectChanges(fixture);
             }
+        });
+
+        it('should not create item via openKey when value is empty', () => {
+            host.multiple = true;
+            host.autoCreate = true;
+            detectChanges(fixture);
+            select2 = getSelect2(fixture);
+
+            clickSelection(fixture);
+            detectChanges(fixture);
+
+            const searchInput = fixture.nativeElement.querySelector('.select2-search__field') as HTMLInputElement;
+            searchInput.value = '';
+
+            // Call openKey directly with create=true to reach createAndAdd with empty value
+            const event = new KeyboardEvent('keydown', { key: 'Enter', bubbles: true });
+            Object.defineProperty(event, 'target', { value: searchInput });
+            select2.openKey(event, true);
+            detectChanges(fixture);
+
+            expect(host.onAutoCreate).not.toHaveBeenCalled();
         });
     });
 
