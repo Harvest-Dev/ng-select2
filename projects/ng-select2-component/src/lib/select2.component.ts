@@ -1094,7 +1094,7 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
             this.selectByEnter(true);
             event.preventDefault();
         } else if (this.isSearchboxHidden && this._testKey(event, [' '])) {
-            return;
+            this.prevChange(event);
         } else if (this._testKey(event, CLOSE_KEYS) && this.isOpen) {
             this.toggleOpenAndClose();
             this._focus(true);
