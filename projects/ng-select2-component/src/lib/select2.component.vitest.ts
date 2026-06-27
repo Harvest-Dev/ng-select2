@@ -1331,6 +1331,19 @@ describe('Select2 Component', () => {
             expect(host.onAutoCreate).not.toHaveBeenCalled();
         });
 
+        it('should not shift focus when typing text that contains space with multiple keydown events in autocreate mode', () => {
+            const createField = fixture.nativeElement.querySelector('.select2-create__field') as HTMLInputElement;
+            createField.click();
+            detectChanges(fixture);
+
+            createField.focus();
+            for (const char of 'foo bar') {
+                dispatchKeydown(createField, char);
+                detectChanges(fixture);
+                expect(document.activeElement).toBe(createField);
+            }
+        });
+
         it('should show searchbox when autoCreate and not multiple', () => {
             host.multiple = false;
             host.autoCreate = true;
