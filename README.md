@@ -537,17 +537,16 @@ npm run build:demo
 ```sh
 # run tests
 npm run test
-npm run test:vitest
 ```
 
 ```sh
 # run tests with coverage
-npm run test:vitest:coverage
+npm run test:coverage
 ```
 
 ```sh
 # run tests with watch
-npm run test:vitest:watch
+npm run test:watch
 ```
 
 ## License

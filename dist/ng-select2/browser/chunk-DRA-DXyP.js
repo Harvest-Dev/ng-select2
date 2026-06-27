@@ -1,4 +1,4 @@
-import {d as d$1,r as rs,D as DI,s as sa,Q as Qr,a as re,X as Xr,b as Qi,N as Nw,P as Pu,O as Oh,G as Gw,H as HD,B as Bu,q as qw,R as Rh}from'./main-R42J757T.js';var H=(()=>{class r{constructor(){this.data=d$1,this.value="",this.ts=`import { Select2 } from 'ng-select2-component';
+import {d as d$1,r as rs,D as DI,s as sa,Q as Qr,a as re,X as Xr,b as Qi,N as Nw,P as Pu,O as Oh,G as Gw,H as HD,B as Bu,q as qw,R as Rh}from'./main-FH5WZDJ4.js';var H=(()=>{class r{constructor(){this.data=d$1,this.value="",this.ts=`import { Select2 } from 'ng-select2-component';
 
 @Component({
     selector: 'app-root',

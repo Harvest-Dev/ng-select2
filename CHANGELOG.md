@@ -1,5 +1,11 @@
 # Changelog of ng-select2
 
+## V19.0.2 (2026-06-27)
+
+### Change
+
+- fix: use `this.prevChange` to ensure that hitting space bar doesn't shift focus (thanks @shoboske)
+
 ## V19.0.1 (2026-06-24)
 
 ### Change
