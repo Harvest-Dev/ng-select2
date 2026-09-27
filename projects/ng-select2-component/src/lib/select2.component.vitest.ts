@@ -6342,6 +6342,143 @@ describe('Select2 - typeahead mode', () => {
         expect(document.activeElement).toBe(getTypeaheadInput());
     });
 
+    it('should not reopen the dropdown on focus alone after a selection', async () => {
+        const input = getTypeaheadInput();
+        input.value = 'Option 1';
+        dispatchKeyup(input, '1');
+        detectChanges(fixture);
+        const options = getOptions(fixture);
+        options[0].click();
+        detectChanges(fixture);
+        await new Promise(r => setTimeout(r, 0));
+        expect(select2.isOpen).toBe(false);
+
+        // Refocus the input: dropdown must stay closed
+        input.dispatchEvent(new FocusEvent('focus', { bubbles: true }));
+        detectChanges(fixture);
+        expect(select2.isOpen).toBe(false);
+    });
+
+    it('should not reopen the dropdown on a keyup that does not change the text', async () => {
+        const input = getTypeaheadInput();
+        input.value = 'Option 1';
+        dispatchKeyup(input, '1');
+        detectChanges(fixture);
+        getOptions(fixture)[0].click();
+        detectChanges(fixture);
+        await new Promise(r => setTimeout(r, 0));
+        expect(select2.isOpen).toBe(false);
+
+        // A keyup that leaves the value unchanged (e.g. a modifier) must not reopen
+        dispatchKeyup(input, 'Control');
+        detectChanges(fixture);
+        expect(select2.isOpen).toBe(false);
+    });
+
+    it('should reopen the dropdown on ArrowDown when it is closed', () => {
+        const input = getTypeaheadInput();
+        input.value = 'Option';
+        dispatchKeyup(input, 'n');
+        detectChanges(fixture);
+        // Close it
+        select2.toggleOpenAndClose(false, false);
+        detectChanges(fixture);
+        expect(select2.isOpen).toBe(false);
+
+        dispatchKeydown(input, 'ArrowDown');
+        detectChanges(fixture);
+        expect(select2.isOpen).toBe(true);
+    });
+
+    it('should not pre-highlight the first suggestion when the dropdown opens', () => {
+        const input = getTypeaheadInput();
+        input.value = 'Option';
+        dispatchKeyup(input, 'n');
+        detectChanges(fixture);
+        expect(select2.isOpen).toBe(true);
+        // No suggestion should be highlighted until the user navigates
+        expect(select2.hoveringOptionId()).toBeFalsy();
+    });
+
+    it('should fill the input with the highlighted suggestion label on Enter', async () => {
+        const input = getTypeaheadInput();
+        input.value = 'Option';
+        dispatchKeyup(input, 'n');
+        detectChanges(fixture);
+
+        // Navigate to the first suggestion, then press Enter
+        dispatchKeydown(input, 'ArrowDown');
+        detectChanges(fixture);
+        const results = fixture.nativeElement.querySelector('.select2-results__options') as HTMLElement;
+        dispatchKeydown(results, 'Enter');
+        detectChanges(fixture);
+        await new Promise(r => setTimeout(r, 0));
+
+        // The input text becomes the selected option's label
+        expect(select2.searchText).toBe('Option 1');
+        expect(select2.isOpen).toBe(false);
+        const lastCall = host.onUpdate.mock.calls.at(-1)![0];
+        expect(lastCall.value).toBe('Option 1');
+    });
+
+    it('should move focus from the input onto the results list on ArrowDown', () => {
+        const input = getTypeaheadInput();
+        input.value = 'Option';
+        dispatchKeyup(input, 'n');
+        detectChanges(fixture);
+        expect(select2.isOpen).toBe(true);
+
+        input.focus();
+        expect(document.activeElement).toBe(input);
+
+        dispatchKeydown(input, 'ArrowDown');
+        detectChanges(fixture);
+
+        // Focus should have left the input (moved to the results listbox)
+        const results = fixture.nativeElement.querySelector('.select2-results__options') as HTMLElement;
+        expect(document.activeElement).toBe(results);
+        // Dropdown stays open (focus stayed inside the component)
+        expect(select2.isOpen).toBe(true);
+    });
+
+    it('should return focus to the input on Escape and close the dropdown', async () => {
+        const input = getTypeaheadInput();
+        input.value = 'Option';
+        dispatchKeyup(input, 'n');
+        detectChanges(fixture);
+        expect(select2.isOpen).toBe(true);
+
+        // Navigate into the list first
+        dispatchKeydown(input, 'ArrowDown');
+        detectChanges(fixture);
+
+        const results = fixture.nativeElement.querySelector('.select2-results__options') as HTMLElement;
+        dispatchKeydown(results, 'Escape');
+        detectChanges(fixture);
+        expect(select2.isOpen).toBe(false);
+
+        // _focusTypeaheadInput uses a setTimeout
+        await new Promise(r => setTimeout(r, 0));
+        expect(document.activeElement).toBe(getTypeaheadInput());
+    });
+
+    it('should handle Escape when the dropdown is already closed', async () => {
+        const input = getTypeaheadInput();
+        input.value = 'Option';
+        dispatchKeyup(input, 'n');
+        detectChanges(fixture);
+        // Force-close the dropdown
+        select2.toggleOpenAndClose(false, false);
+        detectChanges(fixture);
+        expect(select2.isOpen).toBe(false);
+
+        dispatchKeydown(input, 'Escape');
+        detectChanges(fixture);
+        await new Promise(r => setTimeout(r, 0));
+        // Focus returns to the input, no crash
+        expect(document.activeElement).toBe(getTypeaheadInput());
+    });
+
     it('should validate the typed text on Enter (not the hovered suggestion)', () => {
         const input = getTypeaheadInput();
         input.value = 'custom text';
