@@ -6163,3 +6163,326 @@ describe('Select2 - additional branch coverage', () => {
         });
     });
 });
+
+// ── Typeahead mode ───────────────────────────────────────────────────────
+
+@Component({
+    template: `<select2
+        [data]="data"
+        [value]="value"
+        typeahead
+        [resettable]="resettable"
+        [customSearchEnabled]="customSearchEnabled"
+        [minCharForSearch]="minCharForSearch"
+        [placeholder]="placeholder"
+        (update)="onUpdate($event)"
+        (open)="onOpen($event)"
+        (close)="onClose($event)"
+        (search)="onSearch($event)"
+    ></select2>`,
+    changeDetection: ChangeDetectionStrategy.Eager,
+    imports: [Select2],
+})
+class TypeaheadHostComponent {
+    data: Select2Data = SIMPLE_DATA;
+    value: Select2UpdateValue = undefined;
+    resettable = false;
+    customSearchEnabled = false;
+    minCharForSearch = 0;
+    placeholder = '';
+
+    onUpdate = vi.fn();
+    onOpen = vi.fn();
+    onClose = vi.fn();
+    onSearch = vi.fn();
+}
+
+describe('Select2 - typeahead mode', () => {
+    let fixture: ComponentFixture<TypeaheadHostComponent>;
+    let host: TypeaheadHostComponent;
+    let select2: Select2;
+
+    function getTypeaheadInput(): HTMLInputElement {
+        return fixture.nativeElement.querySelector('.select2-typeahead__field') as HTMLInputElement;
+    }
+
+    beforeEach(async () => {
+        await TestBed.configureTestingModule({
+            imports: [TypeaheadHostComponent],
+            providers: provideTestEnv(),
+        }).compileComponents();
+
+        fixture = TestBed.createComponent(TypeaheadHostComponent);
+        host = fixture.componentInstance;
+        detectChanges(fixture);
+        select2 = getSelect2(fixture);
+    });
+
+    it('should render a text input instead of the selection span', () => {
+        const input = getTypeaheadInput();
+        expect(input).toBeTruthy();
+        expect(input.getAttribute('role')).toBe('combobox');
+    });
+
+    it('should hide the dropdown search box in typeahead mode', () => {
+        // updateSearchBox forces isSearchboxHidden = true
+        expect(select2['isSearchboxHidden']).toBe(true);
+    });
+
+    it('should display the bound value as the input text', () => {
+        host.value = 'Option 1';
+        detectChanges(fixture);
+        select2.writeValue('Option 1');
+        detectChanges(fixture);
+        expect(select2.searchText).toBe('Option 1');
+    });
+
+    it('should fall back to an empty string when writing an undefined value', () => {
+        select2.writeValue(undefined);
+        detectChanges(fixture);
+        expect(select2.searchText).toBe('');
+    });
+
+    it('should mark the component focused when the input receives focus', () => {
+        const input = getTypeaheadInput();
+        input.dispatchEvent(new FocusEvent('focus', { bubbles: true }));
+        detectChanges(fixture);
+        expect(select2.focused).toBe(true);
+    });
+
+    it('should open the dropdown and filter while typing', () => {
+        const input = getTypeaheadInput();
+        input.value = 'Option 1';
+        dispatchKeyup(input, '1');
+        detectChanges(fixture);
+        expect(select2.isOpen).toBe(true);
+        expect(select2.searchText).toBe('Option 1');
+    });
+
+    it('should close the dropdown when the input is cleared', () => {
+        const input = getTypeaheadInput();
+        input.value = 'Op';
+        dispatchKeyup(input, 'p');
+        detectChanges(fixture);
+        expect(select2.isOpen).toBe(true);
+
+        input.value = '';
+        dispatchKeyup(input, 'Backspace');
+        detectChanges(fixture);
+        expect(select2.isOpen).toBe(false);
+    });
+
+    it('should emit the option label (not the value) when a suggestion is clicked', async () => {
+        const input = getTypeaheadInput();
+        input.value = 'Option 1';
+        dispatchKeyup(input, '1');
+        detectChanges(fixture);
+
+        const options = getOptions(fixture);
+        expect(options.length).toBeGreaterThan(0);
+        options[0].click();
+        detectChanges(fixture);
+        await new Promise(r => setTimeout(r, 0));
+
+        expect(select2.searchText).toBe('Option 1');
+        expect(host.onUpdate).toHaveBeenCalled();
+        const lastCall = host.onUpdate.mock.calls.at(-1)![0];
+        expect(lastCall.value).toBe('Option 1');
+    });
+
+    it('should keep focus on the typeahead input after selecting an option', async () => {
+        const input = getTypeaheadInput();
+        input.value = 'Option 2';
+        dispatchKeyup(input, '2');
+        detectChanges(fixture);
+
+        const options = getOptions(fixture);
+        options[0].click();
+        detectChanges(fixture);
+        await new Promise(r => setTimeout(r, 0));
+        expect(select2.isOpen).toBe(false);
+    });
+
+    it('should not close the dropdown on mousedown of an option (preventBlur)', () => {
+        const input = getTypeaheadInput();
+        input.value = 'Option';
+        dispatchKeyup(input, 't');
+        detectChanges(fixture);
+        expect(select2.isOpen).toBe(true);
+
+        const event = new MouseEvent('mousedown', { bubbles: true, cancelable: true });
+        select2.preventBlur(event);
+        expect(event.defaultPrevented).toBe(true);
+        expect(select2['_mouseDownOnOption']).toBe(true);
+    });
+
+    it('should ignore focusout while a mousedown on an option is in progress', () => {
+        const input = getTypeaheadInput();
+        input.value = 'Option';
+        dispatchKeyup(input, 't');
+        detectChanges(fixture);
+        expect(select2.isOpen).toBe(true);
+
+        // Simulate mousedown on an option
+        const md = new MouseEvent('mousedown', { bubbles: true, cancelable: true });
+        select2.preventBlur(md);
+
+        // focusout must be ignored (dropdown stays open)
+        const fo = new FocusEvent('focusout', { bubbles: true });
+        select2.focusout(fo);
+        expect(select2.isOpen).toBe(true);
+    });
+
+    it('should focus the typeahead input and re-filter when opened via toggleOpenAndClose', async () => {
+        select2.toggleOpenAndClose(true, true);
+        detectChanges(fixture);
+        expect(select2.isOpen).toBe(true);
+        // let the _focusTypeaheadInput setTimeout run
+        await new Promise(r => setTimeout(r, 0));
+        expect(document.activeElement).toBe(getTypeaheadInput());
+    });
+
+    it('should validate the typed text on Enter (not the hovered suggestion)', () => {
+        const input = getTypeaheadInput();
+        input.value = 'custom text';
+        dispatchKeyup(input, 't');
+        detectChanges(fixture);
+
+        dispatchKeydown(input, 'Enter');
+        detectChanges(fixture);
+
+        expect(select2.isOpen).toBe(false);
+        expect(host.onUpdate).toHaveBeenCalled();
+        const lastCall = host.onUpdate.mock.calls.at(-1)![0];
+        expect(lastCall.value).toBe('custom text');
+    });
+
+    it('should not re-emit on focusout when the text has not changed and dropdown is closed', () => {
+        const input = getTypeaheadInput();
+        input.value = 'settled';
+        dispatchKeyup(input, 'd');
+        detectChanges(fixture);
+
+        // First focusout: emits and closes
+        select2.focusout(new FocusEvent('focusout', { bubbles: true, relatedTarget: null }));
+        detectChanges(fixture);
+        const callsAfterFirst = host.onUpdate.mock.calls.length;
+        expect(select2.isOpen).toBe(false);
+
+        // Second focusout: text unchanged, dropdown already closed → no new emit
+        select2.focusout(new FocusEvent('focusout', { bubbles: true, relatedTarget: null }));
+        detectChanges(fixture);
+        expect(host.onUpdate.mock.calls.length).toBe(callsAfterFirst);
+    });
+
+    it('should emit the raw typed text on focusout', () => {
+        const input = getTypeaheadInput();
+        input.value = 'free text';
+        dispatchKeyup(input, 't');
+        detectChanges(fixture);
+
+        const fo = new FocusEvent('focusout', { bubbles: true, relatedTarget: null });
+        select2.focusout(fo);
+        detectChanges(fixture);
+
+        expect(host.onUpdate).toHaveBeenCalled();
+        const lastCall = host.onUpdate.mock.calls.at(-1)![0];
+        expect(lastCall.value).toBe('free text');
+        expect(select2.isOpen).toBe(false);
+    });
+
+    it('should delegate filtering through the search event when customSearchEnabled', () => {
+        host.customSearchEnabled = true;
+        detectChanges(fixture);
+
+        const input = getTypeaheadInput();
+        input.value = 'Op';
+        dispatchKeyup(input, 'p');
+        detectChanges(fixture);
+
+        expect(host.onSearch).toHaveBeenCalled();
+        const searchEvent = host.onSearch.mock.calls.at(-1)![0];
+        expect(searchEvent.search).toBe('Op');
+    });
+
+    describe('reset', () => {
+        beforeEach(() => {
+            host.resettable = true;
+            detectChanges(fixture);
+        });
+
+        it('should clear the input, suggestions and close the dropdown on reset', () => {
+            const input = getTypeaheadInput();
+            input.value = 'Option 1';
+            dispatchKeyup(input, '1');
+            detectChanges(fixture);
+            expect(select2.isOpen).toBe(true);
+
+            select2.reset();
+            detectChanges(fixture);
+
+            expect(select2.searchText).toBe('');
+            expect(select2.isOpen).toBe(false);
+            expect(select2['_mouseDownOnOption']).toBe(false);
+        });
+
+        it('should reset cleanly when the dropdown is already closed', () => {
+            const input = getTypeaheadInput();
+            input.value = 'Option 1';
+            dispatchKeyup(input, '1');
+            detectChanges(fixture);
+            // Close the dropdown first
+            select2.toggleOpenAndClose(false, false);
+            detectChanges(fixture);
+            expect(select2.isOpen).toBe(false);
+
+            select2.reset();
+            detectChanges(fixture);
+            expect(select2.searchText).toBe('');
+            expect(select2.isOpen).toBe(false);
+        });
+    });
+
+    it('should not re-emit on Enter when the text has not changed', () => {
+        const input = getTypeaheadInput();
+        input.value = 'stable';
+        dispatchKeyup(input, 'e');
+        detectChanges(fixture);
+
+        dispatchKeydown(input, 'Enter');
+        detectChanges(fixture);
+        const callsAfterFirst = host.onUpdate.mock.calls.length;
+
+        // Second Enter with the same text: testDiffValue is false, no new emit
+        dispatchKeydown(input, 'Enter');
+        detectChanges(fixture);
+        expect(host.onUpdate.mock.calls.length).toBe(callsAfterFirst);
+    });
+
+    it('should validate the typed text on Enter even when the dropdown is closed', () => {
+        const input = getTypeaheadInput();
+        input.value = 'closed text';
+        // set the search text without opening (call searchUpdate then force-close)
+        dispatchKeyup(input, 't');
+        detectChanges(fixture);
+        select2.toggleOpenAndClose(false, false);
+        detectChanges(fixture);
+        expect(select2.isOpen).toBe(false);
+
+        dispatchKeydown(input, 'Enter');
+        detectChanges(fixture);
+        expect(host.onUpdate).toHaveBeenCalled();
+        const lastCall = host.onUpdate.mock.calls.at(-1)![0];
+        expect(lastCall.value).toBe('closed text');
+    });
+
+    it('should not focus the input when toggleOpenAndClose is called with focus=false', () => {
+        const input = getTypeaheadInput();
+        input.blur();
+        select2.toggleOpenAndClose(false, true);
+        detectChanges(fixture);
+        expect(select2.isOpen).toBe(true);
+        // focus=false: the input should not have grabbed focus
+        expect(document.activeElement).not.toBe(input);
+    });
+});

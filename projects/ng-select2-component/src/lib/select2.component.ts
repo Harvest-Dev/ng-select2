@@ -397,6 +397,15 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
         return this.disabledState ? -1 : this.tabIndex();
     }
 
+    /**
+     * Whether the component runs in typeahead mode. Typeahead is a single-mode
+     * feature; combining it with `multiple` is not supported, so the guard is
+     * centralized here rather than repeated at every call site.
+     */
+    protected get _isTypeahead(): boolean {
+        return this.typeahead() && !this.multiple();
+    }
+
     private _data: Select2Data = [];
 
     private _disabled = false;
@@ -437,7 +446,6 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
         // untracked() isolates the side-effect (updateFilteredData reads many other signals)
         // so only _ngGroups/_ngOptions and the directive inputs are tracked dependencies.
         effect(() => {
-            console.log('effect');
             const grps = this._ngGroups();
             const opts = this._ngOptions();
             if (grps.length === 0 && opts.length === 0) {
@@ -486,7 +494,6 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
     }
 
     ngOnChanges(changes: SimpleChanges): void {
-        console.log('ngOnChanges', changes);
         let updateFilterData;
         if (changes['data']) {
             // Only use the bound data if no content children are present (template mode takes priority)
@@ -515,7 +522,7 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
         // In typeahead mode: the input + option mousedown/click handlers manage open/close
         // and focus entirely. The global click detection would call _focus() a second time
         // (in addition to focusout), fighting with the native focus of the typeahead input.
-        if (this.typeahead() && !this.multiple()) {
+        if (this._isTypeahead) {
             return;
         }
         if (this.isOpen) {
@@ -595,25 +602,21 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
     }
 
     ngDoCheck() {
-        console.log('ngDoCheck');
-        if (!this.typeahead()) {
-            console.log('ngDoCheck 1');
-            this.updateSearchBox();
-            this._dirtyCheckNativeValue();
-            this._refreshProjectedContent();
-            if (this._triggerRect) {
-                if (this.overlayWidth !== this._triggerRect.width) {
-                    this.overlayWidth = this._triggerRect.width;
-                    this._changeDetectorRef.markForCheck();
-                }
-                if (
-                    this._dropdownRect &&
-                    this._dropdownRect.height > 0 &&
-                    this.overlayHeight !== this._dropdownRect.height
-                ) {
-                    this.overlayHeight = this.listPosition() === 'auto' ? this._dropdownRect.height : 0;
-                    this.fixValue();
-                }
+        this.updateSearchBox();
+        this._dirtyCheckNativeValue();
+        this._refreshProjectedContent();
+        if (this._triggerRect) {
+            if (this.overlayWidth !== this._triggerRect.width) {
+                this.overlayWidth = this._triggerRect.width;
+                this._changeDetectorRef.markForCheck();
+            }
+            if (
+                this._dropdownRect &&
+                this._dropdownRect.height > 0 &&
+                this.overlayHeight !== this._dropdownRect.height
+            ) {
+                this.overlayHeight = this.listPosition() === 'auto' ? this._dropdownRect.height : 0;
+                this.fixValue();
             }
         }
     }
@@ -670,7 +673,7 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
     }
 
     updateSearchBox() {
-        if (this.typeahead() && !this.multiple()) {
+        if (this._isTypeahead) {
             // In typeahead mode, the visible input IS the search box — hide the dropdown one
             this.isSearchboxHidden = true;
         } else if (this.autoCreate() && !this.multiple()) {
@@ -713,7 +716,7 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
     reset(event?: MouseEvent) {
         this._mouseDownOnOption = false;
         const resetSelectedValue = this.resetSelectedValue();
-        if (this.typeahead() && !this.multiple()) {
+        if (this._isTypeahead) {
             // In typeahead mode: clear the text input, reset the filtered suggestions,
             // close the dropdown and emit empty value.
             this.innerSearchText = '';
@@ -764,7 +767,7 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
         const changeEmit = this.isOpen !== (open ?? !this.isOpen);
         this.isOpen = open ?? !this.isOpen;
         if (this.isOpen) {
-            if (this.typeahead() && !this.multiple()) {
+            if (this._isTypeahead) {
                 // In typeahead mode: keep existing text, re-filter, focus the typeahead input
                 this.updateFilteredData();
                 this._focusTypeaheadInput(focus);
@@ -1052,14 +1055,11 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
     }
 
     focusin(options?: FocusOptions) {
+        // Note: in typeahead mode the template binds (focus) directly to
+        // _updateFocusState(true) on the input, so focusin() is only used by
+        // the non-typeahead selection element.
         if (!this.disabledState) {
-            if (this.typeahead() && !this.multiple()) {
-                // In typeahead mode: the input is already focused natively, do nothing.
-                // focused state is updated directly by the native focus/blur events via
-                // _updateFocusState calls in the template binding below.
-            } else {
-                this._focus(true, options);
-            }
+            this._focus(true, options);
         }
     }
 
@@ -1073,7 +1073,7 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
             this._focus(false);
             // In typeahead mode: emit the raw typed text on blur if it differs from current value,
             // and close the dropdown (focus left the component).
-            if (this.typeahead() && !this.multiple()) {
+            if (this._isTypeahead) {
                 const currentText = this.innerSearchText;
                 if (this.testDiffValue(this._value, currentText)) {
                     this._value = currentText;
@@ -1118,7 +1118,7 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
                 }
                 // In typeahead mode: the emitted value is the label text, and the visible
                 // input is updated to reflect the selected suggestion's label.
-                if (this.typeahead() && !this.multiple()) {
+                if (this._isTypeahead) {
                     value = option.label;
                     this.innerSearchText = option.label;
                 } else {
@@ -1135,7 +1135,7 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
             }
             this.selectedOption = null;
             // In typeahead mode: clear the visible input too
-            if (this.typeahead() && !this.multiple()) {
+            if (this._isTypeahead) {
                 this.innerSearchText = '';
             }
         }
@@ -1190,7 +1190,7 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
             this.moveDown(10);
             this.actionAfterKeyDownMoveAction(event);
         } else if (this._testKey(event, ['Enter'])) {
-            if (this.typeahead() && !this.multiple()) {
+            if (this._isTypeahead) {
                 // In typeahead mode: Enter validates the typed text, not the hovered suggestion.
                 this._validateTypeaheadText();
             } else {
@@ -1274,13 +1274,13 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
             });
         }
         // In typeahead mode: open the dropdown while typing (if not already open)
-        if (this.typeahead() && !this.multiple() && !this.isOpen && this.searchText.length > 0) {
+        if (this._isTypeahead && !this.isOpen && this.searchText.length > 0) {
             this.isOpen = true;
             this.triggerRect();
             this.cdkConnectedOverlay().overlayRef?.updatePosition();
             this.open.emit(this);
             this._changeDetectorRef.markForCheck();
-        } else if (this.typeahead() && !this.multiple() && this.isOpen && this.searchText.length === 0) {
+        } else if (this._isTypeahead && this.isOpen && this.searchText.length === 0) {
             // Close dropdown when input is cleared
             this.isOpen = false;
             this.close.emit(this);
@@ -1338,7 +1338,7 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
      */
     writeValue(value: any) {
         this.selectedOption = null;
-        if (this.typeahead() && !this.multiple()) {
+        if (this._isTypeahead) {
             // In typeahead mode: value is raw text — display it and filter suggestions
             this.innerSearchText = value ?? '';
             this.updateFilteredData();
@@ -1708,11 +1708,11 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
     }
 
     private _focus(state: boolean, options?: FocusOptions) {
-        console.error('_focus');
         if (state) {
             let eltToFocus: HTMLElement;
-            if (this.typeahead() && !this.multiple()) {
-                eltToFocus = this.typeaheadInput()?.nativeElement ?? this.selection().nativeElement;
+            if (this._isTypeahead) {
+                // In typeahead mode the input is always rendered, so it is safe to assert.
+                eltToFocus = this.typeaheadInput()!.nativeElement;
             } else if (!this.isSearchboxHidden && this.isOpen) {
                 eltToFocus = this.searchInput()!.nativeElement;
             } else {
