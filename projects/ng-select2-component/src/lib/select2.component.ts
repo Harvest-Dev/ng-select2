@@ -208,6 +208,14 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
     /** like native select keyboard navigation (only single mode) */
     readonly nativeKeyboard = input<boolean, unknown>(false, { transform: booleanAttribute });
 
+    /**
+     * Typeahead/search mode (single mode only).
+     * The visible selection area becomes a text input; the value bound via ngModel
+     * is the raw text typed by the user (or the label of a selected suggestion).
+     * The dropdown shows filtered suggestions while typing.
+     */
+    readonly typeahead = input<boolean, unknown>(false, { transform: booleanAttribute });
+
     /** highlight search text */
     readonly highlightText = input<boolean, unknown>(false, { transform: booleanAttribute });
 
@@ -276,6 +284,7 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
     readonly resultContainer = viewChild<ElementRef<HTMLElement>>('results');
     readonly results = viewChildren<ElementRef>('result');
     readonly searchInput = viewChild<ElementRef<HTMLInputElement>>('searchInput');
+    readonly typeaheadInput = viewChild<ElementRef<HTMLInputElement>>('typeaheadInput');
     readonly dropdown = viewChild<ElementRef<HTMLElement>>('dropdown');
 
     // ----------------------- content children (ng-option / ng-group template mode)
@@ -371,6 +380,9 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
     private innerSearchText = '';
     protected isSearchboxHidden: boolean | undefined;
 
+    /** Flag set during mousedown on a dropdown option to prevent focusout from closing the dropdown */
+    private _mouseDownOnOption = false;
+
     private selectionElement: HTMLElement | undefined;
 
     private get resultsElement(): HTMLElement | undefined {
@@ -410,6 +422,11 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
             }),
         );
         this.toObservable.add(
+            toObservable(this.typeahead).subscribe(() => {
+                this.updateSearchBox();
+            }),
+        );
+        this.toObservable.add(
             toObservable(this.disabled).subscribe(disabled => {
                 this._disabled = disabled;
             }),
@@ -420,6 +437,7 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
         // untracked() isolates the side-effect (updateFilteredData reads many other signals)
         // so only _ngGroups/_ngOptions and the directive inputs are tracked dependencies.
         effect(() => {
+            console.log('effect');
             const grps = this._ngGroups();
             const opts = this._ngOptions();
             if (grps.length === 0 && opts.length === 0) {
@@ -468,6 +486,7 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
     }
 
     ngOnChanges(changes: SimpleChanges): void {
+        console.log('ngOnChanges', changes);
         let updateFilterData;
         if (changes['data']) {
             // Only use the bound data if no content children are present (template mode takes priority)
@@ -493,6 +512,12 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
     }
 
     clickDetection(e: MouseEvent) {
+        // In typeahead mode: the input + option mousedown/click handlers manage open/close
+        // and focus entirely. The global click detection would call _focus() a second time
+        // (in addition to focusout), fighting with the native focus of the typeahead input.
+        if (this.typeahead() && !this.multiple()) {
+            return;
+        }
         if (this.isOpen) {
             const target = e.target as HTMLElement;
             if (!this.ifParentContainsClass(target, 'selection')) {
@@ -570,21 +595,25 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
     }
 
     ngDoCheck() {
-        this.updateSearchBox();
-        this._dirtyCheckNativeValue();
-        this._refreshProjectedContent();
-        if (this._triggerRect) {
-            if (this.overlayWidth !== this._triggerRect.width) {
-                this.overlayWidth = this._triggerRect.width;
-                this._changeDetectorRef.markForCheck();
-            }
-            if (
-                this._dropdownRect &&
-                this._dropdownRect.height > 0 &&
-                this.overlayHeight !== this._dropdownRect.height
-            ) {
-                this.overlayHeight = this.listPosition() === 'auto' ? this._dropdownRect.height : 0;
-                this.fixValue();
+        console.log('ngDoCheck');
+        if (!this.typeahead()) {
+            console.log('ngDoCheck 1');
+            this.updateSearchBox();
+            this._dirtyCheckNativeValue();
+            this._refreshProjectedContent();
+            if (this._triggerRect) {
+                if (this.overlayWidth !== this._triggerRect.width) {
+                    this.overlayWidth = this._triggerRect.width;
+                    this._changeDetectorRef.markForCheck();
+                }
+                if (
+                    this._dropdownRect &&
+                    this._dropdownRect.height > 0 &&
+                    this.overlayHeight !== this._dropdownRect.height
+                ) {
+                    this.overlayHeight = this.listPosition() === 'auto' ? this._dropdownRect.height : 0;
+                    this.fixValue();
+                }
             }
         }
     }
@@ -641,7 +670,10 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
     }
 
     updateSearchBox() {
-        if (this.autoCreate() && !this.multiple()) {
+        if (this.typeahead() && !this.multiple()) {
+            // In typeahead mode, the visible input IS the search box — hide the dropdown one
+            this.isSearchboxHidden = true;
+        } else if (this.autoCreate() && !this.multiple()) {
             this.isSearchboxHidden = false;
         } else {
             const hidden =
@@ -672,18 +704,32 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
     }
 
     click(option: Select2Option) {
+        this._mouseDownOnOption = false;
         if (this.testSelection(option)) {
             this.select(option);
         }
     }
 
     reset(event?: MouseEvent) {
+        this._mouseDownOnOption = false;
         const resetSelectedValue = this.resetSelectedValue();
-        this.select(
-            resetSelectedValue !== undefined
-                ? (Select2Utils.getOptionByValue(this._data, resetSelectedValue) ?? null)
-                : null,
-        );
+        if (this.typeahead() && !this.multiple()) {
+            // In typeahead mode: clear the text input, reset the filtered suggestions,
+            // close the dropdown and emit empty value.
+            this.innerSearchText = '';
+            this.select(null);
+            this.updateFilteredData();
+            if (this.isOpen) {
+                this.isOpen = false;
+                this.close.emit(this);
+            }
+        } else {
+            this.select(
+                resetSelectedValue !== undefined
+                    ? (Select2Utils.getOptionByValue(this._data, resetSelectedValue) ?? null)
+                    : null,
+            );
+        }
 
         if (event) {
             this.stopEvent(event);
@@ -693,6 +739,14 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
 
     prevChange(event: Event) {
         event.stopPropagation();
+    }
+
+    preventBlur(event: MouseEvent) {
+        // Prevent the dropdown from stealing focus from the typeahead input,
+        // which would trigger focusout and close the dropdown before the click
+        // on an option is processed.
+        event.preventDefault();
+        this._mouseDownOnOption = true;
     }
 
     stopEvent(event: Event) {
@@ -710,7 +764,11 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
         const changeEmit = this.isOpen !== (open ?? !this.isOpen);
         this.isOpen = open ?? !this.isOpen;
         if (this.isOpen) {
-            if (!this.isSearchboxHidden) {
+            if (this.typeahead() && !this.multiple()) {
+                // In typeahead mode: keep existing text, re-filter, focus the typeahead input
+                this.updateFilteredData();
+                this._focusTypeaheadInput(focus);
+            } else if (!this.isSearchboxHidden) {
                 this.innerSearchText = '';
                 this.updateFilteredData();
                 this._focusSearchbox(focus);
@@ -995,13 +1053,39 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
 
     focusin(options?: FocusOptions) {
         if (!this.disabledState) {
-            this._focus(true, options);
+            if (this.typeahead() && !this.multiple()) {
+                // In typeahead mode: the input is already focused natively, do nothing.
+                // focused state is updated directly by the native focus/blur events via
+                // _updateFocusState calls in the template binding below.
+            } else {
+                this._focus(true, options);
+            }
         }
     }
 
     focusout(event: FocusEvent) {
+        // In typeahead mode: ignore focusout if it was triggered by a mousedown on an option
+        // (the click hasn't fired yet — we must not close the dropdown prematurely).
+        if (this._mouseDownOnOption) {
+            return;
+        }
         if (!event.relatedTarget || !this.isInSelect(event.relatedTarget as Element)) {
             this._focus(false);
+            // In typeahead mode: emit the raw typed text on blur if it differs from current value,
+            // and close the dropdown (focus left the component).
+            if (this.typeahead() && !this.multiple()) {
+                const currentText = this.innerSearchText;
+                if (this.testDiffValue(this._value, currentText)) {
+                    this._value = currentText;
+                    this._onChange(currentText);
+                    this.updateEvent(currentText);
+                }
+                if (this.isOpen) {
+                    this.isOpen = false;
+                    this.close.emit(this);
+                    this._changeDetectorRef.markForCheck();
+                }
+            }
             this._onTouched();
         }
     }
@@ -1026,9 +1110,20 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
                 if (closeOnSelect && this.isOpen) {
                     this.isOpen = false;
                     this.close.emit(this);
-                    this.selectionElement?.focus();
+                    if (!this.typeahead()) {
+                        this.selectionElement?.focus();
+                    }
+                    // In typeahead mode: focus stays on the typeahead input naturally
+                    // (mousedown preventDefault kept focus there during click on option)
                 }
-                value = this.selectedOption.value;
+                // In typeahead mode: the emitted value is the label text, and the visible
+                // input is updated to reflect the selected suggestion's label.
+                if (this.typeahead() && !this.multiple()) {
+                    value = option.label;
+                    this.innerSearchText = option.label;
+                } else {
+                    value = option.value;
+                }
             }
         } else {
             // when remove value
@@ -1039,6 +1134,10 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
                 value = '';
             }
             this.selectedOption = null;
+            // In typeahead mode: clear the visible input too
+            if (this.typeahead() && !this.multiple()) {
+                this.innerSearchText = '';
+            }
         }
 
         if (this.multiple() && this.hideSelectedItems()) {
@@ -1091,7 +1190,12 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
             this.moveDown(10);
             this.actionAfterKeyDownMoveAction(event);
         } else if (this._testKey(event, ['Enter'])) {
-            this.selectByEnter(true);
+            if (this.typeahead() && !this.multiple()) {
+                // In typeahead mode: Enter validates the typed text, not the hovered suggestion.
+                this._validateTypeaheadText();
+            } else {
+                this.selectByEnter(true);
+            }
             event.preventDefault();
         } else if (this.isSearchboxHidden && this._testKey(event, [' '])) {
             this.prevChange(event);
@@ -1169,6 +1273,19 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
                 },
             });
         }
+        // In typeahead mode: open the dropdown while typing (if not already open)
+        if (this.typeahead() && !this.multiple() && !this.isOpen && this.searchText.length > 0) {
+            this.isOpen = true;
+            this.triggerRect();
+            this.cdkConnectedOverlay().overlayRef?.updatePosition();
+            this.open.emit(this);
+            this._changeDetectorRef.markForCheck();
+        } else if (this.typeahead() && !this.multiple() && this.isOpen && this.searchText.length === 0) {
+            // Close dropdown when input is cleared
+            this.isOpen = false;
+            this.close.emit(this);
+            this._changeDetectorRef.markForCheck();
+        }
     }
 
     isSelected(option: Select2Option) {
@@ -1221,9 +1338,18 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
      */
     writeValue(value: any) {
         this.selectedOption = null;
-        this._setSelectionByValue(this.multiple() ? (value ?? []) : value);
-        if (this.testValueChange(this._value, value)) {
-            this._value = value;
+        if (this.typeahead() && !this.multiple()) {
+            // In typeahead mode: value is raw text — display it and filter suggestions
+            this.innerSearchText = value ?? '';
+            this.updateFilteredData();
+            if (this.testValueChange(this._value, value)) {
+                this._value = value;
+            }
+        } else {
+            this._setSelectionByValue(this.multiple() ? (value ?? []) : value);
+            if (this.testValueChange(this._value, value)) {
+                this._value = value;
+            }
         }
     }
 
@@ -1474,6 +1600,24 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
         }
     }
 
+    /**
+     * Typeahead mode: validate the raw typed text as the value (not a hovered
+     * suggestion), emit it, and close the dropdown.
+     */
+    private _validateTypeaheadText() {
+        const currentText = this.innerSearchText;
+        if (this.testDiffValue(this._value, currentText)) {
+            this._value = currentText;
+            this._onChange(currentText);
+            this.updateEvent(currentText);
+        }
+        if (this.isOpen) {
+            this.isOpen = false;
+            this.close.emit(this);
+            this._changeDetectorRef.markForCheck();
+        }
+    }
+
     private _testKey(event: KeyboardEvent, refs: (string | KeyInfo)[] = []): boolean {
         const { key, altKey } = event;
         return refs.some(ref => {
@@ -1552,21 +1696,43 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
         }
     }
 
+    private _focusTypeaheadInput(focus = true) {
+        if (focus) {
+            setTimeout(() => {
+                const typeaheadInput = this.typeaheadInput();
+                if (typeaheadInput && typeaheadInput.nativeElement) {
+                    typeaheadInput.nativeElement.focus();
+                }
+            });
+        }
+    }
+
     private _focus(state: boolean, options?: FocusOptions) {
+        console.error('_focus');
         if (state) {
-            const eltToFocus =
-                !this.isSearchboxHidden && this.isOpen
-                    ? this.searchInput()!.nativeElement
-                    : this.selection().nativeElement;
+            let eltToFocus: HTMLElement;
+            if (this.typeahead() && !this.multiple()) {
+                eltToFocus = this.typeaheadInput()?.nativeElement ?? this.selection().nativeElement;
+            } else if (!this.isSearchboxHidden && this.isOpen) {
+                eltToFocus = this.searchInput()!.nativeElement;
+            } else {
+                eltToFocus = this.selection().nativeElement;
+            }
             if (document.activeElement !== eltToFocus) {
                 eltToFocus.focus(options);
             }
         } else {
             const selectionRef = this.selection();
             const searchRef = this.searchInput();
+            const typeaheadRef = this.typeaheadInput();
             const selectionEl = selectionRef ? selectionRef.nativeElement : null;
             const searchEl = searchRef ? searchRef.nativeElement : null;
-            if (document.activeElement === selectionEl || document.activeElement === searchEl) {
+            const typeaheadEl = typeaheadRef ? typeaheadRef.nativeElement : null;
+            if (
+                document.activeElement === selectionEl ||
+                document.activeElement === searchEl ||
+                document.activeElement === typeaheadEl
+            ) {
                 (document.activeElement as HTMLElement).blur();
             }
         }

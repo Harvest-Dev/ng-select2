@@ -102,6 +102,10 @@ const routes: Routes = [
                 loadComponent: () => import('./examples-highlight.component').then(m => m.ExemplesHighlightComponent),
             },
             {
+                path: 'typeahead',
+                loadComponent: () => import('./examples-typeahead.component').then(m => m.ExemplesTypeaheadComponent),
+            },
+            {
                 path: 'ng-options',
                 loadComponent: () => import('./examples-ng-options.component').then(m => m.ExemplesNgOptionsComponent),
             },

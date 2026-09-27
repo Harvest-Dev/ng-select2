@@ -154,6 +154,17 @@
   "Arabic": "Arabe",
   "Hebrew": "Hébreu",
 
+  "Typeahead": "Saisie semi-automatique",
+  "typeahead-intro": "Avec l'attribut <code>typeahead</code>, la zone de sélection devient un champ de saisie. La valeur liée est le texte brut saisi par l'utilisateur, ou le libellé d'une suggestion choisie.",
+  "Free-text search in a list": "Recherche libre dans une liste",
+  "Search a state…": "Rechercher un État…",
+  "Server-side search (custom search)": "Recherche côté serveur (recherche personnalisée)",
+  "Component code (TypeScript)": "Code du composant (TypeScript)",
+  "typeahead-server-desc": "Avec <code>customSearchEnabled</code>, le filtrage est délégué à votre code via l'événement <code>search</code>. C'est le cas d'usage le plus représentatif : interroger un backend au fur et à mesure de la saisie et renvoyer les résultats.",
+  "Type at least 2 characters…": "Saisissez au moins 2 caractères…",
+  "Typeahead with reset": "Saisie semi-automatique avec réinitialisation",
+  "typeahead-reset-desc": "Combinez <code>typeahead</code> avec <code>resettable</code> pour vider le champ et les suggestions avec le bouton ×.",
+
   "Tags (ng-option / ng-group)": "Balise (ng-option / ng-group)",
   "ng-option / ng-group tag mode": "Mode balise ng-option / ng-group",
   "Flat list of options": "Liste plate d'options",

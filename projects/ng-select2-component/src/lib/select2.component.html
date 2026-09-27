@@ -20,22 +20,22 @@
     class="selection"
     #selection
     #trigger="cdkOverlayOrigin"
-    [tabindex]="!this.isOpen ? _tabIndex : '-1'"
-    [attr.aria-labelledby]="ariaLabelledby() ?? idLabel()"
-    [attr.aria-expanded]="isOpen"
-    aria-haspopup="listbox"
-    [attr.aria-controls]="idOptions()"
-    [attr.aria-activedescendant]="isOpen ? hoveringOptionId() : null"
-    [attr.aria-describedby]="ariaDescribedby()"
-    [attr.title]="title()"
-    [attr.aria-invalid]="_isErrorState() || ariaInvalid() ? 'true' : null"
-    [attr.aria-required]="required() ? 'true' : null"
-    [attr.aria-readonly]="readonly() ? 'true' : null"
-    [attr.aria-disabled]="disabled() ? 'true' : null"
-    (click)="toggleOpenAndClose()"
-    (focus)="focusin()"
-    (focusout)="focusout($event)"
-    (keydown)="openKey($event)"
+    [tabindex]="typeahead() ? '-1' : !this.isOpen ? _tabIndex : '-1'"
+    [attr.aria-labelledby]="!typeahead() ? (ariaLabelledby() ?? idLabel()) : null"
+    [attr.aria-expanded]="!typeahead() ? isOpen : null"
+    [attr.aria-haspopup]="!typeahead() ? 'listbox' : null"
+    [attr.aria-controls]="!typeahead() ? idOptions() : null"
+    [attr.aria-activedescendant]="!typeahead() && isOpen ? hoveringOptionId() : null"
+    [attr.aria-describedby]="!typeahead() ? ariaDescribedby() : null"
+    [attr.title]="!typeahead() ? title() : null"
+    [attr.aria-invalid]="!typeahead() && (_isErrorState() || ariaInvalid()) ? 'true' : null"
+    [attr.aria-required]="!typeahead() && required() ? 'true' : null"
+    [attr.aria-readonly]="!typeahead() && readonly() ? 'true' : null"
+    [attr.aria-disabled]="!typeahead() && disabled() ? 'true' : null"
+    (click)="typeahead() ? null : toggleOpenAndClose()"
+    (focus)="typeahead() ? null : focusin()"
+    (focusout)="typeahead() ? null : focusout($event)"
+    (keydown)="typeahead() ? null : openKey($event)"
     cdkOverlayOrigin
     [class.select2-focused]="focused"
   >
@@ -56,33 +56,70 @@
           <ng-container *ngTemplateOutlet="resetButton" />
         }
       } @else if (!multiple()) {
-        <span
-          class="select2-selection__rendered"
-          [title]="select2Option?.label || ''"
-          [attr.aria-live]="nativeKeyboard() && !isOpen ? 'polite' : null"
-          [dir]="select2Option?.dir"
-        >
-          @if (!select2Option) {
-            <span>&nbsp;</span>
+        @if (typeahead()) {
+          <!-- Typeahead mode: visible text input replaces the selection span -->
+          <input
+            #typeaheadInput
+            [id]="id() + '-typeahead-field'"
+            [value]="searchText"
+            [placeholder]="placeholder() ?? ''"
+            [attr.disabled]="disabled() ? true : null"
+            [attr.readonly]="readonly() ? true : null"
+            [attr.tabindex]="_tabIndex"
+            [attr.aria-labelledby]="ariaLabelledby() ?? idLabel()"
+            [attr.aria-describedby]="ariaDescribedby()"
+            [attr.aria-expanded]="isOpen"
+            [attr.aria-controls]="idOptions()"
+            [attr.aria-activedescendant]="isOpen ? hoveringOptionId() : null"
+            [attr.aria-invalid]="_isErrorState() || ariaInvalid() ? 'true' : null"
+            [attr.aria-required]="required() ? 'true' : null"
+            aria-autocomplete="list"
+            aria-haspopup="listbox"
+            role="combobox"
+            class="select2-typeahead__field"
+            type="search"
+            autocomplete="off"
+            autocorrect="off"
+            autocapitalize="off"
+            spellcheck="false"
+            (focus)="_updateFocusState(true); $event.stopPropagation()"
+            (focusout)="focusout($event); $event.stopPropagation()"
+            (keydown)="keyDown($event)"
+            (keyup)="searchUpdate($event)"
+            (change)="prevChange($event)"
+          />
+          @if (resettable() && searchText && !(disabled() || readonly())) {
+            <ng-container *ngTemplateOutlet="resetButton" />
           }
-          @if (select2Option) {
-            @if (!hasTemplate(select2Option, 'option', true) || noLabelTemplate()) {
-              <span [innerHTML]="select2Option.label"></span>
-            } @else {
-              <ng-container *ngTemplateOutlet="getTemplate(select2Option, 'option', true); context: select2Option" />
-            }
-          }
+        } @else {
           <span
-            [class.select2-selection__placeholder__option]="selectedOption"
-            class="select2-selection__placeholder"
-            >{{ placeholder() }}</span
+            class="select2-selection__rendered"
+            [title]="select2Option?.label || ''"
+            [attr.aria-live]="nativeKeyboard() && !isOpen ? 'polite' : null"
+            [dir]="select2Option?.dir"
           >
-        </span>
+            @if (!select2Option) {
+              <span>&nbsp;</span>
+            }
+            @if (select2Option) {
+              @if (!hasTemplate(select2Option, 'option', true) || noLabelTemplate()) {
+                <span [innerHTML]="select2Option.label"></span>
+              } @else {
+                <ng-container *ngTemplateOutlet="getTemplate(select2Option, 'option', true); context: select2Option" />
+              }
+            }
+            <span
+              [class.select2-selection__placeholder__option]="selectedOption"
+              class="select2-selection__placeholder"
+              >{{ placeholder() }}</span
+            >
+          </span>
 
-        @if (resettable() && resetSelectedValue() !== _value && select2Option && !(disabled() || readonly())) {
-          <ng-container *ngTemplateOutlet="resetButton" />
+          @if (resettable() && resetSelectedValue() !== _value && select2Option && !(disabled() || readonly())) {
+            <ng-container *ngTemplateOutlet="resetButton" />
+          }
+          <span class="select2-selection__arrow" role="presentation"> </span>
         }
-        <span class="select2-selection__arrow" role="presentation"> </span>
       } @else {
         <ul
           class="select2-selection__rendered"
@@ -264,6 +301,7 @@
                       [attr.aria-disabled]="isDisabled(option)"
                       [dir]="option.dir"
                       (mouseenter)="mouseenter(option)"
+                      (mousedown)="preventBlur($event)"
                       (click)="click(option)"
                     >
                       @if (showOptionCheckbox()) {
@@ -299,6 +337,7 @@
                 [attr.aria-disabled]="isDisabled(option)"
                 [dir]="option.dir"
                 (mouseenter)="mouseenter(option)"
+                (mousedown)="preventBlur($event)"
                 (click)="click(option)"
               >
                 @if (showOptionCheckbox()) {
@@ -339,6 +378,7 @@
   <button
     type="button"
     (focus)="_updateFocusState(true)"
+    (mousedown)="typeahead() ? preventBlur($event) : null"
     (click)="reset($event)"
     (keydown)="$event.stopPropagation()"
     class="select2-selection__reset"
