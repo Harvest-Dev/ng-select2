@@ -41,8 +41,10 @@ export class ExemplesInfiniteScrollComponent extends Examples {
         ).toString(),
     );
 
-    exemple26ts = `scroll(event: Select2ScrollEvent) {
-     if (event.way === 'down' && !event.search) {
+    exemple26ts = `// Called when the dropdown is scrolled near the bottom/top.
+// Append more items when scrolling down (and not while searching).
+scroll(event: Select2ScrollEvent) {
+    if (event.way === 'down' && !event.search) {
         const l = this.data.length;
         for (let i = 1 + l; i <= 50 + l; i++) {
             this.data.push({ value: i, label: '>' + i });

@@ -34,6 +34,17 @@ export class ExemplesSelectionNowrapComponent extends Examples {
         }) `;
     };
 
+    /** TS snippet shown alongside the function-override example */
+    exemple36mfTs = `// selectionOverride can be a function that builds the label
+// shown in the selection area from the current selection.
+selectionOverride: Select2SelectionOverride = params => {
+    return \`Selection (\${params.size}\${
+        (params.options?.length || 0) > 0
+            ? ': ' + params.options!.map(e => e.label).join(', ')
+            : ''
+    }) \`;
+};`;
+
     exemple10 = computed(() =>
         new Json2html(
             {

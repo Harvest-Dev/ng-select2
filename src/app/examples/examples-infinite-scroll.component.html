@@ -2,6 +2,8 @@
 
 <div class="container">
   <div class="row">
+    <p class="col-12 description" [innerHTML]="'infinite-scroll-desc' | transloco"></p>
+
     <div class="container">
       <div class="row">
         <div class="col-6">
@@ -30,8 +32,9 @@
           <div class="code">
             <code><pre [highlight]="exemple26()" language="html"></pre></code>
           </div>
+          <p class="code-label">{{ 'Component code (TypeScript)' | transloco }}</p>
           <div class="code">
-            <code><pre [highlight]="exemple26ts" language="ts"></pre></code>
+            <code><pre [highlight]="exemple26ts" language="typescript"></pre></code>
           </div>
         </div>
       </div>
