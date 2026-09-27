@@ -40,4 +40,21 @@ nav {
     code {
         direction: ltr;
     }
+    .code-label {
+        margin: 8px 0 4px;
+        font-weight: bold;
+    }
+}
+
+.description {
+    margin: 0 0 12px;
+    color: #555;
+
+    code,
+    kbd {
+        border-radius: 3px;
+        background-color: #eee;
+        padding: 1px 4px;
+        font-size: 0.9em;
+    }
 }
