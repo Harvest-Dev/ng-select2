@@ -196,6 +196,12 @@
           <input type="text" formControlName="removeAllText" id="removeAllText" />
         </div>
       }
+
+      <h5>{{ 'Search' | transloco }}</h5>
+      <div>
+        <label for="typeahead">typeahead</label>
+        <input type="checkbox" formControlName="typeahead" id="typeahead" />
+      </div>
     }
 
     <h5>{{ 'Templates' | transloco }}</h5>
@@ -310,6 +316,7 @@
             [removeAllText]="value?.removeAllText || 'Remove all'"
             [selectAllText]="value?.selectAllText || 'Select all'"
             [nativeKeyboard]="value?.nativeKeyboard"
+            [typeahead]="value?.typeahead"
             [templates]="
               ctrlForm.value?.dataMode !== 'ng-option'
                 ? $any(
@@ -432,6 +439,7 @@
             [removeAllText]="value?.removeAllText || 'Remove all'"
             [selectAllText]="value?.selectAllText || 'Select all'"
             [nativeKeyboard]="value?.nativeKeyboard"
+            [typeahead]="value?.typeahead"
             [templates]="
               ctrlForm.value?.dataMode !== 'ng-option'
                 ? $any(

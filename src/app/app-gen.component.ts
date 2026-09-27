@@ -93,6 +93,7 @@ export class AppGenComponent implements AfterContentInit {
             selectAllText: new UntypedFormControl(),
             highlightText: new UntypedFormControl(),
             showOptionCheckbox: new UntypedFormControl(),
+            typeahead: new UntypedFormControl(),
             // template
             template: new UntypedFormControl(),
             templateSelection: new UntypedFormControl(),
@@ -284,6 +285,9 @@ export class AppGenComponent implements AfterContentInit {
             }
             if (value.nativeKeyboard) {
                 attrs['nativeKeyboard'] = this._testBoolean(value.nativeKeyboard);
+            }
+            if (value.typeahead) {
+                attrs['typeahead'] = this._testBoolean(value.typeahead);
             }
         }
         if (value.resettable) {
