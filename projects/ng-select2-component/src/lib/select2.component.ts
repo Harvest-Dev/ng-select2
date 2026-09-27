@@ -947,7 +947,9 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
         }
 
         if (Select2Utils.optionIsNotInFilteredData(result, this.hoveringOption())) {
-            this.hoveringOption.set(Select2Utils.getFirstAvailableOption(result));
+            // In typeahead mode: do not pre-highlight the first suggestion. The user
+            // navigates into the list explicitly with the arrow keys.
+            this.hoveringOption.set(this._isTypeahead ? null : Select2Utils.getFirstAvailableOption(result));
         }
 
         this.filteredData.set(result);
@@ -1171,6 +1173,15 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
         // autoCreate, press Enter, and the input (trimmed) is not empty.
         if (create && this._testKey(event, ['Enter']) && (event.target as HTMLInputElement).value?.trim()) {
             this.createAndAdd(event);
+        } else if (this._isTypeahead && !this.isOpen && this._testKey(event, [{ key: 'ArrowDown', altKey: false }])) {
+            // In typeahead mode: ArrowDown reopens the dropdown when it is closed.
+            this.isOpen = true;
+            this.updateFilteredData();
+            this.triggerRect();
+            this.cdkConnectedOverlay().overlayRef?.updatePosition();
+            this.open.emit(this);
+            this._changeDetectorRef.markForCheck();
+            event.preventDefault();
         } else if (this._testKey(event, [{ key: 'ArrowDown', altKey: false }])) {
             this.moveDown();
             this.actionAfterKeyDownMoveAction(event);
@@ -1199,6 +1210,15 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
             event.preventDefault();
         } else if (this.isSearchboxHidden && this._testKey(event, [' '])) {
             this.prevChange(event);
+        } else if (this._isTypeahead && this._testKey(event, ['Escape'])) {
+            // In typeahead mode: Escape returns focus to the input (and closes if open).
+            if (this.isOpen) {
+                this.isOpen = false;
+                this.close.emit(this);
+            }
+            this._focusTypeaheadInput(true);
+            this._changeDetectorRef.markForCheck();
+            event.preventDefault();
         } else if (this._testKey(event, CLOSE_KEYS) && this.isOpen) {
             this.toggleOpenAndClose();
             this._focus(true);
@@ -1209,6 +1229,11 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
         event.preventDefault();
         if (this.nativeKeyboard() && !this.multiple()) {
             this.selectByEnter(false);
+        }
+        // In typeahead mode: move focus away from the input onto the listbox so the
+        // arrow keys drive the suggestion list (aria-activedescendant pattern).
+        if (this._isTypeahead) {
+            this._blurTypeaheadInput();
         }
     }
 
@@ -1259,7 +1284,14 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
     }
 
     searchUpdate(e: Event) {
+        const previousText = this.searchText;
         this.searchText = (e.target as HTMLInputElement).value;
+        // In typeahead mode: only react when the text actually changed, so that
+        // navigation keys (arrows, Tab…) or a plain focus do not reopen the dropdown.
+        const textChanged = this.searchText !== previousText;
+        if (this._isTypeahead && !textChanged) {
+            return;
+        }
         if (!this.customSearchEnabled()) {
             this.updateFilteredData();
         } else {
@@ -1601,10 +1633,19 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
     }
 
     /**
-     * Typeahead mode: validate the raw typed text as the value (not a hovered
-     * suggestion), emit it, and close the dropdown.
+     * Typeahead mode: on Enter, if the user has navigated to a suggestion with
+     * the arrow keys, pick that suggestion (its label fills the input).
+     * Otherwise validate the raw typed text. Then close the dropdown.
      */
     private _validateTypeaheadText() {
+        const hoveringOption = this.hoveringOption();
+        if (hoveringOption) {
+            // A suggestion is highlighted: select it (fills the input with its label).
+            this.select(hoveringOption, true, true);
+            this.hoveringOption.set(null);
+            return;
+        }
+
         const currentText = this.innerSearchText;
         if (this.testDiffValue(this._value, currentText)) {
             this._value = currentText;
@@ -1704,6 +1745,18 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
                     typeaheadInput.nativeElement.focus();
                 }
             });
+        }
+    }
+
+    /**
+     * Typeahead mode: move focus from the input onto the results listbox so
+     * keyboard navigation is driven by the list (ARIA combobox pattern). The
+     * focus stays inside the component/overlay, so focusout does not close it.
+     */
+    private _blurTypeaheadInput() {
+        const results = this.resultsElement;
+        if (results) {
+            results.focus();
         }
     }
 
