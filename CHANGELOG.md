@@ -1,5 +1,18 @@
 # Changelog of ng-select2
 
+## V19.1.0 (2026-09-27)
+
+### Change
+
+- feat: add `typeahead` mode (single mode) — the selection area becomes a text input whose bound value is the raw typed text, or the label of a picked suggestion
+    - the dropdown filters suggestions while typing
+    - keyboard navigation follows the ARIA combobox pattern: arrow keys move focus onto the results list, `Escape` returns focus to the input
+    - the first suggestion is not pre-highlighted; `Enter` fills the input with the highlighted suggestion or validates the typed text
+    - focus alone does not reopen the dropdown; it opens on a value-changing keystroke or `ArrowDown`
+    - `resettable` clears the input, suggestions and closes the dropdown
+
+## V19.0.2 (2026-06-27)
+
 ## V19.0.2 (2026-06-27)
 
 ### Change

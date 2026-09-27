@@ -22,8 +22,8 @@ npm i ng-select2-component --save
 | --------- | ---------------- | ----------------------------------------------------------- |
 | `19.0.0`  | 22               | Zoneless                                                    |
 | `18.0.0`  | 22               | Ivy / Stand-alone, native scroll (no `ngx-infinite-scroll`) |
-| `17.3.2`  | 18.1, 19, 20, 21 | Ivy / Stand-alone                                           |
-| `17.1.0`  | 19               | Ivy / Stand-alone                                           |
+| `17.3.3`  | 18.1, 19, 20, 21 | Ivy / Stand-alone                                           |
+| `17.1.1`  | 19               | Ivy / Stand-alone                                           |
 | `16.0.0`  | 19               | Ivy / Module                                                |
 | `15.4.0`  | 18               | Ivy                                                         |
 | `14.0.1`  | 17               | Ivy                                                         |
@@ -63,6 +63,7 @@ npm i ng-select2-component --save
     - Local filtering with configurable minimum character threshold
     - External / async search (`customSearchEnabled`)
     - Highlight matched text in options (ignore the diacritics for: Latin, Japanese, Cyrillic, Greek, Arabic & Hebrew)
+    - Free-text typeahead / combobox mode (`typeahead`)
 - **Keyboard**
     - Standard keyboard navigation
     - Native HTML `<select>` navigation mode (`nativeKeyboard`)
@@ -179,6 +180,7 @@ or with declarative `<ng-option>` / `<ng-group>` (no `[data]` binding needed):
 | `removeAllText`                                                           | `string`                                                                                             | `'Remove all'`       | text when all options as selected                                                                                       | with `multiple`                 |
 | `editPattern`                                                             | `(str: string) => string`                                                                            |                      | use it for change the pattern of the filter search                                                                      |                                 |
 | `nativeKeyboard`                                                          | `boolean`                                                                                            | `false`              | use the keyboard navigation like native HTML select component                                                           | not with `multiple`             |
+| `typeahead`                                                               | `boolean`                                                                                            | `false`              | free-text search input: the bound value is the typed text or a picked suggestion's label                                | not with `multiple`             |
 | `highlightText`                                                           | `boolean`                                                                                            | `false`              | use to highlight search text in dropdown options (with template see code generator)                                     |                                 |
 | `ngModel`<br>`id`<br>`required`<br>`disabled`<br>`readonly`<br>`tabIndex` |                                                                                                      |                      | just like a `select` control                                                                                            |                                 |
 | `(update)`                                                                | `(event: `[`Select2UpdateEvent`](#select2-data-structure)`) => void`                                 |                      | triggered when user select an option                                                                                    |                                 |
