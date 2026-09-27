@@ -32,6 +32,31 @@
             white-space: nowrap;
         }
 
+        .select2-typeahead__field {
+            display: block;
+            flex: 1 1 auto;
+            box-sizing: border-box;
+            margin: 0;
+            border: 0;
+            background: transparent;
+            padding: var(--select2-selection-padding, 0 0 0 8px);
+            width: 100%;
+            height: 100%;
+            color: inherit;
+            font: inherit;
+            line-height: inherit;
+
+            &:focus,
+            &:focus-visible {
+                outline: none;
+            }
+
+            // Hide the native clear button of type="search"
+            &::-webkit-search-cancel-button {
+                appearance: none;
+            }
+        }
+
         .select2-selection__clear {
             position: relative;
         }
@@ -233,6 +258,15 @@
         .select2-selection__rendered {
             color: var(--select2-selection-text-color, #111);
             line-height: var(--select2-selection-line-height, 28px);
+        }
+
+        .select2-typeahead__field {
+            color: var(--select2-selection-text-color, #111);
+            line-height: var(--select2-selection-line-height, 28px);
+
+            &::placeholder {
+                color: var(--select2-placeholder-color, #999);
+            }
         }
 
         .select2-selection__clear {

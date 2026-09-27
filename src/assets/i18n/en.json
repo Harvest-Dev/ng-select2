@@ -154,6 +154,17 @@
   "Arabic": "Arabic",
   "Hebrew": "Hebrew",
 
+  "Typeahead": "Typeahead",
+  "typeahead-intro": "With the <code>typeahead</code> attribute, the selection area becomes a text input. The bound value is the raw text typed by the user, or the label of a picked suggestion.",
+  "Free-text search in a list": "Free-text search in a list",
+  "Search a state…": "Search a state…",
+  "Server-side search (custom search)": "Server-side search (custom search)",
+  "Component code (TypeScript)": "Component code (TypeScript)",
+  "typeahead-server-desc": "With <code>customSearchEnabled</code>, the filtering is delegated to your code through the <code>search</code> event. This is the most representative use case: query a backend as the user types and feed the results back.",
+  "Type at least 2 characters…": "Type at least 2 characters…",
+  "Typeahead with reset": "Typeahead with reset",
+  "typeahead-reset-desc": "Combine <code>typeahead</code> with <code>resettable</code> to clear the field and suggestions with the × button.",
+
   "Tags (ng-option / ng-group)": "Tags (ng-option / ng-group)",
   "ng-option / ng-group tag mode": "ng-option / ng-group tag mode",
   "Flat list of options": "Flat list of options",

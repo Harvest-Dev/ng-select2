@@ -1,0 +1,110 @@
+<h2>{{ 'Typeahead' | transloco }}</h2>
+
+<div class="container">
+  <div class="row">
+    <p class="col-12" [innerHTML]="'typeahead-intro' | transloco"></p>
+
+    <h3 class="col-12" id="ex-typeahead-1">{{ 'Free-text search in a list' | transloco }}</h3>
+    <div class="container">
+      <div class="row">
+        <div class="col-6">
+          <ng-select2
+            [overlay]="overlay"
+            [styleMode]="styleMode"
+            [data]="data1"
+            [value]="value1"
+            typeahead
+            [placeholder]="'Search a state…' | transloco"
+            (update)="update('value1', $event)"
+            id="select2-typeahead-1"
+          />
+          <div class="value">
+            <div>
+              <span>{{ 'value:' | transloco }}</span
+              ><code>{{ value1 | json }}</code>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-6">
+          <div class="code">
+            <code><pre [highlight]="exemple1()" language="html"></pre></code>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <h3 class="col-12" id="ex-typeahead-2">{{ 'Server-side search (custom search)' | transloco }}</h3>
+    <p class="col-12" [innerHTML]="'typeahead-server-desc' | transloco"></p>
+    <div class="container">
+      <div class="row">
+        <div class="col-6">
+          <ng-select2
+            [overlay]="overlay"
+            [styleMode]="styleMode"
+            [data]="dataSearch"
+            [value]="value2"
+            typeahead
+            customSearchEnabled
+            [minCharForSearch]="2"
+            [placeholder]="'Type at least 2 characters…' | transloco"
+            (search)="serverSearch($event)"
+            (update)="update('value2', $event)"
+            id="select2-typeahead-2"
+          />
+          <div class="value">
+            <div>
+              <span>{{ 'value:' | transloco }}</span
+              ><code>{{ value2 | json }}</code>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-6">
+          <div class="code">
+            <code><pre [highlight]="exemple2()" language="html"></pre></code>
+          </div>
+        </div>
+
+        <div class="col-12">
+          <p class="code-label">{{ 'Component code (TypeScript)' | transloco }}</p>
+          <div class="code">
+            <code><pre [highlight]="exemple2Ts" language="typescript"></pre></code>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <h3 class="col-12" id="ex-typeahead-3">{{ 'Typeahead with reset' | transloco }}</h3>
+    <p class="col-12" [innerHTML]="'typeahead-reset-desc' | transloco"></p>
+    <div class="container">
+      <div class="row">
+        <div class="col-6">
+          <ng-select2
+            [overlay]="overlay"
+            [styleMode]="styleMode"
+            [data]="data1"
+            [value]="value3"
+            typeahead
+            resettable
+            [placeholder]="'Search a state…' | transloco"
+            (update)="update('value3', $event)"
+            id="select2-typeahead-3"
+          />
+          <div class="value">
+            <div>
+              <span>{{ 'value:' | transloco }}</span
+              ><code>{{ value3 | json }}</code>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-6">
+          <div class="code">
+            <code><pre [highlight]="exemple3()" language="html"></pre></code>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
