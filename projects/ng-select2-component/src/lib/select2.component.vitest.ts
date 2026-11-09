@@ -403,6 +403,25 @@ describe('Select2 Component', () => {
             expect(select2.isOpen).toBe(false);
         });
 
+        it('should preserve selection when disabled while open', async () => {
+            host.value = 'opt1';
+            detectChanges(fixture);
+            clickSelection(fixture);
+            const option = getOptions(fixture)[1];
+            expect(option).toBeDefined();
+            host.onUpdate.mockClear();
+
+            host.disabled = true;
+            detectChanges(fixture);
+            option.click();
+            detectChanges(fixture);
+            await new Promise(r => setTimeout(r, 0));
+
+            expect(select2.select2Option?.value).toBe('opt1');
+            expect(host.onUpdate).not.toHaveBeenCalled();
+            expect(select2.isOpen).toBe(false);
+        });
+
         it('should not open when readonly', () => {
             host.readonlyVal = true;
             detectChanges(fixture);
@@ -928,6 +947,24 @@ describe('Select2 Component', () => {
             rfHost.form.get('sel')?.disable();
             rfFixture.changeDetectorRef.detectChanges();
             expect(rfSelect2.disabledState).toBe(true);
+        });
+
+        it('should preserve the form value when disabled while open', async () => {
+            const control = rfHost.form.controls.sel;
+            const trigger = rfFixture.nativeElement.querySelector('.selection') as HTMLElement;
+            trigger.click();
+            detectChanges(rfFixture);
+            const option = getOptions(rfFixture)[1];
+            expect(option).toBeDefined();
+
+            control.disable();
+            detectChanges(rfFixture);
+            option.click();
+            detectChanges(rfFixture);
+            await new Promise(r => setTimeout(r, 0));
+
+            expect(control.value).toBe('opt1');
+            expect(rfSelect2.isOpen).toBe(false);
         });
 
         it('should implement registerOnChange', () => {

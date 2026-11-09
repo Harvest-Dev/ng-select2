@@ -437,7 +437,7 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
         );
         this.toObservable.add(
             toObservable(this.disabled).subscribe(disabled => {
-                this._disabled = disabled;
+                this.setDisabledState(disabled);
             }),
         );
         // Rebuild _data whenever content children or any of their inputs change (template mode).
@@ -708,7 +708,7 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
 
     click(option: Select2Option) {
         this._mouseDownOnOption = false;
-        if (this.testSelection(option)) {
+        if (!this.disabledState && this.testSelection(option)) {
             this.select(option);
         }
     }
@@ -851,7 +851,7 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
     }
 
     selectAll() {
-        if (this.multiple()) {
+        if (!this.disabledState && this.multiple()) {
             if (!this.selectAllTest()) {
                 const options: Select2Option[] = [];
                 this._data.forEach(e => {
@@ -1170,6 +1170,10 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
     }
 
     keyDown(event: KeyboardEvent, create = false) {
+        if (this.disabledState) {
+            return;
+        }
+
         // autoCreate, press Enter, and the input (trimmed) is not empty.
         if (create && this._testKey(event, ['Enter']) && (event.target as HTMLInputElement).value?.trim()) {
             this.createAndAdd(event);
@@ -1414,6 +1418,11 @@ export class Select2 implements ControlValueAccessor, OnInit, DoCheck, AfterView
      */
     setDisabledState(isDisabled: boolean) {
         this._disabled = isDisabled;
+        if (this.disabledState && this.isOpen) {
+            this.isOpen = false;
+            this.close.emit(this);
+            this._changeDetectorRef.markForCheck();
+        }
     }
 
     onScroll(way: 'up' | 'down') {
