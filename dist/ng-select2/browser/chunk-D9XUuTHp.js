@@ -1,0 +1,1 @@
+import{a as Gt}from"./main-OXCMZEFZ.js";import"./chunk-B9YkeT6w.js";import"./chunk-CPhPaV8i.js";export{Gt as AppGenComponent};

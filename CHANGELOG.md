@@ -1,5 +1,11 @@
 # Changelog of ng-select2
 
+## V19.1.1 (2026-11-13)
+
+### Change
+
+- fix: close open option list when the select control is disabled to prevent value changes from stale dropdowns. (thanks @Xapollon430)
+
 ## V19.1.0 (2026-09-27)
 
 ### Change
